@@ -124,6 +124,7 @@ type TabsListProps struct {
 func Tabs(props TabsProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "tabs", "grid gap-2")
+		attrs["data-tabs-root"] = "true"
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
 		}
@@ -143,13 +144,16 @@ func TabsList(props TabsListProps) templ.Component {
 		if props.Variant == "line" {
 			className = "inline-flex h-10 items-center gap-4 border-b border-border bg-transparent p-0 text-muted-foreground"
 		}
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props.DOMProps, "tabs-list", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "tabs-list", className)
+		attrs["role"] = "tablist"
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
 type TabsTriggerProps struct {
 	DOMProps
 	Value    string
+	Active   bool
 	Disabled bool
 }
 
@@ -159,6 +163,16 @@ func TabsTrigger(props TabsTriggerProps) templ.Component {
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
 		}
+		if props.Active {
+			attrs["data-state"] = "active"
+			attrs["aria-selected"] = "true"
+			attrs["tabindex"] = "0"
+		} else {
+			attrs["data-state"] = "inactive"
+			attrs["aria-selected"] = "false"
+			attrs["tabindex"] = "-1"
+		}
+		attrs["role"] = "tab"
 		if props.Disabled {
 			attrs["disabled"] = true
 		}
@@ -168,7 +182,8 @@ func TabsTrigger(props TabsTriggerProps) templ.Component {
 
 type TabsContentProps struct {
 	DOMProps
-	Value string
+	Value  string
+	Active bool
 }
 
 func TabsContent(props TabsContentProps) templ.Component {
@@ -176,6 +191,13 @@ func TabsContent(props TabsContentProps) templ.Component {
 		attrs := attrsFromDOMProps(props.DOMProps, "tabs-content", "mt-2 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2")
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
+		}
+		attrs["role"] = "tabpanel"
+		if props.Active {
+			attrs["data-state"] = "active"
+		} else {
+			attrs["data-state"] = "inactive"
+			attrs["hidden"] = true
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
@@ -286,16 +308,28 @@ type DropdownMenuProps struct {
 
 func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return menuContainer(attrsFromDOMProps(props.DOMProps, "dropdown-menu", "relative inline-block"), templ.GetChildren(ctx), ctx, w)
+		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu", "relative inline-block")
+		attrs["data-dropdown-menu-root"] = "true"
+		return menuContainer(attrs, templ.GetChildren(ctx), ctx, w)
 	})
 }
 
-func DropdownMenuTrigger(props DOMProps) templ.Component { return DialogTrigger(props) }
-func DropdownMenuPortal(props DOMProps) templ.Component  { return DialogPortal(props) }
+func DropdownMenuTrigger(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props, "dropdown-menu-trigger", "")
+		attrs["data-dropdown-menu-trigger"] = "true"
+		attrs["aria-haspopup"] = "menu"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
+	})
+}
+func DropdownMenuPortal(props DOMProps) templ.Component { return DialogPortal(props) }
 
 func DropdownMenuContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "dropdown-menu-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "dropdown-menu-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
+		attrs["data-dropdown-menu-content"] = "true"
+		attrs["hidden"] = true
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 

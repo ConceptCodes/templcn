@@ -5,40 +5,39 @@ package views
 
 //lint:file-ignore SA4006 This context is only used if a nested component is present.
 
-import "bytes"
+import "github.com/a-h/templ"
 import "context"
 import "io"
-
-import "github.com/a-h/templ"
+import "bytes"
 
 func Page() templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
-		buf, isBuffer := w.(*bytes.Buffer)
-		if !isBuffer {
-			buf = templ.GetBuffer()
-			defer templ.ReleaseBuffer(buf)
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		children := templ.GetChildren(ctx)
-		if children == nil {
-			children = templ.NopComponent
+		templ_7745c5c3_Var1 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var1 == nil {
+			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, err = buf.WriteString("<!doctype html><html lang=\"en\" class=\"h-full bg-background text-foreground antialiased\"><head><title>shadcn/ui</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"color-scheme\" content=\"light dark\"><link rel=\"stylesheet\" href=\"/public/globals.css\"></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
-		if err != nil {
-			return err
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<!doctype html><html lang=\"en\" class=\"h-full bg-background text-foreground antialiased\"><head><title>shadcn/ui</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"color-scheme\" content=\"light dark\"><link rel=\"stylesheet\" href=\"/public/globals.css\"><script defer src=\"/public/shadcn.js\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		err = children.Render(ctx, buf)
-		if err != nil {
-			return err
+		templ_7745c5c3_Err = templ_7745c5c3_Var1.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		_, err = buf.WriteString("</body></html>")
-		if err != nil {
-			return err
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</body></html>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		if !isBuffer {
-			_, err = buf.WriteTo(w)
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
 		}
-		return err
+		return templ_7745c5c3_Err
 	})
 }
