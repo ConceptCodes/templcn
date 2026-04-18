@@ -15,7 +15,7 @@
         return;
       }
     } catch (_) {}
-    setTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    setTheme('light');
   }
 
   function initThemeToggles() {
