@@ -1,0 +1,13 @@
+{
+  "name": "shadcn-templ",
+  "private": true,
+  "scripts": {
+    "build:css": "bunx @tailwindcss/cli -i ./styles/globals.css -o ./public/globals.css",
+    "watch:css": "bunx @tailwindcss/cli -i ./styles/globals.css -o ./public/globals.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.5",
+    "tailwindcss": "^4.1.5",
+    "tw-animate-css": "^1.3.1"
+  }
+}
