@@ -42,3 +42,21 @@ type ButtonProps struct {
 	Disabled bool
 	Href     string
 }
+
+type BadgeVariant string
+
+const (
+	BadgeVariantDefault     BadgeVariant = "default"
+	BadgeVariantSecondary   BadgeVariant = "secondary"
+	BadgeVariantDestructive BadgeVariant = "destructive"
+	BadgeVariantOutline     BadgeVariant = "outline"
+	BadgeVariantGhost       BadgeVariant = "ghost"
+	BadgeVariantLink        BadgeVariant = "link"
+)
+
+type BadgeProps struct {
+	DOMProps
+	Label   string
+	Variant BadgeVariant
+	Href    string
+}

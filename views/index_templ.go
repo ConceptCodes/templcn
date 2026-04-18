@@ -28,7 +28,18 @@ func Index() templ.Component {
 				buf = templ.GetBuffer()
 				defer templ.ReleaseBuffer(buf)
 			}
-			_, err = buf.WriteString("<main class=\"min-h-svh\"><section class=\"mx-auto flex min-h-svh max-w-4xl flex-col items-start justify-center gap-6 px-6 py-24\"><p class=\"text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground\">shadcn/ui for go + templ</p><div class=\"max-w-2xl space-y-4\"><h1 class=\"text-4xl font-semibold tracking-tight text-foreground sm:text-6xl\">A shadcn-style foundation for Go.</h1><p class=\"max-w-xl text-base leading-7 text-muted-foreground sm:text-lg\">PR 0 establishes the shared tokens, Tailwind v4 pipeline, and a real `ui` package so later component PRs can stay close to the upstream shadcn experience.</p></div><div class=\"flex flex-wrap gap-3\">")
+			_, err = buf.WriteString("<main class=\"min-h-svh\"><section class=\"mx-auto flex min-h-svh max-w-4xl flex-col items-start justify-center gap-6 px-6 py-24\">")
+			if err != nil {
+				return err
+			}
+			err = ui.Badge(ui.BadgeProps{
+				Label:   "PR 0 foundation",
+				Variant: ui.BadgeVariantOutline,
+			}).Render(ctx, buf)
+			if err != nil {
+				return err
+			}
+			_, err = buf.WriteString("<div class=\"max-w-2xl space-y-4\"><h1 class=\"text-4xl font-semibold tracking-tight text-foreground sm:text-6xl\">A shadcn-style foundation for Go.</h1><p class=\"max-w-xl text-base leading-7 text-muted-foreground sm:text-lg\">PR 0 establishes the shared tokens, Tailwind v4 pipeline, and a real `ui` package so later component PRs can stay close to the upstream shadcn experience.</p></div><div class=\"flex flex-wrap gap-3\">")
 			if err != nil {
 				return err
 			}
