@@ -1,0 +1,409 @@
+package views
+
+import (
+	t "github.com/a-h/templ"
+	"shadcn/ui"
+)
+
+// PreviewLayout - a minimal standalone HTML layout for block previews
+templ PreviewLayout(title string) {
+	<!DOCTYPE html>
+	<html lang="en" class="h-full bg-background text-foreground antialiased">
+		<head>
+			<title>{ title }</title>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="color-scheme" content="light dark"/>
+			<link rel="stylesheet" href="../../public/globals.css"/>
+			<script defer src="../../public/shadcn.js"></script>
+		</head>
+		<body class="min-h-svh bg-background text-foreground antialiased">
+			{ children... }
+		</body>
+	</html>
+}
+
+// BlockPreview: dashboard-01 - A dashboard with sidebar, charts and data table
+templ Dashboard01Preview() {
+	@PreviewLayout("Dashboard 01 Preview") {
+		<div class="flex h-screen bg-background">
+			@ui.Sidebar(ui.SidebarProps{
+				Side:        "left",
+				Variant:     "inset",
+				Collapsible: "icon",
+				DOMProps: ui.DOMProps{
+					Class: "border-r border-border/70",
+				},
+			}) {
+				@ui.SidebarHeader(ui.DOMProps{Class: "p-4 border-b border-border/70"}) {
+					<div class="flex items-center gap-2 font-semibold">
+						<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">D</span>
+						<span>Dashboard</span>
+					</div>
+				}
+				@ui.SidebarContent(ui.DOMProps{}) {
+					@ui.SidebarGroup(ui.DOMProps{}) {
+						@ui.SidebarMenu(ui.DOMProps{}) {
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{IsActive: true}) { <span>Overview</span> } }
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Analytics</span> } }
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Reports</span> } }
+						}
+					}
+					@ui.SidebarGroup(ui.DOMProps{Class: "mt-4"}) {
+						@ui.SidebarGroupLabel(ui.DOMProps{}) { <span>Settings</span> }
+						@ui.SidebarGroupContent(ui.DOMProps{}) {
+							@ui.SidebarMenu(ui.DOMProps{}) {
+								@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Profile</span> } }
+								@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Team</span> } }
+							}
+						}
+					}
+				}
+			}
+			<main class="flex-1 overflow-auto">
+				<div class="p-6 space-y-6">
+					<div class="flex items-center justify-between">
+						<h1 class="text-2xl font-semibold">Dashboard</h1>
+						@ui.Button(ui.ButtonProps{Label: "New Report", Variant: ui.ButtonVariantDefault, Size: ui.ButtonSizeSM, DOMProps: ui.DOMProps{Attrs: t.Attributes{"type": "button"}}})
+					</div>
+					<div class="grid gap-4 md:grid-cols-3">
+						@ui.Card(ui.DOMProps{}) {
+							@ui.CardHeader(ui.DOMProps{Class: "pb-2"}) {
+								@ui.CardDescription(ui.DOMProps{}) { <span>Total Revenue</span> }
+								@ui.CardTitle(ui.DOMProps{}) { <span>$45,231.89</span> }
+							}
+							@ui.CardContent(ui.DOMProps{Class: "pt-0"}) {
+								<p class="text-xs text-muted-foreground">+20.1% from last month</p>
+							}
+						}
+						@ui.Card(ui.DOMProps{}) {
+							@ui.CardHeader(ui.DOMProps{Class: "pb-2"}) {
+								@ui.CardDescription(ui.DOMProps{}) { <span>Subscriptions</span> }
+								@ui.CardTitle(ui.DOMProps{}) { <span>+2350</span> }
+							}
+							@ui.CardContent(ui.DOMProps{Class: "pt-0"}) {
+								<p class="text-xs text-muted-foreground">+180.1% from last month</p>
+							}
+						}
+						@ui.Card(ui.DOMProps{}) {
+							@ui.CardHeader(ui.DOMProps{Class: "pb-2"}) {
+								@ui.CardDescription(ui.DOMProps{}) { <span>Sales</span> }
+								@ui.CardTitle(ui.DOMProps{}) { <span>+12,234</span> }
+							}
+							@ui.CardContent(ui.DOMProps{Class: "pt-0"}) {
+								<p class="text-xs text-muted-foreground">+19% from last month</p>
+							}
+						}
+					</div>
+					@ui.Card(ui.DOMProps{}) {
+						@ui.CardHeader(ui.DOMProps{}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>Recent Activity</span> }
+							@ui.CardDescription(ui.DOMProps{}) { <span>Latest transactions and updates</span> }
+						}
+						@ui.CardContent(ui.DOMProps{}) {
+							@ui.Table(ui.DOMProps{}) {
+								@ui.TableHeader(ui.DOMProps{}) {
+									@ui.TableRow(ui.DOMProps{}) {
+										@ui.TableHead(ui.DOMProps{}) { <span>Invoice</span> }
+										@ui.TableHead(ui.DOMProps{}) { <span>Status</span> }
+										@ui.TableHead(ui.DOMProps{}) { <span>Method</span> }
+										@ui.TableHead(ui.DOMProps{}) { <span>Amount</span> }
+									}
+								}
+								@ui.TableBody(ui.DOMProps{}) {
+									@ui.TableRow(ui.DOMProps{}) {
+										@ui.TableCell(ui.DOMProps{}) { <span>INV001</span> }
+										@ui.TableCell(ui.DOMProps{}) { @ui.Badge(ui.BadgeProps{Label: "Paid", Variant: ui.BadgeVariantSecondary}) }
+										@ui.TableCell(ui.DOMProps{}) { <span>Credit Card</span> }
+										@ui.TableCell(ui.DOMProps{}) { <span>$250.00</span> }
+									}
+									@ui.TableRow(ui.DOMProps{}) {
+										@ui.TableCell(ui.DOMProps{}) { <span>INV002</span> }
+										@ui.TableCell(ui.DOMProps{}) { @ui.Badge(ui.BadgeProps{Label: "Pending", Variant: ui.BadgeVariantOutline}) }
+										@ui.TableCell(ui.DOMProps{}) { <span>PayPal</span> }
+										@ui.TableCell(ui.DOMProps{}) { <span>$150.00</span> }
+									}
+								}
+							}
+						}
+					}
+				</div>
+			</main>
+		</div>
+	}
+}
+
+// BlockPreview: sidebar-07 - A sidebar that collapses to icons
+templ Sidebar07Preview() {
+	@PreviewLayout("Sidebar 07 Preview") {
+		<div class="flex h-screen bg-background">
+			@ui.Sidebar(ui.SidebarProps{
+				Side:        "left",
+				Variant:     "sidebar",
+				Collapsible: "icon",
+				DOMProps: ui.DOMProps{
+					Class: "border-r border-border/70",
+				},
+			}) {
+				@ui.SidebarHeader(ui.DOMProps{Class: "p-4 border-b border-border/70"}) {
+					<div class="flex items-center gap-2 font-semibold">
+						<span class="flex size-8 items-center justify-center rounded-md bg-primary text-sm text-primary-foreground">S</span>
+						<span class="sidebar-text">App</span>
+					</div>
+				}
+				@ui.SidebarContent(ui.DOMProps{}) {
+					@ui.SidebarGroup(ui.DOMProps{}) {
+						@ui.SidebarMenu(ui.DOMProps{}) {
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{IsActive: true, Size: "sm"}) { <span class="sidebar-text">Dashboard</span> } }
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span class="sidebar-text">Projects</span> } }
+							@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span class="sidebar-text">Team</span> } }
+						}
+					}
+				}
+			}
+			<main class="flex-1 p-6">
+				<div class="flex items-center justify-between mb-6">
+					<h1 class="text-2xl font-semibold">Dashboard</h1>
+					@ui.Button(ui.ButtonProps{Label: "Collapse Sidebar", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM, DOMProps: ui.DOMProps{Attrs: t.Attributes{"type": "button"}}})
+				</div>
+				<div class="grid gap-4 md:grid-cols-2">
+					@ui.Card(ui.DOMProps{}) {
+						@ui.CardHeader(ui.DOMProps{}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>Quick Stats</span> }
+						}
+						@ui.CardContent(ui.DOMProps{}) {
+							<p class="text-sm text-muted-foreground">A compact sidebar that collapses to icons, maximizing content space.</p>
+						}
+					}
+					@ui.Card(ui.DOMProps{}) {
+						@ui.CardHeader(ui.DOMProps{}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>Navigation</span> }
+						}
+						@ui.CardContent(ui.DOMProps{}) {
+							<p class="text-sm text-muted-foreground">Icon-only mode for mobile or space-constrained layouts.</p>
+						}
+					}
+				</div>
+			</main>
+		</div>
+	}
+}
+
+// BlockPreview: sidebar-03 - A sidebar with submenus
+templ Sidebar03Preview() {
+	@PreviewLayout("Sidebar 03 Preview") {
+		<div class="flex h-screen bg-background">
+			@ui.Sidebar(ui.SidebarProps{
+				Side:        "left",
+				Variant:     "inset",
+				Collapsible: "none",
+				DOMProps: ui.DOMProps{
+					Class: "border-r border-border/70",
+				},
+			}) {
+				@ui.SidebarHeader(ui.DOMProps{Class: "p-4 border-b border-border/70"}) {
+					<div class="flex items-center gap-2 font-semibold">
+						<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">S</span>
+						<span>App</span>
+					</div>
+				}
+				@ui.SidebarContent(ui.DOMProps{}) {
+					@ui.SidebarGroup(ui.DOMProps{}) {
+						@ui.SidebarGroupLabel(ui.DOMProps{}) { <span>Main</span> }
+						@ui.SidebarGroupContent(ui.DOMProps{}) {
+							@ui.SidebarMenu(ui.DOMProps{}) {
+								@ui.SidebarMenuItem(ui.DOMProps{}) { @ui.SidebarMenuButton(ui.SidebarMenuButtonProps{IsActive: true}) { <span>Dashboard</span> } }
+								@ui.SidebarMenuItem(ui.DOMProps{}) {
+									@ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Products</span> }
+									@ui.SidebarMenuSub(ui.DOMProps{}) {
+										@ui.SidebarMenuSubItem(ui.DOMProps{}) { @ui.SidebarMenuSubButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span>All Products</span> } }
+										@ui.SidebarMenuSubItem(ui.DOMProps{}) { @ui.SidebarMenuSubButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span>Categories</span> } }
+									}
+								}
+								@ui.SidebarMenuItem(ui.DOMProps{}) {
+									@ui.SidebarMenuButton(ui.SidebarMenuButtonProps{}) { <span>Settings</span> }
+									@ui.SidebarMenuSub(ui.DOMProps{}) {
+										@ui.SidebarMenuSubItem(ui.DOMProps{}) { @ui.SidebarMenuSubButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span>Profile</span> } }
+										@ui.SidebarMenuSubItem(ui.DOMProps{}) { @ui.SidebarMenuSubButton(ui.SidebarMenuButtonProps{Size: "sm"}) { <span>Team</span> } }
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			<main class="flex-1 p-6">
+				<div class="flex items-center justify-between mb-6">
+					<h1 class="text-2xl font-semibold">Dashboard</h1>
+				</div>
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Sidebar with Submenus</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Nested navigation states for complex applications</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						<p class="text-sm text-muted-foreground">This sidebar pattern supports hierarchical navigation with expandable submenu states.</p>
+					}
+				}
+			</main>
+		</div>
+	}
+}
+
+// BlockPreview: login-01 - A simple login form
+templ Login01Preview() {
+	@PreviewLayout("Login 01 Preview") {
+		<div class="flex min-h-svh items-center justify-center bg-background p-4">
+			<div class="w-full max-w-sm">
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{Class: "space-y-1 text-center"}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Sign in</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Enter your credentials to access your account</span> }
+					}
+					@ui.CardContent(ui.DOMProps{Class: "space-y-4"}) {
+						<div class="space-y-2">
+							@ui.Label(ui.LabelProps{For: "email-01"}) { <span>Email</span> }
+							@ui.Input(ui.InputProps{
+								DOMProps: ui.DOMProps{ID: "email-01"},
+								Type: "email",
+								Placeholder: "name@example.com",
+							})
+						</div>
+						<div class="space-y-2">
+							@ui.Label(ui.LabelProps{For: "password-01"}) { <span>Password</span> }
+							@ui.Input(ui.InputProps{
+								DOMProps: ui.DOMProps{ID: "password-01"},
+								Type: "password",
+								Placeholder: "••••••••",
+							})
+						</div>
+							@ui.Button(ui.ButtonProps{
+								Label:   "Sign in",
+								Variant: ui.ButtonVariantDefault,
+								Size:    ui.ButtonSizeDefault,
+								DOMProps: ui.DOMProps{
+									Class: "w-full",
+									Attrs: t.Attributes{"type": "button"},
+								},
+							})
+						<p class="text-center text-sm text-muted-foreground">
+							Don't have an account? <a href="#" class="underline underline-offset-4 hover:text-primary">Sign up</a>
+						</p>
+					}
+				}
+			</div>
+		</div>
+	}
+}
+
+// BlockPreview: login-03 - A login page with a muted background color
+templ Login03Preview() {
+	@PreviewLayout("Login 03 Preview") {
+		<div class="flex min-h-svh items-center justify-center bg-muted/50 p-4">
+			<div class="w-full max-w-sm">
+				<div class="mb-8 text-center">
+					<span class="inline-flex size-12 items-center justify-center rounded-lg bg-primary text-primary-foreground text-xl font-semibold">S</span>
+					<h1 class="mt-4 text-2xl font-semibold">Welcome back</h1>
+					<p class="mt-2 text-sm text-muted-foreground">Sign in to continue to your account</p>
+				</div>
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardContent(ui.DOMProps{Class: "space-y-4"}) {
+						<div class="space-y-2">
+							@ui.Label(ui.LabelProps{For: "email-03"}) { <span>Email</span> }
+							@ui.Input(ui.InputProps{
+								DOMProps: ui.DOMProps{ID: "email-03"},
+								Type: "email",
+								Placeholder: "name@example.com",
+							})
+						</div>
+						<div class="space-y-2">
+							@ui.Label(ui.LabelProps{For: "password-03"}) { <span>Password</span> }
+							@ui.Input(ui.InputProps{
+								DOMProps: ui.DOMProps{ID: "password-03"},
+								Type: "password",
+								Placeholder: "••••••••",
+							})
+						</div>
+						<div class="flex items-center justify-between text-sm">
+							<label class="flex items-center gap-2">
+								@ui.Checkbox(ui.CheckboxProps{DOMProps: ui.DOMProps{ID: "remember-03"}})
+								<span>Remember me</span>
+							</label>
+							<a href="#" class="text-primary hover:underline">Forgot password?</a>
+						</div>
+						@ui.Button(ui.ButtonProps{
+							Label:   "Sign in",
+							Variant: ui.ButtonVariantDefault,
+							Size:    ui.ButtonSizeDefault,
+							DOMProps: ui.DOMProps{
+								Class: "w-full",
+								Attrs: t.Attributes{"type": "button"},
+							},
+						})
+					}
+				}
+			</div>
+		</div>
+	}
+}
+
+// BlockPreview: login-04 - A login page with form and image
+templ Login04Preview() {
+	@PreviewLayout("Login 04 Preview") {
+		<div class="flex min-h-svh bg-background">
+			<div class="hidden lg:flex lg:w-1/2 items-center justify-center bg-muted/50 p-8">
+				<div class="max-w-md space-y-4">
+					<div class="flex items-center gap-3">
+						<span class="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground text-lg font-semibold">S</span>
+						<span class="text-2xl font-semibold">shadcn/ui</span>
+					</div>
+					<h2 class="text-3xl font-bold">Beautiful components built with Radix UI and Tailwind CSS.</h2>
+					<p class="text-muted-foreground">A set of accessible, customizable, and themeable components that you can copy and paste into your apps.</p>
+				</div>
+			</div>
+			<div class="flex w-full lg:w-1/2 items-center justify-center p-8">
+				<div class="w-full max-w-sm">
+					<div class="mb-8 lg:hidden">
+						<div class="flex items-center gap-2">
+							<span class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold">S</span>
+							<span class="text-xl font-semibold">shadcn/ui</span>
+						</div>
+					</div>
+					@ui.Card(ui.DOMProps{}) {
+						@ui.CardHeader(ui.DOMProps{Class: "space-y-1"}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>Sign in</span> }
+							@ui.CardDescription(ui.DOMProps{}) { <span>Enter your email and password to sign in</span> }
+						}
+						@ui.CardContent(ui.DOMProps{Class: "space-y-4"}) {
+							<div class="space-y-2">
+								@ui.Label(ui.LabelProps{For: "email-04"}) { <span>Email</span> }
+								@ui.Input(ui.InputProps{
+									DOMProps: ui.DOMProps{ID: "email-04"},
+									Type: "email",
+									Placeholder: "name@example.com",
+								})
+							</div>
+							<div class="space-y-2">
+								@ui.Label(ui.LabelProps{For: "password-04"}) { <span>Password</span> }
+								@ui.Input(ui.InputProps{
+									DOMProps: ui.DOMProps{ID: "password-04"},
+									Type: "password",
+									Placeholder: "••••••••",
+								})
+							</div>
+						@ui.Button(ui.ButtonProps{
+							Label:   "Sign in",
+							Variant: ui.ButtonVariantDefault,
+							Size:    ui.ButtonSizeDefault,
+							DOMProps: ui.DOMProps{
+								Class: "w-full",
+								Attrs: t.Attributes{"type": "button"},
+							},
+						})
+						}
+					}
+				</div>
+			</div>
+		</div>
+	}
+}

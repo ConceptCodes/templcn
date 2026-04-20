@@ -1,0 +1,397 @@
+[
+  {
+    "title": "Accordion",
+    "url": "/docs/components/accordion",
+    "type": "component"
+  },
+  {
+    "title": "Alert",
+    "url": "/docs/components/alert",
+    "type": "component"
+  },
+  {
+    "title": "Alert Dialog",
+    "url": "/docs/components/alert-dialog",
+    "type": "component"
+  },
+  {
+    "title": "Aspect Ratio",
+    "url": "/docs/components/aspect-ratio",
+    "type": "component"
+  },
+  {
+    "title": "Avatar",
+    "url": "/docs/components/avatar",
+    "type": "component"
+  },
+  {
+    "title": "Badge",
+    "url": "/docs/components/badge",
+    "type": "component"
+  },
+  {
+    "title": "Breadcrumb",
+    "url": "/docs/components/breadcrumb",
+    "type": "component"
+  },
+  {
+    "title": "Button",
+    "url": "/docs/components/button",
+    "type": "component"
+  },
+  {
+    "title": "Button Group",
+    "url": "/docs/components/button-group",
+    "type": "component"
+  },
+  {
+    "title": "Calendar",
+    "url": "/docs/components/calendar",
+    "type": "component"
+  },
+  {
+    "title": "Card",
+    "url": "/docs/components/card",
+    "type": "component"
+  },
+  {
+    "title": "Carousel",
+    "url": "/docs/components/carousel",
+    "type": "component"
+  },
+  {
+    "title": "Chart",
+    "url": "/docs/components/chart",
+    "type": "component"
+  },
+  {
+    "title": "Checkbox",
+    "url": "/docs/components/checkbox",
+    "type": "component"
+  },
+  {
+    "title": "Collapsible",
+    "url": "/docs/components/collapsible",
+    "type": "component"
+  },
+  {
+    "title": "Combobox",
+    "url": "/docs/components/combobox",
+    "type": "component"
+  },
+  {
+    "title": "Command",
+    "url": "/docs/components/command",
+    "type": "component"
+  },
+  {
+    "title": "Context Menu",
+    "url": "/docs/components/context-menu",
+    "type": "component"
+  },
+  {
+    "title": "Data Table",
+    "url": "/docs/components/data-table",
+    "type": "component"
+  },
+  {
+    "title": "Date Picker",
+    "url": "/docs/components/date-picker",
+    "type": "component"
+  },
+  {
+    "title": "Dialog",
+    "url": "/docs/components/dialog",
+    "type": "component"
+  },
+  {
+    "title": "Direction",
+    "url": "/docs/components/direction",
+    "type": "component"
+  },
+  {
+    "title": "Drawer",
+    "url": "/docs/components/drawer",
+    "type": "component"
+  },
+  {
+    "title": "Dropdown Menu",
+    "url": "/docs/components/dropdown-menu",
+    "type": "component"
+  },
+  {
+    "title": "Empty",
+    "url": "/docs/components/empty",
+    "type": "component"
+  },
+  {
+    "title": "Field",
+    "url": "/docs/components/field",
+    "type": "component"
+  },
+  {
+    "title": "Hover Card",
+    "url": "/docs/components/hover-card",
+    "type": "component"
+  },
+  {
+    "title": "Input",
+    "url": "/docs/components/input",
+    "type": "component"
+  },
+  {
+    "title": "Input Group",
+    "url": "/docs/components/input-group",
+    "type": "component"
+  },
+  {
+    "title": "Input OTP",
+    "url": "/docs/components/input-otp",
+    "type": "component"
+  },
+  {
+    "title": "Item",
+    "url": "/docs/components/item",
+    "type": "component"
+  },
+  {
+    "title": "Kbd",
+    "url": "/docs/components/kbd",
+    "type": "component"
+  },
+  {
+    "title": "Label",
+    "url": "/docs/components/label",
+    "type": "component"
+  },
+  {
+    "title": "Menubar",
+    "url": "/docs/components/menubar",
+    "type": "component"
+  },
+  {
+    "title": "Native Select",
+    "url": "/docs/components/native-select",
+    "type": "component"
+  },
+  {
+    "title": "Navigation Menu",
+    "url": "/docs/components/navigation-menu",
+    "type": "component"
+  },
+  {
+    "title": "Pagination",
+    "url": "/docs/components/pagination",
+    "type": "component"
+  },
+  {
+    "title": "Popover",
+    "url": "/docs/components/popover",
+    "type": "component"
+  },
+  {
+    "title": "Progress",
+    "url": "/docs/components/progress",
+    "type": "component"
+  },
+  {
+    "title": "Radio Group",
+    "url": "/docs/components/radio-group",
+    "type": "component"
+  },
+  {
+    "title": "Resizable",
+    "url": "/docs/components/resizable",
+    "type": "component"
+  },
+  {
+    "title": "Scroll Area",
+    "url": "/docs/components/scroll-area",
+    "type": "component"
+  },
+  {
+    "title": "Select",
+    "url": "/docs/components/select",
+    "type": "component"
+  },
+  {
+    "title": "Separator",
+    "url": "/docs/components/separator",
+    "type": "component"
+  },
+  {
+    "title": "Sheet",
+    "url": "/docs/components/sheet",
+    "type": "component"
+  },
+  {
+    "title": "Sidebar",
+    "url": "/docs/components/sidebar",
+    "type": "component"
+  },
+  {
+    "title": "Skeleton",
+    "url": "/docs/components/skeleton",
+    "type": "component"
+  },
+  {
+    "title": "Slider",
+    "url": "/docs/components/slider",
+    "type": "component"
+  },
+  {
+    "title": "Sonner",
+    "url": "/docs/components/sonner",
+    "type": "component"
+  },
+  {
+    "title": "Spinner",
+    "url": "/docs/components/spinner",
+    "type": "component"
+  },
+  {
+    "title": "Switch",
+    "url": "/docs/components/switch",
+    "type": "component"
+  },
+  {
+    "title": "Table",
+    "url": "/docs/components/table",
+    "type": "component"
+  },
+  {
+    "title": "Tabs",
+    "url": "/docs/components/tabs",
+    "type": "component"
+  },
+  {
+    "title": "Textarea",
+    "url": "/docs/components/textarea",
+    "type": "component"
+  },
+  {
+    "title": "Toast",
+    "url": "/docs/components/toast",
+    "type": "component"
+  },
+  {
+    "title": "Toggle",
+    "url": "/docs/components/toggle",
+    "type": "component"
+  },
+  {
+    "title": "Toggle Group",
+    "url": "/docs/components/toggle-group",
+    "type": "component"
+  },
+  {
+    "title": "Tooltip",
+    "url": "/docs/components/tooltip",
+    "type": "component"
+  },
+  {
+    "title": "Typography",
+    "url": "/docs/components/typography",
+    "type": "component"
+  },
+  {
+    "title": "Introduction",
+    "url": "/docs",
+    "type": "docs"
+  },
+  {
+    "title": "Installation",
+    "url": "/docs/installation",
+    "type": "docs"
+  },
+  {
+    "title": "Theming",
+    "url": "/docs/theming",
+    "type": "docs"
+  },
+  {
+    "title": "CLI",
+    "url": "/docs/cli",
+    "type": "docs"
+  },
+  {
+    "title": "Dark Mode",
+    "url": "/docs/dark-mode",
+    "type": "docs"
+  },
+  {
+    "title": "RTL",
+    "url": "/docs/rtl",
+    "type": "docs"
+  },
+  {
+    "title": "Typography",
+    "url": "/docs/typography",
+    "type": "docs"
+  },
+  {
+    "title": "Skills",
+    "url": "/docs/skills",
+    "type": "docs"
+  },
+  {
+    "title": "MCP Server",
+    "url": "/docs/mcp",
+    "type": "docs"
+  },
+  {
+    "title": "Registry",
+    "url": "/docs/registry",
+    "type": "docs"
+  },
+  {
+    "title": "Forms",
+    "url": "/docs/forms",
+    "type": "docs"
+  },
+  {
+    "title": "Changelog",
+    "url": "/docs/changelog",
+    "type": "docs"
+  },
+  {
+    "title": "Directory",
+    "url": "/docs/directory",
+    "type": "docs"
+  },
+  {
+    "title": "Open in v0",
+    "url": "/docs/open-in-v0",
+    "type": "docs"
+  },
+  {
+    "title": "Components JSON",
+    "url": "/docs/components-json",
+    "type": "docs"
+  },
+  {
+    "title": "Area Chart",
+    "url": "/charts/area",
+    "type": "chart"
+  },
+  {
+    "title": "Bar Chart",
+    "url": "/charts/bar",
+    "type": "chart"
+  },
+  {
+    "title": "Line Chart",
+    "url": "/charts/line",
+    "type": "chart"
+  },
+  {
+    "title": "Pie Chart",
+    "url": "/charts/pie",
+    "type": "chart"
+  },
+  {
+    "title": "Radial Chart",
+    "url": "/charts/radial",
+    "type": "chart"
+  }
+]
