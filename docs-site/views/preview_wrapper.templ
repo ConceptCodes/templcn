@@ -1,0 +1,118 @@
+package views
+
+import "fmt"
+
+// PreviewCard renders a tabbed Preview/Code card used in component documentation.
+// The Code tab reveals a syntax-highlighted block and calls hljs.highlightElement()
+// the first time it becomes visible to handle the hidden-element limitation.
+templ PreviewCard(title string, desc string, code string) {
+	<div data-preview-card="true" class="overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm">
+		<!-- header -->
+		<div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/70 px-4 py-3">
+			<div class="space-y-0.5">
+				if title != "" {
+					<p class="text-sm font-medium">{ title }</p>
+				}
+				if desc != "" {
+					<p class="text-xs text-muted-foreground">{ desc }</p>
+				}
+			</div>
+			<div class="flex items-center gap-2">
+				<!-- tab switcher -->
+				<div class="inline-flex rounded-md border border-border/70 bg-muted p-0.5 text-xs font-medium">
+					<button type="button" data-preview-tab="preview" data-state="active" class="rounded px-2.5 py-1 bg-background text-foreground transition-all">Preview</button>
+					<button type="button" data-preview-tab="code" data-state="inactive" class="rounded px-2.5 py-1 text-muted-foreground transition-all">Code</button>
+				</div>
+				<!-- copy button (copies raw source, not highlighted HTML) -->
+				<button type="button" data-preview-copy="true" class="inline-flex items-center gap-1 rounded-md border border-border/70 bg-background px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground">
+					<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+					<span>Copy</span>
+				</button>
+			</div>
+		</div>
+		<!-- preview panel -->
+		<div data-preview-panel="preview" class="flex min-h-40 items-center justify-center bg-background p-8">
+			<div class="flex w-full flex-wrap items-center justify-center gap-4">
+				{ children... }
+			</div>
+		</div>
+		<!-- code panel — hidden by default; hljs highlights on first reveal -->
+		<div data-preview-panel="code" class="hidden border-t border-border/70">
+			<div class="relative group">
+				<pre class="hljs overflow-x-auto p-5 text-[0.8125rem] leading-relaxed m-0 rounded-none"><code class="language-go" data-raw-code="true">{ code }</code></pre>
+			</div>
+		</div>
+		<script>
+			(function() {
+				var card = document.currentScript && document.currentScript.closest('[data-preview-card="true"]');
+				if (!card) return;
+
+				var previewBtn  = card.querySelector('[data-preview-tab="preview"]');
+				var codeBtn     = card.querySelector('[data-preview-tab="code"]');
+				var previewPanel = card.querySelector('[data-preview-panel="preview"]');
+				var codePanel   = card.querySelector('[data-preview-panel="code"]');
+				var codeEl      = card.querySelector('code[data-raw-code="true"]');
+				var copyButton  = card.querySelector('[data-preview-copy="true"]');
+				var highlighted = false;
+
+				function highlightIfNeeded() {
+					if (highlighted || !codeEl) return;
+					if (window.hljs && typeof window.hljs.highlightElement === 'function') {
+						window.hljs.highlightElement(codeEl);
+						highlighted = true;
+					}
+				}
+
+				function setActive(tab) {
+					var isPreview = tab === 'preview';
+					previewPanel.classList.toggle('hidden', !isPreview);
+					codePanel.classList.toggle('hidden', isPreview);
+					previewBtn.dataset.state = isPreview ? 'active' : 'inactive';
+					codeBtn.dataset.state    = isPreview ? 'inactive' : 'active';
+					if (isPreview) {
+						previewBtn.classList.add('bg-background', 'text-foreground');
+						previewBtn.classList.remove('text-muted-foreground');
+						codeBtn.classList.remove('bg-background', 'text-foreground');
+						codeBtn.classList.add('text-muted-foreground');
+					} else {
+						codeBtn.classList.add('bg-background', 'text-foreground');
+						codeBtn.classList.remove('text-muted-foreground');
+						previewBtn.classList.remove('bg-background', 'text-foreground');
+						previewBtn.classList.add('text-muted-foreground');
+						// Highlight now that the element is visible
+						highlightIfNeeded();
+					}
+				}
+
+				previewBtn.addEventListener('click', function() { setActive('preview'); });
+				codeBtn.addEventListener('click', function() { setActive('code'); });
+
+				copyButton && copyButton.addEventListener('click', async function() {
+					// Use the raw text content (before hljs transforms the innerHTML)
+					var raw = codeEl ? (codeEl.dataset.rawText || codeEl.textContent) : '';
+					var label = copyButton.querySelector('span') || copyButton;
+					try {
+						await navigator.clipboard.writeText(raw);
+						label.textContent = 'Copied!';
+						setTimeout(function() { label.textContent = 'Copy'; }, 1500);
+					} catch (_) {
+						label.textContent = 'Failed';
+						setTimeout(function() { label.textContent = 'Copy'; }, 1500);
+					}
+				});
+
+				// Store the raw text before hljs replaces textContent with highlighted HTML
+				if (codeEl) {
+					codeEl.dataset.rawText = codeEl.textContent;
+				}
+
+				setActive('preview');
+			})();
+		</script>
+	</div>
+}
+
+// previewCardID creates a unique DOM-safe id from a component slug + index (for future use).
+func previewCardID(slug string, i int) string {
+	return fmt.Sprintf("%s-%d", slug, i)
+}

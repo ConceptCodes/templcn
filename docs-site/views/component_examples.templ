@@ -1,0 +1,450 @@
+package views
+
+import "shadcn/ui"
+
+// ─── Accordion ───────────────────────────────────────────────────────────────
+
+templ AccordionPreview() {
+	@ui.Accordion(ui.AccordionProps{Type: "single", Collapsible: true, DOMProps: ui.DOMProps{Class: "w-full max-w-md"}}) {
+		@ui.AccordionItem(ui.AccordionItemProps{Value: "item-1"}) {
+			@ui.AccordionTrigger(ui.DOMProps{}) {
+				Is it accessible?
+			}
+			@ui.AccordionContent(ui.DOMProps{}) {
+				Yes. It adheres to the WAI-ARIA design pattern.
+			}
+		}
+		@ui.AccordionItem(ui.AccordionItemProps{Value: "item-2"}) {
+			@ui.AccordionTrigger(ui.DOMProps{}) {
+				Is it styled?
+			}
+			@ui.AccordionContent(ui.DOMProps{}) {
+				Yes. It comes with default styles that match the other components.
+			}
+		}
+		@ui.AccordionItem(ui.AccordionItemProps{Value: "item-3"}) {
+			@ui.AccordionTrigger(ui.DOMProps{}) {
+				Is it animated?
+			}
+			@ui.AccordionContent(ui.DOMProps{}) {
+				Yes. It uses the CSS details/summary element for native animation.
+			}
+		}
+	}
+}
+
+// ─── Alert ───────────────────────────────────────────────────────────────────
+
+templ AlertDefaultPreview() {
+	@ui.Alert(ui.AlertProps{}) {
+		@ui.AlertTitle(ui.DOMProps{}) { Heads up! }
+		@ui.AlertDescription(ui.DOMProps{}) {
+			You can add components to your app using the shadcn CLI.
+		}
+	}
+}
+
+templ AlertDestructivePreview() {
+	@ui.Alert(ui.AlertProps{Variant: ui.AlertVariantDestructive}) {
+		@ui.AlertTitle(ui.DOMProps{}) { Error }
+		@ui.AlertDescription(ui.DOMProps{}) {
+			Your session has expired. Please log in again.
+		}
+	}
+}
+
+// ─── Badge ───────────────────────────────────────────────────────────────────
+
+templ BadgePreview() {
+	<div class="flex flex-wrap gap-3 items-center">
+		@ui.Badge(ui.BadgeProps{Label: "Default"})
+		@ui.Badge(ui.BadgeProps{Label: "Secondary", Variant: ui.BadgeVariantSecondary})
+		@ui.Badge(ui.BadgeProps{Label: "Outline", Variant: ui.BadgeVariantOutline})
+		@ui.Badge(ui.BadgeProps{Label: "Destructive", Variant: ui.BadgeVariantDestructive})
+		@ui.Badge(ui.BadgeProps{Label: "Ghost", Variant: ui.BadgeVariantGhost})
+	</div>
+}
+
+// ─── Button ───────────────────────────────────────────────────────────────────
+
+templ ButtonVariantsPreview() {
+	<div class="flex flex-wrap gap-3 items-center">
+		@ui.Button(ui.ButtonProps{Label: "Default"})
+		@ui.Button(ui.ButtonProps{Label: "Secondary", Variant: ui.ButtonVariantSecondary})
+		@ui.Button(ui.ButtonProps{Label: "Outline", Variant: ui.ButtonVariantOutline})
+		@ui.Button(ui.ButtonProps{Label: "Ghost", Variant: ui.ButtonVariantGhost})
+		@ui.Button(ui.ButtonProps{Label: "Link", Variant: ui.ButtonVariantLink})
+		@ui.Button(ui.ButtonProps{Label: "Destructive", Variant: ui.ButtonVariantDestructive})
+	</div>
+}
+
+templ ButtonSizesPreview() {
+	<div class="flex flex-wrap gap-3 items-center">
+		@ui.Button(ui.ButtonProps{Label: "Extra Small", Size: ui.ButtonSizeXS})
+		@ui.Button(ui.ButtonProps{Label: "Small", Size: ui.ButtonSizeSM})
+		@ui.Button(ui.ButtonProps{Label: "Default"})
+		@ui.Button(ui.ButtonProps{Label: "Large", Size: ui.ButtonSizeLG})
+	</div>
+}
+
+templ ButtonDisabledPreview() {
+	@ui.Button(ui.ButtonProps{Label: "Disabled", Disabled: true})
+}
+
+// ─── Card ────────────────────────────────────────────────────────────────────
+
+templ CardPreview() {
+	@ui.Card(ui.DOMProps{Class: "w-80"}) {
+		@ui.CardHeader(ui.DOMProps{}) {
+			@ui.CardTitle(ui.DOMProps{}) { <span>Create project</span> }
+			@ui.CardDescription(ui.DOMProps{}) { <span>Deploy your new project in one-click.</span> }
+		}
+		@ui.CardContent(ui.DOMProps{}) {
+			<div class="grid gap-3">
+				@ui.Label(ui.LabelProps{For: "card-name"}) { <span>Name</span> }
+				@ui.Input(ui.InputProps{Placeholder: "Name of your project"})
+			</div>
+		}
+		@ui.CardFooter(ui.DOMProps{}) {
+			<div class="flex gap-2 w-full">
+				@ui.Button(ui.ButtonProps{Label: "Cancel", Variant: ui.ButtonVariantOutline})
+				@ui.Button(ui.ButtonProps{Label: "Deploy"})
+			</div>
+		}
+	}
+}
+
+// ─── Checkbox ────────────────────────────────────────────────────────────────
+
+templ CheckboxPreview() {
+	<div class="flex flex-col gap-3">
+		<div class="flex items-center gap-2">
+			@ui.Checkbox(ui.CheckboxProps{Name: "terms"})
+			<label class="text-sm font-medium leading-none">Accept terms and conditions</label>
+		</div>
+		<div class="flex items-center gap-2">
+			@ui.Checkbox(ui.CheckboxProps{Name: "disabled", Disabled: true})
+			<label class="text-sm font-medium leading-none text-muted-foreground">Disabled</label>
+		</div>
+		<div class="flex items-center gap-2">
+			@ui.Checkbox(ui.CheckboxProps{Name: "checked", Checked: true})
+			<label class="text-sm font-medium leading-none">Already checked</label>
+		</div>
+	</div>
+}
+
+// ─── Input ───────────────────────────────────────────────────────────────────
+
+templ InputPreview() {
+	<div class="w-full max-w-sm grid gap-3">
+		@ui.Input(ui.InputProps{Placeholder: "Email"})
+		@ui.Input(ui.InputProps{Type: "password", Placeholder: "Password"})
+		@ui.Input(ui.InputProps{Placeholder: "Disabled", Disabled: true})
+	</div>
+}
+
+// ─── Label ───────────────────────────────────────────────────────────────────
+
+templ LabelPreview() {
+	<div class="grid gap-2 w-full max-w-sm">
+		@ui.Label(ui.LabelProps{For: "label-email"}) { <span>Your email address</span> }
+		@ui.Input(ui.InputProps{DOMProps: ui.DOMProps{ID: "label-email"}, Placeholder: "name@example.com"})
+	</div>
+}
+
+// ─── Separator ───────────────────────────────────────────────────────────────
+
+templ SeparatorPreview() {
+	<div class="w-full max-w-sm grid gap-4">
+		<div>
+			<p class="text-sm font-medium">shadcn/ui</p>
+			<p class="text-sm text-muted-foreground">An open-source UI component library.</p>
+		</div>
+		@ui.Separator(ui.SeparatorProps{})
+		<div class="flex gap-4 text-sm">
+			<span>Blog</span>
+			@ui.Separator(ui.SeparatorProps{Orientation: ui.SeparatorOrientationVertical, DOMProps: ui.DOMProps{Class: "h-4"}})
+			<span>Docs</span>
+			@ui.Separator(ui.SeparatorProps{Orientation: ui.SeparatorOrientationVertical, DOMProps: ui.DOMProps{Class: "h-4"}})
+			<span>Source</span>
+		</div>
+	</div>
+}
+
+// ─── Skeleton ────────────────────────────────────────────────────────────────
+
+templ SkeletonPreview() {
+	<div class="flex items-center gap-4 w-72">
+		@ui.Skeleton(ui.DOMProps{Class: "size-12 rounded-full"})
+		<div class="grid gap-2 flex-1">
+			@ui.Skeleton(ui.DOMProps{Class: "h-4 w-full"})
+			@ui.Skeleton(ui.DOMProps{Class: "h-4 w-3/4"})
+		</div>
+	</div>
+}
+
+// ─── Progress ────────────────────────────────────────────────────────────────
+
+templ ProgressPreview() {
+	<div class="w-full max-w-sm grid gap-4">
+		@ui.Progress(ui.ProgressProps{Value: 20})
+		@ui.Progress(ui.ProgressProps{Value: 60})
+		@ui.Progress(ui.ProgressProps{Value: 100})
+	</div>
+}
+
+// ─── Textarea ────────────────────────────────────────────────────────────────
+
+templ TextareaPreview() {
+	<div class="w-full max-w-sm grid gap-3">
+		@ui.Textarea(ui.TextareaProps{Placeholder: "Type your message here."})
+		@ui.Textarea(ui.TextareaProps{Placeholder: "Disabled", Disabled: true})
+	</div>
+}
+
+// ─── Switch ──────────────────────────────────────────────────────────────────
+
+templ SwitchPreview() {
+	<div class="flex flex-col gap-3">
+		<div class="flex items-center gap-2">
+			@ui.Switch(ui.SwitchProps{Name: "notifications"})
+			<label class="text-sm font-medium">Airplane Mode</label>
+		</div>
+		<div class="flex items-center gap-2">
+			@ui.Switch(ui.SwitchProps{Name: "active", Checked: true})
+			<label class="text-sm font-medium">Notifications</label>
+		</div>
+	</div>
+}
+
+// ─── Tabs ────────────────────────────────────────────────────────────────────
+
+templ TabsPreview() {
+	@ui.Tabs(ui.TabsProps{DefaultValue: "account", DOMProps: ui.DOMProps{Class: "w-full max-w-sm"}}) {
+		@ui.TabsList(ui.TabsListProps{}) {
+			@ui.TabsTrigger(ui.TabsTriggerProps{Value: "account", Active: true}) { <span>Account</span> }
+			@ui.TabsTrigger(ui.TabsTriggerProps{Value: "password"}) { <span>Password</span> }
+		}
+		@ui.TabsContent(ui.TabsContentProps{Value: "account", Active: true}) {
+			<p class="text-sm text-muted-foreground p-4">Make changes to your account here.</p>
+		}
+		@ui.TabsContent(ui.TabsContentProps{Value: "password"}) {
+			<p class="text-sm text-muted-foreground p-4">Change your password here.</p>
+		}
+	}
+}
+
+// ─── Collapsible ─────────────────────────────────────────────────────────────
+
+templ CollapsiblePreview() {
+	@ui.Collapsible(ui.CollapsibleProps{DOMProps: ui.DOMProps{Class: "w-full max-w-sm"}}) {
+		@ui.CollapsibleTrigger(ui.DOMProps{}) {
+			<div class="flex items-center justify-between rounded-md border p-3 cursor-pointer hover:bg-accent">
+				<p class="text-sm font-medium">{ "@tanstack/react-query" }</p>
+				<span class="text-xs text-muted-foreground">Expand</span>
+			</div>
+		}
+		@ui.CollapsibleContent(ui.DOMProps{}) {
+			<div class="rounded-md border p-3 mt-1 text-sm text-muted-foreground">
+				A powerful data synchronization library for React.
+			</div>
+		}
+	}
+}
+
+// ─── Accordion ── (second full preview with variant) ─────────────────────────
+
+templ AccordionMultiplePreview() {
+	@ui.Accordion(ui.AccordionProps{Type: "multiple", DOMProps: ui.DOMProps{Class: "w-full max-w-md"}}) {
+		@ui.AccordionItem(ui.AccordionItemProps{Value: "a"}) {
+			@ui.AccordionTrigger(ui.DOMProps{}) { What is shadcn/ui? }
+			@ui.AccordionContent(ui.DOMProps{}) {
+				A set of accessible, customizable components built on Radix UI and Tailwind CSS.
+			}
+		}
+		@ui.AccordionItem(ui.AccordionItemProps{Value: "b"}) {
+			@ui.AccordionTrigger(ui.DOMProps{}) { Is it open source? }
+			@ui.AccordionContent(ui.DOMProps{}) {
+				Yes. The source code is available on GitHub.
+			}
+		}
+	}
+}
+
+// ─── Kbd ─────────────────────────────────────────────────────────────────────
+
+templ KbdPreview() {
+	<div class="flex flex-wrap gap-3 items-center">
+		@ui.Kbd(ui.KbdProps{Text: "⌘K"})
+		@ui.Kbd(ui.KbdProps{Text: "Ctrl+C"})
+		@ui.Kbd(ui.KbdProps{Text: "Enter"})
+		@ui.Kbd(ui.KbdProps{Text: "Esc", Size: "lg"})
+	</div>
+}
+
+// ─── Spinner ─────────────────────────────────────────────────────────────────
+
+templ SpinnerPreview() {
+	<div class="flex items-center gap-6">
+		@ui.Spinner(ui.SpinnerProps{Size: ui.SpinnerSizeSM, Label: "Loading small"})
+		@ui.Spinner(ui.SpinnerProps{Size: ui.SpinnerSizeMD, Label: "Loading medium"})
+		@ui.Spinner(ui.SpinnerProps{Size: ui.SpinnerSizeLG, Label: "Loading large"})
+	</div>
+}
+
+// ─── Skeleton deep ────────────────────────────────────────────────────────────
+
+templ SkeletonCardPreview() {
+	@ui.Card(ui.DOMProps{Class: "w-64"}) {
+		@ui.CardHeader(ui.DOMProps{}) {
+			@ui.Skeleton(ui.DOMProps{Class: "h-5 w-2/3"})
+			@ui.Skeleton(ui.DOMProps{Class: "h-4 w-1/2 mt-1"})
+		}
+		@ui.CardContent(ui.DOMProps{}) {
+			@ui.Skeleton(ui.DOMProps{Class: "h-24 w-full"})
+		}
+	}
+}
+
+// ─── NativeSelect ────────────────────────────────────────────────────────────
+
+templ NativeSelectPreview() {
+	<div class="w-full max-w-xs">
+		@ui.NativeSelect(ui.NativeSelectProps{}) {
+			@ui.NativeSelectOption(ui.DOMProps{}, "apple", "Apple", false)
+			@ui.NativeSelectOption(ui.DOMProps{}, "banana", "Banana", true)
+			@ui.NativeSelectOption(ui.DOMProps{}, "cherry", "Cherry", false)
+		}
+	</div>
+}
+
+// ─── RadioGroup ──────────────────────────────────────────────────────────────
+
+templ RadioGroupPreview() {
+	@ui.RadioGroup(ui.RadioGroupProps{Name: "plan", DefaultValue: "starter"}) {
+		@ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "starter", Label: "Starter"})
+		@ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "pro", Label: "Pro"})
+		@ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "enterprise", Label: "Enterprise"})
+	}
+}
+
+// ─── Slider ──────────────────────────────────────────────────────────────────
+
+templ SliderPreview() {
+	<div class="w-full max-w-sm grid gap-4">
+		@ui.Slider(ui.SliderProps{Min: 0, Max: 100, DefaultValue: []float64{40}})
+		@ui.Slider(ui.SliderProps{Min: 0, Max: 100, DefaultValue: []float64{20, 70}})
+	</div>
+}
+
+// ─── Pagination ──────────────────────────────────────────────────────────────
+
+templ PaginationPreview() {
+	@ui.Pagination(ui.DOMProps{}) {
+		@ui.PaginationContent(ui.DOMProps{}) {
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationPrevious(ui.PaginationLinkProps{Href: "#"}) { <span>Previous</span> }
+			}
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationLink(ui.PaginationLinkProps{Href: "#", IsActive: true}) { <span>1</span> }
+			}
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationLink(ui.PaginationLinkProps{Href: "#"}) { <span>2</span> }
+			}
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationLink(ui.PaginationLinkProps{Href: "#"}) { <span>3</span> }
+			}
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationEllipsis(ui.DOMProps{}) { <span>···</span> }
+			}
+			@ui.PaginationItem(ui.DOMProps{}) {
+				@ui.PaginationNext(ui.PaginationLinkProps{Href: "#"}) { <span>Next</span> }
+			}
+		}
+	}
+}
+
+// ─── Breadcrumb ──────────────────────────────────────────────────────────────
+
+templ BreadcrumbPreview() {
+	@ui.Breadcrumb(ui.DOMProps{}) {
+		@ui.BreadcrumbList(ui.DOMProps{}) {
+			@ui.BreadcrumbItem(ui.DOMProps{}) {
+				@ui.BreadcrumbLink(ui.BreadcrumbLinkProps{Href: "/"}) { <span>Home</span> }
+			}
+			@ui.BreadcrumbSeparator(ui.DOMProps{}) { <span>/</span> }
+			@ui.BreadcrumbItem(ui.DOMProps{}) {
+				@ui.BreadcrumbLink(ui.BreadcrumbLinkProps{Href: "/components"}) { <span>Components</span> }
+			}
+			@ui.BreadcrumbSeparator(ui.DOMProps{}) { <span>/</span> }
+			@ui.BreadcrumbItem(ui.DOMProps{}) {
+				@ui.BreadcrumbPage(ui.DOMProps{}) { <span>Breadcrumb</span> }
+			}
+		}
+	}
+}
+
+// ─── Aspect Ratio ────────────────────────────────────────────────────────────
+
+templ AspectRatioPreview() {
+	@ui.AspectRatio(ui.AspectRatioProps{Ratio: 16.0 / 9.0, DOMProps: ui.DOMProps{Class: "w-full max-w-xs rounded-md overflow-hidden bg-muted"}}) {
+		<div class="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+			16 : 9
+		</div>
+	}
+}
+
+// ─── Toggle ──────────────────────────────────────────────────────────────────
+
+templ TogglePreview() {
+	<div class="flex flex-wrap gap-3">
+		@ui.Toggle(ui.ToggleProps{}) { <span>Bold</span> }
+		@ui.Toggle(ui.ToggleProps{Pressed: true}) { <span>Italic</span> }
+		@ui.Toggle(ui.ToggleProps{Variant: "outline"}) { <span>Outline</span> }
+		@ui.Toggle(ui.ToggleProps{Disabled: true}) { <span>Disabled</span> }
+	</div>
+}
+
+// ─── Typography ──────────────────────────────────────────────────────────────
+
+templ TypographyPreview() {
+	<div class="grid gap-3 max-w-sm">
+		@ui.H1(ui.DOMProps{}) { <span>Heading 1</span> }
+		@ui.H2(ui.DOMProps{}) { <span>Heading 2</span> }
+		@ui.H3(ui.DOMProps{}) { <span>Heading 3</span> }
+		@ui.P(ui.DOMProps{}) { <span>This is a paragraph of body text.</span> }
+		@ui.Lead(ui.DOMProps{}) { <span>A lead paragraph, slightly larger.</span> }
+		@ui.Muted(ui.DOMProps{}) { <span>Muted helper text appears here.</span> }
+		@ui.InlineCode(ui.DOMProps{}) { <span>const x = 1</span> }
+	</div>
+}
+
+// ─── ButtonGroup ─────────────────────────────────────────────────────────────
+
+templ ButtonGroupPreview() {
+	@ui.ButtonGroup(ui.ButtonGroupProps{}) {
+		@ui.Button(ui.ButtonProps{Label: "Left", Variant: ui.ButtonVariantOutline, DOMProps: ui.DOMProps{Class: "rounded-r-none"}})
+		@ui.ButtonGroupSeparator(ui.DOMProps{})
+		@ui.Button(ui.ButtonProps{Label: "Center", Variant: ui.ButtonVariantOutline, DOMProps: ui.DOMProps{Class: "rounded-none"}})
+		@ui.ButtonGroupSeparator(ui.DOMProps{})
+		@ui.Button(ui.ButtonProps{Label: "Right", Variant: ui.ButtonVariantOutline, DOMProps: ui.DOMProps{Class: "rounded-l-none"}})
+	}
+}
+
+// ─── InputOTP ────────────────────────────────────────────────────────────────
+
+templ InputOTPPreview() {
+	@ui.InputOTP(ui.InputOTPProps{MaxLength: 6}) {
+		@ui.InputOTPGroup(ui.DOMProps{}) {
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 0, Value: "1"})
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 1, Value: "2"})
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 2, Value: "3"})
+		}
+		@ui.InputOTPSeparator(ui.DOMProps{})
+		@ui.InputOTPGroup(ui.DOMProps{}) {
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 3})
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 4})
+			@ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 5})
+		}
+	}
+}

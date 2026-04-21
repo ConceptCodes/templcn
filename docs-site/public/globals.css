@@ -2460,3 +2460,70 @@
     }
   }
 }
+
+/* ─── highlight.js theme overrides ──────────────────────────────────────────
+   We load github-dark-dimmed as the base theme (good dark palette), then
+   override the background / text colours in light mode so tokens still pop
+   against a light surface. The .dark class is toggled by shadcn.js, which
+   lets our JS-driven theme toggle work correctly (unlike prefers-color-scheme
+   which would only respond to OS-level settings).
+──────────────────────────────────────────────────────────────────────────── */
+
+/* Light-mode overrides: keep the token colours but brighten the shell */
+:root:not(.dark) .hljs {
+  background: #f6f8fa;   /* github light surface */
+  color: #24292e;
+}
+
+/* Light-mode token colours (GitHub Light palette) */
+:root:not(.dark) .hljs-comment,
+:root:not(.dark) .hljs-quote {
+  color: #6e7781;
+  font-style: italic;
+}
+:root:not(.dark) .hljs-keyword,
+:root:not(.dark) .hljs-selector-tag,
+:root:not(.dark) .hljs-deletion,
+:root:not(.dark) .hljs-built_in {
+  color: #cf222e;
+}
+:root:not(.dark) .hljs-type,
+:root:not(.dark) .hljs-class .hljs-title {
+  color: #953800;
+}
+:root:not(.dark) .hljs-string,
+:root:not(.dark) .hljs-addition,
+:root:not(.dark) .hljs-attr {
+  color: #0a3069;
+}
+:root:not(.dark) .hljs-number,
+:root:not(.dark) .hljs-literal {
+  color: #0550ae;
+}
+:root:not(.dark) .hljs-variable,
+:root:not(.dark) .hljs-template-variable {
+  color: #953800;
+}
+:root:not(.dark) .hljs-title,
+:root:not(.dark) .hljs-name,
+:root:not(.dark) .hljs-function {
+  color: #8250df;
+}
+
+/* ─── Standalone CodeBlock chrome ─────────────────────────────────────────── */
+[data-code-block="true"] pre.hljs {
+  border-radius: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+/* ─── PreviewCard code pane chrome ────────────────────────────────────────── */
+[data-preview-panel="code"] pre.hljs {
+  margin: 0;
+  border-radius: 0;
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  tab-size: 2;
+  min-height: 3rem;
+}

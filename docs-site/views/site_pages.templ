@@ -3,6 +3,7 @@ package views
 import (
 	t "github.com/a-h/templ"
 	"shadcn/ui"
+	"strings"
 )
 
 templ SiteHeader() {
@@ -59,7 +60,7 @@ templ DocsLayout(title string, active string) {
 			<!-- Mobile drawer overlay -->
 			<div
 				data-mobile-drawer="true"
-				class="hidden fixed inset-0 z-50 bg-background/95 backdrop-blur lg:hidden"
+				class="hidden fixed inset-0 z-50 translate-x-full bg-background/95 backdrop-blur transition-transform duration-200 lg:hidden"
 			>
 				<div class="flex h-full flex-col">
 					<div class="flex items-center justify-between border-b border-border/70 px-6 py-4">
@@ -266,7 +267,7 @@ templ ComponentsIndexPage() {
 
 templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev bool, next ComponentDocEntry, hasNext bool) {
 	@DocsLayout("Component - "+doc.Title, "component-"+doc.Slug) {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div data-toc-root="true" class="mx-auto flex max-w-4xl flex-col gap-8 xl:pr-72">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Component", Variant: ui.BadgeVariantSecondary})
@@ -277,38 +278,23 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 			</section>
 
 			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
+				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "installation"}}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<!-- Tabbed Install Section -->
 						<div class="space-y-4">
 							<div class="flex gap-2 border-b border-border/70 pb-2">
-								<button
-									id={ "tab-cli-btn-" + doc.Slug }
-									data-slug={ doc.Slug }
-									data-tab="cli"
-									class="tab-btn px-3 py-1 text-sm font-medium text-foreground border-b-2 border-primary"
-								>
-									CLI
-								</button>
-								<button
-									id={ "tab-manual-btn-" + doc.Slug }
-									data-slug={ doc.Slug }
-									data-tab="manual"
-									class="tab-btn px-3 py-1 text-sm font-medium text-muted-foreground"
-								>
-									Manual
-								</button>
+								<button id={ "tab-cli-btn-" + doc.Slug } data-slug={ doc.Slug } data-tab="cli" class="tab-btn px-3 py-1 text-sm font-medium text-foreground border-b-2 border-primary">CLI</button>
+								<button id={ "tab-manual-btn-" + doc.Slug } data-slug={ doc.Slug } data-tab="manual" class="tab-btn px-3 py-1 text-sm font-medium text-muted-foreground">Manual</button>
 							</div>
 							<div id={ "tab-cli-" + doc.Slug } class="tab-content space-y-2">
 								<p class="text-sm text-muted-foreground">Add this component to your Go project using the CLI.</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>{ doc.Install }</code></pre>
+								@CodeBlock("bash", doc.Install)
 							</div>
 							<div id={ "tab-manual-" + doc.Slug } class="tab-content hidden space-y-2">
 								<p class="text-sm text-muted-foreground">Manual installation steps for this component.</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>{ doc.ManualInstall }</code></pre>
+								@CodeBlock("go", doc.ManualInstall)
 							</div>
 						</div>
 						<script>
@@ -322,7 +308,6 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 									var manualContent = document.getElementById('tab-manual-' + slug);
 									var cliBtn = document.getElementById('tab-cli-btn-' + slug);
 									var manualBtn = document.getElementById('tab-manual-btn-' + slug);
-									
 									if (tab === 'cli') &#123;
 										cliContent.classList.remove('hidden');
 										manualContent.classList.add('hidden');
@@ -345,34 +330,38 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 					}
 				}
 
-				@ui.Card(ui.DOMProps{}) {
+				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "usage"}}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>{ doc.GoUsage }</code></pre>
+						<div class="grid gap-4">
+							@PreviewCard("Usage", doc.Description, doc.GoUsage) {
+								@ComponentPreview(doc.Slug)
+							}
+						</div>
 					}
 				}
 
-				if len(doc.Examples) > 0 {
-					@ui.Card(ui.DOMProps{}) {
-						@ui.CardHeader(ui.DOMProps{}) {
-							@ui.CardTitle(ui.DOMProps{}) { <span>Examples</span> }
-						}
-						@ui.CardContent(ui.DOMProps{}) {
-							<div class="space-y-4">
-								for _, example := range doc.Examples {
-									<div class="space-y-1">
-										<h3 class="text-lg font-semibold">{ example.Name }</h3>
-										<p class="text-sm text-muted-foreground">{ example.Desc }</p>
-									</div>
+				<section id="examples" class="grid gap-4">
+					<div class="space-y-1">
+						<h2 class="text-2xl font-semibold tracking-tight">Examples</h2>
+						<p class="text-sm text-muted-foreground">Named examples from the upstream docs surface.</p>
+					</div>
+					<div class="grid gap-4">
+						for _, example := range doc.Examples {
+							@PreviewCard(example.Name, example.Desc, example.GoCode) {
+								if example.Preview != nil {
+									@example.Preview
+								} else {
+									@ComponentPreview(doc.Slug)
 								}
-							</div>
+							}
 						}
-					}
-				}
+					</div>
+				</section>
 
-				@ui.Card(ui.DOMProps{}) {
+				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "api-reference"}}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>API Reference</span> }
 					}
@@ -409,81 +398,89 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 						}
 					}
 				}
-			</section>
 
-			if doc.SourceCode != "" {
-				<section class="grid gap-4">
-					<details class="group">
-						<summary class="cursor-pointer list-none">
-							<div class="flex items-center gap-2 rounded-lg border border-border/70 bg-card p-4 transition-colors hover:bg-accent/40">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 text-muted-foreground transition-transform group-open:rotate-90"><polyline points="9 18 15 12 9 6"></polyline></svg>
-								<span class="font-medium">View source</span>
+				<section id="view-source" class="grid gap-4">
+					if doc.SourceCode != "" {
+						<details class="group">
+							<summary class="cursor-pointer list-none">
+								<div class="flex items-center gap-2 rounded-lg border border-border/70 bg-card p-4 transition-colors hover:bg-accent/40">
+									<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4 text-muted-foreground transition-transform group-open:rotate-90"><polyline points="9 18 15 12 9 6"></polyline></svg>
+									<span class="font-medium">View source</span>
+								</div>
+							</summary>
+							<div class="mt-2 rounded-lg border border-border/70 bg-muted p-4">
+								<pre class="overflow-x-auto"><code>{ doc.SourceCode }</code></pre>
 							</div>
-						</summary>
-						<div class="mt-2 rounded-lg border border-border/70 bg-muted p-4">
-							<pre class="overflow-x-auto"><code>{ doc.SourceCode }</code></pre>
-						</div>
-					</details>
+						</details>
+					}
 				</section>
-			}
 
-			<section class="flex items-center justify-between gap-3 border-t border-border/70 pt-6 text-sm">
-				<div>
-					if hasPrev {
-						<a href={ t.SafeURL("/docs/components/" + prev.Slug) } class="text-muted-foreground hover:text-foreground">Previous: { prev.Title }</a>
-					}
-				</div>
-				<div class="text-right">
-					if hasNext {
-						<a href={ t.SafeURL("/docs/components/" + next.Slug) } class="text-muted-foreground hover:text-foreground">Next: { next.Title }</a>
-					}
-				</div>
+				<section class="flex items-center justify-between gap-3 border-t border-border/70 pt-6 text-sm">
+					<div>
+						if hasPrev {
+							<a href={ t.SafeURL("/docs/components/" + prev.Slug) } class="text-muted-foreground hover:text-foreground">Previous: { prev.Title }</a>
+						}
+					</div>
+					<div class="text-right">
+						if hasNext {
+							<a href={ t.SafeURL("/docs/components/" + next.Slug) } class="text-muted-foreground hover:text-foreground">Next: { next.Title }</a>
+						}
+					</div>
+				</section>
 			</section>
+			<aside class="hidden xl:block fixed right-8 top-24 w-56">
+				<div class="rounded-xl border border-border/70 bg-card p-4">
+					<p class="text-xs font-medium uppercase tracking-[0.24em] text-muted-foreground">On This Page</p>
+					<nav class="mt-4 grid gap-1 text-sm">
+						<a href="#installation" data-toc-link="installation" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Installation</a>
+						<a href="#usage" data-toc-link="usage" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Usage</a>
+						<a href="#examples" data-toc-link="examples" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Examples</a>
+						<a href="#api-reference" data-toc-link="api-reference" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">API Reference</a>
+						<a href="#view-source" data-toc-link="view-source" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">View Source</a>
+					</nav>
+				</div>
+			</aside>
 		</div>
 	}
 }
 
+templ BlocksNav(active string) {
+	<div class="flex items-center gap-2 overflow-x-auto pb-4 border-b border-border/70 no-scrollbar">
+		<a href="/blocks" class={ SectionLinkClass(active, "blocks") }>All</a>
+		<a href="/blocks/sidebar" class={ SectionLinkClass(active, "sidebar") }>Sidebar</a>
+		<a href="/blocks/login" class={ SectionLinkClass(active, "login") }>Authentication</a>
+	</div>
+}
+
 templ BlocksIndexPage() {
 	@DocsLayout("Blocks - shadcn/ui", "blocks") {
-		<div class="mx-auto flex max-w-6xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Blocks</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building blocks for dashboards, auth, and app shells.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The blocks page mirrors the upstream layout library, with the same command-driven install flow and category browsing.</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building blocks for the web.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Clean, modern building blocks. Copy and paste into your apps. Works with Go and templ. Open source. Free forever.</p>
 			</section>
 
-			<section class="grid gap-4 md:grid-cols-3">
-				for _, category := range BlockCategories() {
-					@ui.Card(ui.DOMProps{}) {
-						@ui.CardHeader(ui.DOMProps{}) {
-							@ui.CardTitle(ui.DOMProps{}) { <span>{ TitleFromSlug(category) }</span> }
-							@ui.CardDescription(ui.DOMProps{}) { <span>{ TitleFromSlug(category) } blocks</span> }
-						}
-						@ui.CardContent(ui.DOMProps{}) {
-							<div class="grid gap-2">
-								<p class="text-sm text-muted-foreground">{ BlockCategoryCountLabel(category) }</p>
-								@ui.Button(ui.ButtonProps{Label: "Browse", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM, Href: "/blocks/" + category})
-							</div>
-						}
-					}
-				}
-			</section>
+			@BlocksNav("blocks")
 
-			<section class="grid gap-3">
-				for _, block := range Blocks() {
-					<a href={ t.SafeURL("/blocks/" + block.Slug) } class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
-						<div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-							<div class="space-y-1">
-								<div class="flex items-center gap-2">
-									<h2 class="text-lg font-medium">{ block.Slug }</h2>
-									@ui.Badge(ui.BadgeProps{Label: TitleFromSlug(block.Category), Variant: ui.BadgeVariantOutline})
+			<section class="flex flex-col gap-12 md:gap-24 mt-8">
+				<div class="flex flex-col gap-4">
+					<h2 class="text-2xl font-semibold tracking-tight">Featured</h2>
+					<div class="grid gap-6 md:grid-cols-2">
+						for _, block := range BlocksByCategory("featured") {
+							<a href={ t.SafeURL("/blocks/" + block.Slug) } class="group overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm transition-all hover:border-border hover:shadow-md">
+								<div class="relative aspect-[4/2.5] w-full overflow-hidden bg-muted/20">
+									<iframe src={ t.SafeURL("/blocks/" + block.Slug + "/preview") } class="pointer-events-none absolute inset-0 h-[1000px] w-[200%] origin-top-left scale-[0.5] border-0 bg-background" loading="lazy"></iframe>
+									<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-background/0 to-transparent"></div>
 								</div>
-								<p class="text-sm text-muted-foreground">{ block.Description }</p>
-							</div>
-							<span class="text-sm text-muted-foreground transition-colors group-hover:text-foreground">{ block.Command }</span>
-						</div>
-					</a>
-				}
+								<div class="p-4">
+									<h3 class="font-medium group-hover:underline">{ block.Title }</h3>
+									<p class="mt-1 text-sm text-muted-foreground line-clamp-1">{ block.Description }</p>
+								</div>
+							</a>
+						}
+					</div>
+				</div>
 			</section>
 		</div>
 	}
@@ -498,19 +495,33 @@ templ BlockCategoryPage(category string) {
 				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Category page for { TitleFromSlug(category) } blocks.</p>
 			</section>
 
-			<section class="grid gap-4">
+			@BlocksNav(category)
+
+			<section class="grid gap-6 md:grid-cols-2 mt-8">
 				for _, block := range BlocksByCategory(category) {
-					@ui.Card(ui.DOMProps{}) {
-						@ui.CardHeader(ui.DOMProps{}) {
-							@ui.CardTitle(ui.DOMProps{}) { <span>{ block.Slug }</span> }
-							@ui.CardDescription(ui.DOMProps{}) { <span>{ block.Description }</span> }
-						}
-						@ui.CardContent(ui.DOMProps{}) {
-							<div class="flex flex-wrap gap-2">
-								@ui.Badge(ui.BadgeProps{Label: block.Command, Variant: ui.BadgeVariantOutline})
-								@ui.Button(ui.ButtonProps{Label: "Open block", Size: ui.ButtonSizeSM, Href: "/blocks/" + block.Slug})
+					<a href={ t.SafeURL("/blocks/" + block.Slug) } class="group overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm transition-all hover:border-border hover:shadow-md">
+						<div class="relative aspect-[4/3] w-full overflow-hidden bg-muted/20">
+							<iframe src={ t.SafeURL("/blocks/" + block.Slug + "/preview") } class="pointer-events-none absolute inset-0 h-[1200px] w-[200%] origin-top-left scale-[0.5] border-0 bg-background" loading="lazy"></iframe>
+							<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-background/0 to-transparent"></div>
+						</div>
+						<div class="p-4">
+							<h3 class="font-medium group-hover:underline">{ block.Title }</h3>
+							<p class="mt-1 text-sm text-muted-foreground">{ block.Description }</p>
+						</div>
+					</a>
+				}
+				if category == "login" {
+					for _, block := range BlocksByCategory("signup") {
+						<a href={ t.SafeURL("/blocks/" + block.Slug) } class="group overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm transition-all hover:border-border hover:shadow-md">
+							<div class="relative aspect-[4/3] w-full overflow-hidden bg-muted/20">
+								<iframe src={ t.SafeURL("/blocks/" + block.Slug + "/preview") } class="pointer-events-none absolute inset-0 h-[1200px] w-[200%] origin-top-left scale-[0.5] border-0 bg-background" loading="lazy"></iframe>
+								<div class="absolute inset-0 bg-gradient-to-t from-background/80 via-background/0 to-transparent"></div>
 							</div>
-						}
+							<div class="p-4">
+								<h3 class="font-medium group-hover:underline">{ block.Title }</h3>
+								<p class="mt-1 text-sm text-muted-foreground">{ block.Description }</p>
+							</div>
+						</a>
 					}
 				}
 			</section>
@@ -520,61 +531,177 @@ templ BlockCategoryPage(category string) {
 
 templ BlockDetailPage(block BlockEntry) {
 	@DocsLayout("Block - "+block.Title, "blocks") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div data-block-page="true" data-block-slug={ block.Slug } data-block-command={ block.Command } class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: TitleFromSlug(block.Category), Variant: ui.BadgeVariantSecondary})
 					@ui.Badge(ui.BadgeProps{Label: block.Slug, Variant: ui.BadgeVariantOutline})
 				</div>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{ block.Title }</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">{ block.Description }</p>
+				<div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+					<div class="space-y-4">
+						<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">{ block.Title }</h1>
+						<p class="max-w-3xl text-lg leading-8 text-muted-foreground">{ block.Description }</p>
+					</div>
+					<div class="flex flex-col gap-2 lg:items-end">
+						<div class="flex items-center gap-2 rounded-xl border border-border/70 bg-card px-3 py-2 shadow-sm">
+							<code class="text-xs text-muted-foreground">{ block.Command }</code>
+							<button type="button" data-block-copy-command="true" class="rounded-md border border-border/70 bg-background px-2 py-1 text-xs font-medium hover:bg-accent transition-colors">
+								Copy
+							</button>
+						</div>
+					</div>
+				</div>
 			</section>
 
 			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Preview</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Live preview of the block layout.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<iframe src={ "./preview.html" } class="w-full h-[600px] border rounded-lg" loading="lazy"></iframe>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Install</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Command copied from the upstream block registry.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>{ block.Command }</code></pre>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Files</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Expected file footprint for the block.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-2">
-							for _, file := range block.Files {
-								<div class="rounded-md border border-border/70 px-3 py-2 text-sm">{ file }</div>
-							}
+				<div class="flex flex-col gap-1 w-full" data-preview-card="true">
+					<div class="flex items-center justify-between gap-4 py-1">
+						<div class="flex items-center gap-2">
+							<div class="inline-flex rounded-md border border-border/70 bg-muted/30 p-0.5 text-xs font-medium">
+								<button type="button" data-tab-trigger="preview" class="rounded px-3 py-1 bg-background text-foreground shadow-sm">Preview</button>
+								<button type="button" data-tab-trigger="code" class="rounded px-3 py-1 text-muted-foreground hover:text-foreground">Code</button>
+							</div>
+							<div class="hidden sm:flex items-center gap-1 ml-4 rounded-md border border-border/70 bg-muted/30 p-0.5">
+								<button type="button" data-block-device="mobile" class="rounded p-1.5 text-muted-foreground hover:text-foreground hover:bg-background/50" title="Mobile 375px">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+								</button>
+								<button type="button" data-block-device="tablet" class="rounded p-1.5 text-muted-foreground hover:text-foreground hover:bg-background/50" title="Tablet 768px">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+								</button>
+								<button type="button" data-block-device="desktop" class="rounded p-1.5 bg-background text-foreground shadow-sm" title="Desktop 1280px">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+								</button>
+							</div>
 						</div>
+						<a href={ t.SafeURL("/blocks/" + block.Slug + "/preview") } target="_blank" rel="noreferrer" class="text-xs font-medium text-muted-foreground hover:text-foreground flex items-center gap-1">
+							New tab
+							<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+						</a>
+					</div>
+
+					<div class="relative overflow-hidden rounded-xl border border-border/70 bg-background shadow-sm">
+						<div data-tab-panel="preview" class="block">
+							<div class="flex items-center justify-center p-0 min-h-[400px]">
+								<iframe data-block-preview-frame="true" src={ t.SafeURL("/blocks/" + block.Slug + "/preview") } class="h-[700px] w-full border-0 transition-all duration-300 ease-in-out" loading="lazy"></iframe>
+							</div>
+						</div>
+						<div data-tab-panel="code" class="hidden">
+							@CodeBlock("go", BlockSourceCode(block.Slug))
+						</div>
+					</div>
+				</div>
+
+				<div class="grid gap-6 md:grid-cols-2">
+					@ui.Card(ui.DOMProps{Class: "h-full"}) {
+						@ui.CardHeader(ui.DOMProps{}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>Components Used</span> }
+							@ui.CardDescription(ui.DOMProps{}) { <span>Dependencies for this block.</span> }
+						}
+						@ui.CardContent(ui.DOMProps{}) {
+							<div class="flex flex-wrap gap-2">
+								for _, file := range block.Files {
+									if strings.Contains(file, "components/") {
+										@ui.Badge(ui.BadgeProps{Label: strings.TrimSuffix(strings.TrimPrefix(file, "components/"), ".templ"), Variant: ui.BadgeVariantOutline})
+									}
+								}
+							</div>
+						}
 					}
-				}
+					@ui.Card(ui.DOMProps{Class: "h-full"}) {
+						@ui.CardHeader(ui.DOMProps{}) {
+							@ui.CardTitle(ui.DOMProps{}) { <span>File Structure</span> }
+							@ui.CardDescription(ui.DOMProps{}) { <span>Files that make up this layout.</span> }
+						}
+						@ui.CardContent(ui.DOMProps{}) {
+							<div class="space-y-1">
+								for _, file := range block.Files {
+									<div class="flex items-center gap-2 text-sm text-muted-foreground font-mono">
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+										{ file }
+									</div>
+								}
+							</div>
+						}
+					}
+				</div>
 			</section>
+
+			<script>
+				(function() {
+					var root = document.currentScript && document.currentScript.closest('[data-block-page="true"]');
+					if (!root) return;
+					var frame = root.querySelector('[data-block-preview-frame="true"]');
+					var copyButton = root.querySelector('[data-block-copy-command="true"]');
+					var deviceButtons = root.querySelectorAll('[data-block-device]');
+					var tabTriggers = root.querySelectorAll('[data-tab-trigger]');
+					var tabPanels = root.querySelectorAll('[data-tab-panel]');
+					
+					var widths = { mobile: '375px', tablet: '768px', desktop: '100%' };
+
+					function setTab(tabName) {
+						tabTriggers.forEach(function(t) {
+							var active = t.getAttribute('data-tab-trigger') === tabName;
+							t.classList.toggle('bg-background', active);
+							t.classList.toggle('text-foreground', active);
+							t.classList.toggle('shadow-sm', active);
+							t.classList.toggle('text-muted-foreground', !active);
+						});
+						tabPanels.forEach(function(p) {
+							p.classList.toggle('block', p.getAttribute('data-tab-panel') === tabName);
+							p.classList.toggle('hidden', p.getAttribute('data-tab-panel') !== tabName);
+						});
+					}
+
+					function setDevice(device) {
+						if (!frame) return;
+						var width = widths[device] || widths.desktop;
+						frame.style.width = width;
+						frame.style.margin = '0 auto';
+						deviceButtons.forEach(function (button) {
+							var active = button.getAttribute('data-block-device') === device;
+							button.classList.toggle('bg-background', active);
+							button.classList.toggle('text-foreground', active);
+							button.classList.toggle('shadow-sm', active);
+							button.classList.toggle('text-muted-foreground', !active);
+						});
+					}
+
+					tabTriggers.forEach(function(btn) {
+						btn.addEventListener('click', function() { setTab(btn.getAttribute('data-tab-trigger')); });
+					});
+
+					deviceButtons.forEach(function (button) {
+						button.addEventListener('click', function () { setDevice(button.getAttribute('data-block-device')); });
+					});
+
+					if (copyButton) {
+						copyButton.addEventListener('click', async function () {
+							try {
+								await navigator.clipboard.writeText(root.getAttribute('data-block-command') || '');
+								var originalText = copyButton.textContent;
+								copyButton.textContent = 'Copied';
+								setTimeout(function () { copyButton.textContent = originalText; }, 1200);
+							} catch (err) {
+								console.error('Failed to copy!', err);
+							}
+						});
+					}
+
+					setDevice('desktop');
+				})();
+			</script>
 		</div>
 	}
 }
 
 templ ChartsNav(active string) {
-	<nav class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-border/70">
-		<a href="/charts/area" class={ ChartNavLinkClass(active, "area") }>Area</a>
-		<a href="/charts/bar" class={ ChartNavLinkClass(active, "bar") }>Bar</a>
-		<a href="/charts/line" class={ ChartNavLinkClass(active, "line") }>Line</a>
-		<a href="/charts/pie" class={ ChartNavLinkClass(active, "pie") }>Pie</a>
-		<a href="/charts/radial" class={ ChartNavLinkClass(active, "radial") }>Radial</a>
-	</nav>
+	<div class="flex items-center gap-2 overflow-x-auto pb-4 border-b border-border/70 no-scrollbar">
+		<a href="/charts/area" class={ SectionLinkClass(active, "area") }>Area</a>
+		<a href="/charts/bar" class={ SectionLinkClass(active, "bar") }>Bar</a>
+		<a href="/charts/line" class={ SectionLinkClass(active, "line") }>Line</a>
+		<a href="/charts/pie" class={ SectionLinkClass(active, "pie") }>Pie</a>
+		<a href="/charts/radial" class={ SectionLinkClass(active, "radial") }>Radial</a>
+	</div>
 }
 
 templ ChartsPage() {
@@ -612,7 +739,7 @@ templ ChartsPage() {
 
 templ AreaChartPage() {
 	@DocsLayout("Area Chart - shadcn/ui", "charts-area") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Chart", Variant: ui.BadgeVariantSecondary})
@@ -624,46 +751,15 @@ templ AreaChartPage() {
 
 			@ChartsNav("area")
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
-					}
+			<section class="grid gap-6">
+				@PreviewCard("Basic", "A single filled series with axes and grid lines.", ChartSourceCode("area-basic")) {
+					@areaChartBasicPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ AreaChart() &#123;
-  // Chart container with area visualization
-  // Configure data series and styling
-&#125;</code></pre>
-					}
+				@PreviewCard("Stacked", "Two stacked series for comparative totals.", ChartSourceCode("area-stacked")) {
+					@areaChartStackedPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Configuration Options</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-3">
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Fill Color</p>
-								<p class="text-sm text-muted-foreground">Customize the fill color and opacity for the area under the curve.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Line Style</p>
-								<p class="text-sm text-muted-foreground">Configure line width, dash patterns, and curve interpolation.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Axis Labels</p>
-								<p class="text-sm text-muted-foreground">Customize X and Y axis labels and formatting.</p>
-							</div>
-						</div>
-					}
+				@PreviewCard("Interactive", "Hover-ready points and a focused detail state.", ChartSourceCode("area-interactive")) {
+					@areaChartInteractivePreview()
 				}
 			</section>
 		</div>
@@ -672,7 +768,7 @@ templ AreaChartPage() {
 
 templ BarChartPage() {
 	@DocsLayout("Bar Chart - shadcn/ui", "charts-bar") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Chart", Variant: ui.BadgeVariantSecondary})
@@ -684,46 +780,15 @@ templ BarChartPage() {
 
 			@ChartsNav("bar")
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
-					}
+			<section class="grid gap-6">
+				@PreviewCard("Vertical", "Classic vertical bars for category comparisons.", ChartSourceCode("bar-vertical")) {
+					@barChartVerticalPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ BarChart() &#123;
-   // Chart container with bar visualization
-   // Configure data series and styling
- &#125;</code></pre>
-					}
+				@PreviewCard("Horizontal", "Space-efficient bars for long labels.", ChartSourceCode("bar-horizontal")) {
+					@barChartHorizontalPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Configuration Options</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-3">
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Bar Orientation</p>
-								<p class="text-sm text-muted-foreground">Choose between vertical or horizontal bar layouts.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Grouped or Stacked</p>
-								<p class="text-sm text-muted-foreground">Display multiple series as grouped bars or stacked for comparison.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Color Palette</p>
-								<p class="text-sm text-muted-foreground">Apply custom colors to each bar or data series.</p>
-							</div>
-						</div>
-					}
+				@PreviewCard("Multiple", "Grouped series with two metrics per category.", ChartSourceCode("bar-multiple")) {
+					@barChartMultiplePreview()
 				}
 			</section>
 		</div>
@@ -732,7 +797,7 @@ templ BarChartPage() {
 
 templ LineChartPage() {
 	@DocsLayout("Line Chart - shadcn/ui", "charts-line") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Chart", Variant: ui.BadgeVariantSecondary})
@@ -744,46 +809,15 @@ templ LineChartPage() {
 
 			@ChartsNav("line")
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
-					}
+			<section class="grid gap-6">
+				@PreviewCard("Linear", "Smooth trend lines with point markers.", ChartSourceCode("line-linear")) {
+					@lineChartLinearPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ LineChart() &#123;
-   // Chart container with line visualization
-   // Configure data series and styling
- &#125;</code></pre>
-					}
+				@PreviewCard("Step", "Stepped transitions for state changes.", ChartSourceCode("line-step")) {
+					@lineChartStepPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Configuration Options</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-3">
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Line Style</p>
-								<p class="text-sm text-muted-foreground">Customize line width, color, and dash patterns.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Data Points</p>
-								<p class="text-sm text-muted-foreground">Show or hide point markers and customize their appearance.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Smoothing</p>
-								<p class="text-sm text-muted-foreground">Apply curve interpolation for smooth or sharp line transitions.</p>
-							</div>
-						</div>
-					}
+				@PreviewCard("Multiple", "Two lines with a shared axis.", ChartSourceCode("line-multiple")) {
+					@lineChartMultiplePreview()
 				}
 			</section>
 		</div>
@@ -792,7 +826,7 @@ templ LineChartPage() {
 
 templ PieChartPage() {
 	@DocsLayout("Pie Chart - shadcn/ui", "charts-pie") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Chart", Variant: ui.BadgeVariantSecondary})
@@ -804,46 +838,15 @@ templ PieChartPage() {
 
 			@ChartsNav("pie")
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
-					}
+			<section class="grid gap-6">
+				@PreviewCard("Basic", "A simple three-slice pie.", ChartSourceCode("pie-basic")) {
+					@pieChartBasicPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ PieChart() &#123;
-   // Chart container with pie visualization
-   // Configure data series and styling
- &#125;</code></pre>
-					}
+				@PreviewCard("Donut", "A ring-style breakdown for categories.", ChartSourceCode("pie-donut")) {
+					@pieChartDonutPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Configuration Options</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-3">
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Slice Colors</p>
-								<p class="text-sm text-muted-foreground">Assign custom colors to each slice or use built-in palettes.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Labels</p>
-								<p class="text-sm text-muted-foreground">Display percentage or value labels on each slice.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Donut Mode</p>
-								<p class="text-sm text-muted-foreground">Convert to donut chart with configurable inner radius.</p>
-							</div>
-						</div>
-					}
+				@PreviewCard("Label", "Center label with the main metric.", ChartSourceCode("pie-label")) {
+					@pieChartLabelPreview()
 				}
 			</section>
 		</div>
@@ -852,7 +855,7 @@ templ PieChartPage() {
 
 templ RadialChartPage() {
 	@DocsLayout("Radial Chart - shadcn/ui", "charts-radial") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
 					@ui.Badge(ui.BadgeProps{Label: "Chart", Variant: ui.BadgeVariantSecondary})
@@ -864,46 +867,15 @@ templ RadialChartPage() {
 
 			@ChartsNav("radial")
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
-					}
+			<section class="grid gap-6">
+				@PreviewCard("Basic", "A circular progress gauge.", ChartSourceCode("radial-basic")) {
+					@radialChartBasicPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ RadialChart() &#123;
-   // Chart container with radial visualization
-   // Configure data series and styling
- &#125;</code></pre>
-					}
+				@PreviewCard("Label", "A large value label in the center.", ChartSourceCode("radial-label")) {
+					@radialChartLabelPreview()
 				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Configuration Options</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-3">
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Progress Type</p>
-								<p class="text-sm text-muted-foreground">Choose between circular progress bars or gauge styles.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Value Display</p>
-								<p class="text-sm text-muted-foreground">Show percentage, absolute value, or custom labels in the center.</p>
-							</div>
-							<div class="rounded-lg border border-border/70 p-3">
-								<p class="font-medium">Thickness</p>
-								<p class="text-sm text-muted-foreground">Adjust the stroke width and padding for the radial bar.</p>
-							</div>
-						</div>
-					}
+				@PreviewCard("Shape", "A segmented radial shape for comparison.", ChartSourceCode("radial-shape")) {
+					@radialChartShapePreview()
 				}
 			</section>
 		</div>
@@ -948,8 +920,8 @@ templ CreatePage() {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Create</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Create your app</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Get started with shadcn/ui by setting up a new project, installing components, and customizing your theme.</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Create your Go + templ app</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">This page is adapted for Go and templ, with the install and setup steps rewritten for a Go codebase.</p>
 			</section>
 
 			<section class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -958,8 +930,8 @@ templ CreatePage() {
 						<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
 						</div>
-						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Next.js</h3>
-						<p class="text-sm text-muted-foreground">React framework for the web</p>
+						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Go stdlib</h3>
+						<p class="text-sm text-muted-foreground">Foundation for Go web applications</p>
 					</div>
 				</a>
 				<a href="/docs/installation" class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
@@ -967,8 +939,8 @@ templ CreatePage() {
 						<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/><path d="m4.93 4.93 14.14 14.14"/><path d="m19.07 4.93-14.14 14.14"/></svg>
 						</div>
-						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Vite</h3>
-						<p class="text-sm text-muted-foreground">Next generation frontend tooling</p>
+						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">templ</h3>
+						<p class="text-sm text-muted-foreground">Compile-time templates for Go</p>
 					</div>
 				</a>
 				<a href="/docs/installation" class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
@@ -976,8 +948,8 @@ templ CreatePage() {
 						<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
 						</div>
-						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Remix</h3>
-						<p class="text-sm text-muted-foreground">Full stack web framework</p>
+						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">HTTP router</h3>
+						<p class="text-sm text-muted-foreground">Route requests in your Go app</p>
 					</div>
 				</a>
 				<a href="/docs/installation" class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
@@ -985,17 +957,8 @@ templ CreatePage() {
 						<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" x2="12" y1="2" y2="15"/></svg>
 						</div>
-						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Astro</h3>
-						<p class="text-sm text-muted-foreground">Web framework for content sites</p>
-					</div>
-				</a>
-				<a href="/docs/installation" class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
-					<div class="space-y-2">
-						<div class="flex size-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-						</div>
-						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">Laravel</h3>
-						<p class="text-sm text-muted-foreground">PHP web application framework</p>
+						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">UI components</h3>
+						<p class="text-sm text-muted-foreground">Compose pages with reusable templ views</p>
 					</div>
 				</a>
 				<a href="/docs/installation" class="group rounded-xl border border-border/70 bg-card p-4 shadow-sm transition-colors hover:border-border hover:bg-accent/40">
@@ -1004,7 +967,7 @@ templ CreatePage() {
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
 						</div>
 						<h3 class="text-lg font-medium group-hover:text-primary transition-colors">More</h3>
-						<p class="text-sm text-muted-foreground">View all supported frameworks</p>
+						<p class="text-sm text-muted-foreground">Continue into installation and component docs</p>
 					</div>
 				</a>
 			</section>
@@ -1104,7 +1067,7 @@ templ InstallationPage() {
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Prerequisites</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Ensure you have Go, templ, and Node.js installed.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Ensure you have Go and templ installed.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
 						<div class="space-y-4">
@@ -1122,7 +1085,7 @@ templ InstallationPage() {
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Install Dependencies</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Add the shadcn/ui Go package and frontend dependencies.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Add the shadcn/ui Go package and source files.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
 						<div class="space-y-4">
@@ -1131,8 +1094,8 @@ templ InstallationPage() {
 								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get shadcn/ui</code></pre>
 							</div>
 							<div>
-								<p class="mb-2 text-sm font-medium">Install npm dependencies</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>npm install tailwindcss-animate class-variance-authority clsx tailwind-merge lucide-react</code></pre>
+										<p class="mb-2 text-sm font-medium">Copy support files</p>
+										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>cp -R views/ui your-app/views/ui</code></pre>
 							</div>
 						</div>
 					}
@@ -1143,7 +1106,7 @@ templ InstallationPage() {
 						@ui.CardDescription(ui.DOMProps{}) { <span>Copy component source files to your project.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Unlike the Node.js CLI, in Go/templ you directly copy the component templates. Each component is a <code class="rounded bg-muted px-1 py-0.5 text-sm">.templ</code> file you can customize.</p>
+						<p class="mb-4 text-sm text-muted-foreground">In Go/templ you copy the component templates directly. Each component is a <code class="rounded bg-muted px-1 py-0.5 text-sm">.templ</code> file you can customize.</p>
 						<div class="space-y-2">
 							<div class="rounded-md border border-border/70 px-3 py-2 text-sm">
 								<code class="text-muted-foreground">views/ui/button.templ</code>
@@ -1201,7 +1164,7 @@ templ ThemingPage() {
 						@ui.CardDescription(ui.DOMProps{}) { <span>Implement theme switching with class-based strategy.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">The theme toggle uses the <code class="rounded bg-muted px-1 py-0.5 text-sm">dark</code> class on the <code class="rounded bg-muted px-1 py-0.5 text-sm">html</code> element. The shadcn.js file handles persistence and toggling.</p>
+						<p class="mb-4 text-sm text-muted-foreground">The theme toggle uses the <code class="rounded bg-muted px-1 py-0.5 text-sm">dark</code> class on the <code class="rounded bg-muted px-1 py-0.5 text-sm">html</code> element. The shared script handles persistence and toggling.</p>
 						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>// In your HTML/templ
 &lt;html class="dark"&gt;
   // dark mode active
@@ -1247,52 +1210,90 @@ templ ThemingPage() {
 
 templ CLIPage() {
 	@DocsLayout("CLI - shadcn/ui", "cli") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">CLI</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Command-line interface for component management.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The shadcn CLI helps you add and manage components in your project.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "CLI", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Terminal", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Go tooling for component management</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">This is a Go + templ port of shadcn/ui. Instead of an npm CLI, you use standard Go and templ toolchain commands to install and manage components.</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Install the CLI globally using npm.</span> }
-					}
-				@ui.CardContent(ui.DOMProps{}) {
-					<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>npm install -g shadcn@latest</code></pre>
-				}
-			}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Adding Components</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Use the add command to install components.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Get the module</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Import the shadcn/ui component package into your Go module.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<div class="space-y-4">
-							<div>
-								<p class="mb-2 text-sm font-medium">Add a single component</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">Add the UI module to your project dependencies:</p>
+							@CodeBlock("bash", "go get github.com/shadcn-ui/ui-go")
+							<p class="text-sm text-muted-foreground">Or if you're using a Go workspace, add the module path:</p>
+							@CodeBlock("bash", "go work use ./ui")
+						</div>
+					}
+				}
+
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Generate templ files</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Run the templ code generator after any .templ file change.</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">Generate all _templ.go files from .templ sources:</p>
+							@CodeBlock("bash", "templ generate")
+							<p class="text-sm text-muted-foreground">Or watch for changes during development:</p>
+							@CodeBlock("bash", "templ generate --watch")
+						</div>
+					}
+				}
+
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Build & run</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Standard Go build commands work as expected.</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						<div class="grid gap-6">
+							<div class="space-y-2">
+								<p class="text-sm font-medium">Run for development</p>
+								@CodeBlock("bash", "go run main.go")
 							</div>
-							<div>
-								<p class="mb-2 text-sm font-medium">Add multiple components</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
+							<div class="space-y-2">
+								<p class="text-sm font-medium">Build a production binary</p>
+								@CodeBlock("bash", "go build -o ./bin/app .")
 							</div>
-							<div>
-								<p class="mb-2 text-sm font-medium">Add all components</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
+							<div class="space-y-2">
+								<p class="text-sm font-medium">Run all tests</p>
+								@CodeBlock("bash", "go test ./...")
 							</div>
 						</div>
 					}
 				}
+
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Go/templ Adaptation</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Using CLI commands in a Go project.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Using components</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Import the ui package and call components directly.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">In a Go/templ project, you can still use the shadcn CLI to add components. The CLI will generate React/TypeScript components that you can then port to templ syntax, or you can reference the official component examples and manually implement them in templ.</p>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">Each UI component is a regular Go function that returns a templ.Component. Use them with the @ call syntax:</p>
+							@CodeBlock("go", cliUsageExample())
+						</div>
+					}
+				}
+
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Manual customisation</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>When you need to customise a component beyond its props.</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						<p class="text-sm text-muted-foreground">Every component page on this site shows the full Go/templ source in the <strong>Manual</strong> install tab. Copy the content into your project and adapt it directly.</p>
 					}
 				}
 			</section>
@@ -1302,49 +1303,52 @@ templ CLIPage() {
 
 templ RTLPage() {
 	@DocsLayout("RTL - shadcn/ui", "rtl") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">RTL</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Right-to-left language support.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Build interfaces that work seamlessly for Arabic, Hebrew, Persian, and other RTL languages.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Layout", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Internationalization", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Right-to-left language support</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Build interfaces that work seamlessly for Arabic, Hebrew, Persian, and other RTL languages using logical properties and directional providers.</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Direction Provider</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Wrap your app with the direction provider.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Wrap your app or sections to set the text direction.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Use the Direction component to set the text direction for your entire application or specific sections.</p>
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templ DirectionProvider() &#123;
-  &lt;div dir="rtl"&gt;
-    &#123; children... &#125;
-  &lt;/div&gt;
-&#125;</code></pre>
+						<p class="mb-4 text-sm text-muted-foreground">Use a simple wrapper to set the direction attribute. Components will automatically adapt based on this value.</p>
+						@CodeBlock("go", `templ DirectionProvider() {
+  <div dir="rtl">
+    { children... }
+  </div>
+}`)
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Logical Properties</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Components use logical CSS properties.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Components use native CSS logical properties.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Components are built with logical properties like <code class="rounded bg-muted px-1 py-0.5 text-sm">margin-inline-start</code> instead of <code class="rounded bg-muted px-1 py-0.5 text-sm">margin-left</code>, ensuring automatic RTL support.</p>
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>/* Automatically flips in RTL */
-.button &#123;
+						<p class="mb-4 text-sm text-muted-foreground">Components are built with logical properties like <code class="rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]">margin-inline-start</code> ensuring automatic flips in RTL mode.</p>
+						@CodeBlock("css", `/* Automatically flips in RTL */
+.button {
   margin-inline-start: 0.5rem;
   padding-inline: 1rem;
-&#125;</code></pre>
+}`)
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Testing RTL</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Verify your layout in RTL mode.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Testing & Verification</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Ensure your layouts render correctly in both directions.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">Test your components by temporarily adding <code class="rounded bg-muted px-1 py-0.5 text-sm">dir="rtl"</code> to your HTML element. Ensure layouts, spacing, and icons render correctly in both directions.</p>
+						<p class="text-sm text-muted-foreground">Test your components by adding <code class="rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]">dir="rtl"</code> to your root HTML element. Our component suite is validated to work out of the box with standard RTL configurations.</p>
 					}
 				}
 			</section>
@@ -1354,61 +1358,60 @@ templ RTLPage() {
 
 templ SkillsPage() {
 	@DocsLayout("Skills - shadcn/ui", "skills") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Skills</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">AI agent skills for shadcn/ui.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Specialized AI skills that understand shadcn/ui patterns and help you build faster.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "AI Agent", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Design Patterns", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Enhance AI with shadcn/ui skills</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Empower your AI assistants with deep knowledge of shadcn/ui components, design tokens, and best practices using structured skill files.</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>What are Skills?</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Pre-trained AI capabilities for shadcn/ui.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>What are skills?</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Domain-specific knowledge for AI models.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">Skills are AI agent capabilities that have deep knowledge of shadcn/ui components, design patterns, and best practices. They can generate code, provide recommendations, and help troubleshoot issues specific to this component library.</p>
+						<p class="text-sm text-muted-foreground">Skills provide LLMs with specific implementation patterns and API contracts. By loading the shadcn/ui skill, your assistant can generate code that follows this library's conventions accurately, from Go types to Tailwind classes.</p>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Available Skills</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Core skills included with shadcn/ui.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>How to use</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Integrate skills into your development workflow.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-2">
-							<div class="flex items-start gap-3 rounded-md border border-border/70 p-3">
-								<span class="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">1</span>
-								<div>
-									<p class="font-medium">Component Generation</p>
-									<p class="text-sm text-muted-foreground">Generate shadcn/ui components with correct props and patterns.</p>
-								</div>
-							</div>
-							<div class="flex items-start gap-3 rounded-md border border-border/70 p-3">
-								<span class="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">2</span>
-								<div>
-									<p class="font-medium">Design Guidance</p>
-									<p class="text-sm text-muted-foreground">Get recommendations on layout, spacing, and visual hierarchy.</p>
-								</div>
-							</div>
-							<div class="flex items-start gap-3 rounded-md border border-border/70 p-3">
-								<span class="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">3</span>
-								<div>
-									<p class="font-medium">Theme Customization</p>
-									<p class="text-sm text-muted-foreground">Help with color schemes, dark mode, and CSS variables.</p>
-								</div>
-							</div>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">1. Location: Skills are stored in the <code class="rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]">.gemini/antigravity/skills</code> directory.</p>
+							<p class="text-sm text-muted-foreground">2. Activation: Simply reference the skill in your agent prompt or configuration to enable its capabilities.</p>
+							@CodeBlock("markdown", `Use the shadcn-ui skill to help me build a dashboard page
+with a sidebar, stats cards, and a bar chart.`)
 						</div>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Using Skills</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Integrate skills into your AI workflow.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Benefits</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Why use structured skills for UI development?</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">Load the shadcn/ui skill in your AI agent configuration to enable component-aware code generation and design assistance. Skills understand the component API, design tokens, and implementation patterns.</p>
+						<ul class="grid gap-3 text-sm text-muted-foreground">
+							<li class="flex items-start gap-3">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 size-4 text-primary"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span>Consistent API usage across generated code</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 size-4 text-primary"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span>Adherence to design system tokens and Tailwind themes</span>
+							</li>
+							<li class="flex items-start gap-3">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 size-4 text-primary"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<span>Better understanding of Go + templ composition patterns</span>
+							</li>
+						</ul>
 					}
 				}
 			</section>
@@ -1418,61 +1421,67 @@ templ SkillsPage() {
 
 templ MCPPage() {
 	@DocsLayout("MCP Server - shadcn/ui", "mcp") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">MCP Server</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Model Context Protocol integration.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Connect AI models to shadcn/ui documentation and component examples via MCP.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Integration", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Beta", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Model Context Protocol integration</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Connect AI models directly to your component library documentation and code examples via the Model Context Protocol (MCP).</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>What is MCP?</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>A protocol for AI model context.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Standard protocol for AI model context.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">The Model Context Protocol (MCP) enables AI models to access external tools and context. The shadcn/ui MCP server provides AI assistants with real-time access to component documentation, examples, and best practices.</p>
+						<p class="text-sm text-muted-foreground">The Model Context Protocol (MCP) allows AI models to securely reach out to external data sources and tools. By running the shadcn/ui MCP server, you give your AI assistant real-time access to this documentation site&#39;s source code, examples, and component schemas.</p>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Setup</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Configure the MCP server for your AI assistant.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Setup & Configuration</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Add the server to your AI assistant configuration.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>&#123;
-  "mcpServers": &#123;
-    "shadcn-ui": &#123;
-      "command": "npx",
-      "args": ["-y", "@shadcn-ui/mcp-server"]
-    &#125;
-  &#125;
-&#125;</code></pre>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">Add the following to your MCP client configuration (e.g. Claude Desktop or a custom agent):</p>
+							@CodeBlock("json", `{
+  "mcpServers": {
+    "shadcn-ui": {
+      "command": "go",
+      "args": ["run", "./cmd/mcp-server"]
+    }
+  }
+}`)
+						</div>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Capabilities</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>What the MCP server provides.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>What the MCP server provides to AI models.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-2">
-							<div class="flex items-center gap-2 text-sm">
-								<svg class="size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-								<span>Component documentation lookup</span>
+						<div class="grid gap-4 sm:grid-cols-2">
+							<div class="space-y-1">
+								<p class="text-sm font-medium">Documentation Search</p>
+								<p class="text-xs text-muted-foreground">Semantic search across all component pages and guides.</p>
 							</div>
-							<div class="flex items-center gap-2 text-sm">
-								<svg class="size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-								<span>Code example retrieval</span>
+							<div class="space-y-1">
+								<p class="text-sm font-medium">Source Retrieval</p>
+								<p class="text-xs text-muted-foreground">Direct access to the Go and templ source code for any component.</p>
 							</div>
-							<div class="flex items-center gap-2 text-sm">
-								<svg class="size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-								<span>API reference queries</span>
+							<div class="space-y-1">
+								<p class="text-sm font-medium">Interactive Examples</p>
+								<p class="text-xs text-muted-foreground">Access to live previews and their underlying data configurations.</p>
 							</div>
-							<div class="flex items-center gap-2 text-sm">
-								<svg class="size-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-								<span>Best practice recommendations</span>
+							<div class="space-y-1">
+								<p class="text-sm font-medium">CLI Integration</p>
+								<p class="text-xs text-muted-foreground">Commands to help AI agents manage and update your UI package.</p>
 							</div>
 						</div>
 					}
@@ -1484,52 +1493,45 @@ templ MCPPage() {
 
 templ RegistryPage() {
 	@DocsLayout("Registry - shadcn/ui", "registry") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Registry</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Component registry and distribution.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Understand how shadcn/ui components are distributed and managed through the registry.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Ecosystem", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Registry", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Component registry and distribution</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The registry is the source of truth for all shadcn/ui components. It defines their schemas, dependencies, and implementation files.</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>What is the Registry?</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>The source of truth for components.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Structured data for component discovery.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">The registry is the centralized repository where all shadcn/ui components are defined, versioned, and documented. When you add a component, you're copying source code from the registry into your project.</p>
+						<p class="text-sm text-muted-foreground">Unlike traditional NPM packages, shadcn/ui components are distributed as raw source files. The registry provides a JSON API that lists all available components, allowing tools and AI agents to fetch the exact files needed for your project.</p>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Component Structure</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>What makes up a registry component.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Registry Structure</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>How components are defined.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<div class="space-y-3">
-							<div>
-								<p class="mb-1 text-sm font-medium">Source Code</p>
-								<p class="text-sm text-muted-foreground">The actual component implementation in templ format.</p>
-							</div>
-							<div>
-								<p class="mb-1 text-sm font-medium">Documentation</p>
-								<p class="text-sm text-muted-foreground">Usage examples, API reference, and best practices.</p>
-							</div>
-							<div>
-								<p class="mb-1 text-sm font-medium">Dependencies</p>
-								<p class="text-sm text-muted-foreground">Required peer dependencies and Radix UI primitives.</p>
-							</div>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">A typical registry entry includes the component name, category, and the files needed to render it:</p>
+							@CodeBlock("json", `{
+  "name": "button",
+  "type": "components:ui",
+  "files": [
+    {
+      "path": "ui/button.go",
+      "content": "..."
+    }
+  ]
+}`)
 						</div>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Custom Components</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Create your own registry entries.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">You can create custom components and share them through the registry. Follow the same structure: component source, documentation, and dependency information. The Directory section showcases community-created components.</p>
 					}
 				}
 			</section>
@@ -1539,70 +1541,73 @@ templ RegistryPage() {
 
 templ FormsPage() {
 	@DocsLayout("Forms - shadcn/ui", "forms") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Forms</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building forms with Go/templ.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, validated forms using shadcn/ui components and Go backend validation.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Components", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Validation", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building forms with Go and templ</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, type-safe, and validated forms using shadcn/ui components combined with Go&#39;s robust backend validation logic.</p>
 			</section>
 
-			<section class="grid gap-4">
+			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Form Components</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Essential components for form building.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>The essential building blocks for data entry.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-2">
+						<div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
 							<div class="flex items-center gap-2 text-sm">
 								@ui.Badge(ui.BadgeProps{Label: "Input", Variant: ui.BadgeVariantOutline})
-								<span class="text-muted-foreground">Text input fields</span>
+								<span class="text-muted-foreground">Text fields</span>
 							</div>
 							<div class="flex items-center gap-2 text-sm">
 								@ui.Badge(ui.BadgeProps{Label: "Label", Variant: ui.BadgeVariantOutline})
-								<span class="text-muted-foreground">Field labels and descriptions</span>
-							</div>
-							<div class="flex items-center gap-2 text-sm">
-								@ui.Badge(ui.BadgeProps{Label: "Button", Variant: ui.BadgeVariantOutline})
-								<span class="text-muted-foreground">Submit and action buttons</span>
+								<span class="text-muted-foreground">Field titles</span>
 							</div>
 							<div class="flex items-center gap-2 text-sm">
 								@ui.Badge(ui.BadgeProps{Label: "Select", Variant: ui.BadgeVariantOutline})
-								<span class="text-muted-foreground">Dropdown selections</span>
+								<span class="text-muted-foreground">Dropdowns</span>
 							</div>
 							<div class="flex items-center gap-2 text-sm">
 								@ui.Badge(ui.BadgeProps{Label: "Checkbox", Variant: ui.BadgeVariantOutline})
-								<span class="text-muted-foreground">Boolean toggles</span>
+								<span class="text-muted-foreground">Toggles</span>
+							</div>
+							<div class="flex items-center gap-2 text-sm">
+								@ui.Badge(ui.BadgeProps{Label: "Button", Variant: ui.BadgeVariantOutline})
+								<span class="text-muted-foreground">Submissions</span>
+							</div>
+							<div class="flex items-center gap-2 text-sm">
+								@ui.Badge(ui.BadgeProps{Label: "TextArea", Variant: ui.BadgeVariantOutline})
+								<span class="text-muted-foreground">Multi-line</span>
 							</div>
 						</div>
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Server-Side Validation</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Validate forms with Go.</span> }
-					}
-				@ui.CardContent(ui.DOMProps{}) {
-					<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>type FormData struct &#123;
-    Name  string
-    Email string
-&#125;
-
-func HandleForm(w http.ResponseWriter, r *http.Request) &#123;
-    var data FormData
-    decoder := json.NewDecoder(r.Body)
-    decoder.Decode(&amp;data)
-    // validate and process data
-&#125;</code></pre>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Error Handling</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Display validation errors to users.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Server-Side Handling</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Process and validate submissions in Go.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">Pass validation errors back to your template and display them using the Alert component or inline error messages. Use the Field component to group inputs with their labels and error states.</p>
+						<div class="grid gap-4">
+							<p class="text-sm text-muted-foreground">Leverage Go's struct tags and standard library for robust form processing:</p>
+							@CodeBlock("go", `type SignupData struct {
+    Email    string ` + "`" + `json:"email" validate:"required,email"` + "`" + `
+    Password string ` + "`" + `json:"password" validate:"required,min=8"` + "`" + `
+}
+
+func HandleForm(w http.ResponseWriter, r *http.Request) {
+    var data SignupData
+    if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+        http.Error(w, "Invalid request", http.StatusBadRequest)
+        return
+    }
+    // Process validated data...
+}`)
+						</div>
 					}
 				}
 			</section>
@@ -1612,66 +1617,51 @@ func HandleForm(w http.ResponseWriter, r *http.Request) &#123;
 
 templ ChangelogPage() {
 	@DocsLayout("Changelog - shadcn/ui", "changelog") {
-		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Changelog</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Version history and updates.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Track changes, new features, and bug fixes across versions.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Updates", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Latest: v0.1.0", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Changelog</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Follow the evolution of the shadcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p>
 			</section>
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>v2.0.0</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Major release with new components and improvements.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="space-y-3">
-							<div>
-								<p class="mb-1 text-sm font-medium">Added</p>
-								<ul class="ml-4 list-disc text-sm text-muted-foreground">
-									<li>New sidebar component with collapsible states</li>
-									<li>Resizable panel groups for layouts</li>
-									<li>Improved dark mode support</li>
-								</ul>
+			<section class="space-y-0">
+				<div class="relative pl-10">
+					<!-- Vertical Line -->
+					<div class="absolute left-[15px] top-2 h-full w-px bg-border/70"></div>
+					
+					<!-- Entry -->
+					<div class="relative pb-12">
+						<!-- Timeline Node -->
+						<div class="absolute -left-[34px] top-1.5 z-10 size-5 rounded-full border-4 border-background bg-primary shadow-[0_0_0_4px_rgba(var(--background),1)] group-hover:scale-110 transition-transform"></div>
+						
+						<div class="space-y-4">
+							<div class="space-y-1">
+								<p class="text-sm font-medium leading-none text-muted-foreground">April 2026</p>
+								<h3 class="text-2xl font-semibold tracking-tight">Initial Beta Launch (v0.1.0)</h3>
 							</div>
-							<div>
-								<p class="mb-1 text-sm font-medium">Changed</p>
-								<ul class="ml-4 list-disc text-sm text-muted-foreground">
-									<li>Updated all components to use logical properties for RTL</li>
-									<li>Improved TypeScript types for better IDE support</li>
-								</ul>
-							</div>
-						</div>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>v1.5.0</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Enhanced accessibility and new components.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="space-y-3">
-							<div>
-								<p class="mb-1 text-sm font-medium">Added</p>
-								<ul class="ml-4 list-disc text-sm text-muted-foreground">
-									<li>Command palette component</li>
-									<li>Combobox with search and multi-select</li>
-									<li>Date picker with range support</li>
+							<div class="prose prose-sm prose-invert max-w-none text-muted-foreground">
+								<p class="text-base">We&#39;re excited to announce the initial beta of the shadcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p>
+								<ul class="mt-6 grid gap-4">
+									<li class="flex items-start gap-3">
+										<div class="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70"></div>
+										<span><strong>Interactive Charts:</strong> Full D3.js integration with theme-aware tooltips and hovers for all chart types.</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70"></div>
+										<span><strong>Premium Blocks:</strong> High-quality dashboard, authentication, and form building blocks ready for production.</span>
+									</li>
+									<li class="flex items-start gap-3">
+										<div class="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70"></div>
+										<span><strong>Modern Doc Site:</strong> Fast, searchable documentation with live code previews, syntax highlighting, and responsive navigation.</span>
+									</li>
 								</ul>
 							</div>
 						</div>
-					}
-				}
-				@ui.Card(ui.DOMProps{}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Go/templ Port</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>This Go/templ implementation.</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">This is a Go/templ port of shadcn/ui, maintaining parity with the React/TypeScript version while leveraging Go's performance and templ's compile-time template safety. Component APIs mirror the original where possible.</p>
-					}
-				}
+					</div>
+				</div>
 			</section>
 		</div>
 	}
@@ -1679,73 +1669,57 @@ templ ChangelogPage() {
 
 templ DirectoryDocsPage() {
 	@DocsLayout("Directory - shadcn/ui", "directory") {
-		<div class="mx-auto flex max-w-5xl flex-col gap-8">
+		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
-				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Directory</p>
-				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Discover community registries.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Browse the registry directory and community extensions for shadcn/ui.</p>
+				<div class="flex items-center gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Ecosystem", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Community", Variant: ui.BadgeVariantOutline})
+				</div>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Directory</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Explore the ecosystem of components, blocks, and tools built for the shadcn/ui Go port.</p>
 			</section>
 
-			<section class="grid gap-4 md:grid-cols-2">
+			<section class="grid gap-6 md:grid-cols-2">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Community registries</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Browse add-on registries and compatible sources.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Blocks</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Ready-to-use application sections.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Explore community-maintained component collections, themes, and integrations built on shadcn/ui.</p>
-						@ui.Button(ui.ButtonProps{Label: "Browse blocks", Variant: ui.ButtonVariantOutline, Href: "/blocks"})
+						<p class="mb-4 text-sm text-muted-foreground">Dashboards, authentication forms, and marketing sections built with core components.</p>
+						@ui.Button(ui.ButtonProps{DOMProps: ui.DOMProps{Class: "w-full"}, Label: "Browse blocks", Variant: ui.ButtonVariantOutline, Href: "/blocks"})
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Project setup</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Use the same design tokens and component contracts throughout.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Charts</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Interactive data visualizations.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Learn how to set up a new project with shadcn/ui, configure themes, and add components.</p>
-						@ui.Button(ui.ButtonProps{Label: "Read docs", Href: "/docs/installation"})
+						<p class="mb-4 text-sm text-muted-foreground">Premium D3.js powered charts with tooltips, hovers, and theme support.</p>
+						@ui.Button(ui.ButtonProps{DOMProps: ui.DOMProps{Class: "w-full"}, Label: "Explore charts", Variant: ui.ButtonVariantOutline, Href: "/charts/area-chart"})
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Contribute</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Add your own components to the directory.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>Registry</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Source-first distribution.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="text-sm text-muted-foreground">Create and share your own shadcn/ui components with the community. Follow the registry format for compatibility.</p>
+						<p class="mb-4 text-sm text-muted-foreground">Learn how components are distributed and managed through the JSON registry.</p>
+						@ui.Button(ui.ButtonProps{DOMProps: ui.DOMProps{Class: "w-full"}, Label: "Read registry docs", Variant: ui.ButtonVariantOutline, Href: "/docs/registry"})
 					}
 				}
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Explore Components</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Browse the full component library.</span> }
+						@ui.CardTitle(ui.DOMProps{}) { <span>CLI</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>The command-line interface.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						@ui.Button(ui.ButtonProps{Label: "View all components", Variant: ui.ButtonVariantOutline, Href: "/docs/components"})
+						<p class="mb-4 text-sm text-muted-foreground">Install components and manage your UI package directly from your terminal.</p>
+						@ui.Button(ui.ButtonProps{DOMProps: ui.DOMProps{Class: "w-full"}, Label: "View CLI commands", Variant: ui.ButtonVariantOutline, Href: "/docs/cli"})
 					}
 				}
-			</section>
-
-			<section class="rounded-xl border border-border/70 bg-card p-6 shadow-sm">
-				<div class="flex flex-col gap-2">
-					<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Featured</p>
-					<h2 class="text-2xl font-semibold tracking-tight">Community Highlights</h2>
-				</div>
-				<div class="mt-4 grid gap-3 md:grid-cols-3">
-					<div class="rounded-lg border border-border/70 p-4">
-						<p class="font-medium">Dashboard Templates</p>
-						<p class="mt-2 text-sm text-muted-foreground">Production-ready admin layouts with charts and data tables.</p>
-					</div>
-					<div class="rounded-lg border border-border/70 p-4">
-						<p class="font-medium">Authentication Flows</p>
-						<p class="mt-2 text-sm text-muted-foreground">Login, signup, and password reset pages.</p>
-					</div>
-					<div class="rounded-lg border border-border/70 p-4">
-						<p class="font-medium">Marketing Sections</p>
-						<p class="mt-2 text-sm text-muted-foreground">Hero sections, feature grids, and testimonials.</p>
-					</div>
-				</div>
 			</section>
 		</div>
 	}

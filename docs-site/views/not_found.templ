@@ -1,0 +1,19 @@
+package views
+
+import "shadcn/ui"
+
+templ NotFoundPage() {
+	@DocsLayout("404 - shadcn/ui", "docs") {
+		<div class="mx-auto flex max-w-3xl flex-col items-start gap-6 py-10">
+			<div class="space-y-3">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Not found</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">That page does not exist.</h1>
+				<p class="max-w-2xl text-lg leading-8 text-muted-foreground">The route you requested could not be matched. Return to the component index or open the docs sidebar to keep moving.</p>
+			</div>
+			<div class="flex flex-wrap gap-3">
+				@ui.Button(ui.ButtonProps{Label: "Component index", Href: "/docs/components"})
+				@ui.Button(ui.ButtonProps{Label: "Blocks", Variant: ui.ButtonVariantOutline, Href: "/blocks"})
+			</div>
+		</div>
+	}
+}

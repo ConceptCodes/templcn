@@ -407,3 +407,86 @@ templ Login04Preview() {
 		</div>
 	}
 }
+
+templ Signup01Preview() {
+	@PreviewLayout("Signup 01 Preview") {
+		<div class="grid min-h-screen lg:grid-cols-2">
+			<div class="hidden bg-muted/40 lg:flex lg:flex-col lg:justify-between p-10">
+				<div class="space-y-4">
+					@ui.Badge(ui.BadgeProps{Label: "New", Variant: ui.BadgeVariantSecondary})
+					<h1 class="text-4xl font-semibold tracking-tight">Build your account faster.</h1>
+					<p class="max-w-md text-sm leading-6 text-muted-foreground">A cover-image signup layout with a larger marketing panel and a focused form surface.</p>
+				</div>
+				<div class="rounded-2xl border border-border/70 bg-background p-4 shadow-sm">
+					<p class="text-sm font-medium">Trusted by teams shipping Go docs.</p>
+					<p class="mt-1 text-sm text-muted-foreground">Teams move from docs to production faster with copyable source and reusable layouts.</p>
+				</div>
+			</div>
+			<div class="flex items-center justify-center p-6">
+				@ui.Card(ui.DOMProps{Class: "w-full max-w-md"}) {
+					@ui.CardHeader(ui.DOMProps{Class: "space-y-2"}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Create your account</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Sign up with email and password.</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						<div class="grid gap-4">
+							<div class="grid gap-2">
+								@ui.Label(ui.LabelProps{For: "signup-name"}) { <span>Full name</span> }
+								@ui.Input(ui.InputProps{Type: "text", Placeholder: "Jane Doe", DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup-name"}}})
+							</div>
+							<div class="grid gap-2">
+								@ui.Label(ui.LabelProps{For: "signup-email"}) { <span>Email</span> }
+								@ui.Input(ui.InputProps{Type: "email", Placeholder: "jane@example.com", DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup-email"}}})
+							</div>
+							<div class="grid gap-2">
+								@ui.Label(ui.LabelProps{For: "signup-password"}) { <span>Password</span> }
+								@ui.Input(ui.InputProps{Type: "password", Placeholder: "Create a password", DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup-password"}}})
+							</div>
+							<div class="flex items-center gap-2">
+								@ui.Checkbox(ui.CheckboxProps{Checked: true, DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup-terms"}}})
+								<label for="signup-terms" class="text-sm text-muted-foreground">I agree to the terms.</label>
+							</div>
+							@ui.Button(ui.ButtonProps{Label: "Create account"})
+						</div>
+					}
+				}
+			</div>
+		</div>
+	}
+}
+
+templ Signup02Preview() {
+	@PreviewLayout("Signup 02 Preview") {
+		<div class="grid min-h-screen place-items-center bg-background p-6">
+			@ui.Card(ui.DOMProps{Class: "w-full max-w-lg"}) {
+				@ui.CardHeader(ui.DOMProps{Class: "space-y-2 text-center"}) {
+					@ui.CardTitle(ui.DOMProps{}) { <span>Join the workspace</span> }
+					@ui.CardDescription(ui.DOMProps{}) { <span>Use a provider or your email to register.</span> }
+				}
+				@ui.CardContent(ui.DOMProps{}) {
+					<div class="grid gap-4">
+						<div class="grid gap-3 sm:grid-cols-2">
+							@ui.Button(ui.ButtonProps{Label: "Continue with GitHub", Variant: ui.ButtonVariantOutline})
+							@ui.Button(ui.ButtonProps{Label: "Continue with Google", Variant: ui.ButtonVariantOutline})
+						</div>
+						<div class="flex items-center gap-3">
+							@ui.Separator(ui.SeparatorProps{Decorative: true})
+							<span class="text-xs uppercase tracking-[0.24em] text-muted-foreground">or</span>
+							@ui.Separator(ui.SeparatorProps{Decorative: true})
+						</div>
+						<div class="grid gap-2">
+							@ui.Label(ui.LabelProps{For: "signup2-email"}) { <span>Email</span> }
+							@ui.Input(ui.InputProps{Type: "email", Placeholder: "name@company.com", DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup2-email"}}})
+						</div>
+						<div class="grid gap-2">
+							@ui.Label(ui.LabelProps{For: "signup2-password"}) { <span>Password</span> }
+							@ui.Input(ui.InputProps{Type: "password", Placeholder: "Create a password", DOMProps: ui.DOMProps{Attrs: t.Attributes{"id": "signup2-password"}}})
+						</div>
+						@ui.Button(ui.ButtonProps{Label: "Create workspace"})
+						<p class="text-center text-xs text-muted-foreground">By continuing you accept the privacy policy and terms.</p>
+					</div>
+				}
+			}
+		</div>
+	}
+}

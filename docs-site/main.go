@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
 
@@ -34,12 +35,15 @@ func main() {
 	router.HandleFunc("/docs/components/{variant}/{slug}", HandleComponentDoc).Methods("GET")
 	router.HandleFunc("/blocks", HandleBlocksIndex).Methods("GET")
 	router.HandleFunc("/blocks/{slug}", HandleBlockPage).Methods("GET")
+	router.HandleFunc("/blocks/{slug}/preview", HandleBlockPreview).Methods("GET")
 	router.HandleFunc("/blocks/dashboard-01/preview", HandleDashboard01Preview).Methods("GET")
 	router.HandleFunc("/blocks/sidebar-07/preview", HandleSidebar07Preview).Methods("GET")
 	router.HandleFunc("/blocks/sidebar-03/preview", HandleSidebar03Preview).Methods("GET")
 	router.HandleFunc("/blocks/login-01/preview", HandleLogin01Preview).Methods("GET")
 	router.HandleFunc("/blocks/login-03/preview", HandleLogin03Preview).Methods("GET")
 	router.HandleFunc("/blocks/login-04/preview", HandleLogin04Preview).Methods("GET")
+	router.HandleFunc("/blocks/signup-01/preview", HandleSignup01Preview).Methods("GET")
+	router.HandleFunc("/blocks/signup-02/preview", HandleSignup02Preview).Methods("GET")
 	router.HandleFunc("/charts", HandleChartsRedirect).Methods("GET")
 	router.HandleFunc("/charts/area", HandleAreaChart).Methods("GET")
 	router.HandleFunc("/charts/bar", HandleBarChart).Methods("GET")
@@ -49,6 +53,7 @@ func main() {
 	router.HandleFunc("/directory", HandleDirectoryRedirect).Methods("GET")
 	router.HandleFunc("/create", HandleCreate).Methods("GET")
 	router.HandleFunc("/search-index.json", HandleSearchIndex).Methods("GET")
+	router.NotFoundHandler = http.HandlerFunc(HandleNotFound)
 
 	router.PathPrefix("/public/").Handler(
 		http.StripPrefix("/public/", http.FileServer(http.Dir("public"))),
@@ -218,6 +223,77 @@ func HandleLogin04Preview(w http.ResponseWriter, r *http.Request) {
 	views.Login04Preview().Render(r.Context(), w)
 }
 
+func HandleSignup01Preview(w http.ResponseWriter, r *http.Request) {
+	views.Signup01Preview().Render(r.Context(), w)
+}
+
+func HandleSignup02Preview(w http.ResponseWriter, r *http.Request) {
+	views.Signup02Preview().Render(r.Context(), w)
+}
+
 func HandleSearchIndex(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "public/search-index.json")
+	type entry struct {
+		Title string `json:"title"`
+		URL   string `json:"url"`
+		Type  string `json:"type"`
+	}
+
+	index := make([]entry, 0, len(views.ComponentIndex())+len(views.Blocks())+16)
+	for _, doc := range views.ComponentIndex() {
+		index = append(index, entry{
+			Title: doc.Title,
+			URL:   "/docs/components/" + doc.Slug,
+			Type:  "component",
+		})
+	}
+	for _, block := range views.Blocks() {
+		index = append(index, entry{
+			Title: block.Title,
+			URL:   "/blocks/" + block.Slug,
+			Type:  "block",
+		})
+	}
+	docs := []entry{
+		{Title: "Introduction", URL: "/docs", Type: "doc"},
+		{Title: "Installation", URL: "/docs/installation", Type: "doc"},
+		{Title: "Theming", URL: "/docs/theming", Type: "doc"},
+		{Title: "CLI", URL: "/docs/cli", Type: "doc"},
+		{Title: "RTL", URL: "/docs/rtl", Type: "doc"},
+		{Title: "Skills", URL: "/docs/skills", Type: "doc"},
+		{Title: "MCP Server", URL: "/docs/mcp", Type: "doc"},
+		{Title: "Registry", URL: "/docs/registry", Type: "doc"},
+		{Title: "Forms", URL: "/docs/forms", Type: "doc"},
+		{Title: "Changelog", URL: "/docs/changelog", Type: "doc"},
+		{Title: "Directory", URL: "/docs/directory", Type: "doc"},
+		{Title: "Create", URL: "/create", Type: "doc"},
+		{Title: "Components", URL: "/docs/components", Type: "doc"},
+		{Title: "Blocks", URL: "/blocks", Type: "doc"},
+		{Title: "Charts", URL: "/charts/area", Type: "doc"},
+	}
+	index = append(index, docs...)
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(index); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func HandleBlockPreview(w http.ResponseWriter, r *http.Request) {
+	slug := mux.Vars(r)["slug"]
+	if slug == "" {
+		http.NotFound(w, r)
+		return
+	}
+
+	if preview, ok := views.BlockPreviewForSlug(slug); ok {
+		preview.Render(r.Context(), w)
+		return
+	}
+
+	http.NotFound(w, r)
+}
+
+func HandleNotFound(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	views.NotFoundPage().Render(r.Context(), w)
 }
