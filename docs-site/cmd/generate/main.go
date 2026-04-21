@@ -20,7 +20,7 @@ type SearchEntry struct {
 }
 
 func main() {
-	outputDir := flag.String("output", "./dist", "output directory for static site")
+	outputDir := flag.String("output", "./bin/site", "output directory for static site")
 	flag.Parse()
 
 	ctx := context.Background()

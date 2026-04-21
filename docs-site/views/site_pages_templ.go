@@ -5585,6 +5585,14 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 302, "</div><div class=\"space-y-2\"><p class=\"text-sm font-medium\">Generate the static docs site</p>")
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
+					templ_7745c5c3_Err = CodeBlock("bash", "go run ./cmd/generate --output ./bin/site").Render(ctx, templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err != nil {
+						return templ_7745c5c3_Err
+					}
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 302, "</div><div class=\"space-y-2\"><p class=\"text-sm font-medium\">Run all tests</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err

@@ -2,6 +2,10 @@
 .tmp/
 docs/
 node_modules/
+.sisyphus/
+.upstream-ui/
+bin/
+docs-site/dist/
 .env
 .env.*
 *.log

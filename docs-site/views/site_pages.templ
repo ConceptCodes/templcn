@@ -1267,6 +1267,10 @@ templ CLIPage() {
 								@CodeBlock("bash", "go build -o ./bin/app .")
 							</div>
 							<div class="space-y-2">
+								<p class="text-sm font-medium">Generate the static docs site</p>
+								@CodeBlock("bash", "go run ./cmd/generate --output ./bin/site")
+							</div>
+							<div class="space-y-2">
 								<p class="text-sm font-medium">Run all tests</p>
 								@CodeBlock("bash", "go test ./...")
 							</div>
