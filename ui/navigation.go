@@ -304,12 +304,40 @@ func menuContainer(attrs templ.Attributes, children templ.Component, ctx context
 
 type DropdownMenuProps struct {
 	DOMProps
+	Open        bool
+	DefaultOpen bool
+	Modal       bool
+	Side        string
+	Align       string
+	SideOffset  string
+	AlignOffset string
 }
 
 func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu", "relative inline-block")
 		attrs["data-dropdown-menu-root"] = "true"
+		if props.Open {
+			attrs["data-open"] = "true"
+		}
+		if props.DefaultOpen {
+			attrs["data-default-open"] = "true"
+		}
+		if props.Modal {
+			attrs["data-modal"] = "true"
+		}
+		if props.Side != "" {
+			attrs["data-side"] = props.Side
+		}
+		if props.Align != "" {
+			attrs["data-align"] = props.Align
+		}
+		if props.SideOffset != "" {
+			attrs["data-side-offset"] = props.SideOffset
+		}
+		if props.AlignOffset != "" {
+			attrs["data-align-offset"] = props.AlignOffset
+		}
 		return menuContainer(attrs, templ.GetChildren(ctx), ctx, w)
 	})
 }
