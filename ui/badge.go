@@ -8,6 +8,24 @@ import (
 	"github.com/a-h/templ"
 )
 
+type BadgeVariant string
+
+const (
+	BadgeVariantDefault     BadgeVariant = "default"
+	BadgeVariantSecondary   BadgeVariant = "secondary"
+	BadgeVariantDestructive BadgeVariant = "destructive"
+	BadgeVariantOutline     BadgeVariant = "outline"
+	BadgeVariantGhost       BadgeVariant = "ghost"
+	BadgeVariantLink        BadgeVariant = "link"
+)
+
+type BadgeProps struct {
+	DOMProps
+	Label   string
+	Variant BadgeVariant
+	Href    string
+}
+
 var badgeVariantClasses = map[BadgeVariant]string{
 	BadgeVariantDefault:     "bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
 	BadgeVariantSecondary:   "bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",

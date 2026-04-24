@@ -9,6 +9,40 @@ import (
 	"github.com/a-h/templ"
 )
 
+type ButtonVariant string
+
+const (
+	ButtonVariantDefault     ButtonVariant = "default"
+	ButtonVariantDestructive ButtonVariant = "destructive"
+	ButtonVariantOutline     ButtonVariant = "outline"
+	ButtonVariantSecondary   ButtonVariant = "secondary"
+	ButtonVariantGhost       ButtonVariant = "ghost"
+	ButtonVariantLink        ButtonVariant = "link"
+)
+
+type ButtonSize string
+
+const (
+	ButtonSizeDefault ButtonSize = "default"
+	ButtonSizeXS      ButtonSize = "xs"
+	ButtonSizeSM      ButtonSize = "sm"
+	ButtonSizeLG      ButtonSize = "lg"
+	ButtonSizeIcon    ButtonSize = "icon"
+	ButtonSizeIconXS  ButtonSize = "icon-xs"
+	ButtonSizeIconSM  ButtonSize = "icon-sm"
+	ButtonSizeIconLG  ButtonSize = "icon-lg"
+)
+
+type ButtonProps struct {
+	DOMProps
+	Label    string
+	Variant  ButtonVariant
+	Size     ButtonSize
+	Type     string
+	Disabled bool
+	Href     string
+}
+
 var buttonVariantClasses = map[ButtonVariant]string{
 	ButtonVariantDefault:     "bg-primary text-primary-foreground hover:bg-primary/90",
 	ButtonVariantDestructive: "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:bg-destructive/60 dark:focus-visible:ring-destructive/40",
@@ -39,18 +73,6 @@ func buttonClasses(variant ButtonVariant, size ButtonSize, className string) str
 
 	base := "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 	return cn(base, buttonVariantClasses[variant], buttonSizeClasses[size], className)
-}
-
-func cloneAttributes(attrs templ.Attributes) templ.Attributes {
-	if len(attrs) == 0 {
-		return templ.Attributes{}
-	}
-
-	out := make(templ.Attributes, len(attrs))
-	for k, v := range attrs {
-		out[k] = v
-	}
-	return out
 }
 
 func Button(props ButtonProps) templ.Component {

@@ -7,6 +7,18 @@ import (
 	"github.com/a-h/templ"
 )
 
+func cloneAttributes(attrs templ.Attributes) templ.Attributes {
+	if len(attrs) == 0 {
+		return templ.Attributes{}
+	}
+
+	out := make(templ.Attributes, len(attrs))
+	for k, v := range attrs {
+		out[k] = v
+	}
+	return out
+}
+
 func attrsFromDOMProps(props DOMProps, slot string, className string) templ.Attributes {
 	attrs := cloneAttributes(props.Attrs)
 	if props.ID != "" {
