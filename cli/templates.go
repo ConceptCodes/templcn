@@ -182,15 +182,14 @@ function initRuntime() {
 }
 
 function initCharts() {
-    // Look for Chart Containers and initialize them if a charting library is present
+    // Look for Chart Containers and initialize them if the vanilla chart runtime is present.
     const charts = document.querySelectorAll('[data-chart-container]');
     charts.forEach(chart => {
         const configStr = chart.getAttribute('data-config');
         if (configStr) {
-            // Note: In a vanilla JS port, we expect users to bring their own charting library 
-            // (like Chart.js or ApexCharts). This is a hook point for initializing them based 
-            // on the container's data attributes.
-            console.warn("ChartContainer found: inject your preferred JS charting library here to render.");
+            // Recharts itself is React-based. This hook is for a Recharts-style
+            // vanilla SVG renderer that reads the same chart data attributes.
+            console.warn("ChartContainer found: load the shadcn-go vanilla chart runtime to render.");
         }
     });
 }
