@@ -3057,7 +3057,7 @@ func ChartsPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 199, "<div class=\"mx-auto flex max-w-5xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Charts</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Beautiful charts and graphs.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">A dedicated charts surface that mirrors the official shadcn route and points into the chart component docs.</p></section><section class=\"grid gap-4 md:grid-cols-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 199, "<div class=\"mx-auto flex max-w-5xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Charts</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Beautiful charts and graphs.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">A dedicated charts surface that mirrors the official shadcn route using a Recharts-style vanilla SVG runtime.</p></section><section class=\"grid gap-4 md:grid-cols-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5593,7 +5593,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 302, "</div><div class=\"space-y-2\"><p class=\"text-sm font-medium\">Run all tests</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 303, "</div><div class=\"space-y-2\"><p class=\"text-sm font-medium\">Run all tests</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5601,7 +5601,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 303, "</div></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 304, "</div></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5653,7 +5653,7 @@ func CLIPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 304, "<span>Using components</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 305, "<span>Using components</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5663,7 +5663,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 305, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 306, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5679,7 +5679,7 @@ func CLIPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 306, "<span>Import the ui package and call components directly.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 307, "<span>Import the ui package and call components directly.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5695,7 +5695,7 @@ func CLIPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 307, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 308, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -5711,7 +5711,7 @@ func CLIPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 308, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Each UI component is a regular Go function that returns a templ.Component. Use them with the @ call syntax:</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 309, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Each UI component is a regular Go function that returns a templ.Component. Use them with the @ call syntax:</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5719,7 +5719,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 309, "</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 310, "</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5771,7 +5771,7 @@ func CLIPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 310, "<span>Manual customisation</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 311, "<span>Manual customisation</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5781,7 +5781,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 311, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 312, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5797,7 +5797,7 @@ func CLIPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 312, "<span>When you need to customise a component beyond its props.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 313, "<span>When you need to customise a component beyond its props.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5813,7 +5813,7 @@ func CLIPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 313, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 314, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -5829,7 +5829,7 @@ func CLIPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 314, "<p class=\"text-sm text-muted-foreground\">Every component page on this site shows the full Go/templ source in the <strong>Manual</strong> install tab. Copy the content into your project and adapt it directly.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 315, "<p class=\"text-sm text-muted-foreground\">Every component page on this site shows the full Go/templ source in the <strong>Manual</strong> install tab. Copy the content into your project and adapt it directly.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5845,7 +5845,7 @@ func CLIPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 315, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 316, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5892,7 +5892,7 @@ func RTLPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 316, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 317, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5904,7 +5904,7 @@ func RTLPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 317, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Right-to-left language support</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Build interfaces that work seamlessly for Arabic, Hebrew, Persian, and other RTL languages using logical properties and directional providers.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 318, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Right-to-left language support</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Build interfaces that work seamlessly for Arabic, Hebrew, Persian, and other RTL languages using logical properties and directional providers.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5944,7 +5944,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 318, "<span>Direction Provider</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 319, "<span>Direction Provider</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5954,7 +5954,7 @@ func RTLPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 319, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 320, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -5970,7 +5970,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 320, "<span>Wrap your app or sections to set the text direction.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 321, "<span>Wrap your app or sections to set the text direction.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5986,7 +5986,7 @@ func RTLPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 321, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 322, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6002,7 +6002,7 @@ func RTLPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 322, "<p class=\"mb-4 text-sm text-muted-foreground\">Use a simple wrapper to set the direction attribute. Components will automatically adapt based on this value.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 323, "<p class=\"mb-4 text-sm text-muted-foreground\">Use a simple wrapper to set the direction attribute. Components will automatically adapt based on this value.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6062,7 +6062,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 323, "<span>Logical Properties</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 324, "<span>Logical Properties</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6072,7 +6072,7 @@ func RTLPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 324, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 325, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6088,7 +6088,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 325, "<span>Components use native CSS logical properties.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 326, "<span>Components use native CSS logical properties.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6104,7 +6104,7 @@ func RTLPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 326, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 327, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6120,7 +6120,7 @@ func RTLPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 327, "<p class=\"mb-4 text-sm text-muted-foreground\">Components are built with logical properties like <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">margin-inline-start</code> ensuring automatic flips in RTL mode.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 328, "<p class=\"mb-4 text-sm text-muted-foreground\">Components are built with logical properties like <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">margin-inline-start</code> ensuring automatic flips in RTL mode.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6180,7 +6180,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 328, "<span>Testing & Verification</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 329, "<span>Testing & Verification</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6190,7 +6190,7 @@ func RTLPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 329, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 330, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6206,7 +6206,7 @@ func RTLPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 330, "<span>Ensure your layouts render correctly in both directions.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 331, "<span>Ensure your layouts render correctly in both directions.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6222,7 +6222,7 @@ func RTLPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 331, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 332, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6238,7 +6238,7 @@ func RTLPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 332, "<p class=\"text-sm text-muted-foreground\">Test your components by adding <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">dir=\"rtl\"</code> to your root HTML element. Our component suite is validated to work out of the box with standard RTL configurations.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 333, "<p class=\"text-sm text-muted-foreground\">Test your components by adding <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">dir=\"rtl\"</code> to your root HTML element. Our component suite is validated to work out of the box with standard RTL configurations.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6254,7 +6254,7 @@ func RTLPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 333, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 334, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6301,7 +6301,7 @@ func SkillsPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 334, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 335, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6313,7 +6313,7 @@ func SkillsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 335, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Enhance AI with shadcn/ui skills</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Empower your AI assistants with deep knowledge of shadcn/ui components, design tokens, and best practices using structured skill files.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 336, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Enhance AI with shadcn/ui skills</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Empower your AI assistants with deep knowledge of shadcn/ui components, design tokens, and best practices using structured skill files.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6353,7 +6353,7 @@ func SkillsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 336, "<span>What are skills?</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 337, "<span>What are skills?</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6363,7 +6363,7 @@ func SkillsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 337, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 338, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6379,7 +6379,7 @@ func SkillsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 338, "<span>Domain-specific knowledge for AI models.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 339, "<span>Domain-specific knowledge for AI models.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6395,7 +6395,7 @@ func SkillsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 339, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 340, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6411,7 +6411,7 @@ func SkillsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 340, "<p class=\"text-sm text-muted-foreground\">Skills provide LLMs with specific implementation patterns and API contracts. By loading the shadcn/ui skill, your assistant can generate code that follows this library's conventions accurately, from Go types to Tailwind classes.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 341, "<p class=\"text-sm text-muted-foreground\">Skills provide LLMs with specific implementation patterns and API contracts. By loading the shadcn/ui skill, your assistant can generate code that follows this library's conventions accurately, from Go types to Tailwind classes.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6463,7 +6463,7 @@ func SkillsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 341, "<span>How to use</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 342, "<span>How to use</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6473,7 +6473,7 @@ func SkillsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 342, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 343, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6489,7 +6489,7 @@ func SkillsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 343, "<span>Integrate skills into your development workflow.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 344, "<span>Integrate skills into your development workflow.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6505,7 +6505,7 @@ func SkillsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 344, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 345, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6521,7 +6521,7 @@ func SkillsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 345, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">1. Location: Skills are stored in the <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">.gemini/antigravity/skills</code> directory.</p><p class=\"text-sm text-muted-foreground\">2. Activation: Simply reference the skill in your agent prompt or configuration to enable its capabilities.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 346, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">1. Location: Skills are stored in the <code class=\"rounded bg-muted px-1 py-0.5 font-mono text-[0.9em]\">.gemini/antigravity/skills</code> directory.</p><p class=\"text-sm text-muted-foreground\">2. Activation: Simply reference the skill in your agent prompt or configuration to enable its capabilities.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6530,7 +6530,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 346, "</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 347, "</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6582,7 +6582,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 347, "<span>Benefits</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 348, "<span>Benefits</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6592,7 +6592,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 348, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 349, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6608,7 +6608,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 349, "<span>Why use structured skills for UI development?</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 350, "<span>Why use structured skills for UI development?</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6624,7 +6624,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 350, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 351, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6640,7 +6640,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 351, "<ul class=\"grid gap-3 text-sm text-muted-foreground\"><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Consistent API usage across generated code</span></li><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Adherence to design system tokens and Tailwind themes</span></li><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Better understanding of Go + templ composition patterns</span></li></ul>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 352, "<ul class=\"grid gap-3 text-sm text-muted-foreground\"><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Consistent API usage across generated code</span></li><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Adherence to design system tokens and Tailwind themes</span></li><li class=\"flex items-start gap-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mt-0.5 size-4 text-primary\"><polyline points=\"20 6 9 17 4 12\"></polyline></svg> <span>Better understanding of Go + templ composition patterns</span></li></ul>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6656,7 +6656,7 @@ with a sidebar, stats cards, and a bar chart.`).Render(ctx, templ_7745c5c3_Buffe
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 352, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 353, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6703,7 +6703,7 @@ func MCPPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 353, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 354, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6715,7 +6715,7 @@ func MCPPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 354, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Model Context Protocol integration</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Connect AI models directly to your component library documentation and code examples via the Model Context Protocol (MCP).</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 355, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Model Context Protocol integration</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Connect AI models directly to your component library documentation and code examples via the Model Context Protocol (MCP).</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -6755,7 +6755,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 355, "<span>What is MCP?</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 356, "<span>What is MCP?</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6765,7 +6765,7 @@ func MCPPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 356, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 357, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6781,7 +6781,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 357, "<span>Standard protocol for AI model context.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 358, "<span>Standard protocol for AI model context.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6797,7 +6797,7 @@ func MCPPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 358, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 359, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6813,7 +6813,7 @@ func MCPPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 359, "<p class=\"text-sm text-muted-foreground\">The Model Context Protocol (MCP) allows AI models to securely reach out to external data sources and tools. By running the shadcn/ui MCP server, you give your AI assistant real-time access to this documentation site&#39;s source code, examples, and component schemas.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 360, "<p class=\"text-sm text-muted-foreground\">The Model Context Protocol (MCP) allows AI models to securely reach out to external data sources and tools. By running the shadcn/ui MCP server, you give your AI assistant real-time access to this documentation site&#39;s source code, examples, and component schemas.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6865,7 +6865,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 360, "<span>Setup & Configuration</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 361, "<span>Setup & Configuration</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6875,7 +6875,7 @@ func MCPPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 361, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 362, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6891,7 +6891,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 362, "<span>Add the server to your AI assistant configuration.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 363, "<span>Add the server to your AI assistant configuration.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -6907,7 +6907,7 @@ func MCPPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 363, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 364, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -6923,7 +6923,7 @@ func MCPPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 364, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Add the following to your MCP client configuration (e.g. Claude Desktop or a custom agent):</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 365, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Add the following to your MCP client configuration (e.g. Claude Desktop or a custom agent):</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6938,7 +6938,7 @@ func MCPPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 365, "</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 366, "</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6990,7 +6990,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 366, "<span>Capabilities</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 367, "<span>Capabilities</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7000,7 +7000,7 @@ func MCPPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 367, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 368, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7016,7 +7016,7 @@ func MCPPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 368, "<span>What the MCP server provides to AI models.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 369, "<span>What the MCP server provides to AI models.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7032,7 +7032,7 @@ func MCPPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 369, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 370, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7048,7 +7048,7 @@ func MCPPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 370, "<div class=\"grid gap-4 sm:grid-cols-2\"><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Documentation Search</p><p class=\"text-xs text-muted-foreground\">Semantic search across all component pages and guides.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Source Retrieval</p><p class=\"text-xs text-muted-foreground\">Direct access to the Go and templ source code for any component.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Interactive Examples</p><p class=\"text-xs text-muted-foreground\">Access to live previews and their underlying data configurations.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">CLI Integration</p><p class=\"text-xs text-muted-foreground\">Commands to help AI agents manage and update your UI package.</p></div></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 371, "<div class=\"grid gap-4 sm:grid-cols-2\"><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Documentation Search</p><p class=\"text-xs text-muted-foreground\">Semantic search across all component pages and guides.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Source Retrieval</p><p class=\"text-xs text-muted-foreground\">Direct access to the Go and templ source code for any component.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">Interactive Examples</p><p class=\"text-xs text-muted-foreground\">Access to live previews and their underlying data configurations.</p></div><div class=\"space-y-1\"><p class=\"text-sm font-medium\">CLI Integration</p><p class=\"text-xs text-muted-foreground\">Commands to help AI agents manage and update your UI package.</p></div></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7064,7 +7064,7 @@ func MCPPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 371, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 372, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7111,7 +7111,7 @@ func RegistryPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 372, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 373, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7123,7 +7123,7 @@ func RegistryPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 373, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Component registry and distribution</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">The registry is the source of truth for all shadcn/ui components. It defines their schemas, dependencies, and implementation files.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 374, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Component registry and distribution</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">The registry is the source of truth for all shadcn/ui components. It defines their schemas, dependencies, and implementation files.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7163,7 +7163,7 @@ func RegistryPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 374, "<span>What is the Registry?</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 375, "<span>What is the Registry?</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7173,7 +7173,7 @@ func RegistryPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 375, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 376, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7189,7 +7189,7 @@ func RegistryPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 376, "<span>Structured data for component discovery.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 377, "<span>Structured data for component discovery.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7205,7 +7205,7 @@ func RegistryPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 377, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 378, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7221,7 +7221,7 @@ func RegistryPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 378, "<p class=\"text-sm text-muted-foreground\">Unlike traditional NPM packages, shadcn/ui components are distributed as raw source files. The registry provides a JSON API that lists all available components, allowing tools and AI agents to fetch the exact files needed for your project.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 379, "<p class=\"text-sm text-muted-foreground\">Unlike traditional NPM packages, shadcn/ui components are distributed as raw source files. The registry provides a JSON API that lists all available components, allowing tools and AI agents to fetch the exact files needed for your project.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7273,7 +7273,7 @@ func RegistryPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 379, "<span>Registry Structure</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 380, "<span>Registry Structure</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7283,7 +7283,7 @@ func RegistryPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 380, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 381, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7299,7 +7299,7 @@ func RegistryPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 381, "<span>How components are defined.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 382, "<span>How components are defined.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7315,7 +7315,7 @@ func RegistryPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 382, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 383, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7331,7 +7331,7 @@ func RegistryPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 383, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">A typical registry entry includes the component name, category, and the files needed to render it:</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 384, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">A typical registry entry includes the component name, category, and the files needed to render it:</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7348,7 +7348,7 @@ func RegistryPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 384, "</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 385, "</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7364,7 +7364,7 @@ func RegistryPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 385, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 386, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7411,7 +7411,7 @@ func FormsPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 386, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 387, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7423,7 +7423,7 @@ func FormsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 387, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Building forms with Go and templ</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Create accessible, type-safe, and validated forms using shadcn/ui components combined with Go&#39;s robust backend validation logic.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 388, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Building forms with Go and templ</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Create accessible, type-safe, and validated forms using shadcn/ui components combined with Go&#39;s robust backend validation logic.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7463,7 +7463,7 @@ func FormsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 388, "<span>Form Components</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 389, "<span>Form Components</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7473,7 +7473,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 389, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 390, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7489,7 +7489,7 @@ func FormsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 390, "<span>The essential building blocks for data entry.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 391, "<span>The essential building blocks for data entry.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7505,7 +7505,7 @@ func FormsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 391, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 392, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7521,7 +7521,7 @@ func FormsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 392, "<div class=\"grid grid-cols-2 gap-4 sm:grid-cols-3\"><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 393, "<div class=\"grid grid-cols-2 gap-4 sm:grid-cols-3\"><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7529,7 +7529,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 393, "<span class=\"text-muted-foreground\">Text fields</span></div><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 394, "<span class=\"text-muted-foreground\">Text fields</span></div><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7537,7 +7537,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 394, "<span class=\"text-muted-foreground\">Field titles</span></div><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 395, "<span class=\"text-muted-foreground\">Field titles</span></div><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7545,7 +7545,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 395, "<span class=\"text-muted-foreground\">Dropdowns</span></div><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 396, "<span class=\"text-muted-foreground\">Dropdowns</span></div><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7553,7 +7553,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 396, "<span class=\"text-muted-foreground\">Toggles</span></div><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 397, "<span class=\"text-muted-foreground\">Toggles</span></div><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7561,7 +7561,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 397, "<span class=\"text-muted-foreground\">Submissions</span></div><div class=\"flex items-center gap-2 text-sm\">")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 398, "<span class=\"text-muted-foreground\">Submissions</span></div><div class=\"flex items-center gap-2 text-sm\">")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7569,7 +7569,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 398, "<span class=\"text-muted-foreground\">Multi-line</span></div></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 399, "<span class=\"text-muted-foreground\">Multi-line</span></div></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7621,7 +7621,7 @@ func FormsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 399, "<span>Server-Side Handling</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 400, "<span>Server-Side Handling</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7631,7 +7631,7 @@ func FormsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 400, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 401, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7647,7 +7647,7 @@ func FormsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 401, "<span>Process and validate submissions in Go.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 402, "<span>Process and validate submissions in Go.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7663,7 +7663,7 @@ func FormsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 402, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 403, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7679,7 +7679,7 @@ func FormsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 403, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Leverage Go's struct tags and standard library for robust form processing:</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 404, "<div class=\"grid gap-4\"><p class=\"text-sm text-muted-foreground\">Leverage Go's struct tags and standard library for robust form processing:</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7699,7 +7699,7 @@ func HandleForm(w http.ResponseWriter, r *http.Request) {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 404, "</div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 405, "</div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7715,7 +7715,7 @@ func HandleForm(w http.ResponseWriter, r *http.Request) {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 405, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 406, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7762,7 +7762,7 @@ func ChangelogPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 406, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 407, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7774,7 +7774,7 @@ func ChangelogPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 407, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Changelog</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Follow the evolution of the shadcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p></section><section class=\"space-y-0\"><div class=\"relative pl-10\"><!-- Vertical Line --><div class=\"absolute left-[15px] top-2 h-full w-px bg-border/70\"></div><!-- Entry --><div class=\"relative pb-12\"><!-- Timeline Node --><div class=\"absolute -left-[34px] top-1.5 z-10 size-5 rounded-full border-4 border-background bg-primary shadow-[0_0_0_4px_rgba(var(--background),1)] group-hover:scale-110 transition-transform\"></div><div class=\"space-y-4\"><div class=\"space-y-1\"><p class=\"text-sm font-medium leading-none text-muted-foreground\">April 2026</p><h3 class=\"text-2xl font-semibold tracking-tight\">Initial Beta Launch (v0.1.0)</h3></div><div class=\"prose prose-sm prose-invert max-w-none text-muted-foreground\"><p class=\"text-base\">We&#39;re excited to announce the initial beta of the shadcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p><ul class=\"mt-6 grid gap-4\"><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Interactive Charts:</strong> Full D3.js integration with theme-aware tooltips and hovers for all chart types.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Premium Blocks:</strong> High-quality dashboard, authentication, and form building blocks ready for production.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Modern Doc Site:</strong> Fast, searchable documentation with live code previews, syntax highlighting, and responsive navigation.</span></li></ul></div></div></div></div></section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 408, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Changelog</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Follow the evolution of the shadcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p></section><section class=\"space-y-0\"><div class=\"relative pl-10\"><!-- Vertical Line --><div class=\"absolute left-[15px] top-2 h-full w-px bg-border/70\"></div><!-- Entry --><div class=\"relative pb-12\"><!-- Timeline Node --><div class=\"absolute -left-[34px] top-1.5 z-10 size-5 rounded-full border-4 border-background bg-primary shadow-[0_0_0_4px_rgba(var(--background),1)] group-hover:scale-110 transition-transform\"></div><div class=\"space-y-4\"><div class=\"space-y-1\"><p class=\"text-sm font-medium leading-none text-muted-foreground\">April 2026</p><h3 class=\"text-2xl font-semibold tracking-tight\">Initial Beta Launch (v0.1.0)</h3></div><div class=\"prose prose-sm prose-invert max-w-none text-muted-foreground\"><p class=\"text-base\">We&#39;re excited to announce the initial beta of the shadcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p><ul class=\"mt-6 grid gap-4\"><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Interactive Charts:</strong> Recharts-style vanilla SVG rendering with theme-aware tooltips and hovers for all chart types.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Premium Blocks:</strong> High-quality dashboard, authentication, and form building blocks ready for production.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Modern Doc Site:</strong> Fast, searchable documentation with live code previews, syntax highlighting, and responsive navigation.</span></li></ul></div></div></div></div></section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7821,7 +7821,7 @@ func DirectoryDocsPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 408, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 409, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8 pb-12\"><section class=\"space-y-4\"><div class=\"flex items-center gap-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7833,7 +7833,7 @@ func DirectoryDocsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 409, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Directory</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Explore the ecosystem of components, blocks, and tools built for the shadcn/ui Go port.</p></section><section class=\"grid gap-6 md:grid-cols-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 410, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Directory</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Explore the ecosystem of components, blocks, and tools built for the shadcn/ui Go port.</p></section><section class=\"grid gap-6 md:grid-cols-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7873,7 +7873,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 410, "<span>Blocks</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 411, "<span>Blocks</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7883,7 +7883,7 @@ func DirectoryDocsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 411, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 412, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7899,7 +7899,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 412, "<span>Ready-to-use application sections.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 413, "<span>Ready-to-use application sections.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7915,7 +7915,7 @@ func DirectoryDocsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 413, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 414, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -7931,7 +7931,7 @@ func DirectoryDocsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 414, "<p class=\"mb-4 text-sm text-muted-foreground\">Dashboards, authentication forms, and marketing sections built with core components.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 415, "<p class=\"mb-4 text-sm text-muted-foreground\">Dashboards, authentication forms, and marketing sections built with core components.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -7987,7 +7987,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 415, "<span>Charts</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 416, "<span>Charts</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -7997,7 +7997,7 @@ func DirectoryDocsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 416, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 417, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8013,7 +8013,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 417, "<span>Interactive data visualizations.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 418, "<span>Interactive data visualizations.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -8029,7 +8029,7 @@ func DirectoryDocsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 418, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 419, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -8045,7 +8045,7 @@ func DirectoryDocsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 419, "<p class=\"mb-4 text-sm text-muted-foreground\">Premium D3.js powered charts with tooltips, hovers, and theme support.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 420, "<p class=\"mb-4 text-sm text-muted-foreground\">Premium D3.js powered charts with tooltips, hovers, and theme support.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8101,7 +8101,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 420, "<span>Registry</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 421, "<span>Registry</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -8111,7 +8111,7 @@ func DirectoryDocsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 421, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 422, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8127,7 +8127,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 422, "<span>Source-first distribution.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 423, "<span>Source-first distribution.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -8143,7 +8143,7 @@ func DirectoryDocsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 423, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 424, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -8159,7 +8159,7 @@ func DirectoryDocsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 424, "<p class=\"mb-4 text-sm text-muted-foreground\">Learn how components are distributed and managed through the JSON registry.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 425, "<p class=\"mb-4 text-sm text-muted-foreground\">Learn how components are distributed and managed through the JSON registry.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8215,7 +8215,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 425, "<span>CLI</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 426, "<span>CLI</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -8225,7 +8225,7 @@ func DirectoryDocsPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 426, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 427, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8241,7 +8241,7 @@ func DirectoryDocsPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 427, "<span>The command-line interface.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 428, "<span>The command-line interface.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -8257,7 +8257,7 @@ func DirectoryDocsPage() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 428, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 429, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -8273,7 +8273,7 @@ func DirectoryDocsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 429, "<p class=\"mb-4 text-sm text-muted-foreground\">Install components and manage your UI package directly from your terminal.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 430, "<p class=\"mb-4 text-sm text-muted-foreground\">Install components and manage your UI package directly from your terminal.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -8293,7 +8293,7 @@ func DirectoryDocsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 430, "</section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 431, "</section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -8328,7 +8328,7 @@ func SearchDialog() templ.Component {
 			templ_7745c5c3_Var390 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 431, "<div id=\"search-dialog\" class=\"hidden fixed inset-0 z-50 flex items-start justify-center pt-[15vh] sm:pt-[25vh]\" data-search-dialog=\"true\"><div id=\"search-backdrop\" class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\" data-search-backdrop=\"true\"></div><div class=\"relative z-50 w-full max-w-2xl mx-4\"><div class=\"overflow-hidden rounded-lg border border-border/70 bg-card shadow-lg\"><div class=\"flex items-center border-b border-border/70 px-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mr-2 text-muted-foreground shrink-0\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><path d=\"m21 21-4.3-4.3\"></path></svg> <input id=\"search-input\" type=\"text\" placeholder=\"Search components and docs...\" class=\"flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50\" data-search-input=\"true\" autocomplete=\"off\"> <span class=\"ml-2 flex items-center gap-1 rounded-sm border border-border/70 bg-muted px-2 py-1 text-xs text-muted-foreground\"><kbd class=\"font-sans\">⌘</kbd> <kbd class=\"font-sans\">K</kbd></span></div><div id=\"search-results\" class=\"max-h-[300px] overflow-y-auto p-2\" data-search-results=\"true\"><p class=\"py-4 text-center text-sm text-muted-foreground\">Type to search...</p></div></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 432, "<div id=\"search-dialog\" class=\"hidden fixed inset-0 z-50 flex items-start justify-center pt-[15vh] sm:pt-[25vh]\" data-search-dialog=\"true\"><div id=\"search-backdrop\" class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\" data-search-backdrop=\"true\"></div><div class=\"relative z-50 w-full max-w-2xl mx-4\"><div class=\"overflow-hidden rounded-lg border border-border/70 bg-card shadow-lg\"><div class=\"flex items-center border-b border-border/70 px-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"mr-2 text-muted-foreground shrink-0\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><path d=\"m21 21-4.3-4.3\"></path></svg> <input id=\"search-input\" type=\"text\" placeholder=\"Search components and docs...\" class=\"flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50\" data-search-input=\"true\" autocomplete=\"off\"> <span class=\"ml-2 flex items-center gap-1 rounded-sm border border-border/70 bg-muted px-2 py-1 text-xs text-muted-foreground\"><kbd class=\"font-sans\">⌘</kbd> <kbd class=\"font-sans\">K</kbd></span></div><div id=\"search-results\" class=\"max-h-[300px] overflow-y-auto p-2\" data-search-results=\"true\"><p class=\"py-4 text-center text-sm text-muted-foreground\">Type to search...</p></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
