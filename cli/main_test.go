@@ -57,7 +57,33 @@ func TestAddComponentsCopiesUIPackage(t *testing.T) {
 	}
 
 	mustExist(t, filepath.Join(dir, "ui", "button.go"))
-	mustExist(t, filepath.Join(dir, "ui", "forms.go"))
+	mustExist(t, filepath.Join(dir, "ui", "input.go"))
+	mustExist(t, filepath.Join(dir, "ui", "textarea.go"))
+}
+
+func TestApplyPresetUpdatesConfig(t *testing.T) {
+	dir := t.TempDir()
+
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(`{"module":"example.com/demo","uiDir":"ui","style":"default"}`), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+
+	if err := ApplyPreset(ApplyOptions{CWD: dir, Preset: "new-york", Silent: true}); err != nil {
+		t.Fatalf("apply preset: %v", err)
+	}
+
+	raw, err := os.ReadFile(filepath.Join(dir, "components.json"))
+	if err != nil {
+		t.Fatalf("read components.json: %v", err)
+	}
+	if !strings.Contains(string(raw), `"style": "new-york"`) {
+		t.Fatalf("expected style to be updated, got %s", raw)
+	}
+	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
+	mustExist(t, filepath.Join(dir, "styles", "globals.css"))
 }
 
 func repoRoot(t *testing.T) string {

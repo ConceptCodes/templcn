@@ -170,7 +170,59 @@ func ApplyPreset(opts ApplyOptions) error {
 	if opts.Preset == "" {
 		return errors.New("apply: missing preset")
 	}
-	return fmt.Errorf("apply is not implemented for the Go/templ CLI yet; preset %q was not applied", opts.Preset)
+	preset := normalizeName(opts.Preset)
+	if preset == "newyork" {
+		preset = "new-york"
+	}
+	if !supportedPreset(preset) {
+		return fmt.Errorf("apply: unknown preset %q", opts.Preset)
+	}
+
+	root, err := detectProjectRoot(opts.CWD)
+	if err != nil {
+		return err
+	}
+	cfg, err := loadProjectConfig(root)
+	if err != nil {
+		return err
+	}
+	if cfg.Module == "" {
+		cfg.Module = projectModule(root, "")
+	}
+	cfg.Style = preset
+	if err := writeProjectConfig(root, cfg, true); err != nil {
+		return err
+	}
+
+	for rel, content := range map[string]string{
+		"styles/globals.css": starterCSS(),
+		"assets/runtime.js":  starterRuntimeJS(),
+	} {
+		target := filepath.Join(root, rel)
+		if fileExists(target) {
+			continue
+		}
+		if err := os.MkdirAll(filepath.Dir(target), 0755); err != nil {
+			return err
+		}
+		if err := os.WriteFile(target, []byte(content), 0644); err != nil {
+			return err
+		}
+	}
+
+	if !opts.Silent {
+		fmt.Printf("applied preset %q\n", preset)
+	}
+	return nil
+}
+
+func supportedPreset(preset string) bool {
+	switch preset {
+	case "default", "new-york", "nova":
+		return true
+	default:
+		return false
+	}
 }
 
 func ViewItems(opts ViewOptions) error {
