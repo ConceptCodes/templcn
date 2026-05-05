@@ -986,7 +986,7 @@ templ CreatePage() {
 									<div class="flex-1 space-y-2">
 										<p class="text-sm font-medium">Initialize your project</p>
 										<p class="text-sm text-muted-foreground">Run the init command to set up shadcn/ui in your project.</p>
-										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go mod init your-project && go get github.com/shadcn-ui/ui</code></pre>
+										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn init</code></pre>
 									</div>
 								</div>
 							</div>
@@ -996,9 +996,9 @@ templ CreatePage() {
 									<div class="flex-1 space-y-2">
 										<p class="text-sm font-medium">Add components</p>
 										<p class="text-sm text-muted-foreground">Add the components you need to your project.</p>
-										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
+										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button</code></pre>
 										<p class="text-xs text-muted-foreground">Add multiple components:</p>
-										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get github.com/shadcn-ui/ui</code></pre>
+										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button card input</code></pre>
 									</div>
 								</div>
 							</div>
@@ -1008,11 +1008,11 @@ templ CreatePage() {
 									<div class="flex-1 space-y-2">
 										<p class="text-sm font-medium">Use components</p>
 										<p class="text-sm text-muted-foreground">Import and use components in your app.</p>
-										<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>import &#123; Button &#125; from "@/components/ui/button"
+										@CodeBlock("go", `import "your-project/ui"
 
-export default function Page() &#123;
-  return &lt;Button&gt;Click me&lt;/Button&gt;
-&#125;</code></pre>
+templ Page() {
+  @ui.Button(ui.ButtonProps{Label: "Click me"})
+}`)
 									</div>
 								</div>
 							</div>
@@ -1090,8 +1090,8 @@ templ InstallationPage() {
 					@ui.CardContent(ui.DOMProps{}) {
 						<div class="space-y-4">
 							<div>
-								<p class="mb-2 text-sm font-medium">Add Go module</p>
-								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>go get shadcn/ui</code></pre>
+								<p class="mb-2 text-sm font-medium">Add components</p>
+								<pre class="overflow-x-auto rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button</code></pre>
 							</div>
 							<div>
 										<p class="mb-2 text-sm font-medium">Copy support files</p>
@@ -1228,9 +1228,9 @@ templ CLIPage() {
 					}
 					@ui.CardContent(ui.DOMProps{}) {
 						<div class="grid gap-4">
-							<p class="text-sm text-muted-foreground">Add the UI module to your project dependencies:</p>
-							@CodeBlock("bash", "go get github.com/shadcn-ui/ui-go")
-							<p class="text-sm text-muted-foreground">Or if you're using a Go workspace, add the module path:</p>
+							<p class="text-sm text-muted-foreground">Copy the UI package into your project with the CLI:</p>
+							@CodeBlock("bash", "shadcn add button")
+							<p class="text-sm text-muted-foreground">Or if you're developing this repository in a Go workspace, add the local module path:</p>
 							@CodeBlock("bash", "go work use ./ui")
 						</div>
 					}

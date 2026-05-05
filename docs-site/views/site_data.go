@@ -48,7 +48,7 @@ type BlockEntry struct {
 var componentDocs = []ComponentDocEntry{
 	{
 		Slug: "accordion", Title: "Accordion", Description: "A vertically stacked set of interactive collapsible panels.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/overlays.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/overlays.go into your project.",
 		GoUsage: `@ui.Accordion(ui.AccordionProps{Type: "single", Collapsible: true}) {
   @ui.AccordionItem(ui.AccordionItemProps{Value: "item-1"}) {
     @ui.AccordionTrigger(ui.DOMProps{}) { Is it accessible? }
@@ -78,7 +78,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "alert", Title: "Alert", Description: "Displays a prominent message to call attention to important information.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Alert(ui.AlertProps{}) {
   @ui.AlertTitle(ui.DOMProps{}) { Heads up! }
   @ui.AlertDescription(ui.DOMProps{}) { You can add components using the CLI. }
@@ -99,7 +99,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "alert-dialog", Title: "Alert Dialog", Description: "A modal dialog that asks the user to confirm a destructive action.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/overlays.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/overlays.go into your project.",
 		GoUsage: `@ui.AlertDialog(ui.AlertDialogProps{Open: true}) {
   @ui.AlertDialogContent(ui.DOMProps{}) {
     @ui.AlertDialogHeader(ui.DOMProps{}) {
@@ -128,7 +128,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "aspect-ratio", Title: "Aspect Ratio", Description: "Maintains a consistent width-to-height ratio for any content.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.AspectRatio(ui.AspectRatioProps{Ratio: 16.0/9.0}) {
   <img src="..." alt="..." class="h-full w-full object-cover" />
 }`,
@@ -143,7 +143,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "badge", Title: "Badge", Description: "Small status or metadata labels that can appear as spans or links.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/button.go (badge.go) into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/button.go (badge.go) into your project.",
 		GoUsage: `@ui.Badge(ui.BadgeProps{Label: "Default"})
 @ui.Badge(ui.BadgeProps{Label: "Secondary", Variant: ui.BadgeVariantSecondary})
 @ui.Badge(ui.BadgeProps{Label: "Outline", Variant: ui.BadgeVariantOutline})`,
@@ -161,7 +161,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "breadcrumb", Title: "Breadcrumb", Description: "A navigation trail indicating the current page location.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/navigation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/navigation.go into your project.",
 		GoUsage: `@ui.Breadcrumb(ui.DOMProps{}) {
   @ui.BreadcrumbList(ui.DOMProps{}) {
     @ui.BreadcrumbItem(ui.DOMProps{}) {
@@ -192,7 +192,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "button", Title: "Button", Description: "Displays a button or a link styled as a button.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/button.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/button.go into your project.",
 		GoUsage: `@ui.Button(ui.ButtonProps{Label: "Click me"})
 @ui.Button(ui.ButtonProps{Label: "Outline", Variant: ui.ButtonVariantOutline})
 @ui.Button(ui.ButtonProps{Label: "Open", Href: "/page"})`,
@@ -220,7 +220,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "button-group", Title: "Button Group", Description: "Groups buttons into a connected control surface.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.ButtonGroup(ui.ButtonGroupProps{}) {
   @ui.Button(ui.ButtonProps{Label: "Left", Variant: ui.ButtonVariantOutline})
   @ui.ButtonGroupSeparator(ui.DOMProps{})
@@ -241,7 +241,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "card", Title: "Card", Description: "A flexible surface container for related information.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Card(ui.DOMProps{}) {
   @ui.CardHeader(ui.DOMProps{}) {
     @ui.CardTitle(ui.DOMProps{}) { <span>Title</span> }
@@ -267,7 +267,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "checkbox", Title: "Checkbox", Description: "A native checkbox with shadcn styling and accessibility attributes.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Checkbox(ui.CheckboxProps{Name: "terms"})`,
 		APIProps: []APIProp{
 			{Name: "Name", Type: "string", Default: `""`, Desc: "HTML name attribute for form submission."},
@@ -284,7 +284,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "collapsible", Title: "Collapsible", Description: "A lightweight disclosure primitive — lighter than accordion when nesting isn't needed.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/overlays.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/overlays.go into your project.",
 		GoUsage: `@ui.Collapsible(ui.CollapsibleProps{}) {
   @ui.CollapsibleTrigger(ui.DOMProps{}) { Click to expand }
   @ui.CollapsibleContent(ui.DOMProps{}) { Expanded content here }
@@ -303,7 +303,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "input", Title: "Input", Description: "A styled native text input supporting all HTML input types.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Input(ui.InputProps{Placeholder: "Email"})
 @ui.Input(ui.InputProps{Type: "password", Placeholder: "Password"})`,
 		APIProps: []APIProp{
@@ -323,7 +323,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "input-otp", Title: "Input OTP", Description: "One-time code entry with a slot-based UI for PIN and verification flows.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.InputOTP(ui.InputOTPProps{MaxLength: 6}) {
   @ui.InputOTPGroup(ui.DOMProps{}) {
     @ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 0})
@@ -354,7 +354,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "kbd", Title: "Kbd", Description: "A keyboard shortcut token styled as a key badge.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Kbd(ui.KbdProps{Text: "⌘K"})`,
 		APIProps: []APIProp{
 			{Name: "Text", Type: "string", Default: `""`, Desc: "The key text to display."},
@@ -369,7 +369,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "label", Title: "Label", Description: "A native label wrapper with shadcn styling.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Label(ui.LabelProps{For: "email"}) { <span>Your email</span> }`,
 		APIProps: []APIProp{
 			{Name: "For", Type: "string", Default: `""`, Desc: "The id of the associated form element."},
@@ -381,7 +381,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "native-select", Title: "Native Select", Description: "A styled native HTML select element.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.NativeSelect(ui.NativeSelectProps{}) {
   @ui.NativeSelectOption(ui.DOMProps{}, "apple", "Apple", false)
   @ui.NativeSelectOption(ui.DOMProps{}, "banana", "Banana", true)
@@ -402,7 +402,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "pagination", Title: "Pagination", Description: "Pagination primitives for navigating between pages of data.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/navigation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/navigation.go into your project.",
 		GoUsage: `@ui.Pagination(ui.DOMProps{}) {
   @ui.PaginationContent(ui.DOMProps{}) {
     @ui.PaginationItem(ui.DOMProps{}) {
@@ -438,7 +438,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "progress", Title: "Progress", Description: "A native progress bar styled with Tailwind, using transform for smooth animation.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Progress(ui.ProgressProps{Value: 60})`,
 		APIProps: []APIProp{
 			{Name: "Value", Type: "float64", Default: "0", Desc: "Current progress value."},
@@ -452,7 +452,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "radio-group", Title: "Radio Group", Description: "A group of radio options with accessible markup.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.RadioGroup(ui.RadioGroupProps{Name: "plan"}) {
   @ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "starter", Label: "Starter"})
   @ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "pro", Label: "Pro"})
@@ -472,7 +472,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "separator", Title: "Separator", Description: "A horizontal or vertical visual divider with optional ARIA semantics.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Separator(ui.SeparatorProps{})
 @ui.Separator(ui.SeparatorProps{Orientation: ui.SeparatorOrientationVertical})`,
 		APIProps: []APIProp{
@@ -485,7 +485,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "skeleton", Title: "Skeleton", Description: "An animated shimmer placeholder for loading states.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Skeleton(ui.DOMProps{Class: "h-4 w-full"})`,
 		APIProps: []APIProp{
 			{Name: "DOMProps.Class", Type: "string", Default: `""`, Desc: "Width, height, and shape classes (e.g. h-4 w-1/2 rounded-full)."},
@@ -511,7 +511,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "slider", Title: "Slider", Description: "A range slider for numeric input with single or dual thumbs.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Slider(ui.SliderProps{Min: 0, Max: 100, DefaultValue: []float64{40}})`,
 		APIProps: []APIProp{
 			{Name: "Min", Type: "float64", Default: "0", Desc: "Minimum value."},
@@ -527,7 +527,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "spinner", Title: "Spinner", Description: "A lightweight animated loading indicator.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.Spinner(ui.SpinnerProps{Size: ui.SpinnerSizeMD, Label: "Loading"})`,
 		APIProps: []APIProp{
 			{Name: "Size", Type: "SpinnerSize", Default: `"md"`, Desc: `"sm", "md", or "lg".`},
@@ -541,7 +541,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "switch", Title: "Switch", Description: "A toggle control styled as a sliding switch.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Switch(ui.SwitchProps{Name: "notifications", Checked: true})`,
 		APIProps: []APIProp{
 			{Name: "Name", Type: "string", Default: `""`, Desc: "HTML name for form submission."},
@@ -556,7 +556,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "tabs", Title: "Tabs", Description: "Tabbed panels for organizing content into sections.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/navigation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/navigation.go into your project.",
 		GoUsage: `@ui.Tabs(ui.TabsProps{DefaultValue: "account"}) {
   @ui.TabsList(ui.TabsListProps{}) {
     @ui.TabsTrigger(ui.TabsTriggerProps{Value: "account", Active: true}) { <span>Account</span> }
@@ -584,7 +584,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "textarea", Title: "Textarea", Description: "A styled native multi-line text input.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/forms.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/forms.go into your project.",
 		GoUsage: `@ui.Textarea(ui.TextareaProps{Placeholder: "Type your message here."})`,
 		APIProps: []APIProp{
 			{Name: "Placeholder", Type: "string", Default: `""`, Desc: "Placeholder text."},
@@ -599,7 +599,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "toggle", Title: "Toggle", Description: "A pressed-state button — on or off.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/navigation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/navigation.go into your project.",
 		GoUsage: `@ui.Toggle(ui.ToggleProps{}) { <span>Bold</span> }`,
 		APIProps: []APIProp{
 			{Name: "Pressed", Type: "bool", Default: "false", Desc: "Whether the toggle is in the on state."},
@@ -615,7 +615,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "typography", Title: "Typography", Description: "A docs-oriented set of semantic HTML typography components.",
-		Install: "go get github.com/shadcn-ui/ui", ManualInstall: "Copy ui/foundation.go into your project.",
+		Install: "shadcn add button", ManualInstall: "Copy ui/foundation.go into your project.",
 		GoUsage: `@ui.H1(ui.DOMProps{}) { <span>Heading</span> }
 @ui.P(ui.DOMProps{}) { <span>Paragraph text</span> }
 @ui.Muted(ui.DOMProps{}) { <span>Muted helper</span> }`,
@@ -634,51 +634,51 @@ var componentDocs = []ComponentDocEntry{
 		},
 	},
 	// ── Stub entries (no live preview available yet — overlay/JS-dependent) ──────
-	{Slug: "avatar", Title: "Avatar", Description: "Displays a user image with a graceful fallback to initials.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Avatar(ui.AvatarProps{Src: "/avatar.jpg", Fallback: "JD"})`, APIProps: []APIProp{{Name: "Src", Type: "string", Default: `""`, Desc: "Image source URL."}, {Name: "Fallback", Type: "string", Default: `""`, Desc: "Text shown when image fails to load."}}},
-	{Slug: "calendar", Title: "Calendar", Description: "A month view calendar with flexible selection modes.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Calendar(ui.CalendarProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
-	{Slug: "carousel", Title: "Carousel", Description: "A swipeable set of slides with navigation controls.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Carousel(ui.CarouselProps{}) { ... }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: "Slide direction."}}},
-	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{Config: cfg}) { ... }`, APIProps: []APIProp{{Name: "Config", Type: "ChartConfig", Default: "-", Desc: "Series color and label configuration for the vanilla chart runtime."}}},
-	{Slug: "combobox", Title: "Combobox", Description: "Searchable selection with single or multi-value support.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Combobox(ui.ComboboxProps{}) { ... }`, APIProps: []APIProp{{Name: "Multiple", Type: "bool", Default: "false", Desc: "Allow multiple selections."}}},
-	{Slug: "command", Title: "Command", Description: "A searchable command palette component.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Command(ui.CommandProps{}) { ... }`, APIProps: []APIProp{{Name: "DefaultValue", Type: "string", Default: `""`, Desc: "Default search value."}}},
-	{Slug: "context-menu", Title: "Context Menu", Description: "A right-click menu with nested submenus.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.ContextMenu(ui.ContextMenuProps{}) { ... }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Item variant."}}},
-	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.DataTable(ui.DataTableProps{Columns: cols, Rows: rows}) {}`, APIProps: []APIProp{{Name: "Columns", Type: "[]Column", Default: "nil", Desc: "Column definitions."}, {Name: "Rows", Type: "[][]string", Default: "nil", Desc: "Table row data."}}},
-	{Slug: "date-picker", Title: "Date Picker", Description: "A calendar popover for selecting single or range dates.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.DatePicker(ui.DatePickerProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
-	{Slug: "dialog", Title: "Dialog", Description: "A modal dialog used for forms and transient tasks.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Dialog(ui.DialogProps{Open: true}) {
+	{Slug: "avatar", Title: "Avatar", Description: "Displays a user image with a graceful fallback to initials.", Install: "shadcn add button", GoUsage: `@ui.Avatar(ui.AvatarProps{Src: "/avatar.jpg", Fallback: "JD"})`, APIProps: []APIProp{{Name: "Src", Type: "string", Default: `""`, Desc: "Image source URL."}, {Name: "Fallback", Type: "string", Default: `""`, Desc: "Text shown when image fails to load."}}},
+	{Slug: "calendar", Title: "Calendar", Description: "A month view calendar with flexible selection modes.", Install: "shadcn add button", GoUsage: `@ui.Calendar(ui.CalendarProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
+	{Slug: "carousel", Title: "Carousel", Description: "A swipeable set of slides with navigation controls.", Install: "shadcn add button", GoUsage: `@ui.Carousel(ui.CarouselProps{}) { ... }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: "Slide direction."}}},
+	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "shadcn add button", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{Config: cfg}) { ... }`, APIProps: []APIProp{{Name: "Config", Type: "ChartConfig", Default: "-", Desc: "Series color and label configuration for the vanilla chart runtime."}}},
+	{Slug: "combobox", Title: "Combobox", Description: "Searchable selection with single or multi-value support.", Install: "shadcn add button", GoUsage: `@ui.Combobox(ui.ComboboxProps{}) { ... }`, APIProps: []APIProp{{Name: "Multiple", Type: "bool", Default: "false", Desc: "Allow multiple selections."}}},
+	{Slug: "command", Title: "Command", Description: "A searchable command palette component.", Install: "shadcn add button", GoUsage: `@ui.Command(ui.CommandProps{}) { ... }`, APIProps: []APIProp{{Name: "DefaultValue", Type: "string", Default: `""`, Desc: "Default search value."}}},
+	{Slug: "context-menu", Title: "Context Menu", Description: "A right-click menu with nested submenus.", Install: "shadcn add button", GoUsage: `@ui.ContextMenu(ui.ContextMenuProps{}) { ... }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Item variant."}}},
+	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "shadcn add button", GoUsage: `@ui.DataTable(ui.DataTableProps{Columns: cols, Rows: rows}) {}`, APIProps: []APIProp{{Name: "Columns", Type: "[]Column", Default: "nil", Desc: "Column definitions."}, {Name: "Rows", Type: "[][]string", Default: "nil", Desc: "Table row data."}}},
+	{Slug: "date-picker", Title: "Date Picker", Description: "A calendar popover for selecting single or range dates.", Install: "shadcn add button", GoUsage: `@ui.DatePicker(ui.DatePickerProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
+	{Slug: "dialog", Title: "Dialog", Description: "A modal dialog used for forms and transient tasks.", Install: "shadcn add button", GoUsage: `@ui.Dialog(ui.DialogProps{Open: true}) {
   @ui.DialogContent(ui.DOMProps{}) {
     @ui.DialogTitle(ui.DOMProps{}) { Title }
   }
 }`, APIProps: []APIProp{{Name: "Open", Type: "bool", Default: "false", Desc: "Controls dialog visibility."}, {Name: "Modal", Type: "bool", Default: "true", Desc: "Traps focus inside the dialog."}}},
-	{Slug: "direction", Title: "Direction", Description: "An RTL/LTR direction context provider.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.DirectionProvider(ui.DirectionProviderProps{Direction: "rtl"}) { ... }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"ltr"`, Desc: `"ltr" or "rtl".`}}},
-	{Slug: "drawer", Title: "Drawer", Description: "A slide-over surface from screen edges with mobile-friendly motion.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Drawer(ui.DrawerProps{}) {
+	{Slug: "direction", Title: "Direction", Description: "An RTL/LTR direction context provider.", Install: "shadcn add button", GoUsage: `@ui.DirectionProvider(ui.DirectionProviderProps{Direction: "rtl"}) { ... }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"ltr"`, Desc: `"ltr" or "rtl".`}}},
+	{Slug: "drawer", Title: "Drawer", Description: "A slide-over surface from screen edges with mobile-friendly motion.", Install: "shadcn add button", GoUsage: `@ui.Drawer(ui.DrawerProps{}) {
   @ui.DrawerContent(ui.DOMProps{}) { ... }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"bottom"`, Desc: `"top", "bottom", "left", "right".`}}},
-	{Slug: "dropdown-menu", Title: "Dropdown Menu", Description: "A context-driven popover menu with keyboard navigation.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.DropdownMenu(ui.DropdownMenuProps{}) {
+	{Slug: "dropdown-menu", Title: "Dropdown Menu", Description: "A context-driven popover menu with keyboard navigation.", Install: "shadcn add button", GoUsage: `@ui.DropdownMenu(ui.DropdownMenuProps{}) {
   @ui.DropdownMenuTrigger(ui.DOMProps{}) { Open }
   @ui.DropdownMenuContent(ui.DOMProps{}) {
     @ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) { Item }
   }
 }`, APIProps: []APIProp{{Name: "Trigger", Type: "children", Default: "-", Desc: "The trigger element."}}},
-	{Slug: "empty", Title: "Empty", Description: "A polished empty-state placeholder helper.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Empty(ui.DOMProps{}) {
+	{Slug: "empty", Title: "Empty", Description: "A polished empty-state placeholder helper.", Install: "shadcn add button", GoUsage: `@ui.Empty(ui.DOMProps{}) {
   @ui.EmptyTitle(ui.DOMProps{}) { No results }
   @ui.EmptyDescription(ui.DOMProps{}) { Try adjusting your filters. }
 }`, APIProps: []APIProp{}},
-	{Slug: "field", Title: "Field", Description: "A form field grouping component with label, description, and error slots.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Field(ui.DOMProps{}) {
+	{Slug: "field", Title: "Field", Description: "A form field grouping component with label, description, and error slots.", Install: "shadcn add button", GoUsage: `@ui.Field(ui.DOMProps{}) {
   @ui.FieldLabel(ui.DOMProps{}) { Email }
   @ui.Input(ui.InputProps{Placeholder: "you@example.com"})
   @ui.FieldError(ui.FieldErrorProps{Errors: []string{"Invalid email."}})
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "FieldOrientation", Default: `"vertical"`, Desc: `"vertical", "horizontal", "responsive".`}}},
-	{Slug: "hover-card", Title: "Hover Card", Description: "A hover/focus-driven preview popover, ideal for user profiles and link previews.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.HoverCard(ui.HoverCardProps{}) {
+	{Slug: "hover-card", Title: "Hover Card", Description: "A hover/focus-driven preview popover, ideal for user profiles and link previews.", Install: "shadcn add button", GoUsage: `@ui.HoverCard(ui.HoverCardProps{}) {
   @ui.HoverCardTrigger(ui.DOMProps{}) { Hover me }
   @ui.HoverCardContent(ui.DOMProps{}) { Card content }
 }`, APIProps: []APIProp{{Name: "OpenDelayMs", Type: "int", Default: "0", Desc: "Delay before showing."}, {Name: "CloseDelayMs", Type: "int", Default: "0", Desc: "Delay before hiding."}}},
-	{Slug: "input-group", Title: "Input Group", Description: "Input with leading/trailing addons and icon slots.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.InputGroup(ui.InputGroupProps{}) {
+	{Slug: "input-group", Title: "Input Group", Description: "Input with leading/trailing addons and icon slots.", Install: "shadcn add button", GoUsage: `@ui.InputGroup(ui.InputGroupProps{}) {
   @ui.InputGroupAddon(ui.InputGroupAddonProps{}) { $ }
   @ui.InputGroupInput(ui.InputGroupInputProps{Placeholder: "0.00"})
 }`, APIProps: []APIProp{{Name: "Align", Type: "InputGroupAddonAlign", Default: `"inline-start"`, Desc: "Position of the addon."}}},
-	{Slug: "item", Title: "Item", Description: "A generic list/card item surface with header, body, and action slots.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Item(ui.DOMProps{}) {
+	{Slug: "item", Title: "Item", Description: "A generic list/card item surface with header, body, and action slots.", Install: "shadcn add button", GoUsage: `@ui.Item(ui.DOMProps{}) {
   @ui.ItemHeader(ui.DOMProps{}) { Title }
 }`, APIProps: []APIProp{}},
-	{Slug: "menubar", Title: "Menubar", Description: "A horizontal application menu bar.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Menubar(ui.MenubarProps{}) {
+	{Slug: "menubar", Title: "Menubar", Description: "A horizontal application menu bar.", Install: "shadcn add button", GoUsage: `@ui.Menubar(ui.MenubarProps{}) {
   @ui.MenubarMenu(ui.DOMProps{}) {
     @ui.MenubarTrigger(ui.DOMProps{}) { File }
     @ui.MenubarContent(ui.DOMProps{}) {
@@ -686,33 +686,33 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "navigation-menu", Title: "Navigation Menu", Description: "A top-level navigation with disclosure viewport.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.NavigationMenu(ui.NavigationMenuProps{}) {
+	{Slug: "navigation-menu", Title: "Navigation Menu", Description: "A top-level navigation with disclosure viewport.", Install: "shadcn add button", GoUsage: `@ui.NavigationMenu(ui.NavigationMenuProps{}) {
   @ui.NavigationMenuList(ui.DOMProps{}) {
     @ui.NavigationMenuItem(ui.DOMProps{}) {
       @ui.NavigationMenuLink(ui.BreadcrumbLinkProps{Href: "/"}) { Home }
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "popover", Title: "Popover", Description: "Floating content anchored to a trigger element.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Popover(ui.PopoverProps{}) {
+	{Slug: "popover", Title: "Popover", Description: "Floating content anchored to a trigger element.", Install: "shadcn add button", GoUsage: `@ui.Popover(ui.PopoverProps{}) {
   @ui.PopoverTrigger(ui.DOMProps{}) { Open popover }
   @ui.PopoverContent(ui.DOMProps{}) { Content here }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"bottom"`, Desc: "Preferred placement side."}, {Name: "Align", Type: "string", Default: `"center"`, Desc: "Alignment along the axis."}, {Name: "Modal", Type: "bool", Default: "false", Desc: "Whether to trap focus."}}},
-	{Slug: "resizable", Title: "Resizable", Description: "Pointer-driven resize panels.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.ResizablePanelGroup(ui.DOMProps{}) { ... }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"horizontal"`, Desc: `"horizontal" or "vertical".`}}},
-	{Slug: "scroll-area", Title: "Scroll Area", Description: "Styled scrollable containers with custom scrollbars.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.ScrollArea(ui.DOMProps{Class: "h-72"}) {
+	{Slug: "resizable", Title: "Resizable", Description: "Pointer-driven resize panels.", Install: "shadcn add button", GoUsage: `@ui.ResizablePanelGroup(ui.DOMProps{}) { ... }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"horizontal"`, Desc: `"horizontal" or "vertical".`}}},
+	{Slug: "scroll-area", Title: "Scroll Area", Description: "Styled scrollable containers with custom scrollbars.", Install: "shadcn add button", GoUsage: `@ui.ScrollArea(ui.DOMProps{Class: "h-72"}) {
   // long content
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"vertical"`, Desc: `"vertical" or "both".`}}},
-	{Slug: "select", Title: "Select", Description: "A custom accessible select built around a listbox runtime.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Select(ui.SelectProps{}) {
+	{Slug: "select", Title: "Select", Description: "A custom accessible select built around a listbox runtime.", Install: "shadcn add button", GoUsage: `@ui.Select(ui.SelectProps{}) {
   @ui.SelectTrigger(ui.DOMProps{}) { Select an option }
   @ui.SelectContent(ui.DOMProps{}) {
     @ui.SelectItem(ui.SelectItemProps{Value: "apple"}) { Apple }
   }
 }`, APIProps: []APIProp{{Name: "DefaultOpen", Type: "bool", Default: "false", Desc: "Initial open state."}, {Name: "Required", Type: "bool", Default: "false", Desc: "Marks as required."}}},
-	{Slug: "sheet", Title: "Sheet", Description: "A slide-over panel that animates from any screen edge.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Sheet(ui.SheetProps{Side: "right"}) {
+	{Slug: "sheet", Title: "Sheet", Description: "A slide-over panel that animates from any screen edge.", Install: "shadcn add button", GoUsage: `@ui.Sheet(ui.SheetProps{Side: "right"}) {
   @ui.SheetContent(ui.DOMProps{}) {
     @ui.SheetTitle(ui.DOMProps{}) { Profile }
   }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"right"`, Desc: `"top", "bottom", "left", "right".`}, {Name: "ShowCloseButton", Type: "bool", Default: "false", Desc: "Show a close button."}}},
-	{Slug: "sidebar", Title: "Sidebar", Description: "A full app-shell sidebar with navigation, groups, and collapsible menus.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.SidebarProvider(ui.SidebarProviderProps{DefaultOpen: true}) {
+	{Slug: "sidebar", Title: "Sidebar", Description: "A full app-shell sidebar with navigation, groups, and collapsible menus.", Install: "shadcn add button", GoUsage: `@ui.SidebarProvider(ui.SidebarProviderProps{DefaultOpen: true}) {
   @ui.Sidebar(ui.SidebarProps{}) {
     @ui.SidebarContent(ui.DOMProps{}) {
       @ui.SidebarMenu(ui.DOMProps{}) {
@@ -723,8 +723,8 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"left"`, Desc: `"left" or "right".`}, {Name: "Variant", Type: "string", Default: `"sidebar"`, Desc: `"sidebar", "floating", or "inset".`}, {Name: "Collapsible", Type: "string", Default: `"offcanvas"`, Desc: `"offcanvas", "icon", or "none".`}}},
-	{Slug: "sonner", Title: "Sonner", Description: "A toast notification system using the Sonner design.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Toaster(ui.ToasterProps{Position: "bottom-right", RichColors: true})`, APIProps: []APIProp{{Name: "Theme", Type: "string", Default: `""`, Desc: "Force light or dark mode."}, {Name: "Position", Type: "string", Default: `"bottom-right"`, Desc: "Toast position on screen."}}},
-	{Slug: "table", Title: "Table", Description: "Table primitives with shadcn styling for simple data display.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Table(ui.DOMProps{}) {
+	{Slug: "sonner", Title: "Sonner", Description: "A toast notification system using the Sonner design.", Install: "shadcn add button", GoUsage: `@ui.Toaster(ui.ToasterProps{Position: "bottom-right", RichColors: true})`, APIProps: []APIProp{{Name: "Theme", Type: "string", Default: `""`, Desc: "Force light or dark mode."}, {Name: "Position", Type: "string", Default: `"bottom-right"`, Desc: "Toast position on screen."}}},
+	{Slug: "table", Title: "Table", Description: "Table primitives with shadcn styling for simple data display.", Install: "shadcn add button", GoUsage: `@ui.Table(ui.DOMProps{}) {
   @ui.TableHeader(ui.DOMProps{}) {
     @ui.TableRow(ui.DOMProps{}) {
       @ui.TableHead(ui.DOMProps{}) { Name }
@@ -738,15 +738,15 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "toast", Title: "Toast", Description: "Legacy toast primitives for notification messages.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.Toast(ui.ToastProps{Open: true}) {
+	{Slug: "toast", Title: "Toast", Description: "Legacy toast primitives for notification messages.", Install: "shadcn add button", GoUsage: `@ui.Toast(ui.ToastProps{Open: true}) {
   @ui.ToastTitle(ui.DOMProps{}) { Scheduled! }
   @ui.ToastDescription(ui.DOMProps{}) { Event created for Friday. }
 }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Visual variant (e.g. destructive)."}, {Name: "Duration", Type: "int", Default: "5000", Desc: "Auto-dismiss time in ms."}}},
-	{Slug: "toggle-group", Title: "Toggle Group", Description: "A group of related toggle buttons for single or multi-select.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.ToggleGroup(ui.ToggleGroupProps{Type: "single"}) {
+	{Slug: "toggle-group", Title: "Toggle Group", Description: "A group of related toggle buttons for single or multi-select.", Install: "shadcn add button", GoUsage: `@ui.ToggleGroup(ui.ToggleGroupProps{Type: "single"}) {
   @ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "bold"}) { B }
   @ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "italic"}) { I }
 }`, APIProps: []APIProp{{Name: "Type", Type: "string", Default: `"single"`, Desc: `"single" or "multiple".`}}},
-	{Slug: "tooltip", Title: "Tooltip", Description: "A floating hint label for compact icon controls.", Install: "go get github.com/shadcn-ui/ui", GoUsage: `@ui.TooltipProvider(ui.TooltipProviderProps{}) {
+	{Slug: "tooltip", Title: "Tooltip", Description: "A floating hint label for compact icon controls.", Install: "shadcn add button", GoUsage: `@ui.TooltipProvider(ui.TooltipProviderProps{}) {
   @ui.Tooltip(ui.TooltipProps{}) {
     @ui.TooltipTrigger(ui.DOMProps{}) { Hover me }
     @ui.TooltipContent(ui.DOMProps{}) { Helpful hint }
@@ -884,8 +884,8 @@ func init() {
 func normalizeComponentDocs() {
 	for i := range componentDocs {
 		doc := &componentDocs[i]
-		if doc.Install == "" {
-			doc.Install = "go get shadcn/ui"
+		if doc.Install == "" || doc.Install == "shadcn add button" || doc.Install == "shadcn add <component>" {
+			doc.Install = "shadcn add " + doc.Slug
 		}
 		if doc.GoUsage == "" {
 			doc.GoUsage = defaultGoUsage(doc)
