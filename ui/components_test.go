@@ -284,6 +284,39 @@ func TestButton_Label(t *testing.T) {
 	}
 }
 
+func TestButton_Children(t *testing.T) {
+	var buf bytes.Buffer
+	child := templ.ComponentFunc(func(_ context.Context, w io.Writer) error {
+		_, err := io.WriteString(w, "<span>Now</span>")
+		return err
+	})
+	if err := Button(ButtonProps{}).Render(templ.WithChildren(context.Background(), child), &buf); err != nil {
+		t.Fatal(err)
+	}
+	html := buf.String()
+	if !strings.Contains(html, "<span>Now</span>") {
+		t.Fatalf("button did not render slotted children: %s", html)
+	}
+}
+
+func TestButton_LabelDoesNotRenderAmbientChildren(t *testing.T) {
+	var buf bytes.Buffer
+	child := templ.ComponentFunc(func(_ context.Context, w io.Writer) error {
+		_, err := io.WriteString(w, "<span>Parent content</span>")
+		return err
+	})
+	if err := Button(ButtonProps{Label: "Save"}).Render(templ.WithChildren(context.Background(), child), &buf); err != nil {
+		t.Fatal(err)
+	}
+	html := buf.String()
+	if !strings.Contains(html, "Save") {
+		t.Fatalf("button did not render label: %s", html)
+	}
+	if strings.Contains(html, "Parent content") {
+		t.Fatalf("button leaked ambient children: %s", html)
+	}
+}
+
 func TestButton_CustomElement(t *testing.T) {
 	html := mustRender(t, Button(ButtonProps{DOMProps: DOMProps{Element: "span"}}))
 	tag := extractTag(html)
@@ -360,6 +393,39 @@ func TestBadge_DataVariant(t *testing.T) {
 	html := mustRender(t, Badge(BadgeProps{Variant: BadgeVariantOutline}))
 	if attrValue(html, "data-variant") != "outline" {
 		t.Errorf("expected data-variant=outline, got %q", attrValue(html, "data-variant"))
+	}
+}
+
+func TestBadge_Children(t *testing.T) {
+	var buf bytes.Buffer
+	child := templ.ComponentFunc(func(_ context.Context, w io.Writer) error {
+		_, err := io.WriteString(w, "<span>1</span>")
+		return err
+	})
+	if err := Badge(BadgeProps{}).Render(templ.WithChildren(context.Background(), child), &buf); err != nil {
+		t.Fatal(err)
+	}
+	html := buf.String()
+	if !strings.Contains(html, "<span>1</span>") {
+		t.Fatalf("badge did not render slotted children: %s", html)
+	}
+}
+
+func TestBadge_LabelDoesNotRenderAmbientChildren(t *testing.T) {
+	var buf bytes.Buffer
+	child := templ.ComponentFunc(func(_ context.Context, w io.Writer) error {
+		_, err := io.WriteString(w, "<span>Parent content</span>")
+		return err
+	})
+	if err := Badge(BadgeProps{Label: "Beta"}).Render(templ.WithChildren(context.Background(), child), &buf); err != nil {
+		t.Fatal(err)
+	}
+	html := buf.String()
+	if !strings.Contains(html, "Beta") {
+		t.Fatalf("badge did not render label: %s", html)
+	}
+	if strings.Contains(html, "Parent content") {
+		t.Fatalf("badge leaked ambient children: %s", html)
 	}
 }
 
@@ -769,19 +835,19 @@ func TestTypography_TableProse(t *testing.T) {
 
 func TestTypography_AllHaveDataSlots(t *testing.T) {
 	components := map[string]templ.Component{
-		"h1":             H1(DOMProps{}),
-		"h2":             H2(DOMProps{}),
-		"h3":             H3(DOMProps{}),
-		"h4":             H4(DOMProps{}),
-		"p":              P(DOMProps{}),
-		"blockquote":     Blockquote(DOMProps{}),
-		"inline-code":    InlineCode(DOMProps{}),
-		"lead":           Lead(DOMProps{}),
-		"large":          Large(DOMProps{}),
-		"small":          Small(DOMProps{}),
-		"muted":          Muted(DOMProps{}),
-		"list":           List(DOMProps{}),
-		"table-prose":    TableProse(DOMProps{}),
+		"h1":          H1(DOMProps{}),
+		"h2":          H2(DOMProps{}),
+		"h3":          H3(DOMProps{}),
+		"h4":          H4(DOMProps{}),
+		"p":           P(DOMProps{}),
+		"blockquote":  Blockquote(DOMProps{}),
+		"inline-code": InlineCode(DOMProps{}),
+		"lead":        Lead(DOMProps{}),
+		"large":       Large(DOMProps{}),
+		"small":       Small(DOMProps{}),
+		"muted":       Muted(DOMProps{}),
+		"list":        List(DOMProps{}),
+		"table-prose": TableProse(DOMProps{}),
 	}
 	for slot, comp := range components {
 		html := mustRender(t, comp)

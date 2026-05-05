@@ -45,6 +45,7 @@ func badgeClasses(variant BadgeVariant, className string) string {
 
 func Badge(props BadgeProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, slottedChildren := childrenFromContext(ctx)
 		variant := props.Variant
 		if variant == "" {
 			variant = BadgeVariantDefault
@@ -69,8 +70,10 @@ func Badge(props BadgeProps) templ.Component {
 					return err
 				}
 			}
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
-				return err
+			if props.Label == "" {
+				if err := renderChildren(ctx, w, slottedChildren); err != nil {
+					return err
+				}
 			}
 			return nil
 		})

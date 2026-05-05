@@ -78,6 +78,7 @@ func buttonClasses(variant ButtonVariant, size ButtonSize, className string) str
 
 func Button(props ButtonProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, slottedChildren := childrenFromContext(ctx)
 		variant := props.Variant
 		if variant == "" {
 			variant = ButtonVariantDefault
@@ -120,8 +121,10 @@ func Button(props ButtonProps) templ.Component {
 					return err
 				}
 			}
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
-				return err
+			if props.Label == "" && props.Leading == nil && props.Trailing == nil {
+				if err := renderChildren(ctx, w, slottedChildren); err != nil {
+					return err
+				}
 			}
 			if err := renderChildren(ctx, w, props.Trailing); err != nil {
 				return err
