@@ -42,7 +42,7 @@ templ Home() {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<title>Shadcn for Go</title>
-			<script src="/assets/runtime.js" defer></script>
+			<script type="module" src="/assets/runtime.js"></script>
 		</head>
 		<body class="min-h-svh bg-background text-foreground">
 			<main class="mx-auto flex min-h-svh max-w-4xl flex-col justify-center gap-8 px-6 py-16">
@@ -158,310 +158,132 @@ func starterCSS() string {
 
 func starterRuntimeJS() string {
 	return `/**
- * shadcn-go minimal JS runtime
- * 
- * Hydrates headless UI behaviors purely based on data-* attributes.
+ * shadcn-go JS runtime
+ *
+ * Starter projects get a bundled runtime. The docs site keeps the same behavior
+ * split into component modules under /public/runtime/.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    initRuntime();
-});
+const floatingRoots = '[data-slot="popover"], [data-slot="hover-card"], [data-slot="tooltip"], [data-slot="select"], [data-slot="combobox"], [data-slot="dropdown-menu"], [data-slot="context-menu"], [data-slot="menubar"], [data-slot="navigation-menu"], [data-dropdown-menu-root]';
+const floatingContent = '[data-slot$="-content"], [data-dropdown-menu-content]';
+
+function isOpen(root) {
+  return root?.getAttribute('data-open') === 'true' || root?.hasAttribute('open');
+}
+
+function contentFor(root) {
+  return root?.querySelector(floatingContent);
+}
+
+function triggerFor(root) {
+  return root?.querySelector('[data-slot$="-trigger"], [data-dropdown-menu-trigger], [aria-haspopup]');
+}
+
+function setOpen(root, open, trigger = triggerFor(root)) {
+  const content = contentFor(root);
+  root.toggleAttribute('open', open && root.tagName === 'DETAILS');
+  root.setAttribute('data-state', open ? 'open' : 'closed');
+  if (open) root.setAttribute('data-open', 'true');
+  else root.removeAttribute('data-open');
+  trigger?.setAttribute('aria-expanded', open ? 'true' : 'false');
+  trigger?.setAttribute('data-state', open ? 'open' : 'closed');
+  content?.setAttribute('data-state', open ? 'open' : 'closed');
+  if (content) content.toggleAttribute('hidden', !open);
+  if (open) positionFloating(root);
+}
+
+function positionFloating(root) {
+  const trigger = triggerFor(root);
+  const content = contentFor(root);
+  if (!trigger || !content) return;
+  content.style.position = 'fixed';
+  content.style.margin = '0';
+  content.style.zIndex ||= '50';
+  const side = root.getAttribute('data-side') || content.getAttribute('data-side') || 'bottom';
+  const align = root.getAttribute('data-align') || content.getAttribute('data-align') || 'center';
+  const offset = Number.parseFloat(root.getAttribute('data-side-offset') || '4') || 4;
+  const anchor = trigger.getBoundingClientRect();
+  const rect = content.getBoundingClientRect();
+  let left = align === 'start' ? anchor.left : align === 'end' ? anchor.right - rect.width : anchor.left + (anchor.width - rect.width) / 2;
+  let top = side === 'top' ? anchor.top - rect.height - offset : anchor.bottom + offset;
+  left = Math.max(8, Math.min(left, window.innerWidth - rect.width - 8));
+  top = Math.max(8, Math.min(top, window.innerHeight - rect.height - 8));
+  content.style.left = Math.round(left) + 'px';
+  content.style.top = Math.round(top) + 'px';
+  content.setAttribute('data-side', side);
+  content.setAttribute('data-align', align);
+  content.style.setProperty('--anchor-width', anchor.width + 'px');
+  content.style.setProperty('--anchor-height', anchor.height + 'px');
+  content.style.setProperty('--radix-popover-trigger-width', anchor.width + 'px');
+  content.style.setProperty('--radix-dropdown-menu-trigger-width', anchor.width + 'px');
+}
+
+function focusable(root) {
+  return Array.from(root.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])')).filter((el) => !el.hidden);
+}
 
 function initRuntime() {
-    document.addEventListener('click', (e) => {
-        handleToggles(e);
-        handleOutsideClick(e);
+  document.querySelectorAll(floatingRoots).forEach((root) => setOpen(root, isOpen(root)));
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-slot$="-trigger"], [data-dropdown-menu-trigger], [aria-haspopup]');
+    const root = trigger?.closest(floatingRoots);
+    if (root) {
+      event.preventDefault();
+      document.querySelectorAll(floatingRoots + '[data-open="true"]').forEach((openRoot) => {
+        if (openRoot !== root) setOpen(openRoot, false);
+      });
+      setOpen(root, !isOpen(root), trigger);
+      return;
+    }
+
+    const close = event.target.closest('[data-slot$="-close"], [data-slot="alert-dialog-action"], [data-slot="alert-dialog-cancel"]');
+    if (close) {
+      const dialog = close.closest('dialog');
+      if (dialog) {
+        dialog.close();
+        setOpen(dialog, false);
+      }
+    }
+
+    const item = event.target.closest('[data-slot$="-item"], [data-dropdown-menu-item]');
+    const selectRoot = item?.closest('[data-slot="select"], [data-slot="combobox"]');
+    if (item && selectRoot) {
+      const value = item.getAttribute('data-value') || item.textContent.trim();
+      selectRoot.setAttribute('data-value', value);
+      const display = selectRoot.querySelector('[data-slot$="-value"]');
+      if (display) display.textContent = item.textContent.trim();
+      setOpen(selectRoot, false);
+    }
+
+    document.querySelectorAll(floatingRoots + '[data-open="true"]').forEach((openRoot) => {
+      if (!openRoot.contains(event.target)) setOpen(openRoot, false);
     });
-    document.addEventListener('keydown', (e) => {
-        handleEscape(e);
-        handleRovingFocus(e);
-    });
+  });
 
-    // Initialize immediate behaviors
-    initCharts();
+  document.addEventListener('keydown', (event) => {
+    const root = event.target.closest(floatingRoots + '[data-open="true"]');
+    if (event.key === 'Escape') {
+      const openRoot = root || document.querySelector(floatingRoots + '[data-open="true"]');
+      if (openRoot) {
+        event.preventDefault();
+        setOpen(openRoot, false);
+      }
+    }
+    if (root && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+      const items = focusable(root).filter((el) => el.matches('[data-slot$="-item"], [data-dropdown-menu-item]'));
+      if (!items.length) return;
+      event.preventDefault();
+      const current = items.indexOf(document.activeElement);
+      const next = event.key === 'ArrowDown' ? (current + 1 + items.length) % items.length : (current - 1 + items.length) % items.length;
+      items[next].focus();
+    }
+  });
+
+  window.addEventListener('resize', () => document.querySelectorAll(floatingRoots + '[data-open="true"]').forEach(positionFloating));
+  window.addEventListener('scroll', () => document.querySelectorAll(floatingRoots + '[data-open="true"]').forEach(positionFloating), true);
 }
 
-function initCharts() {
-    // Look for Chart Containers and initialize them if the vanilla chart runtime is present.
-    const charts = document.querySelectorAll('[data-chart-container]');
-    charts.forEach(chart => {
-        const configStr = chart.getAttribute('data-config');
-        if (configStr) {
-            // Recharts itself is React-based. This hook is for a Recharts-style
-            // vanilla SVG renderer that reads the same chart data attributes.
-            console.warn("ChartContainer found: load the shadcn-go vanilla chart runtime to render.");
-        }
-    });
-}
-
-function handleRovingFocus(e) {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        const itemSelectors = '[data-dropdown-menu-item], [data-select-item], [data-combobox-item], [data-command-item], [data-alert-dialog-action], [data-alert-dialog-cancel]';
-        
-        // Find if we are currently focused on an item or a trigger
-        const activeContainer = e.target.closest('[data-open="true"] [data-dropdown-menu-content], [data-open="true"] [data-select-content], [data-open="true"]:not(dialog), dialog[open]');
-        
-        if (!activeContainer) return;
-        
-        const items = Array.from(activeContainer.querySelectorAll(itemSelectors));
-        if (items.length === 0) return;
-
-        e.preventDefault();
-        
-        const currentIndex = items.indexOf(document.activeElement);
-        let nextIndex;
-
-        if (e.key === 'ArrowDown') {
-            nextIndex = currentIndex >= items.length - 1 ? 0 : currentIndex + 1;
-        } else {
-            nextIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
-        }
-
-        items[nextIndex].focus();
-    }
-}
-
-function handleToggles(e) {
-    // 1. Dialogs and Sheets (Native <dialog> elements)
-    const dialogTrigger = e.target.closest('[data-dialog-trigger], [data-sheet-trigger]');
-    if (dialogTrigger) {
-        let targetId = dialogTrigger.getAttribute('aria-controls') || dialogTrigger.getAttribute('data-target');
-        let target = targetId ? document.getElementById(targetId) : null;
-        
-        // Fallback: look for next sibling that is a dialog
-        if (!target) {
-            let next = dialogTrigger.nextElementSibling;
-            while(next) {
-                if(next.tagName === 'DIALOG') {
-                    target = next;
-                    break;
-                }
-                next = next.nextElementSibling;
-            }
-        }
-        
-        if (target && target.tagName === 'DIALOG') {
-            const isModal = target.getAttribute('data-modal') !== 'false';
-            if (!target.open && target.getAttribute('open') === null) {
-                if (isModal) {
-                    target.showModal();
-                } else {
-                    target.show();
-                }
-                target.setAttribute('data-open', 'true');
-            }
-        }
-    }
-
-    // 2. Dialog Closes
-    const dialogClose = e.target.closest('[data-dialog-close], [data-sheet-close]');
-    if (dialogClose) {
-        const dialog = dialogClose.closest('dialog');
-        if (dialog) {
-            dialog.close();
-            dialog.removeAttribute('data-open');
-        }
-    }
-
-    // 3. Popovers, Dropdowns, Comboboxes
-    const popoverTrigger = e.target.closest('[data-popover-trigger], [data-dropdown-menu-trigger], [data-select-trigger], [data-combobox-trigger], [data-collapsible-trigger]');
-    if (popoverTrigger) {
-        // Find the closest root container
-        const rootSelectors = ['[data-popover]', '[data-dropdown-menu-root]', '[data-select]', '[data-combobox]', '[data-collapsible]'];
-        let root = null;
-        for (const selector of rootSelectors) {
-            root = popoverTrigger.closest(selector);
-            if (root) break;
-        }
-        
-        if (root) {
-            const isOpen = root.getAttribute('data-open') === 'true' || root.getAttribute('open') !== null;
-            if (isOpen) {
-                root.removeAttribute('data-open');
-                root.removeAttribute('open');
-                popoverTrigger.setAttribute('aria-expanded', 'false');
-            } else {
-                root.setAttribute('data-open', 'true');
-                if(root.tagName === 'DETAILS') root.setAttribute('open', '');
-                popoverTrigger.setAttribute('aria-expanded', 'true');
-            }
-
-
-    // 4. Selections (Select, Combobox)
-    const selectItem = e.target.closest('[data-select-item], [data-combobox-item], [data-dropdown-menu-item]');
-    if (selectItem) {
-        const value = selectItem.getAttribute('data-value') || selectItem.textContent.trim();
-        const root = selectItem.closest('[data-select], [data-combobox]');
-        
-        if (root) {
-            // Update root's data-value
-            root.setAttribute('data-value', value);
-            
-            // Find hidden input if exists and update it
-            const name = root.getAttribute('data-name');
-            if (name) {
-                let hiddenInput = root.querySelector(` + "`input[name=\"${name}\"]`" + `);
-                if (!hiddenInput) {
-                    hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = name;
-                    root.appendChild(hiddenInput);
-                }
-                hiddenInput.value = value;
-                // Dispatch input/change event
-                hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
-                hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-
-            // Update text node in SelectValue if present
-            const valueDisplay = root.querySelector('[data-select-value], [data-combobox-value]');
-            if (valueDisplay) {
-                if (valueDisplay.tagName === 'INPUT') {
-                    valueDisplay.value = selectItem.textContent.trim();
-                } else {
-                    valueDisplay.textContent = selectItem.textContent.trim();
-                }
-            }
-
-            // Close the popover
-            root.removeAttribute('data-open');
-            root.removeAttribute('open');
-            const trigger = root.querySelector('[aria-expanded="true"]');
-            if (trigger) trigger.setAttribute('aria-expanded', 'false');
-        } else {
-            // Just close for Dropdown Menus if no Select/Combobox root
-            const menuRoot = selectItem.closest('[data-dropdown-menu-root], [data-popover]');
-            if (menuRoot) {
-                menuRoot.removeAttribute('data-open');
-                menuRoot.removeAttribute('open');
-            }
-        }
-    }
-
-    // 5. Tabs
-    const tabTrigger = e.target.closest('[data-tabs-trigger]');
-    if (tabTrigger) {
-        const value = tabTrigger.getAttribute('data-value');
-        const root = tabTrigger.closest('[data-tabs]');
-        if (root && value) {
-            // Update triggers
-            const triggers = root.querySelectorAll('[data-tabs-trigger]');
-            triggers.forEach(t => {
-                if (t.getAttribute('data-value') === value) {
-                    t.setAttribute('data-state', 'active');
-                } else {
-                    t.setAttribute('data-state', 'inactive');
-                }
-            });
-
-            // Update content panels
-            const contents = root.querySelectorAll('[data-tabs-content]');
-            contents.forEach(c => {
-                if (c.getAttribute('data-value') === value) {
-                    c.setAttribute('data-state', 'active');
-                    c.removeAttribute('hidden');
-                } else {
-                    c.setAttribute('data-state', 'inactive');
-                    c.setAttribute('hidden', 'true');
-                }
-            });
-        }
-    }
-
-    // 6. Accordion (Single & Collapsible support for native <details>)
-    const accordionTrigger = e.target.closest('[data-accordion-trigger]');
-    if (accordionTrigger) {
-        const item = accordionTrigger.closest('details');
-        const root = item ? item.closest('[data-accordion]') : null;
-        if (root && root.getAttribute('data-type') === 'single') {
-            const isCollapsible = root.getAttribute('data-collapsible') === 'true';
-            
-            // If already open and not collapsible, prevent closing
-            if (item.hasAttribute('open') && !isCollapsible) {
-                e.preventDefault();
-            } else if (!item.hasAttribute('open')) {
-                // If opening, close all other open details in this accordion
-                const others = root.querySelectorAll('details[open]');
-                others.forEach(other => {
-                    if (other !== item) {
-                        other.removeAttribute('open');
-                    }
-                });
-            }
-        }
-    }
-    // 7. Carousel
-    const carouselBtn = e.target.closest('[data-carousel-previous], [data-carousel-next]');
-    if (carouselBtn) {
-        const carousel = carouselBtn.closest('[data-carousel]');
-        if (carousel) {
-            const content = carousel.querySelector('[data-carousel-content]');
-            if (content) {
-                // Determine item width (fallback to container width)
-                const firstItem = content.querySelector('[data-carousel-item]');
-                const scrollAmount = firstItem ? firstItem.getBoundingClientRect().width : content.clientWidth;
-                
-                // Allow native smooth scrolling if the container overflow is managed by CSS,
-                // or forcefully adjust scrollLeft for Embla-like headless setups.
-                const isNext = carouselBtn.hasAttribute('data-carousel-next');
-                
-                // If CSS isn't natively snappy, we do manual scroll mapping
-                content.scrollBy({
-                    left: isNext ? scrollAmount : -scrollAmount,
-                    behavior: 'smooth'
-                });
-            }
-        }
-    }
-}
-
-function handleOutsideClick(e) {
-    // Close active popovers/dropdowns if click is outside their tree
-    const activePopovers = document.querySelectorAll('[data-open="true"]:not(dialog)');
-    activePopovers.forEach(popover => {
-        // If the popover contains the click, ignore
-        if (popover.contains(e.target)) return;
-        
-        // If the click is on a trigger for this popover, ignore (handled by handleToggles)
-        const triggerId = popover.id;
-        if (triggerId) {
-            const triggers = document.querySelectorAll(` + "`[aria-controls=\"${triggerId}\"], [data-target=\"${triggerId}\"]`" + `);
-            for (let t of triggers) {
-                if (t.contains(e.target)) return;
-            }
-        }
-        
-        // Close it
-        popover.removeAttribute('data-open');
-        popover.removeAttribute('open');
-        const trigger = popover.querySelector('[aria-expanded="true"]');
-        if(trigger) trigger.setAttribute('aria-expanded', 'false');
-    });
-
-    // Handle native Dialog backdrop clicks (clicking outside the dialog content)
-    if (e.target.tagName === 'DIALOG' && e.target.open) {
-        const rect = e.target.getBoundingClientRect();
-        const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
-                            rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
-        if (!isInDialog) {
-            e.target.close();
-            e.target.removeAttribute('data-open');
-        }
-    }
-}
-
-function handleEscape(e) {
-    if (e.key === 'Escape') {
-        const activePopovers = document.querySelectorAll('[data-open="true"]:not(dialog)');
-        // Close the most recently opened popover
-        if (activePopovers.length > 0) {
-            const lastPopover = activePopovers[activePopovers.length - 1];
-            lastPopover.removeAttribute('data-open');
-            lastPopover.removeAttribute('open');
-            const trigger = lastPopover.querySelector('[aria-expanded="true"]');
-            if(trigger) trigger.setAttribute('aria-expanded', 'false');
-        }
-    }
-}
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initRuntime, { once: true });
+else initRuntime();
 `
 }

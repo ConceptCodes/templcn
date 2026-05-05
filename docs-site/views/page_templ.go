@@ -55,7 +55,7 @@ func Page(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://ui.shadcn.com\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js\"></script><link rel=\"stylesheet\" href=\"/public/globals.css\"><script defer src=\"/public/shadcn.js\"></script><script defer src=\"/public/runtime.js\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://ui.shadcn.com\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js\"></script><link rel=\"stylesheet\" href=\"/public/globals.css\"><script defer src=\"/public/shadcn.js\"></script><script type=\"module\" src=\"/public/runtime.js\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
