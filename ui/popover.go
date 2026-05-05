@@ -21,7 +21,8 @@ type PopoverProps struct {
 func Popover(props PopoverProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "popover", "relative inline-block")
-		if props.Open {
+		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
+		if props.Open || props.DefaultOpen {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -46,7 +47,11 @@ func Popover(props PopoverProps) templ.Component {
 	})
 }
 
-func PopoverTrigger(props DOMProps) templ.Component { return DialogTrigger(props) }
+func PopoverTrigger(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "popover-trigger", ""), templ.GetChildren(ctx))
+	})
+}
 func PopoverAnchor(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-anchor", ""), templ.GetChildren(ctx))
@@ -54,9 +59,28 @@ func PopoverAnchor(props DOMProps) templ.Component {
 }
 func PopoverContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-content", "z-50 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "popover-content", "absolute left-0 top-full z-50 mt-2 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "open"
+		}
+		if _, ok := attrs["data-side"]; !ok {
+			attrs["data-side"] = "bottom"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
-func PopoverHeader(props DOMProps) templ.Component      { return DialogHeader(props) }
-func PopoverTitle(props DOMProps) templ.Component       { return DialogTitle(props) }
-func PopoverDescription(props DOMProps) templ.Component { return DialogDescription(props) }
+func PopoverHeader(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-header", "flex flex-col gap-2 text-center sm:text-left"), templ.GetChildren(ctx))
+	})
+}
+func PopoverTitle(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "popover-title", "text-lg font-semibold tracking-tight"), templ.GetChildren(ctx))
+	})
+}
+func PopoverDescription(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "popover-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+	})
+}

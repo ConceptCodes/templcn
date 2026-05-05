@@ -29,12 +29,13 @@ func Separator(props SeparatorProps) templ.Component {
 
 		className := "shrink-0 bg-border"
 		if orientation == SeparatorOrientationHorizontal {
-			className = cn(className, "h-px w-full")
+			className = cn(className, "data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full")
 		} else {
-			className = cn(className, "h-full w-px")
+			className = cn(className, "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px")
 		}
 
 		attrs := attrsFromDOMProps(props.DOMProps, "separator", className)
+		attrs["data-orientation"] = orientation
 		if !props.Decorative {
 			attrs["role"] = "separator"
 		} else {

@@ -18,7 +18,7 @@ type RadioGroupProps struct {
 
 func RadioGroup(props RadioGroupProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "radio-group", "grid gap-2")
+		attrs := attrsFromDOMProps(props.DOMProps, "radio-group", "grid gap-3")
 		attrs["role"] = "radiogroup"
 		if props.Name != "" {
 			attrs["data-name"] = props.Name

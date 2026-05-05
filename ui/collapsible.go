@@ -17,6 +17,10 @@ type CollapsibleProps struct {
 func Collapsible(props CollapsibleProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "collapsible", "grid gap-2")
+		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
+		if props.Open || props.DefaultOpen {
+			attrs["data-open"] = "true"
+		}
 		if props.Open {
 			attrs["open"] = true
 		}
@@ -38,6 +42,10 @@ func CollapsibleTrigger(props DOMProps) templ.Component {
 
 func CollapsibleContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "collapsible-content", "pt-2"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "collapsible-content", "overflow-hidden pt-2 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down")
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "open"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }

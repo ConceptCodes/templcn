@@ -26,7 +26,8 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu", "relative inline-block")
 		attrs["data-dropdown-menu-root"] = "true"
-		if props.Open {
+		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
+		if props.Open || props.DefaultOpen {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -59,13 +60,22 @@ func DropdownMenuTrigger(props DOMProps) templ.Component {
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
-func DropdownMenuPortal(props DOMProps) templ.Component { return DialogPortal(props) }
+func DropdownMenuPortal(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "dropdown-menu-portal", ""), templ.GetChildren(ctx))
+	})
+}
 
 func DropdownMenuContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "dropdown-menu-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
+		attrs := attrsFromDOMProps(props, "dropdown-menu-content", "absolute left-0 top-full z-50 mt-1 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
 		attrs["data-dropdown-menu-content"] = "true"
-		attrs["hidden"] = true
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "open"
+		}
+		if _, ok := attrs["data-side"]; !ok {
+			attrs["data-side"] = "bottom"
+		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -141,4 +151,13 @@ func DropdownMenuSub(props DOMProps) templ.Component {
 func DropdownMenuSubTrigger(props DropdownMenuItemProps) templ.Component {
 	return DropdownMenuItem(props)
 }
-func DropdownMenuSubContent(props DOMProps) templ.Component { return DropdownMenuContent(props) }
+func DropdownMenuSubContent(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props, "dropdown-menu-sub-content", "absolute left-full top-0 z-50 ml-1 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95")
+		attrs["data-dropdown-menu-content"] = "true"
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "open"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+	})
+}

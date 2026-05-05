@@ -34,11 +34,37 @@ func NavigationMenu(props NavigationMenuProps) templ.Component {
 	})
 }
 
-func NavigationMenuList(props DOMProps) templ.Component            { return DropdownMenuGroup(props) }
-func NavigationMenuItem(props DOMProps) templ.Component            { return DropdownMenuGroup(props) }
-func NavigationMenuTrigger(props DOMProps) templ.Component         { return DialogTrigger(props) }
-func NavigationMenuContent(props DOMProps) templ.Component         { return DropdownMenuContent(props) }
-func NavigationMenuLink(props BreadcrumbLinkProps) templ.Component { return BreadcrumbLink(props) }
+func NavigationMenuList(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "ul", attrsFromDOMProps(props, "navigation-menu-list", "group flex flex-1 list-none items-center justify-center gap-1"), templ.GetChildren(ctx))
+	})
+}
+func NavigationMenuItem(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "li", attrsFromDOMProps(props, "navigation-menu-item", "relative"), templ.GetChildren(ctx))
+	})
+}
+func NavigationMenuTrigger(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "navigation-menu-trigger", "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"), templ.GetChildren(ctx))
+	})
+}
+func NavigationMenuContent(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props, "navigation-menu-content", "left-0 top-0 w-full md:absolute md:w-auto")
+		attrs["hidden"] = true
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+	})
+}
+func NavigationMenuLink(props BreadcrumbLinkProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props.DOMProps, "navigation-menu-link", "block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground")
+		if props.Href != "" {
+			attrs["href"] = props.Href
+		}
+		return renderElement(ctx, w, "a", attrs, templ.GetChildren(ctx))
+	})
+}
 func NavigationMenuIndicator(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "navigation-menu-indicator", ""), templ.GetChildren(ctx))

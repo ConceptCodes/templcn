@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"bytes"
 	"context"
 	"io"
 
@@ -46,24 +45,12 @@ func badgeClasses(variant BadgeVariant, className string) string {
 
 func Badge(props BadgeProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		buf, isBuffer := w.(*bytes.Buffer)
-		if !isBuffer {
-			buf = templ.GetBuffer()
-			defer templ.ReleaseBuffer(buf)
+		variant := props.Variant
+		if variant == "" {
+			variant = BadgeVariantDefault
 		}
-
-		ctx = templ.InitializeContext(ctx)
-
-		attrs := cloneAttributes(props.Attrs)
-		if props.ID != "" {
-			attrs["id"] = props.ID
-		}
-
-		className := badgeClasses(props.Variant, props.Class)
-		if existing, ok := attrs["class"]; ok {
-			className = cn(className, templ.Classes(existing).String())
-		}
-		attrs["class"] = className
+		attrs := attrsFromDOMProps(props.DOMProps, "badge", badgeClasses(variant, ""))
+		attrs["data-variant"] = string(variant)
 
 		tag := "span"
 		if props.Element != "" {
@@ -76,28 +63,17 @@ func Badge(props BadgeProps) templ.Component {
 			attrs["href"] = props.Href
 		}
 
-		if _, err := buf.WriteString("<" + tag); err != nil {
-			return err
-		}
-		if err := templ.RenderAttributes(ctx, buf, attrs); err != nil {
-			return err
-		}
-		if _, err := buf.WriteString(">"); err != nil {
-			return err
-		}
-		if props.Label != "" {
-			if _, err := buf.WriteString(templ.EscapeString(props.Label)); err != nil {
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Label != "" {
+				if _, err := io.WriteString(w, templ.EscapeString(props.Label)); err != nil {
+					return err
+				}
+			}
+			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
 				return err
 			}
-		}
-		if _, err := buf.WriteString("</" + tag + ">"); err != nil {
-			return err
-		}
-
-		if !isBuffer {
-			_, err := buf.WriteTo(w)
-			return err
-		}
-		return nil
+			return nil
+		})
+		return renderElement(ctx, w, tag, attrs, children)
 	})
 }

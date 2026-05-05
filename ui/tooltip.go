@@ -34,8 +34,9 @@ type TooltipProps struct {
 
 func Tooltip(props TooltipProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "tooltip", "inline-block")
-		if props.Open {
+		attrs := attrsFromDOMProps(props.DOMProps, "tooltip", "relative inline-block")
+		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
+		if props.Open || props.DefaultOpen {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -57,10 +58,21 @@ func Tooltip(props TooltipProps) templ.Component {
 	})
 }
 
-func TooltipTrigger(props DOMProps) templ.Component { return DialogTrigger(props) }
+func TooltipTrigger(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "tooltip-trigger", ""), templ.GetChildren(ctx))
+	})
+}
 
 func TooltipContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "tooltip-content", "z-50 rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground shadow-md"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "tooltip-content", "absolute left-1/2 top-full z-50 mt-1.5 w-max -translate-x-1/2 rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "delayed-open"
+		}
+		if _, ok := attrs["data-side"]; !ok {
+			attrs["data-side"] = "bottom"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }

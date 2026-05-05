@@ -14,27 +14,27 @@ func cardWrapper(props DOMProps, slot, className string) templ.Component {
 }
 
 func Card(props DOMProps) templ.Component {
-	return cardWrapper(props, "card", "rounded-xl border bg-card text-card-foreground shadow")
+	return cardWrapper(props, "card", "flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm")
 }
 func CardHeader(props DOMProps) templ.Component {
-	return cardWrapper(props, "card-header", "flex flex-col gap-1.5 p-6")
+	return cardWrapper(props, "card-header", "@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6")
 }
 func CardTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h3", attrsFromDOMProps(props, "card-title", "font-semibold leading-none tracking-tight"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "card-title", "leading-none font-semibold"), templ.GetChildren(ctx))
 	})
 }
 func CardDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "card-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "card-description", "text-muted-foreground text-sm"), templ.GetChildren(ctx))
 	})
 }
 func CardAction(props DOMProps) templ.Component {
-	return cardWrapper(props, "card-action", "ml-auto flex items-center")
+	return cardWrapper(props, "card-action", "col-start-2 row-span-2 row-start-1 self-start justify-self-end")
 }
 func CardContent(props DOMProps) templ.Component {
-	return cardWrapper(props, "card-content", "p-6 pt-0")
+	return cardWrapper(props, "card-content", "px-6")
 }
 func CardFooter(props DOMProps) templ.Component {
-	return cardWrapper(props, "card-footer", "flex items-center p-6 pt-0")
+	return cardWrapper(props, "card-footer", "flex items-center px-6 [.border-t]:pt-6")
 }

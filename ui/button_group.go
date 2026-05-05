@@ -29,7 +29,10 @@ func ButtonGroup(props ButtonGroupProps) templ.Component {
 		if orientation == ButtonGroupOrientationVertical {
 			className = "inline-flex flex-col"
 		}
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props.DOMProps, "button-group", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "button-group", className)
+		attrs["role"] = "group"
+		attrs["data-orientation"] = string(orientation)
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 

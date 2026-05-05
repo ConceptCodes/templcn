@@ -33,14 +33,46 @@ func Drawer(props DrawerProps) templ.Component {
 	})
 }
 
-func DrawerTrigger(props DOMProps) templ.Component     { return DialogTrigger(props) }
-func DrawerPortal(props DOMProps) templ.Component      { return DialogPortal(props) }
-func DrawerOverlay(props DOMProps) templ.Component     { return DialogOverlay(props) }
-func DrawerHeader(props DOMProps) templ.Component      { return DialogHeader(props) }
-func DrawerFooter(props DOMProps) templ.Component      { return DialogFooter(props) }
-func DrawerTitle(props DOMProps) templ.Component       { return DialogTitle(props) }
-func DrawerDescription(props DOMProps) templ.Component { return DialogDescription(props) }
-func DrawerClose(props DOMProps) templ.Component       { return DialogClose(props) }
+func DrawerTrigger(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "drawer-trigger", ""), templ.GetChildren(ctx))
+	})
+}
+func DrawerPortal(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-portal", ""), templ.GetChildren(ctx))
+	})
+}
+func DrawerOverlay(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-overlay", "fixed inset-0 bg-black/50"), templ.GetChildren(ctx))
+	})
+}
+func DrawerHeader(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-header", "flex flex-col gap-2 text-center sm:text-left"), templ.GetChildren(ctx))
+	})
+}
+func DrawerFooter(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-footer", "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end"), templ.GetChildren(ctx))
+	})
+}
+func DrawerTitle(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "drawer-title", "text-lg font-semibold tracking-tight"), templ.GetChildren(ctx))
+	})
+}
+func DrawerDescription(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "drawer-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+	})
+}
+func DrawerClose(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "drawer-close", ""), templ.GetChildren(ctx))
+	})
+}
 
 func DrawerContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {

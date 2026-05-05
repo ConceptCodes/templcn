@@ -20,7 +20,7 @@ type CheckboxProps struct {
 
 func Checkbox(props CheckboxProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "checkbox", "h-4 w-4 shrink-0 rounded-sm border border-input bg-background shadow-xs outline-none transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 checked:border-primary checked:bg-primary checked:text-primary-foreground")
+		attrs := attrsFromDOMProps(props.DOMProps, "checkbox", "peer size-4 shrink-0 rounded-[4px] border border-input bg-background shadow-xs outline-none transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary checked:text-primary-foreground")
 		attrs["type"] = "checkbox"
 		if props.Name != "" {
 			attrs["name"] = props.Name

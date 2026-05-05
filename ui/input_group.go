@@ -3,6 +3,7 @@ package ui
 import (
 	"context"
 	"io"
+	"strconv"
 
 	"github.com/a-h/templ"
 )
@@ -13,7 +14,9 @@ type InputGroupProps struct {
 
 func InputGroup(props InputGroupProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props.DOMProps, "input-group", "flex rounded-md shadow-xs ring-1 ring-inset ring-input"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "input-group", "flex rounded-md shadow-xs ring-1 ring-inset ring-input")
+		attrs["role"] = "group"
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -72,15 +75,31 @@ type InputGroupInputProps struct {
 }
 
 func InputGroupInput(props InputGroupInputProps) templ.Component {
-	return Input(InputProps{
-		DOMProps:    props.DOMProps,
-		Type:        props.Type,
-		Name:        props.Name,
-		Value:       props.Value,
-		Placeholder: props.Placeholder,
-		Disabled:    props.Disabled,
-		Required:    props.Required,
-		Invalid:     props.Invalid,
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props.DOMProps, "input-group-control", inputClasses)
+		if props.Type == "" {
+			props.Type = "text"
+		}
+		attrs["type"] = props.Type
+		if props.Name != "" {
+			attrs["name"] = props.Name
+		}
+		if props.Value != "" {
+			attrs["value"] = props.Value
+		}
+		if props.Placeholder != "" {
+			attrs["placeholder"] = props.Placeholder
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+		}
+		if props.Required {
+			attrs["required"] = true
+		}
+		if props.Invalid {
+			attrs["aria-invalid"] = "true"
+		}
+		return renderVoidElement(ctx, w, "input", attrs)
 	})
 }
 
@@ -96,14 +115,33 @@ type InputGroupTextareaProps struct {
 }
 
 func InputGroupTextarea(props InputGroupTextareaProps) templ.Component {
-	return Textarea(TextareaProps{
-		DOMProps:    props.DOMProps,
-		Name:        props.Name,
-		Value:       props.Value,
-		Placeholder: props.Placeholder,
-		Rows:        props.Rows,
-		Disabled:    props.Disabled,
-		Required:    props.Required,
-		Invalid:     props.Invalid,
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props.DOMProps, "input-group-control", textareaClasses)
+		if props.Name != "" {
+			attrs["name"] = props.Name
+		}
+		if props.Placeholder != "" {
+			attrs["placeholder"] = props.Placeholder
+		}
+		if props.Rows > 0 {
+			attrs["rows"] = strconv.Itoa(props.Rows)
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+		}
+		if props.Required {
+			attrs["required"] = true
+		}
+		if props.Invalid {
+			attrs["aria-invalid"] = "true"
+		}
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Value == "" {
+				return nil
+			}
+			_, err := io.WriteString(w, templ.EscapeString(props.Value))
+			return err
+		})
+		return renderElement(ctx, w, "textarea", attrs, children)
 	})
 }

@@ -20,10 +20,13 @@ type NativeSelectProps struct {
 func NativeSelect(props NativeSelectProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		sizeClass := "h-9"
+		size := "default"
 		if props.Size == "sm" {
 			sizeClass = "h-8"
+			size = "sm"
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "native-select", cn("flex w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50", sizeClass))
+		attrs["data-size"] = size
 		if props.Name != "" {
 			attrs["name"] = props.Name
 		}

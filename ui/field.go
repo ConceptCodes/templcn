@@ -57,13 +57,16 @@ func FieldGroup(props DOMProps) templ.Component {
 
 func Field(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "field", "grid gap-2"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "field", "grid gap-2")
+		attrs["role"] = "group"
+		attrs["data-orientation"] = "vertical"
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func FieldContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "field-content", "grid gap-1.5"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "field-content", "flex flex-1 flex-col gap-1.5 leading-snug"), templ.GetChildren(ctx))
 	})
 }
 
@@ -103,6 +106,7 @@ func FieldError(props FieldErrorProps) templ.Component {
 			text = props.Errors[0]
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "field-error", "text-sm text-destructive")
+		attrs["role"] = "alert"
 		return renderTextElement(ctx, w, "p", attrs, text)
 	})
 }

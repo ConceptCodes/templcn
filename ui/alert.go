@@ -24,12 +24,12 @@ func alertClasses(variant AlertVariant, className string) string {
 		variant = AlertVariantDefault
 	}
 
-	base := "relative w-full rounded-xl border px-4 py-3 text-sm grid gap-2"
+	base := "relative grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current"
 	switch variant {
 	case AlertVariantDestructive:
-		return cn(base, "border-destructive/50 text-destructive dark:border-destructive [&_svg]:text-destructive", className)
+		return cn(base, "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current", className)
 	default:
-		return cn(base, "bg-background text-foreground", className)
+		return cn(base, "bg-card text-card-foreground", className)
 	}
 }
 
@@ -43,12 +43,12 @@ func Alert(props AlertProps) templ.Component {
 
 func AlertTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h5", attrsFromDOMProps(props, "alert-title", "mb-1 font-medium leading-none tracking-tight"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "alert-title", "col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight"), templ.GetChildren(ctx))
 	})
 }
 
 func AlertDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "alert-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "alert-description", "col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed"), templ.GetChildren(ctx))
 	})
 }

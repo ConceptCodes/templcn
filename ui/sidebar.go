@@ -67,7 +67,34 @@ func SidebarInset(props DOMProps) templ.Component {
 	})
 }
 
-func SidebarInput(props InputProps) templ.Component { return Input(props) }
+func SidebarInput(props InputProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-input", inputClasses)
+		if props.Type == "" {
+			props.Type = "text"
+		}
+		attrs["type"] = props.Type
+		if props.Name != "" {
+			attrs["name"] = props.Name
+		}
+		if props.Value != "" {
+			attrs["value"] = props.Value
+		}
+		if props.Placeholder != "" {
+			attrs["placeholder"] = props.Placeholder
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+		}
+		if props.Required {
+			attrs["required"] = true
+		}
+		if props.Invalid {
+			attrs["aria-invalid"] = "true"
+		}
+		return renderVoidElement(ctx, w, "input", attrs)
+	})
+}
 
 func SidebarHeader(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
@@ -82,7 +109,11 @@ func SidebarFooter(props DOMProps) templ.Component {
 }
 
 func SidebarSeparator(props DOMProps) templ.Component {
-	return Separator(SeparatorProps{DOMProps: props, Decorative: true})
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props, "sidebar-separator", "shrink-0 bg-border h-px w-full")
+		attrs["aria-hidden"] = "true"
+		return renderVoidElement(ctx, w, "hr", attrs)
+	})
 }
 
 func SidebarContent(props DOMProps) templ.Component {
@@ -152,9 +183,17 @@ func SidebarMenuAction(props DOMProps) templ.Component {
 	})
 }
 
-func SidebarMenuBadge(props DOMProps) templ.Component { return Badge(BadgeProps{DOMProps: props}) }
+func SidebarMenuBadge(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "span", attrsFromDOMProps(props, "sidebar-menu-badge", "ml-auto inline-flex min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium text-sidebar-foreground tabular-nums"), templ.GetChildren(ctx))
+	})
+}
 
-func SidebarMenuSkeleton(props DOMProps) templ.Component { return Skeleton(props) }
+func SidebarMenuSkeleton(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "sidebar-menu-skeleton", "animate-pulse rounded-md bg-accent"), templ.GetChildren(ctx))
+	})
+}
 
 func SidebarMenuSub(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
@@ -169,5 +208,14 @@ func SidebarMenuSubItem(props DOMProps) templ.Component {
 }
 
 func SidebarMenuSubButton(props SidebarMenuButtonProps) templ.Component {
-	return SidebarMenuButton(props)
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		className := "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+		if props.IsActive {
+			className = cn(className, "bg-sidebar-accent text-sidebar-accent-foreground")
+		}
+		if props.Size == "sm" {
+			className = cn(className, "py-1")
+		}
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "sidebar-menu-sub-button", className), templ.GetChildren(ctx))
+	})
 }

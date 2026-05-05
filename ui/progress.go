@@ -28,7 +28,7 @@ func Progress(props ProgressProps) templ.Component {
 		if value > max {
 			value = max
 		}
-		attrs := attrsFromDOMProps(props.DOMProps, "progress", "relative h-2 w-full overflow-hidden rounded-full bg-muted")
+		attrs := attrsFromDOMProps(props.DOMProps, "progress", "bg-primary/20 relative h-2 w-full overflow-hidden rounded-full")
 		attrs["role"] = "progressbar"
 		attrs["aria-valuemin"] = "0"
 		attrs["aria-valuemax"] = strconv.FormatFloat(max, 'f', -1, 64)
@@ -36,8 +36,9 @@ func Progress(props ProgressProps) templ.Component {
 
 		bar := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			barAttrs := templ.Attributes{
-				"class": "h-full w-full flex-1 bg-primary transition-all",
-				"style": fmt.Sprintf("transform: translateX(-%s%%);", strconv.FormatFloat(100-(value/max*100), 'f', -1, 64)),
+				"data-slot": "progress-indicator",
+				"class":     "h-full w-full flex-1 bg-primary transition-all",
+				"style":     fmt.Sprintf("transform: translateX(-%s%%);", strconv.FormatFloat(100-(value/max*100), 'f', -1, 64)),
 			}
 			return renderElement(ctx, w, "div", barAttrs, nil)
 		})

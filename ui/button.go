@@ -1,7 +1,6 @@
 package ui
 
 import (
-	"bytes"
 	"context"
 	"io"
 	"sort"
@@ -36,6 +35,8 @@ const (
 type ButtonProps struct {
 	DOMProps
 	Label    string
+	Leading  templ.Component
+	Trailing templ.Component
 	Variant  ButtonVariant
 	Size     ButtonSize
 	Type     string
@@ -77,24 +78,18 @@ func buttonClasses(variant ButtonVariant, size ButtonSize, className string) str
 
 func Button(props ButtonProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		buf, isBuffer := w.(*bytes.Buffer)
-		if !isBuffer {
-			buf = templ.GetBuffer()
-			defer templ.ReleaseBuffer(buf)
+		variant := props.Variant
+		if variant == "" {
+			variant = ButtonVariantDefault
+		}
+		size := props.Size
+		if size == "" {
+			size = ButtonSizeDefault
 		}
 
-		ctx = templ.InitializeContext(ctx)
-
-		attrs := cloneAttributes(props.Attrs)
-		if props.ID != "" {
-			attrs["id"] = props.ID
-		}
-
-		className := buttonClasses(props.Variant, props.Size, props.Class)
-		if existing, ok := attrs["class"]; ok {
-			className = cn(className, templ.Classes(existing).String())
-		}
-		attrs["class"] = className
+		attrs := attrsFromDOMProps(props.DOMProps, "button", buttonClasses(variant, size, ""))
+		attrs["data-variant"] = string(variant)
+		attrs["data-size"] = string(size)
 
 		tag := "button"
 		if props.Element != "" {
@@ -116,29 +111,24 @@ func Button(props ButtonProps) templ.Component {
 			}
 		}
 
-		if _, err := buf.WriteString("<" + tag); err != nil {
-			return err
-		}
-		if err := templ.RenderAttributes(ctx, buf, attrs); err != nil {
-			return err
-		}
-		if _, err := buf.WriteString(">"); err != nil {
-			return err
-		}
-		if props.Label != "" {
-			if _, err := buf.WriteString(templ.EscapeString(props.Label)); err != nil {
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if err := renderChildren(ctx, w, props.Leading); err != nil {
 				return err
 			}
-		}
-		if _, err := buf.WriteString("</" + tag + ">"); err != nil {
-			return err
-		}
-
-		if !isBuffer {
-			_, err := buf.WriteTo(w)
-			return err
-		}
-		return nil
+			if props.Label != "" {
+				if _, err := io.WriteString(w, templ.EscapeString(props.Label)); err != nil {
+					return err
+				}
+			}
+			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+				return err
+			}
+			if err := renderChildren(ctx, w, props.Trailing); err != nil {
+				return err
+			}
+			return nil
+		})
+		return renderElement(ctx, w, tag, attrs, children)
 	})
 }
 

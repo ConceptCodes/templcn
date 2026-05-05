@@ -89,8 +89,37 @@ func SelectContent(props SelectContentProps) templ.Component {
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
-func SelectLabel(props DOMProps) templ.Component             { return DropdownMenuLabel(props) }
-func SelectItem(props DropdownMenuItemProps) templ.Component { return DropdownMenuItem(props) }
-func SelectSeparator(props DOMProps) templ.Component         { return DropdownMenuSeparator(props) }
-func SelectScrollUpButton(props DOMProps) templ.Component    { return DialogTrigger(props) }
-func SelectScrollDownButton(props DOMProps) templ.Component  { return DialogTrigger(props) }
+func SelectLabel(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "select-label", "px-2 py-1.5 text-sm font-semibold"), templ.GetChildren(ctx))
+	})
+}
+func SelectItem(props DropdownMenuItemProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		className := "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+		if props.Inset {
+			className = cn(className, "pl-8")
+		}
+		if props.Variant == "destructive" {
+			className = cn(className, "text-destructive")
+		}
+		attrs := attrsFromDOMProps(props.DOMProps, "select-item", className)
+		attrs["role"] = "option"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
+	})
+}
+func SelectSeparator(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "select-separator", "-mx-1 my-1 h-px bg-border"), nil)
+	})
+}
+func SelectScrollUpButton(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "select-scroll-up-button", "flex cursor-default items-center justify-center py-1"), templ.GetChildren(ctx))
+	})
+}
+func SelectScrollDownButton(props DOMProps) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "select-scroll-down-button", "flex cursor-default items-center justify-center py-1"), templ.GetChildren(ctx))
+	})
+}
