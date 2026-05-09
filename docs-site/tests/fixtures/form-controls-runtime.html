@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Form controls runtime fixture</title>
+  </head>
+  <body>
+    <div id="density-radio" data-slot="radio-group" role="radiogroup" data-name="density" data-value="comfortable">
+      <label id="compact-item" data-slot="radio-group-item" data-state="unchecked" aria-checked="false">
+        <input type="radio" name="density" value="compact" /> Compact
+      </label>
+      <label id="comfortable-item" data-slot="radio-group-item" data-state="checked" aria-checked="true">
+        <input type="radio" name="density" value="comfortable" checked /> Comfortable
+      </label>
+      <label id="spacious-item" data-slot="radio-group-item" data-state="unchecked" aria-checked="false">
+        <input type="radio" name="density" value="spacious" /> Spacious
+      </label>
+    </div>
+
+    <div id="align-toggle" data-slot="toggle-group" role="group" data-type="single" data-value="left">
+      <button id="left-toggle" type="button" data-slot="toggle-group-item" data-value="left" data-state="on" aria-pressed="true">Left</button>
+      <button id="center-toggle" type="button" data-slot="toggle-group-item" data-value="center" data-state="off" aria-pressed="false">Center</button>
+      <button id="right-toggle" type="button" data-slot="toggle-group-item" data-value="right" data-state="off" aria-pressed="false">Right</button>
+    </div>
+
+    <div id="volume-slider" data-slot="slider" data-name="volume" data-min="0" data-max="100" data-step="5" data-value="40">
+      <input id="volume-input" type="range" role="slider" name="volume" min="0" max="100" step="5" value="40" aria-valuemin="0" aria-valuemax="100" aria-valuenow="40" />
+    </div>
+
+    <script type="module">
+      import { initFormControls } from "../../public/runtime/forms.js";
+      initFormControls();
+    </script>
+  </body>
+</html>

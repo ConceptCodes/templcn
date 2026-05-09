@@ -3,6 +3,7 @@ package ui
 import (
 	"context"
 	"io"
+	"strconv"
 
 	"github.com/a-h/templ"
 )
@@ -15,6 +16,7 @@ type ResizablePanelGroupProps struct {
 func ResizablePanelGroup(props ResizablePanelGroupProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "resizable-panel-group", "flex min-h-0 min-w-0")
+		attrs["data-direction"] = "horizontal"
 		if props.Direction != "" {
 			attrs["data-direction"] = props.Direction
 		}
@@ -33,6 +35,12 @@ type ResizablePanelProps struct {
 func ResizablePanel(props ResizablePanelProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "resizable-panel", "min-h-0 min-w-0")
+		size := props.DefaultSize
+		if size <= 0 {
+			size = 50
+		}
+		attrs["data-size"] = size
+		attrs["style"] = "flex-basis: " + strconv.FormatFloat(size, 'f', -1, 64) + "%"
 		if props.DefaultSize > 0 {
 			attrs["data-default-size"] = props.DefaultSize
 		}
@@ -57,6 +65,9 @@ type ResizableHandleProps struct {
 func ResizableHandle(props ResizableHandleProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "resizable-handle", "relative flex items-center justify-center bg-border")
+		attrs["role"] = "separator"
+		attrs["tabindex"] = "0"
+		attrs["aria-orientation"] = "vertical"
 		if props.WithHandle {
 			attrs["data-with-handle"] = "true"
 		}

@@ -29,19 +29,32 @@ type SelectContentProps struct {
 	Align    string
 }
 
+type selectRenderState struct {
+	open  bool
+	value string
+}
+
+type selectRenderStateKey struct{}
+
 func Select(props SelectProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		attrs := attrsFromDOMProps(props.DOMProps, "select", "relative")
+		attrs["data-state"] = openState(open)
 		if props.Name != "" {
 			attrs["data-name"] = props.Name
 		}
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if props.DefaultValue != "" {
 			attrs["data-default-value"] = props.DefaultValue
 		}
-		if props.Open {
+		if open {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -53,7 +66,17 @@ func Select(props SelectProps) templ.Component {
 		if props.Required {
 			attrs["data-required"] = "true"
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		ctx = context.WithValue(ctx, selectRenderStateKey{}, selectRenderState{open: open, value: value})
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Name != "" {
+				inputAttrs := templ.Attributes{"type": "hidden", "name": props.Name, "value": value}
+				if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {
+					return err
+				}
+			}
+			return renderChildren(ctx, w, templ.GetChildren(ctx))
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }
 
@@ -73,13 +96,27 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 		if props.Size == "sm" {
 			className = cn(className, "h-8")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "select-trigger", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "select-trigger", className)
+		attrs["type"] = "button"
+		attrs["role"] = "combobox"
+		attrs["aria-haspopup"] = "listbox"
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func SelectContent(props SelectContentProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "select-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
+		attrs["role"] = "listbox"
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = selectStateFromContext(ctx)
+		}
+		if selectStateFromContext(ctx) == "closed" {
+			attrs["hidden"] = true
+		}
 		if props.Position != "" {
 			attrs["data-position"] = props.Position
 		}
@@ -104,7 +141,25 @@ func SelectItem(props DropdownMenuItemProps) templ.Component {
 			className = cn(className, "text-destructive")
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "select-item", className)
+		attrs["type"] = "button"
 		attrs["role"] = "option"
+		value := props.Value
+		if value == "" {
+			if attrValue, ok := attrs["data-value"].(string); ok {
+				value = attrValue
+			}
+		}
+		if value != "" {
+			attrs["data-value"] = value
+		}
+		selected := value != "" && value == selectValueFromContext(ctx)
+		attrs["aria-selected"] = map[bool]string{true: "true", false: "false"}[selected]
+		attrs["data-state"] = map[bool]string{true: "checked", false: "unchecked"}[selected]
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+			attrs["data-disabled"] = "true"
+		}
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -115,11 +170,31 @@ func SelectSeparator(props DOMProps) templ.Component {
 }
 func SelectScrollUpButton(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "select-scroll-up-button", "flex cursor-default items-center justify-center py-1"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "select-scroll-up-button", "flex cursor-default items-center justify-center py-1")
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func SelectScrollDownButton(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "select-scroll-down-button", "flex cursor-default items-center justify-center py-1"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "select-scroll-down-button", "flex cursor-default items-center justify-center py-1")
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
+}
+
+func selectStateFromContext(ctx context.Context) string {
+	state, ok := ctx.Value(selectRenderStateKey{}).(selectRenderState)
+	if !ok {
+		return "closed"
+	}
+	return openState(state.open)
+}
+
+func selectValueFromContext(ctx context.Context) string {
+	state, ok := ctx.Value(selectRenderStateKey{}).(selectRenderState)
+	if !ok {
+		return ""
+	}
+	return state.value
 }

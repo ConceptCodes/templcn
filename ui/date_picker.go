@@ -20,7 +20,9 @@ type DatePickerProps struct {
 
 func DatePicker(props DatePickerProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
 		attrs := attrsFromDOMProps(props.DOMProps, "date-picker", "grid gap-2")
+		attrs["data-state"] = openState(open)
 		if props.Mode != "" {
 			attrs["data-mode"] = props.Mode
 		}
@@ -36,13 +38,22 @@ func DatePicker(props DatePickerProps) templ.Component {
 		if props.Placeholder != "" {
 			attrs["data-placeholder"] = props.Placeholder
 		}
-		if props.Open {
+		if open {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
 			attrs["data-default-open"] = "true"
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Name != "" {
+				inputAttrs := templ.Attributes{"type": "hidden", "name": props.Name, "value": props.Value}
+				if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {
+					return err
+				}
+			}
+			return renderChildren(ctx, w, templ.GetChildren(ctx))
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }
 

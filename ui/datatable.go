@@ -208,8 +208,13 @@ func DataTableColumnHeader(props DataTableColumnHeaderProps) templ.Component {
 			className = cn(className, "cursor-pointer select-none")
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "data-table-column-header", className)
+		attrs["type"] = "button"
+		if props.Sortable {
+			attrs["aria-sort"] = "none"
+		}
 		if props.Sorted != "" {
 			attrs["data-sorted"] = props.Sorted
+			attrs["aria-sort"] = props.Sorted
 		}
 		return renderTextElement(ctx, w, "button", attrs, props.Title)
 	})

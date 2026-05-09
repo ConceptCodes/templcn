@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Accordion Runtime Fixture</title>
+    <script type="module" src="../../public/runtime.js"></script>
+  </head>
+  <body>
+    <div id="faq" data-slot="accordion" data-type="single" data-default-value="billing">
+      <details id="account-item" data-slot="accordion-item" data-value="account">
+        <summary id="account-trigger" data-slot="accordion-trigger">Account</summary>
+        <div id="account-content" data-slot="accordion-content">Account content</div>
+      </details>
+      <details id="billing-item" data-slot="accordion-item" data-value="billing">
+        <summary id="billing-trigger" data-slot="accordion-trigger">Billing</summary>
+        <div id="billing-content" data-slot="accordion-content">Billing content</div>
+      </details>
+      <details id="security-item" data-slot="accordion-item" data-value="security">
+        <summary id="security-trigger" data-slot="accordion-trigger">Security</summary>
+        <div id="security-content" data-slot="accordion-content">Security content</div>
+      </details>
+    </div>
+  </body>
+</html>
+

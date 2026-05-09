@@ -22,12 +22,19 @@ type DropdownMenuProps struct {
 	AlignOffset string
 }
 
+type menuRenderState struct {
+	open bool
+}
+
+type menuRenderStateKey struct{}
+
 func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
 		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu", "relative inline-block")
 		attrs["data-dropdown-menu-root"] = "true"
-		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
-		if props.Open || props.DefaultOpen {
+		attrs["data-state"] = openState(open)
+		if open {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -48,6 +55,7 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		if props.AlignOffset != "" {
 			attrs["data-align-offset"] = props.AlignOffset
 		}
+		ctx = context.WithValue(ctx, menuRenderStateKey{}, menuRenderState{open: open})
 		return menuContainer(attrs, templ.GetChildren(ctx), ctx, w)
 	})
 }
@@ -55,8 +63,12 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 func DropdownMenuTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "dropdown-menu-trigger", "")
+		attrs["type"] = "button"
 		attrs["data-dropdown-menu-trigger"] = "true"
 		attrs["aria-haspopup"] = "menu"
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -70,8 +82,12 @@ func DropdownMenuContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "dropdown-menu-content", "absolute left-0 top-full z-50 mt-1 min-w-32 overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
 		attrs["data-dropdown-menu-content"] = "true"
+		attrs["role"] = "menu"
 		if _, ok := attrs["data-state"]; !ok {
-			attrs["data-state"] = "open"
+			attrs["data-state"] = menuStateFromContext(ctx)
+		}
+		if menuStateFromContext(ctx) == "closed" {
+			attrs["hidden"] = true
 		}
 		if _, ok := attrs["data-side"]; !ok {
 			attrs["data-side"] = "bottom"
@@ -88,8 +104,10 @@ func DropdownMenuGroup(props DOMProps) templ.Component {
 
 type DropdownMenuItemProps struct {
 	DOMProps
-	Inset   bool
-	Variant string
+	Inset    bool
+	Variant  string
+	Value    string
+	Disabled bool
 }
 
 func DropdownMenuItem(props DropdownMenuItemProps) templ.Component {
@@ -101,7 +119,18 @@ func DropdownMenuItem(props DropdownMenuItemProps) templ.Component {
 		if props.Variant == "destructive" {
 			className = cn(className, "text-destructive")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "dropdown-menu-item", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu-item", className)
+		attrs["type"] = "button"
+		attrs["role"] = "menuitem"
+		if props.Value != "" {
+			attrs["data-value"] = props.Value
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+			attrs["data-disabled"] = "true"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -160,4 +189,17 @@ func DropdownMenuSubContent(props DOMProps) templ.Component {
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
+}
+
+func menuStateFromContext(ctx context.Context) string {
+	state, ok := ctx.Value(menuRenderStateKey{}).(menuRenderState)
+	if !ok {
+		return "closed"
+	}
+	return openState(state.open)
+}
+
+func menuOpenFromContext(ctx context.Context) bool {
+	state, ok := ctx.Value(menuRenderStateKey{}).(menuRenderState)
+	return ok && state.open
 }

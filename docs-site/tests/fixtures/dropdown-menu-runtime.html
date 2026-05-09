@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dropdown Menu Runtime Fixture</title>
+    <style>
+      [data-slot="dropdown-menu-content"] {
+        width: max-content;
+      }
+      #outside-menu {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+      }
+    </style>
+    <script type="module" src="../../public/runtime.js"></script>
+  </head>
+  <body>
+    <button id="before-menu" type="button">Before</button>
+    <div id="account-menu" data-slot="dropdown-menu" data-state="closed">
+      <button id="menu-trigger" type="button" data-slot="dropdown-menu-trigger" aria-haspopup="menu" aria-expanded="false">
+        Account
+      </button>
+      <div data-slot="dropdown-menu-content" role="menu" data-state="closed" hidden>
+        <button id="profile-item" type="button" data-slot="dropdown-menu-item" role="menuitem">Profile</button>
+        <button id="billing-item" type="button" data-slot="dropdown-menu-item" role="menuitem">Billing</button>
+        <button id="disabled-item" type="button" data-slot="dropdown-menu-item" role="menuitem" disabled>Disabled</button>
+      </div>
+    </div>
+    <button id="outside-menu" type="button">Outside</button>
+  </body>
+</html>

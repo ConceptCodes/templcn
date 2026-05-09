@@ -28,12 +28,17 @@ type ComboboxProps struct {
 
 func Combobox(props ComboboxProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		attrs := attrsFromDOMProps(props.DOMProps, "combobox", "relative")
 		if props.Name != "" {
 			attrs["data-name"] = props.Name
 		}
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if len(props.Values) > 0 {
 			attrs["data-values"] = props.Values
@@ -56,7 +61,8 @@ func Combobox(props ComboboxProps) templ.Component {
 		if props.Filter != "" {
 			attrs["data-filter"] = props.Filter
 		}
-		if props.Open {
+		attrs["data-state"] = openState(open)
+		if open {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -74,7 +80,17 @@ func Combobox(props ComboboxProps) templ.Component {
 		if props.SideOffset != "" {
 			attrs["data-side-offset"] = props.SideOffset
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		ctx = context.WithValue(ctx, selectRenderStateKey{}, selectRenderState{open: open, value: value})
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Name != "" {
+				inputAttrs := templ.Attributes{"type": "hidden", "name": props.Name, "value": value}
+				if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {
+					return err
+				}
+			}
+			return renderChildren(ctx, w, templ.GetChildren(ctx))
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }
 
@@ -89,12 +105,29 @@ func ComboboxTrigger(props SelectTriggerProps) templ.Component {
 		if props.Size == "sm" {
 			className = cn(className, "h-8")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "combobox-trigger", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "combobox-trigger", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "combobox"
+		}
+		if _, ok := attrs["aria-haspopup"]; !ok {
+			attrs["aria-haspopup"] = "listbox"
+		}
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func ComboboxClear(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "combobox-clear", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "combobox-clear", "")
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func ComboboxInput(props InputProps) templ.Component {
@@ -134,6 +167,15 @@ func ComboboxContent(props SelectContentProps) templ.Component {
 		if props.Align != "" {
 			attrs["data-align"] = props.Align
 		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "listbox"
+		}
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = selectStateFromContext(ctx)
+		}
+		if selectStateFromContext(ctx) == "closed" {
+			attrs["hidden"] = true
+		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -152,7 +194,20 @@ func ComboboxItem(props DropdownMenuItemProps) templ.Component {
 			className = cn(className, "text-destructive")
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "combobox-item", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
 		attrs["role"] = "option"
+		if props.Value != "" {
+			attrs["data-value"] = props.Value
+			selected := selectValueFromContext(ctx) == props.Value
+			attrs["aria-selected"] = map[bool]string{true: "true", false: "false"}[selected]
+			attrs["data-state"] = map[bool]string{true: "checked", false: "unchecked"}[selected]
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+		}
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }

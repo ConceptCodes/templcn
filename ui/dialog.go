@@ -15,15 +15,21 @@ type DialogProps struct {
 	ShowCloseButton bool
 }
 
+type dialogRenderState struct {
+	open  bool
+	slot  string
+	modal bool
+}
+
+type dialogRenderStateKey struct{}
+
 func Dialog(props DialogProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
 		attrs := attrsFromDOMProps(props.DOMProps, "dialog", "")
-		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
-		if props.Open || props.DefaultOpen {
+		attrs["data-state"] = openState(open)
+		if open {
 			attrs["data-open"] = "true"
-		}
-		if props.Open {
-			attrs["open"] = true
 		}
 		if props.DefaultOpen {
 			attrs["data-default-open"] = "true"
@@ -34,13 +40,20 @@ func Dialog(props DialogProps) templ.Component {
 		if props.ShowCloseButton {
 			attrs["data-show-close-button"] = "true"
 		}
-		return renderElement(ctx, w, "dialog", attrs, templ.GetChildren(ctx))
+		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "dialog", modal: props.Modal})
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func DialogTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "dialog-trigger", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "dialog-trigger", "")
+		attrs["type"] = "button"
+		attrs["aria-haspopup"] = "dialog"
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -53,8 +66,9 @@ func DialogPortal(props DOMProps) templ.Component {
 func DialogOverlay(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "dialog-overlay", "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0")
+		attrs["aria-hidden"] = "true"
 		if _, ok := attrs["data-state"]; !ok {
-			attrs["data-state"] = "open"
+			attrs["data-state"] = dialogStateFromContext(ctx)
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
@@ -62,9 +76,19 @@ func DialogOverlay(props DOMProps) templ.Component {
 
 func DialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "dialog-content", "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95")
+		attrs := attrsFromDOMProps(props, "dialog-content", "fixed inset-0 z-50 m-auto grid h-fit max-h-[calc(100%-2rem)] w-[calc(100%-2rem)] max-w-lg gap-4 overflow-auto rounded-lg border bg-background p-6 shadow-lg duration-200 backdrop:bg-black/80 [&:not([open])]:hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95")
+		state := dialogStateFromContextValue(ctx)
+		attrs["role"] = "dialog"
+		attrs["tabindex"] = "-1"
 		if _, ok := attrs["data-state"]; !ok {
-			attrs["data-state"] = "open"
+			attrs["data-state"] = openState(state.open)
+		}
+		if state.open {
+			attrs["open"] = true
+			attrs["data-open"] = "true"
+		}
+		if state.modal {
+			attrs["data-modal"] = "true"
 		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
@@ -72,7 +96,7 @@ func DialogContent(props DOMProps) templ.Component {
 			}
 			return renderDialogCloseIcon(ctx, w, "dialog-close")
 		})
-		return renderElement(ctx, w, "div", attrs, children)
+		return renderElement(ctx, w, "dialog", attrs, children)
 	})
 }
 
@@ -102,7 +126,9 @@ func DialogDescription(props DOMProps) templ.Component {
 
 func DialogClose(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "dialog-close", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "dialog-close", "")
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -111,6 +137,18 @@ func openState(open bool) string {
 		return "open"
 	}
 	return "closed"
+}
+
+func dialogStateFromContext(ctx context.Context) string {
+	return openState(dialogStateFromContextValue(ctx).open)
+}
+
+func dialogStateFromContextValue(ctx context.Context) dialogRenderState {
+	state, ok := ctx.Value(dialogRenderStateKey{}).(dialogRenderState)
+	if !ok {
+		return dialogRenderState{}
+	}
+	return state
 }
 
 func renderDialogCloseIcon(ctx context.Context, w io.Writer, slot string) error {

@@ -11,12 +11,21 @@ type ContextMenuProps struct{ DOMProps }
 
 func ContextMenu(props ContextMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props.DOMProps, "context-menu", "relative inline-block"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "context-menu", "relative inline-block")
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = "closed"
+		}
+		ctx = context.WithValue(ctx, menuRenderStateKey{}, menuRenderState{open: false})
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 func ContextMenuTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "context-menu-trigger", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "context-menu-trigger", "")
+		if _, ok := attrs["aria-haspopup"]; !ok {
+			attrs["aria-haspopup"] = "menu"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 func ContextMenuPortal(props DOMProps) templ.Component {
@@ -27,7 +36,15 @@ func ContextMenuPortal(props DOMProps) templ.Component {
 func ContextMenuContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "context-menu-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
-		attrs["hidden"] = true
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "menu"
+		}
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = menuStateFromContext(ctx)
+		}
+		if !menuOpenFromContext(ctx) {
+			attrs["hidden"] = true
+		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -40,7 +57,21 @@ func ContextMenuItem(props DropdownMenuItemProps) templ.Component {
 		if props.Variant == "destructive" {
 			className = cn(className, "text-destructive")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "context-menu-item", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "context-menu-item", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "menuitem"
+		}
+		if props.Value != "" {
+			attrs["data-value"] = props.Value
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func ContextMenuCheckboxItem(props DropdownMenuItemProps) templ.Component {
@@ -88,6 +119,8 @@ func ContextMenuSub(props DOMProps) templ.Component {
 func ContextMenuSubContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "context-menu-sub-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
+		attrs["role"] = "menu"
+		attrs["data-state"] = "closed"
 		attrs["hidden"] = true
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})

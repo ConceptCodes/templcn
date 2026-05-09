@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Calendar runtime fixture</title>
+    <style>
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calendar" data-slot="calendar" data-current-month="2026-05" data-selected="2026-05-07">
+      <button type="button" data-slot="calendar-prev" aria-label="Previous month">Prev</button>
+      <div data-slot="calendar-caption" aria-live="polite">May 2026</div>
+      <button type="button" data-slot="calendar-next" aria-label="Next month">Next</button>
+      <div data-slot="calendar-grid" role="grid" aria-label="May 2026">
+        <button id="may-06" type="button" data-slot="calendar-day-button" data-date="2026-05-06" aria-selected="false">6</button>
+        <button id="may-07" type="button" data-slot="calendar-day-button" data-date="2026-05-07" aria-selected="true" data-selected>7</button>
+        <button id="may-08" type="button" data-slot="calendar-day-button" data-date="2026-05-08" aria-selected="false">8</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initCalendars } from "../../public/runtime/calendar.js";
+      initCalendars();
+    </script>
+  </body>
+</html>

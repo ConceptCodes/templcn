@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Command and combobox runtime fixture</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        padding: 64px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      [data-slot$="-content"] {
+        width: 180px;
+        border: 1px solid #d4d4d8;
+        background: white;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="command" data-slot="command" role="combobox" aria-expanded="true">
+      <input id="command-input" data-slot="command-input" role="searchbox" aria-autocomplete="list" />
+      <div data-slot="command-list" role="listbox">
+        <button id="alpha-command" type="button" data-slot="command-item" role="option">Alpha</button>
+        <button id="beta-command" type="button" data-slot="command-item" role="option">Beta</button>
+        <button id="gamma-command" type="button" data-slot="command-item" role="option">Gamma</button>
+      </div>
+      <div id="command-empty" data-slot="command-empty" hidden>No results</div>
+    </div>
+
+    <div id="framework-combobox" data-slot="combobox" data-name="framework" data-default-value="go" data-state="closed">
+      <button id="combobox-trigger" type="button" data-slot="combobox-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+        <span data-slot="combobox-value"></span>
+      </button>
+      <div id="combobox-content" data-slot="combobox-content" role="listbox" data-state="closed" hidden>
+        <button id="go-option" type="button" data-slot="combobox-item" role="option" data-value="go">Go</button>
+        <button id="templ-option" type="button" data-slot="combobox-item" role="option" data-value="templ">templ</button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { initCommands } from "../../public/runtime/command.js";
+      import { initMenus } from "../../public/runtime/menu.js";
+      import { initPopovers } from "../../public/runtime/popover.js";
+      initCommands();
+      initMenus();
+      initPopovers();
+    </script>
+  </body>
+</html>

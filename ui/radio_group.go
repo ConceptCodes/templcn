@@ -16,15 +16,27 @@ type RadioGroupProps struct {
 	Required     bool
 }
 
+type radioGroupRenderState struct {
+	name     string
+	value    string
+	disabled bool
+}
+
+type radioGroupRenderStateKey struct{}
+
 func RadioGroup(props RadioGroupProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		attrs := attrsFromDOMProps(props.DOMProps, "radio-group", "grid gap-3")
 		attrs["role"] = "radiogroup"
 		if props.Name != "" {
 			attrs["data-name"] = props.Name
 		}
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if props.DefaultValue != "" {
 			attrs["data-default-value"] = props.DefaultValue
@@ -35,6 +47,7 @@ func RadioGroup(props RadioGroupProps) templ.Component {
 		if props.Required {
 			attrs["aria-required"] = "true"
 		}
+		ctx = context.WithValue(ctx, radioGroupRenderStateKey{}, radioGroupRenderState{name: props.Name, value: value, disabled: props.Disabled})
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -51,16 +64,31 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		className := "flex items-center gap-2 text-sm"
 		attrs := attrsFromDOMProps(props.DOMProps, "radio-group-item", className)
+		state, _ := ctx.Value(radioGroupRenderStateKey{}).(radioGroupRenderState)
+		name := props.Name
+		if name == "" {
+			name = state.name
+		}
+		disabled := props.Disabled || state.disabled
+		checked := props.Value != "" && state.value == props.Value
+		attrs["data-state"] = map[bool]string{true: "checked", false: "unchecked"}[checked]
+		attrs["aria-checked"] = map[bool]string{true: "true", false: "false"}[checked]
+		if disabled {
+			attrs["data-disabled"] = "true"
+		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			inputAttrs := templ.Attributes{
 				"type":  "radio",
 				"class": "h-4 w-4 border border-input text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50",
 				"value": props.Value,
 			}
-			if props.Name != "" {
-				inputAttrs["name"] = props.Name
+			if name != "" {
+				inputAttrs["name"] = name
 			}
-			if props.Disabled {
+			if checked {
+				inputAttrs["checked"] = true
+			}
+			if disabled {
 				inputAttrs["disabled"] = true
 			}
 			if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {

@@ -18,6 +18,10 @@ type NavigationMenuProps struct {
 func NavigationMenu(props NavigationMenuProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "navigation-menu", "relative")
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
 		}
@@ -30,6 +34,8 @@ func NavigationMenu(props NavigationMenuProps) templ.Component {
 		if props.DelayDuration > 0 {
 			attrs["data-delay-duration"] = props.DelayDuration
 		}
+		attrs["data-state"] = openState(value != "")
+		ctx = context.WithValue(ctx, menuRenderStateKey{}, menuRenderState{open: value != ""})
 		return renderElement(ctx, w, "nav", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -46,13 +52,25 @@ func NavigationMenuItem(props DOMProps) templ.Component {
 }
 func NavigationMenuTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "navigation-menu-trigger", "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "navigation-menu-trigger", "group inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50")
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func NavigationMenuContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "navigation-menu-content", "left-0 top-0 w-full md:absolute md:w-auto")
-		attrs["hidden"] = true
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = menuStateFromContext(ctx)
+		}
+		if !menuOpenFromContext(ctx) {
+			attrs["hidden"] = true
+		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }

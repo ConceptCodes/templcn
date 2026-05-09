@@ -32,8 +32,13 @@ func Toggle(props ToggleProps) templ.Component {
 			className = cn(className, "h-9 px-3")
 		}
 		attrs := attrsFromDOMProps(props.DOMProps, "toggle", className)
-		if props.Pressed {
+		pressed := props.Pressed || props.DefaultPressed
+		attrs["type"] = "button"
+		attrs["aria-pressed"] = "false"
+		attrs["data-state"] = "off"
+		if pressed {
 			attrs["aria-pressed"] = "true"
+			attrs["data-state"] = "on"
 		}
 		if props.DefaultPressed {
 			attrs["data-default-pressed"] = "true"

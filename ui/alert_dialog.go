@@ -13,25 +13,30 @@ type AlertDialogProps struct {
 
 func AlertDialog(props AlertDialogProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		open := props.Open || props.DefaultOpen
 		attrs := attrsFromDOMProps(props.DOMProps, "alert-dialog", "")
-		attrs["data-state"] = openState(props.Open || props.DefaultOpen)
-		if props.Open || props.DefaultOpen {
+		attrs["data-state"] = openState(open)
+		if open {
 			attrs["data-open"] = "true"
-		}
-		if props.Open {
-			attrs["open"] = true
 		}
 		if props.DefaultOpen {
 			attrs["data-default-open"] = "true"
 		}
 		attrs["data-modal"] = "true"
-		return renderElement(ctx, w, "dialog", attrs, templ.GetChildren(ctx))
+		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "alert-dialog", modal: true})
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func AlertDialogTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "alert-dialog-trigger", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "alert-dialog-trigger", "")
+		attrs["type"] = "button"
+		attrs["aria-haspopup"] = "dialog"
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -44,8 +49,9 @@ func AlertDialogPortal(props DOMProps) templ.Component {
 func AlertDialogOverlay(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "alert-dialog-overlay", "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0")
+		attrs["aria-hidden"] = "true"
 		if _, ok := attrs["data-state"]; !ok {
-			attrs["data-state"] = "open"
+			attrs["data-state"] = dialogStateFromContext(ctx)
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
@@ -53,11 +59,20 @@ func AlertDialogOverlay(props DOMProps) templ.Component {
 
 func AlertDialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "alert-dialog-content", "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95")
+		attrs := attrsFromDOMProps(props, "alert-dialog-content", "fixed inset-0 z-50 m-auto grid h-fit max-h-[calc(100%-2rem)] w-[calc(100%-2rem)] max-w-lg gap-4 overflow-auto rounded-lg border bg-background p-6 shadow-lg duration-200 backdrop:bg-black/80 [&:not([open])]:hidden data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95")
+		state := dialogStateFromContextValue(ctx)
+		attrs["role"] = "alertdialog"
+		attrs["aria-modal"] = "true"
+		attrs["tabindex"] = "-1"
 		if _, ok := attrs["data-state"]; !ok {
-			attrs["data-state"] = "open"
+			attrs["data-state"] = openState(state.open)
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		if state.open {
+			attrs["open"] = true
+			attrs["data-open"] = "true"
+		}
+		attrs["data-modal"] = "true"
+		return renderElement(ctx, w, "dialog", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -87,12 +102,16 @@ func AlertDialogDescription(props DOMProps) templ.Component {
 
 func AlertDialogAction(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "alert-dialog-action", buttonClasses(ButtonVariantDestructive, ButtonSizeDefault, "")), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "alert-dialog-action", buttonClasses(ButtonVariantDestructive, ButtonSizeDefault, ""))
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func AlertDialogCancel(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "alert-dialog-cancel", buttonClasses(ButtonVariantOutline, ButtonSizeDefault, "")), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "alert-dialog-cancel", buttonClasses(ButtonVariantOutline, ButtonSizeDefault, ""))
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }

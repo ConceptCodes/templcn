@@ -6,6 +6,8 @@ node_modules/
 .upstream-ui/
 bin/
 docs-site/dist/
+docs-site/playwright-report/
+docs-site/test-results/
 .env
 .env.*
 *.log

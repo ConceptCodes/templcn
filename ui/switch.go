@@ -30,6 +30,9 @@ func Switch(props SwitchProps) templ.Component {
 		attrs["type"] = "checkbox"
 		attrs["role"] = "switch"
 		attrs["data-size"] = size
+		checked := props.Checked || props.DefaultChecked
+		attrs["data-state"] = map[bool]string{true: "checked", false: "unchecked"}[checked]
+		attrs["aria-checked"] = map[bool]string{true: "true", false: "false"}[checked]
 		if props.Name != "" {
 			attrs["name"] = props.Name
 		}
@@ -40,7 +43,8 @@ func Switch(props SwitchProps) templ.Component {
 			attrs["checked"] = true
 		}
 		if props.DefaultChecked {
-			attrs["defaultChecked"] = true
+			attrs["checked"] = true
+			attrs["data-default-checked"] = "true"
 		}
 		if props.Disabled {
 			attrs["disabled"] = true

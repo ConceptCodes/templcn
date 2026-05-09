@@ -16,10 +16,12 @@ type SidebarProviderProps struct {
 func SidebarProvider(props SidebarProviderProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-provider", "")
+		open := props.Open || props.DefaultOpen
+		attrs["data-state"] = openState(open)
 		if props.DefaultOpen {
 			attrs["data-default-open"] = "true"
 		}
-		if props.Open {
+		if open {
 			attrs["data-open"] = "true"
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
@@ -51,7 +53,10 @@ func Sidebar(props SidebarProps) templ.Component {
 
 func SidebarTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "sidebar-trigger", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "sidebar-trigger", "")
+		attrs["type"] = "button"
+		attrs["aria-expanded"] = "false"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -173,7 +178,12 @@ func SidebarMenuButton(props SidebarMenuButtonProps) templ.Component {
 		if props.Size == "sm" {
 			className = cn(className, "py-1")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "sidebar-menu-button", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-menu-button", className)
+		attrs["type"] = "button"
+		if props.IsActive {
+			attrs["aria-current"] = "page"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
@@ -216,6 +226,11 @@ func SidebarMenuSubButton(props SidebarMenuButtonProps) templ.Component {
 		if props.Size == "sm" {
 			className = cn(className, "py-1")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "sidebar-menu-sub-button", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-menu-sub-button", className)
+		attrs["type"] = "button"
+		if props.IsActive {
+			attrs["aria-current"] = "page"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }

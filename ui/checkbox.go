@@ -22,6 +22,9 @@ func Checkbox(props CheckboxProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "checkbox", "peer size-4 shrink-0 rounded-[4px] border border-input bg-background shadow-xs outline-none transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary checked:text-primary-foreground")
 		attrs["type"] = "checkbox"
+		checked := props.Checked || props.DefaultChecked
+		attrs["data-state"] = map[bool]string{true: "checked", false: "unchecked"}[checked]
+		attrs["aria-checked"] = map[bool]string{true: "true", false: "false"}[checked]
 		if props.Name != "" {
 			attrs["name"] = props.Name
 		}
@@ -32,7 +35,8 @@ func Checkbox(props CheckboxProps) templ.Component {
 			attrs["checked"] = true
 		}
 		if props.DefaultChecked {
-			attrs["defaultChecked"] = true
+			attrs["checked"] = true
+			attrs["data-default-checked"] = "true"
 		}
 		if props.Disabled {
 			attrs["disabled"] = true

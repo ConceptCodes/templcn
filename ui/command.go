@@ -21,8 +21,12 @@ type CommandProps struct {
 func Command(props CommandProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "command", "grid gap-2 rounded-lg border bg-popover p-2 text-popover-foreground shadow-md")
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if props.DefaultValue != "" {
 			attrs["data-default-value"] = props.DefaultValue
@@ -42,6 +46,8 @@ func Command(props CommandProps) templ.Component {
 		if props.ShowCloseButton {
 			attrs["data-show-close-button"] = "true"
 		}
+		attrs["role"] = "combobox"
+		attrs["aria-expanded"] = "true"
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -71,12 +77,22 @@ func CommandInput(props InputProps) templ.Component {
 		if props.Placeholder != "" {
 			attrs["placeholder"] = props.Placeholder
 		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "searchbox"
+		}
+		if _, ok := attrs["aria-autocomplete"]; !ok {
+			attrs["aria-autocomplete"] = "list"
+		}
 		return renderVoidElement(ctx, w, "input", attrs)
 	})
 }
 func CommandList(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "command-list", "grid gap-1"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "command-list", "grid gap-1")
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "listbox"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 func CommandEmpty(props DOMProps) templ.Component {
@@ -98,7 +114,21 @@ func CommandItem(props DropdownMenuItemProps) templ.Component {
 		if props.Variant == "destructive" {
 			className = cn(className, "text-destructive")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "command-item", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "command-item", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "option"
+		}
+		if props.Value != "" {
+			attrs["data-value"] = props.Value
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func CommandShortcut(props DOMProps) templ.Component {

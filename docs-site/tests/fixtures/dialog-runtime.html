@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dialog Runtime Fixture</title>
+    <script type="module" src="../../public/runtime.js"></script>
+  </head>
+  <body>
+    <button id="before" type="button">Before</button>
+    <button
+      id="open-dialog"
+      type="button"
+      data-slot="dialog-trigger"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="settings-dialog"
+    >
+      Open dialog
+    </button>
+
+    <dialog id="settings-dialog" data-slot="dialog" data-modal="true" data-state="closed">
+      <div data-slot="dialog-overlay" data-state="closed" aria-hidden="true"></div>
+      <div data-slot="dialog-content" data-state="closed" tabindex="-1">
+        <h2 data-slot="dialog-title">Settings</h2>
+        <p data-slot="dialog-description">Runtime fixture.</p>
+        <input id="first-field" aria-label="First field" />
+        <button id="secondary-action" type="button">Secondary</button>
+        <button id="close-dialog" type="button" data-slot="dialog-close">Close</button>
+      </div>
+    </dialog>
+
+    <button id="after" type="button">After</button>
+  </body>
+</html>
+

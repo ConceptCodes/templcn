@@ -19,12 +19,22 @@ type TabsListProps struct {
 	Variant string
 }
 
+type tabsRenderState struct {
+	value string
+}
+
+type tabsRenderStateKey struct{}
+
 func Tabs(props TabsProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		attrs := attrsFromDOMProps(props.DOMProps, "tabs", "grid gap-2")
 		attrs["data-tabs-root"] = "true"
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if props.DefaultValue != "" {
 			attrs["data-default-value"] = props.DefaultValue
@@ -32,6 +42,7 @@ func Tabs(props TabsProps) templ.Component {
 		if props.Orientation != "" {
 			attrs["data-orientation"] = props.Orientation
 		}
+		ctx = context.WithValue(ctx, tabsRenderStateKey{}, tabsRenderState{value: value})
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -61,7 +72,8 @@ func TabsTrigger(props TabsTriggerProps) templ.Component {
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
 		}
-		if props.Active {
+		active := props.Active || (props.Value != "" && props.Value == tabsValueFromContext(ctx))
+		if active {
 			attrs["data-state"] = "active"
 			attrs["aria-selected"] = "true"
 			attrs["tabindex"] = "0"
@@ -71,8 +83,10 @@ func TabsTrigger(props TabsTriggerProps) templ.Component {
 			attrs["tabindex"] = "-1"
 		}
 		attrs["role"] = "tab"
+		attrs["type"] = "button"
 		if props.Disabled {
 			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
 		}
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
@@ -91,7 +105,8 @@ func TabsContent(props TabsContentProps) templ.Component {
 			attrs["data-value"] = props.Value
 		}
 		attrs["role"] = "tabpanel"
-		if props.Active {
+		active := props.Active || (props.Value != "" && props.Value == tabsValueFromContext(ctx))
+		if active {
 			attrs["data-state"] = "active"
 		} else {
 			attrs["data-state"] = "inactive"
@@ -99,4 +114,12 @@ func TabsContent(props TabsContentProps) templ.Component {
 		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
+}
+
+func tabsValueFromContext(ctx context.Context) string {
+	state, ok := ctx.Value(tabsRenderStateKey{}).(tabsRenderState)
+	if !ok {
+		return ""
+	}
+	return state.value
 }

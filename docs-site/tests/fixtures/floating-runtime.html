@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Floating runtime fixture</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        min-height: 100vh;
+        padding: 80px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      [data-slot$="-content"] {
+        width: 180px;
+        border: 1px solid #d4d4d8;
+        background: white;
+        padding: 8px;
+      }
+      #outside {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="profile-popover" data-slot="popover" data-state="closed" data-side="bottom" data-align="start">
+      <button id="popover-trigger" type="button" data-slot="popover-trigger" aria-haspopup="dialog" aria-expanded="false">Profile</button>
+      <div id="popover-content" data-slot="popover-content" data-state="closed" tabindex="-1" hidden>
+        <button id="popover-action" type="button">Edit profile</button>
+      </div>
+    </div>
+
+    <div id="info-tooltip" data-slot="tooltip" data-state="closed" data-side="right">
+      <button id="tooltip-trigger" type="button" data-slot="tooltip-trigger">Info</button>
+      <div id="tooltip-content" data-slot="tooltip-content" role="tooltip" data-state="closed" hidden>Extra information</div>
+    </div>
+
+    <div id="user-hover-card" data-slot="hover-card" data-state="closed" data-side="bottom">
+      <button id="hover-trigger" type="button" data-slot="hover-card-trigger">David</button>
+      <div id="hover-content" data-slot="hover-card-content" data-state="closed" tabindex="-1" hidden>User profile preview</div>
+    </div>
+
+    <button id="outside" type="button">Outside</button>
+
+    <script type="module">
+      import { initPopovers } from "../../public/runtime/popover.js";
+      initPopovers();
+    </script>
+  </body>
+</html>

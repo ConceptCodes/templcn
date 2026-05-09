@@ -19,6 +19,7 @@ type ChartContainerProps struct {
 func ChartContainer(props ChartContainerProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "chart-container", "relative w-full")
+		attrs["role"] = "img"
 		if props.Config != "" {
 			attrs["data-config"] = props.Config
 		}

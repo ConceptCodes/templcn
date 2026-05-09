@@ -2,6 +2,8 @@ import { initDialogs } from "./runtime/dialog.js";
 import { initMenus } from "./runtime/menu.js";
 import { initPopovers } from "./runtime/popover.js";
 import { initTabsAndDisclosures } from "./runtime/tabs.js";
+import { initCalendars } from "./runtime/calendar.js";
+import { initLongTail } from "./runtime/longtail.js";
 
 function initCharts() {
   document.querySelectorAll("[data-chart-container]").forEach((chart) => {
@@ -16,6 +18,8 @@ function initRuntime() {
   initPopovers();
   initMenus();
   initTabsAndDisclosures();
+  initCalendars();
+  initLongTail();
   initCharts();
 }
 

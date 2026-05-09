@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Tabs Runtime Fixture</title>
+    <script type="module" src="../../public/runtime.js"></script>
+  </head>
+  <body>
+    <div id="settings-tabs" data-slot="tabs" data-default-value="account" data-orientation="horizontal">
+      <div data-slot="tabs-list" role="tablist">
+        <button id="account-tab" type="button" data-slot="tabs-trigger" role="tab" data-value="account">Account</button>
+        <button id="password-tab" type="button" data-slot="tabs-trigger" role="tab" data-value="password">Password</button>
+        <button id="disabled-tab" type="button" data-slot="tabs-trigger" role="tab" data-value="disabled" disabled>Disabled</button>
+      </div>
+      <div id="account-panel" data-slot="tabs-content" role="tabpanel" data-value="account">Account panel</div>
+      <div id="password-panel" data-slot="tabs-content" role="tabpanel" data-value="password">Password panel</div>
+      <div id="disabled-panel" data-slot="tabs-content" role="tabpanel" data-value="disabled">Disabled panel</div>
+    </div>
+  </body>
+</html>
+

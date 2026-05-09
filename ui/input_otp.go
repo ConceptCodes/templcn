@@ -20,12 +20,16 @@ type InputOTPProps struct {
 
 func InputOTP(props InputOTPProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		value := props.Value
+		if value == "" {
+			value = props.DefaultValue
+		}
 		attrs := attrsFromDOMProps(props.DOMProps, "input-otp", "flex items-center gap-2")
 		if props.Name != "" {
 			attrs["data-name"] = props.Name
 		}
-		if props.Value != "" {
-			attrs["data-value"] = props.Value
+		if value != "" {
+			attrs["data-value"] = value
 		}
 		if props.DefaultValue != "" {
 			attrs["data-default-value"] = props.DefaultValue
@@ -39,7 +43,16 @@ func InputOTP(props InputOTPProps) templ.Component {
 		if props.Disabled {
 			attrs["data-disabled"] = "true"
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if props.Name != "" {
+				inputAttrs := templ.Attributes{"type": "hidden", "name": props.Name, "value": value}
+				if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {
+					return err
+				}
+			}
+			return renderChildren(ctx, w, templ.GetChildren(ctx))
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }
 
@@ -61,6 +74,9 @@ func InputOTPSlot(props InputOTPSlotProps) templ.Component {
 		if props.Index >= 0 {
 			attrs["data-index"] = strconv.Itoa(props.Index)
 		}
+		attrs["tabindex"] = "0"
+		attrs["role"] = "textbox"
+		attrs["aria-label"] = "Digit " + strconv.Itoa(props.Index+1)
 		return renderTextElement(ctx, w, "div", attrs, props.Value)
 	})
 }

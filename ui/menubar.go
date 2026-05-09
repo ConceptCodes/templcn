@@ -13,6 +13,8 @@ func Menubar(props MenubarProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "menubar", "flex h-9 items-center gap-1 rounded-md border bg-background p-1 shadow-xs")
 		attrs["role"] = "menubar"
+		attrs["data-state"] = "closed"
+		ctx = context.WithValue(ctx, menuRenderStateKey{}, menuRenderState{open: false})
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -23,7 +25,20 @@ func MenubarMenu(props DOMProps) templ.Component {
 }
 func MenubarTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "menubar-trigger", "inline-flex cursor-default select-none items-center rounded-sm px-3 py-1 text-sm font-medium outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "menubar-trigger", "inline-flex cursor-default select-none items-center rounded-sm px-3 py-1 text-sm font-medium outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground")
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "menuitem"
+		}
+		if _, ok := attrs["aria-haspopup"]; !ok {
+			attrs["aria-haspopup"] = "menu"
+		}
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func MenubarPortal(props DOMProps) templ.Component {
@@ -34,7 +49,15 @@ func MenubarPortal(props DOMProps) templ.Component {
 func MenubarContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "menubar-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
-		attrs["hidden"] = true
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "menu"
+		}
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = menuStateFromContext(ctx)
+		}
+		if !menuOpenFromContext(ctx) {
+			attrs["hidden"] = true
+		}
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -54,7 +77,21 @@ func MenubarItem(props DropdownMenuItemProps) templ.Component {
 		if props.Variant == "destructive" {
 			className = cn(className, "text-destructive")
 		}
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props.DOMProps, "menubar-item", className), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props.DOMProps, "menubar-item", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "menuitem"
+		}
+		if props.Value != "" {
+			attrs["data-value"] = props.Value
+		}
+		if props.Disabled {
+			attrs["disabled"] = true
+			attrs["aria-disabled"] = "true"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func MenubarCheckboxItem(props DropdownMenuItemProps) templ.Component {
@@ -98,6 +135,8 @@ func MenubarSubTrigger(props DropdownMenuItemProps) templ.Component {
 func MenubarSubContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "menubar-sub-content", "z-50 min-w-32 rounded-md border bg-popover p-1 text-popover-foreground shadow-md")
+		attrs["role"] = "menu"
+		attrs["data-state"] = "closed"
 		attrs["hidden"] = true
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})

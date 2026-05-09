@@ -49,6 +49,9 @@ func InputGroupButton(props InputGroupButtonProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		className := buttonClasses(ButtonVariantDefault, props.Size, "rounded-none border-0 shadow-none")
 		attrs := attrsFromDOMProps(props.DOMProps, "input-group-button", className)
+		if _, ok := attrs["type"]; !ok {
+			attrs["type"] = "button"
+		}
 		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }

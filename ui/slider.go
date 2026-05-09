@@ -51,6 +51,43 @@ func Slider(props SliderProps) templ.Component {
 		if props.Disabled {
 			attrs["data-disabled"] = "true"
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		if props.Orientation == SliderOrientationVertical {
+			attrs["data-orientation"] = "vertical"
+		} else {
+			attrs["data-orientation"] = "horizontal"
+		}
+		value := props.Min
+		if len(props.DefaultValue) > 0 {
+			value = props.DefaultValue[0]
+		}
+		if len(props.Value) > 0 {
+			value = props.Value[0]
+		}
+		attrs["data-value"] = strconv.FormatFloat(value, 'f', -1, 64)
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			inputAttrs := templ.Attributes{
+				"type":          "range",
+				"role":          "slider",
+				"min":           strconv.FormatFloat(props.Min, 'f', -1, 64),
+				"max":           strconv.FormatFloat(props.Max, 'f', -1, 64),
+				"step":          strconv.FormatFloat(props.Step, 'f', -1, 64),
+				"value":         strconv.FormatFloat(value, 'f', -1, 64),
+				"aria-valuemin": strconv.FormatFloat(props.Min, 'f', -1, 64),
+				"aria-valuemax": strconv.FormatFloat(props.Max, 'f', -1, 64),
+				"aria-valuenow": strconv.FormatFloat(value, 'f', -1, 64),
+				"class":         "w-full",
+			}
+			if props.Name != "" {
+				inputAttrs["name"] = props.Name
+			}
+			if props.Disabled {
+				inputAttrs["disabled"] = true
+			}
+			if err := renderVoidElement(ctx, w, "input", inputAttrs); err != nil {
+				return err
+			}
+			return renderChildren(ctx, w, templ.GetChildren(ctx))
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }

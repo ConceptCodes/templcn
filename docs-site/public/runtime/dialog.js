@@ -6,7 +6,14 @@ const closeSelector = '[data-slot$="-close"], [data-slot="alert-dialog-action"],
 export function initDialogs() {
   document.addEventListener("click", onClick);
   document.addEventListener("keydown", onKeydown);
-  document.querySelectorAll("dialog[open]").forEach((dialog) => setDialogState(dialog, true));
+  document.querySelectorAll("dialog").forEach((dialog) => {
+    setDialogState(dialog, dialog.open || dialog.getAttribute("data-open") === "true");
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeDialog(dialog);
+    });
+    dialog.addEventListener("close", () => setDialogState(dialog, false));
+  });
 }
 
 function onClick(event) {
@@ -40,7 +47,8 @@ function onClick(event) {
 }
 
 function onKeydown(event) {
-  const dialog = document.querySelector("dialog[open]");
+  const dialogs = Array.from(document.querySelectorAll("dialog[open]"));
+  const dialog = dialogs[dialogs.length - 1];
   if (!dialog) return;
 
   if (event.key === "Escape") {
@@ -71,6 +79,10 @@ function resolveDialog(trigger) {
   const root = trigger.closest("dialog");
   if (root) return root;
 
+  const owner = trigger.closest('[data-slot="dialog"], [data-slot="alert-dialog"], [data-slot="sheet"], [data-slot="drawer"]');
+  const ownedDialog = owner?.querySelector("dialog");
+  if (ownedDialog) return ownedDialog;
+
   let next = trigger.nextElementSibling;
   while (next) {
     if (next.tagName === "DIALOG") return next;
@@ -86,7 +98,7 @@ function openDialog(dialog, trigger) {
     if (modal && typeof dialog.showModal === "function") dialog.showModal();
     else dialog.show();
   }
-  setDialogState(dialog, true);
+  setDialogState(dialog, true, trigger);
   focusFirst(dialog);
 }
 
@@ -97,10 +109,30 @@ function closeDialog(dialog) {
   if (trigger && document.contains(trigger)) trigger.focus();
 }
 
-function setDialogState(dialog, open) {
+function triggerForDialog(dialog) {
+  const stored = getState(dialog).lastTrigger;
+  if (stored && document.contains(stored)) return stored;
+  if (!dialog.id) return null;
+  return document.querySelector(`${triggerSelector}[aria-controls="${CSS.escape(dialog.id)}"]`);
+}
+
+function setDialogState(dialog, open, trigger = triggerForDialog(dialog)) {
   setOpen(dialog, open, { keepMounted: true, restoreFocus: false });
+  const owner = dialog.closest('[data-slot="dialog"], [data-slot="alert-dialog"], [data-slot="sheet"], [data-slot="drawer"]');
+  if (owner && owner !== dialog) {
+    owner.setAttribute("data-state", open ? "open" : "closed");
+    if (open) owner.setAttribute("data-open", "true");
+    else owner.removeAttribute("data-open");
+  }
+  trigger?.setAttribute("aria-expanded", open ? "true" : "false");
+  trigger?.setAttribute("data-state", open ? "open" : "closed");
+  document.querySelectorAll(triggerSelector).forEach((candidate) => {
+    if (candidate === trigger || candidate.getAttribute("aria-controls") === dialog.id || candidate.getAttribute("data-target") === dialog.id) {
+      candidate.setAttribute("aria-expanded", open ? "true" : "false");
+      candidate.setAttribute("data-state", open ? "open" : "closed");
+    }
+  });
   dialog.querySelectorAll('[data-slot$="-content"], [data-slot$="-overlay"]').forEach((el) => {
     el.setAttribute("data-state", open ? "open" : "closed");
   });
 }
-

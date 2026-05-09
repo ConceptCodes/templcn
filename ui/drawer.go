@@ -16,7 +16,12 @@ type DrawerProps struct {
 
 func Drawer(props DrawerProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "drawer", "fixed inset-0 z-50")
+		open := props.Open || props.DefaultOpen
+		attrs := attrsFromDOMProps(props.DOMProps, "drawer", "")
+		attrs["data-state"] = openState(open)
+		if open {
+			attrs["data-open"] = "true"
+		}
 		if props.Side != "" {
 			attrs["data-side"] = props.Side
 		}
@@ -29,13 +34,20 @@ func Drawer(props DrawerProps) templ.Component {
 		if props.DefaultSnapPoint != "" {
 			attrs["data-default-snap-point"] = props.DefaultSnapPoint
 		}
-		return renderElement(ctx, w, "dialog", attrs, templ.GetChildren(ctx))
+		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "drawer", modal: props.Modal})
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func DrawerTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "drawer-trigger", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-trigger", "")
+		attrs["type"] = "button"
+		attrs["aria-haspopup"] = "dialog"
+		if _, ok := attrs["aria-expanded"]; !ok {
+			attrs["aria-expanded"] = "false"
+		}
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 func DrawerPortal(props DOMProps) templ.Component {
@@ -45,7 +57,12 @@ func DrawerPortal(props DOMProps) templ.Component {
 }
 func DrawerOverlay(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-overlay", "fixed inset-0 bg-black/50"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-overlay", "fixed inset-0 bg-black/50")
+		attrs["aria-hidden"] = "true"
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = dialogStateFromContext(ctx)
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 func DrawerHeader(props DOMProps) templ.Component {
@@ -70,12 +87,28 @@ func DrawerDescription(props DOMProps) templ.Component {
 }
 func DrawerClose(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "drawer-close", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-close", "")
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func DrawerContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "drawer-content", "relative z-50 h-full w-full bg-background p-6 shadow-lg"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-content", "fixed inset-x-0 bottom-0 top-auto z-50 m-0 h-fit max-h-[85vh] w-full overflow-auto rounded-t-lg bg-background p-6 shadow-lg backdrop:bg-black/50 [&:not([open])]:hidden")
+		state := dialogStateFromContextValue(ctx)
+		attrs["role"] = "dialog"
+		attrs["tabindex"] = "-1"
+		if _, ok := attrs["data-state"]; !ok {
+			attrs["data-state"] = openState(state.open)
+		}
+		if state.open {
+			attrs["open"] = true
+			attrs["data-open"] = "true"
+		}
+		if state.modal {
+			attrs["data-modal"] = "true"
+		}
+		return renderElement(ctx, w, "dialog", attrs, templ.GetChildren(ctx))
 	})
 }

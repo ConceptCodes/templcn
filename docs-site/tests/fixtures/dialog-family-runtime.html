@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dialog family runtime fixture</title>
+    <style>
+      dialog::backdrop {
+        background: rgb(0 0 0 / 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <button id="alert-trigger" type="button" data-slot="alert-dialog-trigger" aria-controls="delete-alert" aria-haspopup="dialog" aria-expanded="false">Delete</button>
+    <dialog id="delete-alert" data-slot="alert-dialog" role="alertdialog" aria-modal="true" data-state="closed">
+      <div data-slot="alert-dialog-content" data-state="closed" tabindex="-1">
+        <button id="alert-cancel" type="button" data-slot="alert-dialog-cancel">Cancel</button>
+      </div>
+    </dialog>
+
+    <button id="sheet-trigger" type="button" data-slot="sheet-trigger" aria-controls="settings-sheet" aria-haspopup="dialog" aria-expanded="false">Sheet</button>
+    <dialog id="settings-sheet" data-slot="sheet" role="dialog" aria-modal="true" data-state="closed">
+      <div data-slot="sheet-content" data-state="closed" tabindex="-1">
+        <button id="sheet-close" type="button" data-slot="sheet-close">Close sheet</button>
+      </div>
+    </dialog>
+
+    <button id="drawer-trigger" type="button" data-slot="drawer-trigger" aria-controls="nav-drawer" aria-haspopup="dialog" aria-expanded="false">Drawer</button>
+    <dialog id="nav-drawer" data-slot="drawer" role="dialog" aria-modal="true" data-state="closed">
+      <div data-slot="drawer-content" data-state="closed" tabindex="-1">
+        <button id="drawer-close" type="button" data-slot="drawer-close">Close drawer</button>
+      </div>
+    </dialog>
+
+    <script type="module">
+      import { initDialogs } from "../../public/runtime/dialog.js";
+      initDialogs();
+    </script>
+  </body>
+</html>

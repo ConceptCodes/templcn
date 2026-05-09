@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Long-tail runtime fixture</title>
+    <style>
+      [hidden] {
+        display: none !important;
+      }
+      [data-slot="carousel-content"] {
+        width: 240px;
+      }
+      [data-slot="resizable-panel-group"] {
+        display: flex;
+        width: 400px;
+        height: 80px;
+      }
+      [data-slot="resizable-handle"] {
+        display: block;
+        width: 8px;
+        height: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <input id="newsletter" data-slot="checkbox" type="checkbox" name="newsletter" data-state="unchecked" aria-checked="false" />
+    <input id="dark-mode" data-slot="switch" type="checkbox" role="switch" data-state="unchecked" aria-checked="false" />
+
+    <div id="pin" data-slot="input-otp" data-name="pin">
+      <input type="hidden" name="pin" value="" />
+      <div id="pin-1" data-slot="input-otp-slot" data-index="0" contenteditable="true">1</div>
+      <div id="pin-2" data-slot="input-otp-slot" data-index="1" contenteditable="true">2</div>
+    </div>
+
+    <div id="carousel" data-slot="carousel" data-index="0" data-loop="true">
+      <div data-slot="carousel-content">
+        <div id="slide-1" data-slot="carousel-item">Slide 1</div>
+        <div id="slide-2" data-slot="carousel-item">Slide 2</div>
+      </div>
+      <button type="button" data-slot="carousel-previous">Previous</button>
+      <button type="button" data-slot="carousel-next">Next</button>
+    </div>
+
+    <div id="panels" data-slot="resizable-panel-group" data-direction="horizontal">
+      <div id="left-panel" data-slot="resizable-panel" data-size="50" data-min-size="20" data-max-size="80"></div>
+      <div id="handle" data-slot="resizable-handle" role="separator" tabindex="0"></div>
+      <div id="right-panel" data-slot="resizable-panel" data-size="50" data-min-size="20" data-max-size="80"></div>
+    </div>
+
+    <div id="toast" data-slot="toast" data-open="true" data-state="open" role="status">
+      Saved
+      <button type="button" data-slot="toast-close">Close</button>
+    </div>
+
+    <div id="sidebar-shell" data-slot="sidebar-provider" data-default-open="true">
+      <button type="button" data-slot="sidebar-trigger" aria-expanded="false">Toggle</button>
+      <aside data-slot="sidebar">Sidebar</aside>
+    </div>
+
+    <div id="date-picker" data-slot="date-picker" data-name="date" data-value="2026-05-07">
+      <input type="hidden" name="date" value="2026-05-07" />
+      <button type="button" data-slot="calendar-day-button" data-date="2026-05-08">8</button>
+    </div>
+
+    <script type="module">
+      import { initLongTail } from "../../public/runtime/longtail.js";
+      initLongTail();
+    </script>
+  </body>
+</html>

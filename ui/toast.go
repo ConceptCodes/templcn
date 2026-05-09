@@ -32,7 +32,11 @@ type ToastProps struct {
 func Toast(props ToastProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "toast", "grid gap-2 rounded-lg border bg-background p-4 shadow-lg")
-		if props.Open {
+		open := props.Open || props.DefaultOpen
+		attrs["role"] = "status"
+		attrs["aria-live"] = "polite"
+		attrs["data-state"] = openState(open)
+		if open {
 			attrs["data-open"] = "true"
 		}
 		if props.DefaultOpen {
@@ -62,12 +66,17 @@ func ToastDescription(props DOMProps) templ.Component {
 
 func ToastAction(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "toast-action", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "toast-action", "")
+		attrs["type"] = "button"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func ToastClose(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "button", attrsFromDOMProps(props, "toast-close", ""), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "toast-close", "")
+		attrs["type"] = "button"
+		attrs["aria-label"] = "Close toast"
+		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
 	})
 }

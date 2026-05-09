@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Menu family runtime fixture</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        min-height: 100vh;
+        padding: 64px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+      [data-slot$="-content"] {
+        width: 160px;
+        border: 1px solid #d4d4d8;
+        background: white;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas-menu" data-slot="context-menu" data-state="closed" style="width: 240px; height: 120px; border: 1px solid #ccc">
+      <div id="canvas-trigger" data-slot="context-menu-trigger" aria-haspopup="menu">Canvas</div>
+      <div id="context-content" data-slot="context-menu-content" role="menu" data-state="closed" hidden>
+        <button id="copy-item" type="button" data-slot="context-menu-item" role="menuitem">Copy</button>
+        <button id="paste-item" type="button" data-slot="context-menu-item" role="menuitem">Paste</button>
+      </div>
+    </div>
+
+    <div id="app-menubar" data-slot="menubar" role="menubar" data-state="closed">
+      <div data-slot="menubar-menu">
+        <button id="file-trigger" type="button" data-slot="menubar-trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false">File</button>
+        <div id="file-menu" data-slot="menubar-content" role="menu" data-state="closed" hidden>
+          <button id="new-item" type="button" data-slot="menubar-item" role="menuitem">New</button>
+          <button id="open-item" type="button" data-slot="menubar-item" role="menuitem">Open</button>
+        </div>
+      </div>
+      <div data-slot="menubar-menu">
+        <button id="edit-trigger" type="button" data-slot="menubar-trigger" role="menuitem" aria-haspopup="menu" aria-expanded="false">Edit</button>
+      </div>
+    </div>
+
+    <nav id="site-nav" data-slot="navigation-menu" data-state="closed">
+      <ul data-slot="navigation-menu-list">
+        <li data-slot="navigation-menu-item">
+          <button id="products-trigger" type="button" data-slot="navigation-menu-trigger" aria-expanded="false">Products</button>
+          <div id="products-content" data-slot="navigation-menu-content" data-state="closed" hidden>
+            <a id="templates-link" data-slot="navigation-menu-link" href="#templates">Templates</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+
+    <button id="outside" type="button">Outside</button>
+
+    <script type="module">
+      import { initMenus } from "../../public/runtime/menu.js";
+      initMenus();
+    </script>
+  </body>
+</html>

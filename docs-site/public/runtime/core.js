@@ -2,7 +2,7 @@ export const SELECTORS = {
   floatingRoot:
     '[data-slot="popover"], [data-slot="hover-card"], [data-slot="tooltip"], [data-slot="select"], [data-slot="combobox"], [data-slot="dropdown-menu"], [data-slot="context-menu"], [data-slot="menubar"], [data-slot="navigation-menu"], [data-dropdown-menu-root]',
   floatingContent:
-    '[data-slot="popover-content"], [data-slot="hover-card-content"], [data-slot="tooltip-content"], [data-slot="select-content"], [data-slot="combobox-content"], [data-slot="dropdown-menu-content"], [data-dropdown-menu-content]',
+    '[data-slot="popover-content"], [data-slot="hover-card-content"], [data-slot="tooltip-content"], [data-slot="select-content"], [data-slot="combobox-content"], [data-slot="dropdown-menu-content"], [data-dropdown-menu-content], [data-slot="context-menu-content"], [data-slot="menubar-content"], [data-slot="navigation-menu-content"]',
   item:
     '[data-slot$="-item"], [data-dropdown-menu-item], [data-select-item], [data-combobox-item], [role="menuitem"], [role="option"]',
   trigger:
@@ -75,7 +75,7 @@ export function focusable(container) {
     container.querySelectorAll(
       'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
     ),
-  ).filter((el) => !el.hasAttribute("hidden") && el.offsetParent !== null);
+  ).filter((el) => !el.hasAttribute("hidden") && el.getAttribute("aria-hidden") !== "true" && (el.offsetParent !== null || el === document.activeElement || el.closest("dialog[open]")));
 }
 
 export function focusFirst(container) {

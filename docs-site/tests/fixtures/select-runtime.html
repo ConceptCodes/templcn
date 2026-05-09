@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Select Runtime Fixture</title>
+    <script type="module" src="../../public/runtime.js"></script>
+  </head>
+  <body>
+    <form id="settings-form">
+      <div id="plan-select" data-slot="select" data-name="plan" data-default-value="starter" data-state="closed">
+        <button id="plan-trigger" type="button" data-slot="select-trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+          <span data-slot="select-value"></span>
+        </button>
+        <div data-slot="select-content" role="listbox" data-state="closed" hidden>
+          <button type="button" id="starter-option" data-slot="select-item" role="option" data-value="starter">Starter</button>
+          <button type="button" id="pro-option" data-slot="select-item" role="option" data-value="pro">Pro</button>
+          <button type="button" id="enterprise-option" data-slot="select-item" role="option" data-value="enterprise">Enterprise</button>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>
+
