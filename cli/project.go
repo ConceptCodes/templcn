@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -61,6 +60,11 @@ type ViewOptions struct {
 	Items []string
 }
 
+type DiffOptions struct {
+	CWD   string
+	Items []string
+}
+
 type SearchOptions struct {
 	CWD        string
 	Query      string
@@ -96,6 +100,19 @@ type registryIndex struct {
 	Root      string
 	Files     []registryFile
 	Component map[string]registryFile
+	Items     map[string]registryItem
+}
+
+type registryItem struct {
+	Name         string         `json:"name"`
+	Type         string         `json:"type"`
+	Description  string         `json:"description,omitempty"`
+	Files        []registryFile `json:"files"`
+	Dependencies []string       `json:"dependencies,omitempty"`
+	Runtime      []string       `json:"runtime,omitempty"`
+	CSS          []string       `json:"css,omitempty"`
+	DocsURL      string         `json:"docsUrl,omitempty"`
+	Examples     []string       `json:"examples,omitempty"`
 }
 
 func InitProject(opts InitOptions) error {
@@ -117,7 +134,15 @@ func InitProject(opts InitOptions) error {
 		return err
 	}
 
-	if err := syncUIPackage(context.Background(), root, cfg.UIDir, opts.Force, false); err != nil {
+	index, err := buildRegistryIndex()
+	if err != nil {
+		return err
+	}
+	items, err := resolveRegistryItems(index, []string{"button", "card"}, false)
+	if err != nil {
+		return err
+	}
+	if err := syncRegistryFiles(root, cfg.UIDir, items, opts.Force, false); err != nil {
 		return err
 	}
 
@@ -163,7 +188,11 @@ func AddComponents(opts AddOptions) error {
 		return showFileView(root, targetDir, opts, index)
 	}
 
-	return syncUIPackage(context.Background(), root, targetDir, opts.Overwrite, opts.DryRun)
+	items, err := resolveRegistryItems(index, opts.Items, opts.All)
+	if err != nil {
+		return err
+	}
+	return syncRegistryFiles(root, targetDir, items, opts.Overwrite, opts.DryRun)
 }
 
 func ApplyPreset(opts ApplyOptions) error {
@@ -249,6 +278,30 @@ func ViewItems(opts ViewOptions) error {
 	return nil
 }
 
+func DiffItems(opts DiffOptions) error {
+	root, err := detectProjectRoot(opts.CWD)
+	if err != nil {
+		return err
+	}
+	cfg, err := loadProjectConfig(root)
+	if err != nil {
+		return err
+	}
+	index, err := buildRegistryIndex()
+	if err != nil {
+		return err
+	}
+	if len(opts.Items) == 0 {
+		return errors.New("diff: specify one or more component names or file paths")
+	}
+	for _, item := range opts.Items {
+		if err := printItemDiff(root, cfg.UIDir, index, item); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func SearchComponents(opts SearchOptions) error {
 	index, err := buildRegistryIndex()
 	if err != nil {
@@ -291,7 +344,7 @@ func BuildRegistry(opts BuildOptions) error {
 	payload := map[string]any{
 		"module":     cfg.Module,
 		"uiDir":      cfg.UIDir,
-		"components": index.Files,
+		"components": registryItemsSorted(index.Items),
 	}
 	if opts.Registry != "" {
 		payload["registry"] = opts.Registry
@@ -486,6 +539,7 @@ func scaffoldStarterProject(root string, cfg ProjectConfig, force bool) error {
 	files := map[string]string{
 		"main.go":            starterMainGo(),
 		"app.templ":          starterAppTempl(modulePath),
+		"app_templ.go":       starterAppTemplGo(modulePath),
 		"styles/globals.css": starterCSS(),
 		"assets/runtime.js":  starterRuntimeJS(),
 	}
@@ -505,47 +559,49 @@ func scaffoldStarterProject(root string, cfg ProjectConfig, force bool) error {
 	return nil
 }
 
-func syncUIPackage(ctx context.Context, root, targetDir string, overwrite bool, dryRun bool) error {
+func syncRegistryFiles(root, targetDir string, items []registryItem, overwrite bool, dryRun bool) error {
 	sourceRoot, err := locateRegistryRoot()
 	if err != nil {
 		return err
 	}
-
-	sourceDir := filepath.Join(sourceRoot, "ui")
-	if !fileExists(sourceDir) {
-		return fmt.Errorf("could not find source ui package at %s", sourceDir)
+	files := filesForRegistryItems(items)
+	if len(files) == 0 {
+		return nil
 	}
-
-	entries, err := os.ReadDir(sourceDir)
-	if err != nil {
-		return err
-	}
-
-	dstDir := filepath.Join(root, targetDir)
 	if dryRun {
-		for _, entry := range entries {
-			if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".go") {
-				continue
-			}
-			fmt.Println(filepath.Join(targetDir, entry.Name()))
+		for _, rel := range files {
+			fmt.Println(targetPathForRegistryFile(targetDir, rel))
 		}
 		return nil
 	}
-
-	if err := os.MkdirAll(dstDir, 0755); err != nil {
-		return err
-	}
-	for _, entry := range entries {
-		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".go") {
+	for _, rel := range files {
+		dstRel := targetPathForRegistryFile(targetDir, rel)
+		dst := filepath.Join(root, dstRel)
+		if rel == "assets/runtime.js" {
+			if fileExists(dst) && !overwrite {
+				continue
+			}
+			if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+				return err
+			}
+			if err := os.WriteFile(dst, []byte(starterRuntimeJS()), 0644); err != nil {
+				return err
+			}
 			continue
 		}
-		src := filepath.Join(sourceDir, entry.Name())
-		dst := filepath.Join(dstDir, entry.Name())
+		src := filepath.Join(sourceRoot, rel)
 		if err := copyFile(src, dst, overwrite); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func targetPathForRegistryFile(uiDir, rel string) string {
+	if strings.HasPrefix(rel, "ui"+string(filepath.Separator)) || strings.HasPrefix(rel, "ui/") {
+		return filepath.Join(uiDir, filepath.Base(rel))
+	}
+	return rel
 }
 
 func copyFile(src, dst string, overwrite bool) error {
@@ -610,23 +666,44 @@ func buildRegistryIndex() (registryIndex, error) {
 		Root:      root,
 		Files:     make([]registryFile, 0, len(entries)),
 		Component: make(map[string]registryFile),
+		Items:     make(map[string]registryItem),
 	}
 	for _, entry := range entries {
 		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".go") {
 			continue
 		}
+		if strings.HasSuffix(entry.Name(), "_test.go") {
+			continue
+		}
 		rel := filepath.Join("ui", entry.Name())
+		name := componentNameFromFile(rel)
+		if _, internal := internalRegistryFiles[name]; internal {
+			continue
+		}
 		symbols, err := exportedSymbols(filepath.Join(uiDir, entry.Name()))
 		if err != nil {
 			return registryIndex{}, err
 		}
 		file := registryFile{RelPath: rel, Symbols: symbols}
 		index.Files = append(index.Files, file)
+		item := buildRegistryItem(file)
+		index.Items[item.Name] = item
+		index.Component[normalizeName(item.Name)] = file
 		for _, symbol := range symbols {
 			index.Component[normalizeName(symbol)] = file
 		}
 	}
+	sort.Slice(index.Files, func(i, j int) bool { return index.Files[i].RelPath < index.Files[j].RelPath })
 	return index, nil
+}
+
+func registryItemsSorted(items map[string]registryItem) []registryItem {
+	out := make([]registryItem, 0, len(items))
+	for _, item := range items {
+		out = append(out, item)
+	}
+	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
+	return out
 }
 
 func exportedSymbols(path string) ([]string, error) {
@@ -703,7 +780,7 @@ func printItemView(root, uiDir string, index registryIndex, item string) error {
 	if !ok {
 		return fmt.Errorf("view: unknown component or file %q", item)
 	}
-	raw, err := os.ReadFile(filepath.Join(root, file.RelPath))
+	raw, err := os.ReadFile(filepath.Join(index.Root, file.RelPath))
 	if err != nil {
 		return err
 	}
@@ -711,17 +788,82 @@ func printItemView(root, uiDir string, index registryIndex, item string) error {
 	return nil
 }
 
+func printItemDiff(root, uiDir string, index registryIndex, item string) error {
+	file, ok := index.Component[normalizeName(item)]
+	if !ok {
+		if filepath.IsAbs(item) || strings.Contains(item, string(os.PathSeparator)) {
+			return printPathDiff(root, item, item)
+		}
+		return fmt.Errorf("diff: unknown component or file %q", item)
+	}
+	sourceRel := file.RelPath
+	targetRel := targetPathForRegistryFile(uiDir, sourceRel)
+	return printPathDiffWithSource(filepath.Join(index.Root, sourceRel), filepath.Join(root, targetRel), targetRel)
+}
+
+func printPathDiff(root, item string, label string) error {
+	sourceRoot, err := locateRegistryRoot()
+	if err != nil {
+		return err
+	}
+	return printPathDiffWithSource(filepath.Join(sourceRoot, item), filepath.Join(root, item), label)
+}
+
+func printPathDiffWithSource(sourcePath, targetPath, label string) error {
+	source, err := os.ReadFile(sourcePath)
+	if err != nil {
+		return err
+	}
+	target, err := os.ReadFile(targetPath)
+	if errors.Is(err, os.ErrNotExist) {
+		fmt.Printf("== %s ==\nmissing target; would create %d bytes\n", label, len(source))
+		return nil
+	}
+	if err != nil {
+		return err
+	}
+	if bytes.Equal(source, target) {
+		fmt.Printf("== %s ==\nno changes\n", label)
+		return nil
+	}
+	fmt.Printf("== %s ==\n--- current\n+++ registry\n", label)
+	printSimpleDiff(string(target), string(source))
+	return nil
+}
+
+func printSimpleDiff(current, next string) {
+	currentLines := strings.Split(strings.TrimRight(current, "\n"), "\n")
+	nextLines := strings.Split(strings.TrimRight(next, "\n"), "\n")
+	max := len(currentLines)
+	if len(nextLines) > max {
+		max = len(nextLines)
+	}
+	for i := 0; i < max; i++ {
+		var oldLine, newLine string
+		if i < len(currentLines) {
+			oldLine = currentLines[i]
+		}
+		if i < len(nextLines) {
+			newLine = nextLines[i]
+		}
+		if oldLine == newLine {
+			continue
+		}
+		if i < len(currentLines) {
+			fmt.Printf("-%s\n", oldLine)
+		}
+		if i < len(nextLines) {
+			fmt.Printf("+%s\n", newLine)
+		}
+	}
+}
+
 func showFileView(root, uiDir string, opts AddOptions, index registryIndex) error {
 	if opts.View != "" {
 		return printItemView(root, uiDir, index, opts.View)
 	}
 	if opts.Diff != "" {
-		raw, err := os.ReadFile(filepath.Join(root, opts.Diff))
-		if err != nil {
-			return err
-		}
-		fmt.Printf("== %s ==\n%s\n", opts.Diff, string(raw))
-		return nil
+		return printItemDiff(root, uiDir, index, opts.Diff)
 	}
 	return nil
 }

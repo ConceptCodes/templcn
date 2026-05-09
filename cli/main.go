@@ -28,11 +28,28 @@ func newRootCommand() *cobra.Command {
 	cmd.AddCommand(newAddCommand())
 	cmd.AddCommand(newApplyCommand())
 	cmd.AddCommand(newViewCommand())
+	cmd.AddCommand(newDiffCommand())
 	cmd.AddCommand(newSearchCommand())
 	cmd.AddCommand(newBuildCommand())
 	cmd.AddCommand(newDocsCommand())
 	cmd.AddCommand(newInfoCommand())
 
+	return cmd
+}
+
+func newDiffCommand() *cobra.Command {
+	opts := DiffOptions{}
+	cmd := &cobra.Command{
+		Use:   "diff <items...>",
+		Short: "show component source differences",
+		Args:  cobra.MinimumNArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			opts.Items = args
+			return DiffItems(opts)
+		},
+	}
+
+	cmd.Flags().StringVarP(&opts.CWD, "cwd", "c", ".", "working directory")
 	return cmd
 }
 

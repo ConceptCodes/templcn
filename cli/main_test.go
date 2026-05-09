@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -22,6 +23,31 @@ func TestBuildRegistryIndexFindsButton(t *testing.T) {
 	if _, ok := index.Component["button"]; !ok {
 		t.Fatalf("expected button component to be indexed")
 	}
+	if _, ok := index.Items["data-table"]; !ok {
+		t.Fatalf("expected data-table component to use public slug")
+	}
+	for _, internal := range []string{"cn", "html", "render", "types", "floating", "dialog-test"} {
+		if _, ok := index.Items[internal]; ok {
+			t.Fatalf("internal/test file %q should not be a registry item", internal)
+		}
+	}
+	for name, item := range index.Items {
+		if len(item.Files) == 0 {
+			t.Fatalf("%s missing source files", name)
+		}
+		if len(item.Dependencies) == 0 {
+			t.Fatalf("%s missing shared dependencies", name)
+		}
+		if len(item.CSS) == 0 {
+			t.Fatalf("%s missing css metadata", name)
+		}
+		if item.DocsURL == "" {
+			t.Fatalf("%s missing docs url", name)
+		}
+		if len(item.Examples) == 0 {
+			t.Fatalf("%s missing example metadata", name)
+		}
+	}
 }
 
 func TestInitProjectScaffoldsFiles(t *testing.T) {
@@ -36,12 +62,34 @@ func TestInitProjectScaffoldsFiles(t *testing.T) {
 	mustExist(t, filepath.Join(root, "go.mod"))
 	mustExist(t, filepath.Join(root, "main.go"))
 	mustExist(t, filepath.Join(root, "app.templ"))
+	mustExist(t, filepath.Join(root, "app_templ.go"))
 	mustExist(t, filepath.Join(root, "components.json"))
 	mustExist(t, filepath.Join(root, "styles", "globals.css"))
 	mustExist(t, filepath.Join(root, "ui", "button.go"))
 }
 
-func TestAddComponentsCopiesUIPackage(t *testing.T) {
+func TestInitProjectBuildsGeneratedStarter(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+
+	if err := InitProject(InitOptions{CWD: dir, Name: "demo-build", Force: true, Silent: true}); err != nil {
+		t.Fatalf("init project: %v", err)
+	}
+
+	root := filepath.Join(dir, "demo-build")
+	tidy := exec.Command("go", "mod", "tidy")
+	tidy.Dir = root
+	if out, err := tidy.CombinedOutput(); err != nil {
+		t.Fatalf("generated starter should tidy dependencies: %v\n%s", err, out)
+	}
+	cmd := exec.Command("go", "build", "./...")
+	cmd.Dir = root
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("generated starter should build: %v\n%s", err, out)
+	}
+}
+
+func TestAddComponentsCopiesOnlyRequestedComponentDependencies(t *testing.T) {
 	dir := t.TempDir()
 	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
 
@@ -57,8 +105,73 @@ func TestAddComponentsCopiesUIPackage(t *testing.T) {
 	}
 
 	mustExist(t, filepath.Join(dir, "ui", "button.go"))
-	mustExist(t, filepath.Join(dir, "ui", "input.go"))
-	mustExist(t, filepath.Join(dir, "ui", "textarea.go"))
+	mustExist(t, filepath.Join(dir, "ui", "cn.go"))
+	mustExist(t, filepath.Join(dir, "ui", "html.go"))
+	mustExist(t, filepath.Join(dir, "ui", "render.go"))
+	mustExist(t, filepath.Join(dir, "ui", "types.go"))
+	mustNotExist(t, filepath.Join(dir, "ui", "input.go"))
+	mustNotExist(t, filepath.Join(dir, "ui", "textarea.go"))
+	mustNotExist(t, filepath.Join(dir, "assets", "runtime.js"))
+}
+
+func TestAddSelectCopiesRuntimeAndDeclaredDependencies(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(`{"module":"example.com/demo","uiDir":"ui"}`), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"select"}, Overwrite: true}); err != nil {
+		t.Fatalf("add select: %v", err)
+	}
+
+	mustExist(t, filepath.Join(dir, "ui", "select.go"))
+	mustExist(t, filepath.Join(dir, "ui", "dropdown_menu.go"))
+	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
+	mustNotExist(t, filepath.Join(dir, "ui", "button.go"))
+}
+
+func TestAddAllCopiesComponentsWithoutTestsOrInternalComponents(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+
+	if err := AddComponents(AddOptions{CWD: dir, All: true, Overwrite: true}); err != nil {
+		t.Fatalf("add all: %v", err)
+	}
+
+	mustExist(t, filepath.Join(dir, "ui", "dialog.go"))
+	mustExist(t, filepath.Join(dir, "ui", "calendar.go"))
+	mustExist(t, filepath.Join(dir, "ui", "floating.go"))
+	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
+	mustNotExist(t, filepath.Join(dir, "ui", "dialog_test.go"))
+	mustNotExist(t, filepath.Join(dir, "ui", "floating_test.go"))
+}
+
+func TestAddDryRunDoesNotWriteFiles(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"button"}, DryRun: true}); err != nil {
+		t.Fatalf("dry run add: %v", err)
+	}
+
+	mustNotExist(t, filepath.Join(dir, "ui", "button.go"))
+}
+
+func TestViewAndDiffResolveRegistrySource(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+
+	if err := ViewItems(ViewOptions{CWD: dir, Items: []string{"button"}}); err != nil {
+		t.Fatalf("view button: %v", err)
+	}
+	if err := DiffItems(DiffOptions{CWD: dir, Items: []string{"button"}}); err != nil {
+		t.Fatalf("diff button: %v", err)
+	}
 }
 
 func TestApplyPresetUpdatesConfig(t *testing.T) {
@@ -86,6 +199,33 @@ func TestApplyPresetUpdatesConfig(t *testing.T) {
 	mustExist(t, filepath.Join(dir, "styles", "globals.css"))
 }
 
+func TestStarterRuntimeJavaScriptParses(t *testing.T) {
+	node, err := exec.LookPath("node")
+	if err != nil {
+		t.Skip("node is not installed")
+	}
+	path := filepath.Join(t.TempDir(), "runtime.js")
+	if err := os.WriteFile(path, []byte(starterRuntimeJS()), 0644); err != nil {
+		t.Fatalf("write runtime: %v", err)
+	}
+	cmd := exec.Command(node, "--check", path)
+	if out, err := cmd.CombinedOutput(); err != nil {
+		t.Fatalf("starter runtime should parse: %v\n%s", err, out)
+	}
+}
+
+func newConfiguredProject(t *testing.T) string {
+	t.Helper()
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(`{"module":"example.com/demo","uiDir":"ui"}`), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+	return dir
+}
+
 func repoRoot(t *testing.T) string {
 	t.Helper()
 	cwd, err := os.Getwd()
@@ -111,5 +251,14 @@ func mustExist(t *testing.T, path string) {
 	t.Helper()
 	if _, err := os.Stat(path); err != nil {
 		t.Fatalf("expected %s to exist: %v", path, err)
+	}
+}
+
+func mustNotExist(t *testing.T, path string) {
+	t.Helper()
+	if _, err := os.Stat(path); err == nil {
+		t.Fatalf("expected %s not to exist", path)
+	} else if !os.IsNotExist(err) {
+		t.Fatalf("stat %s: %v", path, err)
 	}
 }
