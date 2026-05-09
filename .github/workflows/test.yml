@@ -1,0 +1,51 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ui/go.mod
+
+      - name: Test UI module
+        run: go test ./...
+        working-directory: ui
+
+      - name: Test CLI module
+        run: go test ./...
+        working-directory: cli
+
+      - name: Test docs module
+        run: go test ./...
+        working-directory: docs-site
+
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: ui/go.mod
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install JS dependencies
+        run: bun install --frozen-lockfile
+        working-directory: docs-site
+
+      - name: Install Playwright browser
+        run: bunx playwright install --with-deps chromium
+        working-directory: docs-site
+
+      - name: Run browser tests
+        run: TMPDIR=$PWD/.tmp bun run test:e2e
+        working-directory: docs-site
