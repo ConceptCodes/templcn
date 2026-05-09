@@ -645,7 +645,7 @@
 
   function initComponentToc() {
     document.querySelectorAll('[data-toc-root="true"]').forEach(function (root) {
-      var sections = Array.prototype.slice.call(root.querySelectorAll('#installation, #usage, #examples, #api-reference, #view-source'));
+      var sections = Array.prototype.slice.call(root.querySelectorAll('#installation, #usage, #composition, #examples, #api-reference, #view-source'));
       var links = Array.prototype.slice.call(root.querySelectorAll('[data-toc-link]'));
       if (!sections.length || !links.length) return;
 

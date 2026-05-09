@@ -69,9 +69,15 @@ func generate(ctx context.Context, outputDir string) error {
 		{filepath.Join(outputDir, "docs"), views.DocsIndexPage()},
 		{filepath.Join(outputDir, "docs", "components"), views.ComponentsIndexPage()},
 		{filepath.Join(outputDir, "docs", "installation"), views.InstallationPage()},
+		{filepath.Join(outputDir, "docs", "components-json"), views.ComponentsJSONPage()},
+		{filepath.Join(outputDir, "docs", "package-imports"), views.PackageImportsPage()},
 		{filepath.Join(outputDir, "docs", "theming"), views.ThemingPage()},
+		{filepath.Join(outputDir, "docs", "dark-mode"), views.DarkModePage()},
 		{filepath.Join(outputDir, "docs", "cli"), views.CLIPage()},
+		{filepath.Join(outputDir, "docs", "monorepo"), views.MonorepoPage()},
 		{filepath.Join(outputDir, "docs", "rtl"), views.RTLPage()},
+		{filepath.Join(outputDir, "docs", "javascript"), views.JavaScriptPage()},
+		{filepath.Join(outputDir, "docs", "llms"), views.LLMSPage()},
 		{filepath.Join(outputDir, "docs", "forms"), views.FormsPage()},
 		{filepath.Join(outputDir, "docs", "changelog"), views.ChangelogPage()},
 		{filepath.Join(outputDir, "docs", "directory"), views.DirectoryDocsPage()},
@@ -225,16 +231,18 @@ func generateSearchIndex(outputDir string) error {
 	// Add doc section pages
 	entries = append(entries, SearchEntry{Title: "Introduction", URL: "/docs", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Installation", URL: "/docs/installation", Type: "docs"})
+	entries = append(entries, SearchEntry{Title: "components.json", URL: "/docs/components-json", Type: "docs"})
+	entries = append(entries, SearchEntry{Title: "Package Imports", URL: "/docs/package-imports", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Theming", URL: "/docs/theming", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "CLI", URL: "/docs/cli", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Dark Mode", URL: "/docs/dark-mode", Type: "docs"})
+	entries = append(entries, SearchEntry{Title: "Monorepo", URL: "/docs/monorepo", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "RTL", URL: "/docs/rtl", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "Typography", URL: "/docs/typography", Type: "docs"})
+	entries = append(entries, SearchEntry{Title: "JavaScript", URL: "/docs/javascript", Type: "docs"})
+	entries = append(entries, SearchEntry{Title: "llms.txt", URL: "/docs/llms", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Forms", URL: "/docs/forms", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Changelog", URL: "/docs/changelog", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Directory", URL: "/docs/directory", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "Open in v0", URL: "/docs/open-in-v0", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "Components JSON", URL: "/docs/components-json", Type: "docs"})
 
 	// Add chart pages
 	entries = append(entries, SearchEntry{Title: "Area Chart", URL: "/charts/area", Type: "chart"})

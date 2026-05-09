@@ -2,6 +2,9 @@ package views
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"regexp"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -33,6 +36,7 @@ type ComponentDocEntry struct {
 	APIProps    []APIProp      // NEW: structured API props
 	Examples    []ExampleEntry // NEW: named examples with descriptions
 	SourceCode  string
+	Composition []string
 }
 
 type BlockEntry struct {
@@ -981,6 +985,9 @@ func normalizeComponentDocs() {
 		if doc.SourceCode == "" {
 			doc.SourceCode = defaultSourceCode(doc)
 		}
+		if len(doc.Composition) == 0 {
+			doc.Composition = defaultComposition(doc)
+		}
 		if len(doc.Examples) == 0 {
 			doc.Examples = defaultExamples(doc)
 		}
@@ -1054,14 +1061,52 @@ func inferPropDesc(componentTitle, name string) string {
 }
 
 func defaultSourceCode(doc *ComponentDocEntry) string {
+	for _, candidate := range componentSourceCandidates(doc.Slug) {
+		raw, err := os.ReadFile(candidate)
+		if err == nil && len(raw) > 0 {
+			return strings.TrimSpace(string(raw))
+		}
+	}
+	return strings.TrimSpace(doc.GoUsage)
+}
+
+func componentSourceCandidates(slug string) []string {
+	file := strings.ReplaceAll(slug, "-", "_") + ".go"
+	if slug == "data-table" {
+		file = "datatable.go"
+	}
+	return []string{
+		filepath.Join("..", "ui", file),
+		filepath.Join("ui", file),
+		filepath.Join("..", "..", "ui", file),
+	}
+}
+
+var templCallPattern = regexp.MustCompile(`@ui\.([A-Za-z0-9_]+)`)
+
+func defaultComposition(doc *ComponentDocEntry) []string {
+	matches := templCallPattern.FindAllStringSubmatch(doc.GoUsage, -1)
+	seen := map[string]struct{}{}
+	parts := make([]string, 0, len(matches))
+	for _, match := range matches {
+		if len(match) < 2 {
+			continue
+		}
+		part := match[1]
+		if _, ok := seen[part]; ok {
+			continue
+		}
+		seen[part] = struct{}{}
+		parts = append(parts, part)
+	}
+	if len(parts) > 0 {
+		return parts
+	}
 	name := strings.ReplaceAll(doc.Title, " ", "")
 	if name == "" {
-		name = TitleFromSlug(doc.Slug)
-		name = strings.ReplaceAll(name, " ", "")
+		name = strings.ReplaceAll(TitleFromSlug(doc.Slug), " ", "")
 	}
-	return fmt.Sprintf(`func %sPreview() templ.Component {
-	return ui.%s(ui.%sProps{})
-}`, name, name, name)
+	return []string{name}
 }
 
 func defaultExamples(doc *ComponentDocEntry) []ExampleEntry {
@@ -1072,6 +1117,14 @@ func defaultExamples(doc *ComponentDocEntry) []ExampleEntry {
 			Desc:    defaultExampleDesc(doc, name),
 			GoCode:  defaultExampleGoCode(doc, name),
 			Preview: previewForExample(doc.Slug, name),
+		})
+	}
+	if len(examples) == 0 {
+		examples = append(examples, ExampleEntry{
+			Name:    "Default",
+			Desc:    defaultExampleDesc(doc, "Default"),
+			GoCode:  doc.GoUsage,
+			Preview: previewForExample(doc.Slug, "Default"),
 		})
 	}
 	return examples

@@ -21,9 +21,15 @@ func main() {
 	router.HandleFunc("/", HandleHome).Methods("GET")
 	router.HandleFunc("/docs", HandleDocs).Methods("GET")
 	router.HandleFunc("/docs/installation", HandleInstallation).Methods("GET")
+	router.HandleFunc("/docs/components-json", HandleComponentsJSON).Methods("GET")
+	router.HandleFunc("/docs/package-imports", HandlePackageImports).Methods("GET")
 	router.HandleFunc("/docs/theming", HandleTheming).Methods("GET")
+	router.HandleFunc("/docs/dark-mode", HandleDarkMode).Methods("GET")
 	router.HandleFunc("/docs/cli", HandleCLI).Methods("GET")
+	router.HandleFunc("/docs/monorepo", HandleMonorepo).Methods("GET")
 	router.HandleFunc("/docs/rtl", HandleRTL).Methods("GET")
+	router.HandleFunc("/docs/javascript", HandleJavaScript).Methods("GET")
+	router.HandleFunc("/docs/llms", HandleLLMS).Methods("GET")
 	router.HandleFunc("/docs/forms", HandleForms).Methods("GET")
 	router.HandleFunc("/docs/changelog", HandleChangelog).Methods("GET")
 	router.HandleFunc("/docs/directory", HandleDirectoryDocs).Methods("GET")
@@ -72,16 +78,40 @@ func HandleInstallation(w http.ResponseWriter, r *http.Request) {
 	views.InstallationPage().Render(r.Context(), w)
 }
 
+func HandleComponentsJSON(w http.ResponseWriter, r *http.Request) {
+	views.ComponentsJSONPage().Render(r.Context(), w)
+}
+
+func HandlePackageImports(w http.ResponseWriter, r *http.Request) {
+	views.PackageImportsPage().Render(r.Context(), w)
+}
+
 func HandleTheming(w http.ResponseWriter, r *http.Request) {
 	views.ThemingPage().Render(r.Context(), w)
+}
+
+func HandleDarkMode(w http.ResponseWriter, r *http.Request) {
+	views.DarkModePage().Render(r.Context(), w)
 }
 
 func HandleCLI(w http.ResponseWriter, r *http.Request) {
 	views.CLIPage().Render(r.Context(), w)
 }
 
+func HandleMonorepo(w http.ResponseWriter, r *http.Request) {
+	views.MonorepoPage().Render(r.Context(), w)
+}
+
 func HandleRTL(w http.ResponseWriter, r *http.Request) {
 	views.RTLPage().Render(r.Context(), w)
+}
+
+func HandleJavaScript(w http.ResponseWriter, r *http.Request) {
+	views.JavaScriptPage().Render(r.Context(), w)
+}
+
+func HandleLLMS(w http.ResponseWriter, r *http.Request) {
+	views.LLMSPage().Render(r.Context(), w)
 }
 
 func HandleForms(w http.ResponseWriter, r *http.Request) {
@@ -241,9 +271,15 @@ func HandleSearchIndex(w http.ResponseWriter, r *http.Request) {
 	docs := []entry{
 		{Title: "Introduction", URL: "/docs", Type: "doc"},
 		{Title: "Installation", URL: "/docs/installation", Type: "doc"},
+		{Title: "components.json", URL: "/docs/components-json", Type: "doc"},
+		{Title: "Package Imports", URL: "/docs/package-imports", Type: "doc"},
 		{Title: "Theming", URL: "/docs/theming", Type: "doc"},
+		{Title: "Dark Mode", URL: "/docs/dark-mode", Type: "doc"},
 		{Title: "CLI", URL: "/docs/cli", Type: "doc"},
+		{Title: "Monorepo", URL: "/docs/monorepo", Type: "doc"},
 		{Title: "RTL", URL: "/docs/rtl", Type: "doc"},
+		{Title: "JavaScript", URL: "/docs/javascript", Type: "doc"},
+		{Title: "llms.txt", URL: "/docs/llms", Type: "doc"},
 		{Title: "Forms", URL: "/docs/forms", Type: "doc"},
 		{Title: "Changelog", URL: "/docs/changelog", Type: "doc"},
 		{Title: "Directory", URL: "/docs/directory", Type: "doc"},

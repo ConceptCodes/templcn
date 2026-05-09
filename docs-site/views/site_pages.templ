@@ -111,9 +111,15 @@ templ DocsLayout(title string, active string) {
 						<nav class="grid gap-1 text-sm">
 							<a href="/docs" class={ SectionLinkClass(active, "docs") }>Introduction</a>
 							<a href="/docs/installation" class={ SectionLinkClass(active, "installation") }>Installation</a>
+							<a href="/docs/components-json" class={ SectionLinkClass(active, "components-json") }>components.json</a>
+							<a href="/docs/package-imports" class={ SectionLinkClass(active, "package-imports") }>Package Imports</a>
 							<a href="/docs/theming" class={ SectionLinkClass(active, "theming") }>Theming</a>
+							<a href="/docs/dark-mode" class={ SectionLinkClass(active, "dark-mode") }>Dark Mode</a>
 							<a href="/docs/cli" class={ SectionLinkClass(active, "cli") }>CLI</a>
+							<a href="/docs/monorepo" class={ SectionLinkClass(active, "monorepo") }>Monorepo</a>
 							<a href="/docs/rtl" class={ SectionLinkClass(active, "rtl") }>RTL</a>
+							<a href="/docs/javascript" class={ SectionLinkClass(active, "javascript") }>JavaScript</a>
+							<a href="/docs/llms" class={ SectionLinkClass(active, "llms") }>llms.txt</a>
 							<a href="/docs/forms" class={ SectionLinkClass(active, "forms") }>Forms</a>
 							<a href="/docs/changelog" class={ SectionLinkClass(active, "changelog") }>Changelog</a>
 							<a href="/docs/directory" class={ SectionLinkClass(active, "directory") }>Directory</a>
@@ -144,9 +150,15 @@ templ DocsLayout(title string, active string) {
 						<nav class="grid gap-1 text-sm">
 							<a href="/docs" class={ SectionLinkClass(active, "docs") }>Introduction</a>
 							<a href="/docs/installation" class={ SectionLinkClass(active, "installation") }>Installation</a>
+							<a href="/docs/components-json" class={ SectionLinkClass(active, "components-json") }>components.json</a>
+							<a href="/docs/package-imports" class={ SectionLinkClass(active, "package-imports") }>Package Imports</a>
 							<a href="/docs/theming" class={ SectionLinkClass(active, "theming") }>Theming</a>
+							<a href="/docs/dark-mode" class={ SectionLinkClass(active, "dark-mode") }>Dark Mode</a>
 							<a href="/docs/cli" class={ SectionLinkClass(active, "cli") }>CLI</a>
+							<a href="/docs/monorepo" class={ SectionLinkClass(active, "monorepo") }>Monorepo</a>
 							<a href="/docs/rtl" class={ SectionLinkClass(active, "rtl") }>RTL</a>
+							<a href="/docs/javascript" class={ SectionLinkClass(active, "javascript") }>JavaScript</a>
+							<a href="/docs/llms" class={ SectionLinkClass(active, "llms") }>llms.txt</a>
 							<a href="/docs/forms" class={ SectionLinkClass(active, "forms") }>Forms</a>
 							<a href="/docs/changelog" class={ SectionLinkClass(active, "changelog") }>Changelog</a>
 							<a href="/docs/directory" class={ SectionLinkClass(active, "directory") }>Directory</a>
@@ -321,6 +333,16 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 					}
 				}
 
+				<section id="composition" class="grid gap-4">
+					<div class="space-y-1">
+						<h2 class="text-2xl font-semibold tracking-tight">Composition</h2>
+						<p class="text-sm text-muted-foreground">Use these parts together to build the component.</p>
+					</div>
+					<div class="rounded-xl border border-border/70 bg-card p-5">
+						<pre class="overflow-x-hidden whitespace-pre-wrap break-words text-sm leading-7"><code>{ strings.Join(doc.Composition, "\n├── ") }</code></pre>
+					</div>
+				</section>
+
 				<section id="examples" class="grid gap-4">
 					<div class="space-y-1">
 						<h2 class="text-2xl font-semibold tracking-tight">Examples</h2>
@@ -412,6 +434,7 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 					<nav class="mt-4 grid gap-1 text-sm">
 						<a href="#installation" data-toc-link="installation" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Installation</a>
 						<a href="#usage" data-toc-link="usage" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Usage</a>
+						<a href="#composition" data-toc-link="composition" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Composition</a>
 						<a href="#examples" data-toc-link="examples" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">Examples</a>
 						<a href="#api-reference" data-toc-link="api-reference" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">API Reference</a>
 						<a href="#view-source" data-toc-link="view-source" class="rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">View Source</a>
@@ -1170,6 +1193,121 @@ templ ThemingPage() {
 					}
 				}
 			</section>
+		</div>
+	}
+}
+
+templ ComponentsJSONPage() {
+	@DocsLayout("components.json - shadcn/ui", "components-json") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Configuration</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Configure component installation.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The CLI reads <code class="rounded bg-muted px-1 py-0.5 text-sm">components.json</code> to decide where UI source, styles, and runtime assets are copied.</p>
+			</section>
+			<section class="grid gap-4">
+				@ui.Card(ui.DOMProps{}) {
+					@ui.CardHeader(ui.DOMProps{}) {
+						@ui.CardTitle(ui.DOMProps{}) { <span>Example</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Generated by <code>shadcn init</code> and safe to edit.</span> }
+					}
+					@ui.CardContent(ui.DOMProps{}) {
+						@CodeBlock("json", `{
+  "style": "default",
+  "tsx": false,
+  "tailwind": {
+    "css": "styles/globals.css"
+  },
+  "aliases": {
+    "ui": "ui",
+    "runtime": "assets"
+  }
+}`)
+					}
+				}
+			</section>
+		</div>
+	}
+}
+
+templ PackageImportsPage() {
+	@DocsLayout("Package Imports - shadcn/ui", "package-imports") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Imports</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Use local Go packages.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Components are source-copied into your project, so imports point at your app's local <code class="rounded bg-muted px-1 py-0.5 text-sm">ui</code> package.</p>
+			</section>
+			@CodeBlock("go", `package views
+
+import "your-project/ui"
+
+templ Page() {
+  @ui.Button(ui.ButtonProps{Label: "Save"})
+}`)
+		</div>
+	}
+}
+
+templ DarkModePage() {
+	@DocsLayout("Dark Mode - shadcn/ui", "dark-mode") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Dark Mode</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Toggle dark mode with a class.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The generated CSS uses the same class strategy as shadcn/ui. Add <code class="rounded bg-muted px-1 py-0.5 text-sm">dark</code> to the root element to activate dark tokens.</p>
+			</section>
+			<section class="grid gap-4">
+				@CodeBlock("html", `<html class="dark">
+  <body>...</body>
+</html>`)
+				@CodeBlock("js", `document.documentElement.classList.toggle("dark")`)
+			</section>
+		</div>
+	}
+}
+
+templ MonorepoPage() {
+	@DocsLayout("Monorepo - shadcn/ui", "monorepo") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Monorepo</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Install components into the app that owns them.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">For workspaces, run the CLI from the application package or pass <code class="rounded bg-muted px-1 py-0.5 text-sm">--cwd</code> so copied source, runtime, and styles land in the right module.</p>
+			</section>
+			@CodeBlock("bash", `shadcn init --cwd apps/web
+shadcn add button dialog --cwd apps/web`)
+		</div>
+	}
+}
+
+templ JavaScriptPage() {
+	@DocsLayout("JavaScript - shadcn/ui", "javascript") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">JavaScript</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Runtime behavior is copied with components.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Interactive primitives use a small vanilla runtime for focus, keyboard navigation, dismissal, form values, and positioning. The CLI installs it only when selected components need it.</p>
+			</section>
+			@CodeBlock("html", `<script type="module" src="/assets/runtime.js"></script>`)
+		</div>
+	}
+}
+
+templ LLMSPage() {
+	@DocsLayout("llms.txt - shadcn/ui", "llms") {
+		<div class="mx-auto flex max-w-4xl flex-col gap-8">
+			<section class="space-y-4">
+				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">llms.txt</p>
+				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Point AI tools at local source.</h1>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Use the docs, README, and copied component source as context when asking AI tools to modify your Go/templ UI.</p>
+			</section>
+			@CodeBlock("txt", `# shadcn for Go/templ
+
+- Components live in ./ui
+- Runtime behavior lives in ./assets/runtime.js
+- Theme tokens live in ./styles/globals.css
+- Add components with shadcn add <component>`)
 		</div>
 	}
 }
