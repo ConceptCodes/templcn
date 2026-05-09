@@ -1,8 +1,27 @@
-@import "tailwindcss";
+package views
+
+type themePresetDoc struct {
+	Slug        string
+	Name        string
+	Description string
+	Swatches    []string
+}
+
+func ThemePresetDocs() []themePresetDoc {
+	return []themePresetDoc{
+		{Slug: "neutral", Name: "Neutral", Description: "Default shadcn/ui v4 neutral tokens.", Swatches: []string{"oklch(0.205 0 0)", "oklch(0.97 0 0)", "oklch(0.646 0.222 41.116)"}},
+		{Slug: "zinc", Name: "Zinc", Description: "Cooler gray base with the same semantic contract.", Swatches: []string{"oklch(0.21 0.006 285.885)", "oklch(0.967 0.001 286.375)", "oklch(0.488 0.243 264.376)"}},
+		{Slug: "stone", Name: "Stone", Description: "Warmer neutral surfaces for editorial interfaces.", Swatches: []string{"oklch(0.216 0.006 56.043)", "oklch(0.97 0.001 106.424)", "oklch(0.769 0.188 70.08)"}},
+		{Slug: "blue", Name: "Blue", Description: "A product-oriented accent preset with blue primary actions.", Swatches: []string{"oklch(0.546 0.245 262.881)", "oklch(0.97 0.014 254.604)", "oklch(0.623 0.214 259.815)"}},
+	}
+}
+
+func DefaultThemeCSS() string {
+	return `@import "tailwindcss";
 @import "tw-animate-css";
 
-@source "../views/**/*.templ";
-@source "../../ui/**/*.go";
+@source "./**/*.go";
+@source "./**/*.templ";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -31,13 +50,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -46,6 +58,13 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
@@ -127,4 +146,6 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+`
 }

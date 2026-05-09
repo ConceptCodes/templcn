@@ -24,9 +24,6 @@ func main() {
 	router.HandleFunc("/docs/theming", HandleTheming).Methods("GET")
 	router.HandleFunc("/docs/cli", HandleCLI).Methods("GET")
 	router.HandleFunc("/docs/rtl", HandleRTL).Methods("GET")
-	router.HandleFunc("/docs/skills", HandleSkills).Methods("GET")
-	router.HandleFunc("/docs/mcp", HandleMCP).Methods("GET")
-	router.HandleFunc("/docs/registry", HandleRegistry).Methods("GET")
 	router.HandleFunc("/docs/forms", HandleForms).Methods("GET")
 	router.HandleFunc("/docs/changelog", HandleChangelog).Methods("GET")
 	router.HandleFunc("/docs/directory", HandleDirectoryDocs).Methods("GET")
@@ -85,18 +82,6 @@ func HandleCLI(w http.ResponseWriter, r *http.Request) {
 
 func HandleRTL(w http.ResponseWriter, r *http.Request) {
 	views.RTLPage().Render(r.Context(), w)
-}
-
-func HandleSkills(w http.ResponseWriter, r *http.Request) {
-	views.SkillsPage().Render(r.Context(), w)
-}
-
-func HandleMCP(w http.ResponseWriter, r *http.Request) {
-	views.MCPPage().Render(r.Context(), w)
-}
-
-func HandleRegistry(w http.ResponseWriter, r *http.Request) {
-	views.RegistryPage().Render(r.Context(), w)
 }
 
 func HandleForms(w http.ResponseWriter, r *http.Request) {
@@ -259,9 +244,6 @@ func HandleSearchIndex(w http.ResponseWriter, r *http.Request) {
 		{Title: "Theming", URL: "/docs/theming", Type: "doc"},
 		{Title: "CLI", URL: "/docs/cli", Type: "doc"},
 		{Title: "RTL", URL: "/docs/rtl", Type: "doc"},
-		{Title: "Skills", URL: "/docs/skills", Type: "doc"},
-		{Title: "MCP Server", URL: "/docs/mcp", Type: "doc"},
-		{Title: "Registry", URL: "/docs/registry", Type: "doc"},
 		{Title: "Forms", URL: "/docs/forms", Type: "doc"},
 		{Title: "Changelog", URL: "/docs/changelog", Type: "doc"},
 		{Title: "Directory", URL: "/docs/directory", Type: "doc"},

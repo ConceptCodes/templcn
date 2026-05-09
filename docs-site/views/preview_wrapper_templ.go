@@ -34,7 +34,7 @@ func PreviewCard(title string, desc string, code string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div data-preview-card=\"true\" class=\"overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm\"><!-- header --><div class=\"flex flex-wrap items-center justify-between gap-3 border-b border-border/70 px-4 py-3\"><div class=\"space-y-0.5\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div data-preview-card=\"true\" class=\"min-w-0 overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm\"><!-- header --><div class=\"flex flex-wrap items-center justify-between gap-3 border-b border-border/70 px-4 py-3\"><div class=\"space-y-0.5\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -84,14 +84,14 @@ func PreviewCard(title string, desc string, code string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div></div><!-- code panel — hidden by default; hljs highlights on first reveal --><div data-preview-panel=\"code\" class=\"hidden border-t border-border/70\"><div class=\"relative group\"><pre class=\"hljs overflow-x-auto p-5 text-[0.8125rem] leading-relaxed m-0 rounded-none\"><code class=\"language-go\" data-raw-code=\"true\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div></div><!-- code panel — hidden by default; hljs highlights on first reveal --><div data-preview-panel=\"code\" class=\"hidden border-t border-border/70\"><div class=\"relative group\"><pre class=\"hljs overflow-x-hidden whitespace-pre-wrap break-words p-5 text-[0.8125rem] leading-relaxed m-0 rounded-none\"><code class=\"language-templ whitespace-pre-wrap break-words\" data-raw-code=\"true\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(code)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/preview_wrapper.templ`, Line: 42, Col: 145}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/preview_wrapper.templ`, Line: 42, Col: 214}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

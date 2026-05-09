@@ -4,7 +4,7 @@ package views
 // lang is a highlight.js language identifier e.g. "go", "bash", "json".
 templ CodeBlock(lang string, code string) {
 	<div class="relative group" data-code-block="true">
-		<pre class="hljs overflow-x-auto rounded-xl p-5 text-[0.8125rem] leading-relaxed"><code class={ "language-" + lang }>{ code }</code></pre>
+		<pre class="hljs overflow-x-hidden whitespace-pre-wrap break-words rounded-xl p-5 text-[0.8125rem] leading-relaxed"><code class={ "language-" + lang + " whitespace-pre-wrap break-words" }>{ code }</code></pre>
 		<button
 			type="button"
 			data-cb-copy="true"

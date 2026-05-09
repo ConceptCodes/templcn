@@ -31,11 +31,11 @@ func CodeBlock(lang string, code string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative group\" data-code-block=\"true\"><pre class=\"hljs overflow-x-auto rounded-xl p-5 text-[0.8125rem] leading-relaxed\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative group\" data-code-block=\"true\"><pre class=\"hljs overflow-x-hidden whitespace-pre-wrap break-words rounded-xl p-5 text-[0.8125rem] leading-relaxed\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"language-" + lang}
+		var templ_7745c5c3_Var2 = []any{"language-" + lang + " whitespace-pre-wrap break-words"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -60,7 +60,7 @@ func CodeBlock(lang string, code string) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(code)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/code_block.templ`, Line: 7, Col: 125}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/code_block.templ`, Line: 7, Col: 196}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

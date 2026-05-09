@@ -6,7 +6,7 @@ import "fmt"
 // The Code tab reveals a syntax-highlighted block and calls hljs.highlightElement()
 // the first time it becomes visible to handle the hidden-element limitation.
 templ PreviewCard(title string, desc string, code string) {
-	<div data-preview-card="true" class="overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm">
+	<div data-preview-card="true" class="min-w-0 overflow-hidden rounded-xl border border-border/70 bg-card shadow-sm">
 		<!-- header -->
 		<div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/70 px-4 py-3">
 			<div class="space-y-0.5">
@@ -39,7 +39,7 @@ templ PreviewCard(title string, desc string, code string) {
 		<!-- code panel — hidden by default; hljs highlights on first reveal -->
 		<div data-preview-panel="code" class="hidden border-t border-border/70">
 			<div class="relative group">
-				<pre class="hljs overflow-x-auto p-5 text-[0.8125rem] leading-relaxed m-0 rounded-none"><code class="language-go" data-raw-code="true">{ code }</code></pre>
+				<pre class="hljs overflow-x-hidden whitespace-pre-wrap break-words p-5 text-[0.8125rem] leading-relaxed m-0 rounded-none"><code class="language-templ whitespace-pre-wrap break-words" data-raw-code="true">{ code }</code></pre>
 			</div>
 		</div>
 		<script>

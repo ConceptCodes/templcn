@@ -116,17 +116,7 @@ templ Index() {
 							Size:    ui.ButtonSizeSM,
 							Href:    "https://twitter.com/shadcn",
 						})
-						@ui.Button(ui.ButtonProps{
-							Label:   "Theme",
-							Variant: ui.ButtonVariantOutline,
-							Size:    ui.ButtonSizeSM,
-							DOMProps: ui.DOMProps{
-								Attrs: t.Attributes{
-									"type":              "button",
-									"data-theme-toggle": "true",
-								},
-							},
-						})
+						@ThemeMenu()
 					</div>
 				</nav>
 			</section>

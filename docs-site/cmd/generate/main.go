@@ -33,6 +33,10 @@ func main() {
 }
 
 func generate(ctx context.Context, outputDir string) error {
+	if err := cleanOutputDir(outputDir); err != nil {
+		return err
+	}
+
 	dirs := []string{
 		outputDir,
 		filepath.Join(outputDir, "docs", "components"),
@@ -68,9 +72,6 @@ func generate(ctx context.Context, outputDir string) error {
 		{filepath.Join(outputDir, "docs", "theming"), views.ThemingPage()},
 		{filepath.Join(outputDir, "docs", "cli"), views.CLIPage()},
 		{filepath.Join(outputDir, "docs", "rtl"), views.RTLPage()},
-		{filepath.Join(outputDir, "docs", "skills"), views.SkillsPage()},
-		{filepath.Join(outputDir, "docs", "mcp"), views.MCPPage()},
-		{filepath.Join(outputDir, "docs", "registry"), views.RegistryPage()},
 		{filepath.Join(outputDir, "docs", "forms"), views.FormsPage()},
 		{filepath.Join(outputDir, "docs", "changelog"), views.ChangelogPage()},
 		{filepath.Join(outputDir, "docs", "directory"), views.DirectoryDocsPage()},
@@ -121,6 +122,35 @@ func generate(ctx context.Context, outputDir string) error {
 	}
 
 	return nil
+}
+
+func cleanOutputDir(outputDir string) error {
+	if outputDir == "" || outputDir == "." || outputDir == string(filepath.Separator) {
+		return fmt.Errorf("refusing to clear unsafe output directory %q", outputDir)
+	}
+	abs, err := filepath.Abs(outputDir)
+	if err != nil {
+		return fmt.Errorf("resolve output dir: %w", err)
+	}
+	cwd, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("resolve working directory: %w", err)
+	}
+	rel, err := filepath.Rel(cwd, abs)
+	if err != nil {
+		return fmt.Errorf("resolve relative output dir: %w", err)
+	}
+	if rel == "." || rel == ".." || rel == filepath.Join("..") || relHasParentPrefix(rel) {
+		return fmt.Errorf("refusing to clear output directory outside docs site: %s", outputDir)
+	}
+	if err := os.RemoveAll(abs); err != nil {
+		return fmt.Errorf("clear output dir %s: %w", outputDir, err)
+	}
+	return nil
+}
+
+func relHasParentPrefix(rel string) bool {
+	return len(rel) >= 3 && rel[:3] == ".."+string(filepath.Separator)
 }
 
 func renderPage(ctx context.Context, dir, filename string, comp interface {
@@ -200,9 +230,6 @@ func generateSearchIndex(outputDir string) error {
 	entries = append(entries, SearchEntry{Title: "Dark Mode", URL: "/docs/dark-mode", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "RTL", URL: "/docs/rtl", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Typography", URL: "/docs/typography", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "Skills", URL: "/docs/skills", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "MCP Server", URL: "/docs/mcp", Type: "docs"})
-	entries = append(entries, SearchEntry{Title: "Registry", URL: "/docs/registry", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Forms", URL: "/docs/forms", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Changelog", URL: "/docs/changelog", Type: "docs"})
 	entries = append(entries, SearchEntry{Title: "Directory", URL: "/docs/directory", Type: "docs"})
