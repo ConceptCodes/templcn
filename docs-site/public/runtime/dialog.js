@@ -39,7 +39,7 @@ function onClick(event) {
 
   const dialog = event.target.closest("dialog");
   if (dialog && event.target === dialog && dialog.open) {
-    const content = dialog.querySelector('[data-slot$="-content"]');
+    const content = dialog.querySelector("[data-dialog-panel]") || (dialog.matches('[data-slot$="-content"]') ? dialog : dialog.querySelector('[data-slot$="-content"]'));
     if (!content || !content.contains(document.elementFromPoint(event.clientX, event.clientY))) {
       closeDialog(dialog);
     }
@@ -132,7 +132,7 @@ function setDialogState(dialog, open, trigger = triggerForDialog(dialog)) {
       candidate.setAttribute("data-state", open ? "open" : "closed");
     }
   });
-  dialog.querySelectorAll('[data-slot$="-content"], [data-slot$="-overlay"]').forEach((el) => {
+  dialog.querySelectorAll('[data-dialog-panel], [data-slot$="-content"], [data-slot$="-overlay"]').forEach((el) => {
     el.setAttribute("data-state", open ? "open" : "closed");
   });
 }

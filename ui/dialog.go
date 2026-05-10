@@ -76,7 +76,7 @@ func DialogOverlay(props DOMProps) templ.Component {
 
 func DialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "dialog-content", "fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 outline-none backdrop:bg-black/50 [&:not([open])]:hidden data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg")
+		attrs := attrsFromDOMProps(props, "dialog-content", "fixed inset-0 z-50 h-dvh max-h-none w-dvw max-w-none overflow-visible border-0 bg-transparent p-0 text-foreground outline-none backdrop:bg-black/50 [&:not([open])]:hidden")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "dialog"
 		attrs["tabindex"] = "-1"
@@ -91,10 +91,18 @@ func DialogContent(props DOMProps) templ.Component {
 			attrs["data-modal"] = "true"
 		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
-				return err
+			panelAttrs := templ.Attributes{
+				"data-dialog-panel": true,
+				"class":             "fixed left-[50%] top-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
+				"data-state":        openState(state.open),
 			}
-			return renderDialogCloseIcon(ctx, w, "dialog-close")
+			panel := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+				if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+					return err
+				}
+				return renderDialogCloseIcon(ctx, w, "dialog-close")
+			})
+			return renderElement(ctx, w, "div", panelAttrs, panel)
 		})
 		return renderElement(ctx, w, "dialog", attrs, children)
 	})

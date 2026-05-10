@@ -50,6 +50,7 @@
 
 :root {
   --radius: 0.625rem;
+  --header-height: 3.5rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -126,5 +127,31 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .container-wrapper {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 1536px;
+  }
+
+  .container {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 1280px;
+  }
+
+  .border-grid {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .theme-container {
+    color: var(--foreground);
+  }
+
+  [data-dialog-panel] {
+    width: min(calc(100vw - 2rem), 32rem);
   }
 }
