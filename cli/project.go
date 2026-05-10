@@ -15,9 +15,10 @@ const templDependency = "github.com/a-h/templ"
 const templVersion = "v0.3.1001"
 
 type ProjectConfig struct {
-	Module string `json:"module"`
-	UIDir  string `json:"uiDir"`
-	Style  string `json:"style,omitempty"`
+	Module     string            `json:"module"`
+	UIDir      string            `json:"uiDir"`
+	Style      string            `json:"style,omitempty"`
+	Registries map[string]string `json:"registries,omitempty"`
 }
 
 type InitOptions struct {
@@ -33,6 +34,7 @@ type InitOptions struct {
 	Monorepo  bool
 	RTL       bool
 	Reinstall bool
+	Items     []string
 }
 
 type AddOptions struct {
@@ -51,6 +53,7 @@ type AddOptions struct {
 type ApplyOptions struct {
 	CWD    string
 	Preset string
+	Only   []string
 	Yes    bool
 	Silent bool
 }
@@ -91,6 +94,11 @@ type InfoOptions struct {
 	JSON bool
 }
 
+type ParityOptions struct {
+	Source string
+	JSON   bool
+}
+
 type registryFile struct {
 	RelPath string   `json:"relPath"`
 	Symbols []string `json:"symbols"`
@@ -113,6 +121,23 @@ type registryItem struct {
 	CSS          []string       `json:"css,omitempty"`
 	DocsURL      string         `json:"docsUrl,omitempty"`
 	Examples     []string       `json:"examples,omitempty"`
+}
+
+type shadcnRegistryFile struct {
+	Path    string `json:"path"`
+	Type    string `json:"type"`
+	Content string `json:"content,omitempty"`
+	Target  string `json:"target,omitempty"`
+}
+
+type shadcnRegistryItem struct {
+	Schema               string               `json:"$schema,omitempty"`
+	Name                 string               `json:"name"`
+	Type                 string               `json:"type"`
+	Description          string               `json:"description,omitempty"`
+	Files                []shadcnRegistryFile `json:"files"`
+	RegistryDependencies []string             `json:"registryDependencies,omitempty"`
+	Meta                 map[string]any       `json:"meta,omitempty"`
 }
 
 func InitProject(opts InitOptions) error {
@@ -138,11 +163,48 @@ func InitProject(opts InitOptions) error {
 	if err != nil {
 		return err
 	}
-	items, err := resolveRegistryItems(index, []string{"button", "card"}, false)
+	externalRefs, localRequests := splitRegistryItemRefs(opts.Items)
+	externalItems, err := loadRegistryItemRefs(root, cfg, externalRefs)
 	if err != nil {
 		return err
 	}
+	defaultItems := []string{"button", "card"}
+	componentRequests := append([]string{}, defaultItems...)
+	componentRequests = append(componentRequests, componentItemsForRequests(localRequests)...)
+	blockRequests := resolveBlockItems(localRequests)
+	if len(localRequests) > 0 {
+		if err := validateRequestedComponents(index, localRequests); err != nil {
+			return err
+		}
+	}
+	items, err := resolveRegistryItems(index, componentRequests, false)
+	if err != nil {
+		return err
+	}
+	if len(blockRequests) > 0 {
+		deps, err := resolveRegistryItems(index, blockDependencies(blockRequests), false)
+		if err != nil {
+			return err
+		}
+		items = append(items, deps...)
+		for _, runtime := range blockRuntimeFiles(blockRequests) {
+			items = append(items, registryItem{Runtime: []string{runtime}})
+		}
+	}
+	if len(externalItems) > 0 {
+		deps, err := resolveRegistryItems(index, registryDependenciesForExternalItems(externalItems), false)
+		if err != nil {
+			return err
+		}
+		items = append(items, deps...)
+	}
 	if err := syncRegistryFiles(root, cfg.UIDir, items, opts.Force, false); err != nil {
+		return err
+	}
+	if err := syncBlockFiles(root, blockRequests, cfg.Module, opts.Force, false); err != nil {
+		return err
+	}
+	if err := syncExternalRegistryItems(root, externalItems, cfg.Module, opts.Force, false); err != nil {
 		return err
 	}
 
@@ -178,8 +240,15 @@ func AddComponents(opts AddOptions) error {
 	if err != nil {
 		return err
 	}
-	if len(opts.Items) > 0 {
-		if err := validateRequestedComponents(index, opts.Items); err != nil {
+	externalRefs, localRequests := splitRegistryItemRefs(opts.Items)
+	externalItems, err := loadRegistryItemRefs(root, cfg, externalRefs)
+	if err != nil {
+		return err
+	}
+	componentRequests := componentItemsForRequests(localRequests)
+	blockRequests := resolveBlockItems(opts.Items)
+	if len(localRequests) > 0 {
+		if err := validateRequestedComponents(index, localRequests); err != nil {
 			return err
 		}
 	}
@@ -188,11 +257,38 @@ func AddComponents(opts AddOptions) error {
 		return showFileView(root, targetDir, opts, index)
 	}
 
-	items, err := resolveRegistryItems(index, opts.Items, opts.All)
+	items, err := resolveRegistryItems(index, componentRequests, opts.All)
 	if err != nil {
 		return err
 	}
-	return syncRegistryFiles(root, targetDir, items, opts.Overwrite, opts.DryRun)
+	if len(blockRequests) > 0 {
+		deps, err := resolveRegistryItems(index, blockDependencies(blockRequests), false)
+		if err != nil {
+			return err
+		}
+		items = append(items, deps...)
+		for _, runtime := range blockRuntimeFiles(blockRequests) {
+			items = append(items, registryItem{Runtime: []string{runtime}})
+		}
+	}
+	if len(externalItems) > 0 {
+		deps, err := resolveRegistryItems(index, registryDependenciesForExternalItems(externalItems), false)
+		if err != nil {
+			return err
+		}
+		items = append(items, deps...)
+	}
+	if err := syncRegistryFiles(root, targetDir, items, opts.Overwrite, opts.DryRun); err != nil {
+		return err
+	}
+	modulePath := cfg.Module
+	if modulePath == "" {
+		modulePath = projectModule(root, "")
+	}
+	if err := syncBlockFiles(root, blockRequests, modulePath, opts.Overwrite, opts.DryRun); err != nil {
+		return err
+	}
+	return syncExternalRegistryItems(root, externalItems, modulePath, opts.Overwrite, opts.DryRun)
 }
 
 func ApplyPreset(opts ApplyOptions) error {
@@ -223,10 +319,14 @@ func ApplyPreset(opts ApplyOptions) error {
 		return err
 	}
 
-	for rel, content := range map[string]string{
-		"styles/globals.css": starterCSS(),
-		"assets/runtime.js":  starterRuntimeJS(),
-	} {
+	files := map[string]string{}
+	if applyIncludes(opts.Only, "theme") {
+		files["styles/globals.css"] = starterCSS()
+	}
+	if applyIncludes(opts.Only, "runtime") || len(opts.Only) == 0 {
+		files["assets/runtime.js"] = starterRuntimeJS()
+	}
+	for rel, content := range files {
 		target := filepath.Join(root, rel)
 		if fileExists(target) {
 			continue
@@ -254,6 +354,18 @@ func supportedPreset(preset string) bool {
 	}
 }
 
+func applyIncludes(parts []string, part string) bool {
+	if len(parts) == 0 {
+		return true
+	}
+	for _, value := range parts {
+		if normalizeName(value) == normalizeName(part) {
+			return true
+		}
+	}
+	return false
+}
+
 func ViewItems(opts ViewOptions) error {
 	root, err := detectProjectRoot(opts.CWD)
 	if err != nil {
@@ -271,6 +383,12 @@ func ViewItems(opts ViewOptions) error {
 		return errors.New("view: specify one or more component names or file paths")
 	}
 	for _, item := range opts.Items {
+		if isRegistryItemRef(item) {
+			if err := printRegistryItemView(root, cfg, item); err != nil {
+				return err
+			}
+			continue
+		}
 		if err := printItemView(root, cfg.UIDir, index, item); err != nil {
 			return err
 		}
@@ -303,6 +421,11 @@ func DiffItems(opts DiffOptions) error {
 }
 
 func SearchComponents(opts SearchOptions) error {
+	root, _ := detectProjectRoot(opts.CWD)
+	cfg, _ := loadProjectConfig(root)
+	if len(opts.Registries) > 0 && strings.HasPrefix(opts.Registries[0], "@") {
+		return SearchNamespaceRegistry(root, cfg, opts)
+	}
 	index, err := buildRegistryIndex()
 	if err != nil {
 		return err
@@ -341,10 +464,14 @@ func BuildRegistry(opts BuildOptions) error {
 	if err := os.MkdirAll(opts.OutputDir, 0755); err != nil {
 		return err
 	}
+	items := shadcnRegistryItems(index, blockRegistry())
 	payload := map[string]any{
-		"module":     cfg.Module,
-		"uiDir":      cfg.UIDir,
-		"components": registryItemsSorted(index.Items),
+		"$schema":  "https://ui.shadcn.com/schema/registry.json",
+		"name":     "templcn",
+		"homepage": "https://templcn.dev",
+		"module":   cfg.Module,
+		"uiDir":    cfg.UIDir,
+		"items":    items,
 	}
 	if opts.Registry != "" {
 		payload["registry"] = opts.Registry
@@ -353,7 +480,26 @@ func BuildRegistry(opts BuildOptions) error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(filepath.Join(opts.OutputDir, "registry.json"), data, 0644)
+	if err := validateRegistryJSON(data); err != nil {
+		return err
+	}
+	if err := os.WriteFile(filepath.Join(opts.OutputDir, "registry.json"), data, 0644); err != nil {
+		return err
+	}
+	for _, item := range items {
+		item.Schema = "https://ui.shadcn.com/schema/registry-item.json"
+		data, err := json.MarshalIndent(item, "", "  ")
+		if err != nil {
+			return err
+		}
+		if err := validateRegistryItemJSON(data); err != nil {
+			return err
+		}
+		if err := os.WriteFile(filepath.Join(opts.OutputDir, item.Name+".json"), data, 0644); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func ShowDocs(opts DocsOptions) error {
@@ -757,6 +903,9 @@ func searchRegistry(index registryIndex, query string) []registryFile {
 func validateRequestedComponents(index registryIndex, items []string) error {
 	missing := make([]string, 0)
 	for _, item := range items {
+		if isBlockName(item) || isRegistryItemRef(item) {
+			continue
+		}
 		if _, ok := index.Component[normalizeName(item)]; !ok {
 			missing = append(missing, item)
 		}

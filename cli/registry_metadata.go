@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -217,4 +218,99 @@ func filesForRegistryItems(items []registryItem) []string {
 	}
 	sort.Strings(out)
 	return out
+}
+
+func shadcnRegistryItems(index registryIndex, blocks map[string]blockRegistryItem) []shadcnRegistryItem {
+	out := make([]shadcnRegistryItem, 0, len(index.Items)+len(blocks))
+	for _, item := range registryItemsSorted(index.Items) {
+		out = append(out, shadcnRegistryItemForComponent(item))
+	}
+	blockNames := make([]string, 0, len(blocks))
+	for _, block := range blocks {
+		blockNames = append(blockNames, block.Name)
+	}
+	sort.Strings(blockNames)
+	for _, name := range blockNames {
+		for _, block := range blocks {
+			if block.Name == name {
+				out = append(out, shadcnRegistryItemForBlock(block))
+				break
+			}
+		}
+	}
+	return out
+}
+
+func shadcnRegistryItemForComponent(item registryItem) shadcnRegistryItem {
+	files := make([]shadcnRegistryFile, 0, len(item.Files)+len(item.Dependencies))
+	seen := map[string]struct{}{}
+	addFile := func(path string, content string) {
+		if _, ok := seen[path]; ok {
+			return
+		}
+		seen[path] = struct{}{}
+		files = append(files, shadcnRegistryFile{Path: path, Type: "registry:ui", Content: content})
+	}
+	for _, file := range item.Files {
+		addFile(file.RelPath, readRegistryFileContent(file.RelPath))
+	}
+	for _, dep := range item.Dependencies {
+		addFile(dep, readRegistryFileContent(dep))
+	}
+	sort.Slice(files, func(i, j int) bool { return files[i].Path < files[j].Path })
+
+	meta := map[string]any{
+		"docsUrl": item.DocsURL,
+		"css":     item.CSS,
+	}
+	if len(item.Runtime) > 0 {
+		meta["runtime"] = item.Runtime
+	}
+	if len(item.Examples) > 0 {
+		meta["examples"] = item.Examples
+	}
+	return shadcnRegistryItem{
+		Name:                 item.Name,
+		Type:                 item.Type,
+		Description:          item.Description,
+		Files:                files,
+		RegistryDependencies: append([]string(nil), componentFileDependencies[item.Name]...),
+		Meta:                 meta,
+	}
+}
+
+func shadcnRegistryItemForBlock(block blockRegistryItem) shadcnRegistryItem {
+	files := make([]shadcnRegistryFile, 0, len(block.Files))
+	for _, file := range block.Files {
+		fileType := file.Type
+		if fileType == "" {
+			fileType = "registry:block"
+		}
+		files = append(files, shadcnRegistryFile{Path: file.RelPath, Type: fileType, Content: file.Content, Target: file.Target})
+	}
+	sort.Slice(files, func(i, j int) bool { return files[i].Path < files[j].Path })
+	meta := map[string]any{}
+	if len(block.Runtime) > 0 {
+		meta["runtime"] = block.Runtime
+	}
+	return shadcnRegistryItem{
+		Name:                 block.Name,
+		Type:                 "registry:block",
+		Description:          "Go/templ block for server-rendered applications.",
+		Files:                files,
+		RegistryDependencies: append([]string(nil), block.Dependencies...),
+		Meta:                 meta,
+	}
+}
+
+func readRegistryFileContent(relPath string) string {
+	root, err := locateRegistryRoot()
+	if err != nil {
+		return ""
+	}
+	raw, err := os.ReadFile(filepath.Join(root, relPath))
+	if err != nil {
+		return ""
+	}
+	return string(raw)
 }

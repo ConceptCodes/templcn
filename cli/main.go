@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -33,7 +32,23 @@ func newRootCommand() *cobra.Command {
 	cmd.AddCommand(newBuildCommand())
 	cmd.AddCommand(newDocsCommand())
 	cmd.AddCommand(newInfoCommand())
+	cmd.AddCommand(newParityCommand())
 
+	return cmd
+}
+
+func newParityCommand() *cobra.Command {
+	opts := ParityOptions{}
+	cmd := &cobra.Command{
+		Use:   "parity",
+		Short: "compare local components with upstream shadcn/ui",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return CheckParityCommand(opts)
+		},
+	}
+
+	cmd.Flags().StringVar(&opts.Source, "source", "", "upstream registry index URL or file")
+	cmd.Flags().BoolVar(&opts.JSON, "json", false, "output as JSON")
 	return cmd
 }
 
@@ -61,9 +76,7 @@ func newInitCommand() *cobra.Command {
 		Short:   "scaffold a Go/templ project",
 		Args:    cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if len(args) > 0 {
-				return fmt.Errorf("init does not accept component arguments yet")
-			}
+			opts.Items = args
 			return InitProject(opts)
 		},
 	}
@@ -123,6 +136,7 @@ func newApplyCommand() *cobra.Command {
 
 	cmd.Flags().StringVarP(&opts.CWD, "cwd", "c", ".", "working directory")
 	cmd.Flags().StringVarP(&opts.Preset, "preset", "p", "", "preset to apply")
+	cmd.Flags().StringSliceVar(&opts.Only, "only", nil, "apply only parts of a preset: theme, font")
 	cmd.Flags().BoolVarP(&opts.Yes, "yes", "y", false, "skip confirmation prompts")
 	cmd.Flags().BoolVarP(&opts.Silent, "silent", "s", false, "mute output")
 	return cmd

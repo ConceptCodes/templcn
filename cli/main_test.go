@@ -68,6 +68,20 @@ func TestInitProjectScaffoldsFiles(t *testing.T) {
 	mustExist(t, filepath.Join(root, "ui", "button.go"))
 }
 
+func TestInitProjectInstallsRequestedItems(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+
+	if err := InitProject(InitOptions{CWD: dir, Name: "demo-items", Items: []string{"input", "login-01"}, Force: true, Silent: true}); err != nil {
+		t.Fatalf("init project with items: %v", err)
+	}
+
+	root := filepath.Join(dir, "demo-items")
+	mustExist(t, filepath.Join(root, "ui", "input.go"))
+	mustExist(t, filepath.Join(root, "app", "login", "page.templ"))
+	mustExist(t, filepath.Join(root, "components", "login-form.templ"))
+}
+
 func TestInitProjectBuildsGeneratedStarter(t *testing.T) {
 	dir := t.TempDir()
 	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
@@ -135,6 +149,145 @@ func TestAddSelectCopiesRuntimeAndDeclaredDependencies(t *testing.T) {
 	mustNotExist(t, filepath.Join(dir, "ui", "button.go"))
 }
 
+func TestAddBlockCopiesBlockFilesAndDependencies(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"login-01"}, Overwrite: true}); err != nil {
+		t.Fatalf("add login block: %v", err)
+	}
+
+	mustExist(t, filepath.Join(dir, "app", "login", "page.templ"))
+	mustExist(t, filepath.Join(dir, "components", "login-form.templ"))
+	mustExist(t, filepath.Join(dir, "ui", "button.go"))
+	mustExist(t, filepath.Join(dir, "ui", "card.go"))
+	mustExist(t, filepath.Join(dir, "ui", "field.go"))
+	mustExist(t, filepath.Join(dir, "ui", "input.go"))
+	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
+}
+
+func TestAddLocalRegistryItemCopiesContentAndDependencies(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+	itemPath := filepath.Join(dir, "custom-card.json")
+	itemJSON := `{
+  "name": "custom-card",
+  "type": "registry:block",
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/custom_card.templ",
+      "type": "registry:block",
+      "content": "package components\n\nimport ui \"{{module}}/ui\"\n\ntempl CustomCard() {\n\t@ui.Button(ui.ButtonProps{Label: \"Remote\"})\n}\n"
+    }
+  ]
+}`
+	if err := os.WriteFile(itemPath, []byte(itemJSON), 0644); err != nil {
+		t.Fatalf("write registry item: %v", err)
+	}
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{itemPath}, Overwrite: true}); err != nil {
+		t.Fatalf("add local registry item: %v", err)
+	}
+
+	mustExist(t, filepath.Join(dir, "components", "custom_card.templ"))
+	mustExist(t, filepath.Join(dir, "ui", "button.go"))
+	raw, err := os.ReadFile(filepath.Join(dir, "components", "custom_card.templ"))
+	if err != nil {
+		t.Fatalf("read custom card: %v", err)
+	}
+	if !strings.Contains(string(raw), `import ui "example.com/demo/ui"`) {
+		t.Fatalf("expected module placeholder replacement, got %s", raw)
+	}
+	if err := ViewItems(ViewOptions{CWD: dir, Items: []string{itemPath}}); err != nil {
+		t.Fatalf("view local registry item: %v", err)
+	}
+}
+
+func TestAddNamespacedRegistryItemAndSearch(t *testing.T) {
+	registryProject := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+	registryDir := filepath.Join(registryProject, "public", "r")
+	if err := BuildRegistry(BuildOptions{CWD: registryProject, OutputDir: registryDir}); err != nil {
+		t.Fatalf("build registry: %v", err)
+	}
+
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	cfg := `{"module":"example.com/demo","uiDir":"ui","registries":{"acme":"` + filepath.ToSlash(registryDir) + `"}}`
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(cfg), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"@acme/login-01"}, Overwrite: true}); err != nil {
+		t.Fatalf("add namespaced registry item: %v", err)
+	}
+	mustExist(t, filepath.Join(dir, "components", "login-form.templ"))
+	mustExist(t, filepath.Join(dir, "ui", "button.go"))
+
+	if err := SearchComponents(SearchOptions{CWD: dir, Registries: []string{"@acme"}, Query: "login", Limit: 10}); err != nil {
+		t.Fatalf("search namespace registry: %v", err)
+	}
+	if err := ViewItems(ViewOptions{CWD: dir, Items: []string{"@acme/login-01"}}); err != nil {
+		t.Fatalf("view namespaced registry item: %v", err)
+	}
+}
+
+func TestBuildRegistryWritesIndexAndItemFiles(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+	output := filepath.Join(dir, "public", "r")
+
+	if err := BuildRegistry(BuildOptions{CWD: dir, OutputDir: output}); err != nil {
+		t.Fatalf("build registry: %v", err)
+	}
+
+	registry := filepath.Join(output, "registry.json")
+	button := filepath.Join(output, "button.json")
+	login := filepath.Join(output, "login-01.json")
+	mustExist(t, registry)
+	mustExist(t, button)
+	mustExist(t, login)
+
+	raw, err := os.ReadFile(registry)
+	if err != nil {
+		t.Fatalf("read registry: %v", err)
+	}
+	if err := validateRegistryJSON(raw); err != nil {
+		t.Fatalf("registry should validate against official schema: %v", err)
+	}
+	if !strings.Contains(string(raw), `"items"`) || !strings.Contains(string(raw), `"login-01"`) {
+		t.Fatalf("registry index should include item entries, got %s", raw)
+	}
+	raw, err = os.ReadFile(login)
+	if err != nil {
+		t.Fatalf("read login item: %v", err)
+	}
+	if err := validateRegistryItemJSON(raw); err != nil {
+		t.Fatalf("registry item should validate against official schema: %v", err)
+	}
+	if !strings.Contains(string(raw), `"type": "registry:block"`) || !strings.Contains(string(raw), `"registryDependencies"`) {
+		t.Fatalf("block item should use shadcn registry item shape, got %s", raw)
+	}
+	if !strings.Contains(string(raw), `"content"`) {
+		t.Fatalf("block item should include file content, got %s", raw)
+	}
+	if !strings.Contains(string(raw), `"target": "app/login/page.templ"`) || !strings.Contains(string(raw), `"type": "registry:page"`) {
+		t.Fatalf("block item should include shadcn-style source path and target metadata, got %s", raw)
+	}
+	if !strings.Contains(string(raw), "Login to your account") || !strings.Contains(string(raw), "Login with Google") {
+		t.Fatalf("login-01 should be ported from upstream block copy, got %s", raw)
+	}
+}
+
+func TestSchemaValidationRejectsInvalidRegistryItem(t *testing.T) {
+	if err := validateRegistryItemJSON([]byte(`{"name":"bad","type":"registry:unknown"}`)); err == nil {
+		t.Fatal("expected official registry item schema validation to reject unknown item type")
+	}
+}
+
 func TestAddAllCopiesComponentsWithoutTestsOrInternalComponents(t *testing.T) {
 	dir := newConfiguredProject(t)
 	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
@@ -197,6 +350,36 @@ func TestApplyPresetUpdatesConfig(t *testing.T) {
 	}
 	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
 	mustExist(t, filepath.Join(dir, "styles", "globals.css"))
+}
+
+func TestApplyPresetOnlyThemeSkipsRuntime(t *testing.T) {
+	dir := t.TempDir()
+
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(`{"module":"example.com/demo","uiDir":"ui","style":"default"}`), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+
+	if err := ApplyPreset(ApplyOptions{CWD: dir, Preset: "new-york", Only: []string{"theme"}, Silent: true}); err != nil {
+		t.Fatalf("apply preset theme only: %v", err)
+	}
+
+	mustExist(t, filepath.Join(dir, "styles", "globals.css"))
+	mustNotExist(t, filepath.Join(dir, "assets", "runtime.js"))
+}
+
+func TestParityCommandSupportsLocalSource(t *testing.T) {
+	dir := t.TempDir()
+	source := filepath.Join(dir, "upstream.json")
+	if err := os.WriteFile(source, []byte(`[{"name":"button","type":"registry:ui"}]`), 0644); err != nil {
+		t.Fatalf("write upstream source: %v", err)
+	}
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+	if err := CheckParityCommand(ParityOptions{Source: source, JSON: true}); err != nil {
+		t.Fatalf("parity command: %v", err)
+	}
 }
 
 func TestStarterRuntimeJavaScriptParses(t *testing.T) {

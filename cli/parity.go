@@ -159,3 +159,20 @@ func printParityReport(report parityReport) {
 		}
 	}
 }
+
+func CheckParityCommand(opts ParityOptions) error {
+	report, err := checkParity(opts.Source)
+	if err != nil {
+		return err
+	}
+	if opts.JSON {
+		data, err := json.MarshalIndent(report, "", "  ")
+		if err != nil {
+			return err
+		}
+		fmt.Println(string(data))
+		return nil
+	}
+	printParityReport(report)
+	return nil
+}
