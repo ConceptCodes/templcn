@@ -5377,7 +5377,6 @@ func ComponentsJSONPage() templ.Component {
 					ctx = templ.InitializeContext(ctx)
 					templ_7745c5c3_Err = CodeBlock("json", `{
   "style": "default",
-  "tsx": false,
   "tailwind": {
     "css": "styles/globals.css"
   },
