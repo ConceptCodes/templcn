@@ -58,6 +58,9 @@ func generate(ctx context.Context, outputDir string) error {
 	if err := generateSearchIndex(outputDir); err != nil {
 		return fmt.Errorf("generate search index: %w", err)
 	}
+	if err := generateLLMSText(outputDir); err != nil {
+		return fmt.Errorf("generate llms.txt: %w", err)
+	}
 
 	pages := []struct {
 		dir  string
@@ -157,6 +160,10 @@ func cleanOutputDir(outputDir string) error {
 
 func relHasParentPrefix(rel string) bool {
 	return len(rel) >= 3 && rel[:3] == ".."+string(filepath.Separator)
+}
+
+func generateLLMSText(outputDir string) error {
+	return os.WriteFile(filepath.Join(outputDir, "llms.txt"), []byte(views.LLMSText()), 0644)
 }
 
 func renderPage(ctx context.Context, dir, filename string, comp interface {

@@ -41,6 +41,24 @@ func TestGetStartedPagesRender(t *testing.T) {
 	}
 }
 
+func TestLLMSTextIncludesProjectContext(t *testing.T) {
+	text := LLMSText()
+	required := []string{
+		"# shadcn for Go/templ",
+		"/docs/components/button",
+		"shadcn add button",
+		"ui/*.go",
+		"assets/runtime.js",
+		"styles/globals.css",
+		"@theme inline",
+	}
+	for _, fragment := range required {
+		if !strings.Contains(text, fragment) {
+			t.Fatalf("llms.txt missing %q", fragment)
+		}
+	}
+}
+
 func TestComponentDocsHaveParitySections(t *testing.T) {
 	for _, doc := range ComponentIndex() {
 		if doc.Install != "shadcn add "+doc.Slug {

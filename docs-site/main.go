@@ -55,6 +55,7 @@ func main() {
 	router.HandleFunc("/charts/radial", HandleRadialChart).Methods("GET")
 	router.HandleFunc("/directory", HandleDirectoryRedirect).Methods("GET")
 	router.HandleFunc("/create", HandleCreate).Methods("GET")
+	router.HandleFunc("/llms.txt", HandleLLMSText).Methods("GET")
 	router.HandleFunc("/search-index.json", HandleSearchIndex).Methods("GET")
 	router.NotFoundHandler = http.HandlerFunc(HandleNotFound)
 
@@ -112,6 +113,11 @@ func HandleJavaScript(w http.ResponseWriter, r *http.Request) {
 
 func HandleLLMS(w http.ResponseWriter, r *http.Request) {
 	views.LLMSPage().Render(r.Context(), w)
+}
+
+func HandleLLMSText(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Write([]byte(views.LLMSText()))
 }
 
 func HandleForms(w http.ResponseWriter, r *http.Request) {
