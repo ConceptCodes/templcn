@@ -470,6 +470,7 @@ function syncCalendar(root) {
   }
   months.innerHTML = '';
   months.appendChild(renderCalendarMonth(root, current));
+  syncCalendarDayButtons(root);
 }
 
 function shiftCalendarMonth(root, delta) {
@@ -552,6 +553,21 @@ function renderCalendarDay(root, month, date) {
   if (outside && root.getAttribute('data-show-outside-days') === 'false') button.hidden = true;
   cell.appendChild(button);
   return cell;
+}
+
+function syncCalendarDayButtons(root) {
+  const selectedValues = (root.getAttribute('data-selected') || '').split(/[,\s]+/).filter(Boolean);
+  root.querySelectorAll(calendarDayButton).forEach((button) => {
+    const selected = selectedValues.includes(button.getAttribute('data-date') || '');
+    button.setAttribute('aria-selected', selected ? 'true' : 'false');
+    if (selected) button.setAttribute('data-selected', 'true');
+    else button.removeAttribute('data-selected');
+    const cell = button.closest('[role="gridcell"]');
+    if (cell) {
+      if (selected) cell.setAttribute('data-selected', 'true');
+      else cell.removeAttribute('data-selected');
+    }
+  });
 }
 
 function parseCalendarMonth(value) {

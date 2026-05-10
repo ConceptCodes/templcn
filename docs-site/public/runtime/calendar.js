@@ -110,6 +110,7 @@ function renderCalendar(root) {
     const month = new Date(Date.UTC(current.getUTCFullYear(), current.getUTCMonth() + index, 1));
     months.appendChild(renderMonth(root, month));
   }
+  syncExistingDayButtons(root);
   syncFormValue(root);
 }
 
@@ -259,6 +260,26 @@ function dayState(root, value) {
   const rangeEnd = value === end;
   const rangeMiddle = Boolean(start && end && value > start && value < end);
   return { selected: selected.includes(value) || rangeStart || rangeEnd, rangeStart, rangeEnd, rangeMiddle };
+}
+
+function syncExistingDayButtons(root) {
+  root.querySelectorAll(dayButton).forEach((button) => {
+    const value = button.getAttribute("data-date");
+    if (!value) return;
+    const state = dayState(root, value);
+    button.setAttribute("aria-selected", state.selected ? "true" : "false");
+    setBool(button, "data-selected", state.selected);
+    setBool(button, "data-range-start", state.rangeStart);
+    setBool(button, "data-range-end", state.rangeEnd);
+    setBool(button, "data-range-middle", state.rangeMiddle);
+    const cell = button.closest('[role="gridcell"]');
+    if (cell) {
+      setBool(cell, "data-selected", state.selected);
+      setBool(cell, "data-range-start", state.rangeStart);
+      setBool(cell, "data-range-end", state.rangeEnd);
+      setBool(cell, "data-range-middle", state.rangeMiddle);
+    }
+  });
 }
 
 function syncFormValue(root) {
