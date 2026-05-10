@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	t "github.com/a-h/templ"
-	"shadcn/ui"
+	"templcn/ui"
 )
 
 func Index() templ.Component {
@@ -46,7 +46,7 @@ func Index() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"relative isolate overflow-hidden\"><div class=\"pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.08),transparent_55%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_55%)]\"></div><div class=\"pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-80 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl\"></div><section class=\"mx-auto flex max-w-7xl flex-col gap-10 px-6 pb-8 pt-6 lg:pb-12\"><nav class=\"relative z-100 flex flex-wrap items-center justify-between gap-4 rounded-full border border-border/80 bg-background/90 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/75\"><div class=\"flex items-center gap-6\"><a href=\"/\" class=\"flex items-center gap-2\"><span class=\"flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground\">S</span> <span class=\"text-sm font-semibold tracking-tight\">shadcn/ui</span></a><div class=\"hidden items-center gap-1 lg:flex\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main class=\"relative isolate overflow-hidden\"><div class=\"pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,rgba(0,0,0,0.08),transparent_55%)] dark:bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_55%)]\"></div><div class=\"pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-80 -translate-x-1/2 rounded-full bg-primary/5 blur-3xl\"></div><section class=\"mx-auto flex max-w-7xl flex-col gap-10 px-6 pb-8 pt-6 lg:pb-12\"><nav class=\"relative z-100 flex flex-wrap items-center justify-between gap-4 rounded-full border border-border/80 bg-background/90 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/75\"><div class=\"flex items-center gap-6\"><a href=\"/\" class=\"flex items-center gap-2\"><span class=\"flex size-8 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground\">T</span> <span class=\"text-sm font-semibold tracking-tight\">templcn/ui</span></a><div class=\"hidden items-center gap-1 lg:flex\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -311,16 +311,16 @@ func Index() templ.Component {
 				Label:   "GitHub",
 				Variant: ui.ButtonVariantGhost,
 				Size:    ui.ButtonSizeSM,
-				Href:    "https://github.com/shadcn-ui/ui",
+				Href:    "https://github.com/davidojo/templcn",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = ui.Button(ui.ButtonProps{
-				Label:   "Twitter",
+				Label:   "CLI",
 				Variant: ui.ButtonVariantGhost,
 				Size:    ui.ButtonSizeSM,
-				Href:    "https://twitter.com/shadcn",
+				Href:    "/docs/cli",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -5968,7 +5968,7 @@ func Index() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Page("shadcn/ui").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Page("templcn/ui").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

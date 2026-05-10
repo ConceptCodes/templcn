@@ -9,8 +9,8 @@ var blockPreviews = map[string]func() templ.Component{
 	"login-01":     Login01Preview,
 	"login-03":     Login03Preview,
 	"login-04":     Login04Preview,
-	"signup-01":     Signup01Preview,
-	"signup-02":     Signup02Preview,
+	"signup-01":    Signup01Preview,
+	"signup-02":    Signup02Preview,
 }
 
 func BlockPreviewForSlug(slug string) (templ.Component, bool) {

@@ -1,4 +1,4 @@
-module shadcn/ui
+module templcn/ui
 
 go 1.21.6
 

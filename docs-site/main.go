@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"shadcn/docs-site/views"
+	"templcn/docs-site/views"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog/log"

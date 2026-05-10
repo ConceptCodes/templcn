@@ -52,7 +52,7 @@ func TestBuildRegistryIndexFindsButton(t *testing.T) {
 
 func TestInitProjectScaffoldsFiles(t *testing.T) {
 	dir := t.TempDir()
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := InitProject(InitOptions{CWD: dir, Name: "demo-app", Force: true}); err != nil {
 		t.Fatalf("init project: %v", err)
@@ -70,7 +70,7 @@ func TestInitProjectScaffoldsFiles(t *testing.T) {
 
 func TestInitProjectBuildsGeneratedStarter(t *testing.T) {
 	dir := t.TempDir()
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := InitProject(InitOptions{CWD: dir, Name: "demo-build", Force: true, Silent: true}); err != nil {
 		t.Fatalf("init project: %v", err)
@@ -91,7 +91,7 @@ func TestInitProjectBuildsGeneratedStarter(t *testing.T) {
 
 func TestAddComponentsCopiesOnlyRequestedComponentDependencies(t *testing.T) {
 	dir := t.TempDir()
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
 		t.Fatalf("write go.mod: %v", err)
@@ -116,7 +116,7 @@ func TestAddComponentsCopiesOnlyRequestedComponentDependencies(t *testing.T) {
 
 func TestAddSelectCopiesRuntimeAndDeclaredDependencies(t *testing.T) {
 	dir := t.TempDir()
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
 		t.Fatalf("write go.mod: %v", err)
@@ -137,7 +137,7 @@ func TestAddSelectCopiesRuntimeAndDeclaredDependencies(t *testing.T) {
 
 func TestAddAllCopiesComponentsWithoutTestsOrInternalComponents(t *testing.T) {
 	dir := newConfiguredProject(t)
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := AddComponents(AddOptions{CWD: dir, All: true, Overwrite: true}); err != nil {
 		t.Fatalf("add all: %v", err)
@@ -153,7 +153,7 @@ func TestAddAllCopiesComponentsWithoutTestsOrInternalComponents(t *testing.T) {
 
 func TestAddDryRunDoesNotWriteFiles(t *testing.T) {
 	dir := newConfiguredProject(t)
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"button"}, DryRun: true}); err != nil {
 		t.Fatalf("dry run add: %v", err)
@@ -164,7 +164,7 @@ func TestAddDryRunDoesNotWriteFiles(t *testing.T) {
 
 func TestViewAndDiffResolveRegistrySource(t *testing.T) {
 	dir := newConfiguredProject(t)
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	if err := ViewItems(ViewOptions{CWD: dir, Items: []string{"button"}}); err != nil {
 		t.Fatalf("view button: %v", err)

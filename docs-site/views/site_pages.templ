@@ -2,7 +2,7 @@ package views
 
 import (
 	t "github.com/a-h/templ"
-	"shadcn/ui"
+	"templcn/ui"
 	"strings"
 )
 
@@ -10,8 +10,8 @@ templ SiteHeader() {
 	<header class="sticky top-0 z-50 w-full border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75">
 		<div class="mx-auto flex h-14 max-w-7xl items-center gap-4 px-6">
 			<a href="/" class="flex items-center gap-2 font-semibold tracking-tight">
-				<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">S</span>
-				<span class="text-sm">shadcn/ui</span>
+				<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">T</span>
+				<span class="text-sm">templcn/ui</span>
 			</a>
 			<nav class="hidden items-center gap-1 lg:flex">
 				@ui.Button(ui.ButtonProps{Label: "Docs", Variant: ui.ButtonVariantGhost, Size: ui.ButtonSizeSM, Href: "/docs/installation"})
@@ -22,7 +22,7 @@ templ SiteHeader() {
 				@ui.Button(ui.ButtonProps{Label: "Create", Variant: ui.ButtonVariantGhost, Size: ui.ButtonSizeSM, Href: "/create"})
 			</nav>
 			<div class="ml-auto flex items-center gap-2">
-				<a href="https://github.com/shadcn-ui/ui" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
+				<a href="https://github.com/davidojo/templcn" class="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
 					<span class="hidden sm:inline">GitHub</span>
 				</a>
@@ -70,8 +70,8 @@ templ ThemeMenu() {
 templ SiteFooter() {
 	<footer class="border-t border-border/70 py-6 md:py-0">
 		<div class="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-			<p>Built by <a class="underline-offset-4 hover:underline" href="https://twitter.com/shadcn">shadcn</a> at <a class="underline-offset-4 hover:underline" href="https://vercel.com">Vercel</a>.</p>
-			<p>The source code is available on <a class="underline-offset-4 hover:underline" href="https://github.com/shadcn-ui/ui">GitHub</a>.</p>
+			<p>Built for Go and templ applications.</p>
+			<p>The source code is available on <a class="underline-offset-4 hover:underline" href="https://github.com/davidojo/templcn">GitHub</a>.</p>
 		</div>
 	</footer>
 }
@@ -97,8 +97,8 @@ templ DocsLayout(title string, active string) {
 				<div class="flex h-full flex-col">
 					<div class="flex items-center justify-between border-b border-border/70 px-6 py-4">
 						<a href="/" class="inline-flex items-center gap-2 font-semibold tracking-tight">
-							<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">S</span>
-							<span>shadcn/ui</span>
+							<span class="flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">T</span>
+							<span>templcn/ui</span>
 						</a>
 						<button
 							data-mobile-drawer-close="true"
@@ -193,7 +193,7 @@ templ DocsLayout(title string, active string) {
 }
 
 templ DocsIndexPage() {
-	@DocsLayout("Introduction - shadcn/ui", "docs") {
+	@DocsLayout("Introduction - templcn/ui", "docs") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-10">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Introduction</p>
@@ -267,7 +267,7 @@ templ DocsIndexPage() {
 }
 
 templ ComponentsIndexPage() {
-	@DocsLayout("Components - shadcn/ui", "components") {
+	@DocsLayout("Components - templcn/ui", "components") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Components</p>
@@ -454,7 +454,7 @@ templ BlocksNav(active string) {
 }
 
 templ BlocksIndexPage() {
-	@DocsLayout("Blocks - shadcn/ui", "blocks") {
+	@DocsLayout("Blocks - templcn/ui", "blocks") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Blocks</p>
@@ -706,7 +706,7 @@ templ ChartsNav(active string) {
 }
 
 templ ChartsPage() {
-	@DocsLayout("Charts - shadcn/ui", "charts") {
+	@DocsLayout("Charts - templcn/ui", "charts") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Charts</p>
@@ -739,7 +739,7 @@ templ ChartsPage() {
 }
 
 templ AreaChartPage() {
-	@DocsLayout("Area Chart - shadcn/ui", "charts-area") {
+	@DocsLayout("Area Chart - templcn/ui", "charts-area") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -768,7 +768,7 @@ templ AreaChartPage() {
 }
 
 templ BarChartPage() {
-	@DocsLayout("Bar Chart - shadcn/ui", "charts-bar") {
+	@DocsLayout("Bar Chart - templcn/ui", "charts-bar") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -797,7 +797,7 @@ templ BarChartPage() {
 }
 
 templ LineChartPage() {
-	@DocsLayout("Line Chart - shadcn/ui", "charts-line") {
+	@DocsLayout("Line Chart - templcn/ui", "charts-line") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -826,7 +826,7 @@ templ LineChartPage() {
 }
 
 templ PieChartPage() {
-	@DocsLayout("Pie Chart - shadcn/ui", "charts-pie") {
+	@DocsLayout("Pie Chart - templcn/ui", "charts-pie") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -855,7 +855,7 @@ templ PieChartPage() {
 }
 
 templ RadialChartPage() {
-	@DocsLayout("Radial Chart - shadcn/ui", "charts-radial") {
+	@DocsLayout("Radial Chart - templcn/ui", "charts-radial") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<div class="flex flex-wrap items-center gap-2">
@@ -884,7 +884,7 @@ templ RadialChartPage() {
 }
 
 templ DirectoryPage() {
-	@DocsLayout("Directory - shadcn/ui", "directory") {
+	@DocsLayout("Directory - templcn/ui", "directory") {
 		<div class="mx-auto flex max-w-5xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Directory</p>
@@ -917,7 +917,7 @@ templ DirectoryPage() {
 }
 
 templ CreatePage() {
-	@DocsLayout("Create - shadcn/ui", "create") {
+	@DocsLayout("Create - templcn/ui", "create") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Create</p>
@@ -986,8 +986,8 @@ templ CreatePage() {
 									<span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium">1</span>
 									<div class="flex-1 space-y-2">
 										<p class="text-sm font-medium">Initialize your project</p>
-										<p class="text-sm text-muted-foreground">Run the init command to set up shadcn/ui in your project.</p>
-										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn init</code></pre>
+										<p class="text-sm text-muted-foreground">Run the init command to set up templcn/ui in your project.</p>
+										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn init</code></pre>
 									</div>
 								</div>
 							</div>
@@ -997,9 +997,9 @@ templ CreatePage() {
 									<div class="flex-1 space-y-2">
 										<p class="text-sm font-medium">Add components</p>
 										<p class="text-sm text-muted-foreground">Add the components you need to your project.</p>
-										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button</code></pre>
+										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add button</code></pre>
 										<p class="text-xs text-muted-foreground">Add multiple components:</p>
-										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button card input</code></pre>
+										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add button card input</code></pre>
 									</div>
 								</div>
 							</div>
@@ -1056,12 +1056,12 @@ templ Page() {
 }
 
 templ InstallationPage() {
-	@DocsLayout("Installation - shadcn/ui", "installation") {
+	@DocsLayout("Installation - templcn/ui", "installation") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Installation</p>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Install components in your Go/templ project.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Add shadcn/ui components to your Go templ application with the CLI.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Add templcn/ui components to your Go templ application with the CLI.</p>
 			</section>
 
 			<section class="grid gap-4">
@@ -1092,15 +1092,15 @@ templ InstallationPage() {
 						<div class="space-y-4">
 							<div>
 								<p class="mb-2 text-sm font-medium">Add components</p>
-								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button</code></pre>
+								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add button</code></pre>
 							</div>
 							<div>
 								<p class="mb-2 text-sm font-medium">Add multiple components</p>
-								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add button card input</code></pre>
+								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add button card input</code></pre>
 							</div>
 							<div>
 								<p class="mb-2 text-sm font-medium">Add every component</p>
-								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>shadcn add --all</code></pre>
+								<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add --all</code></pre>
 							</div>
 							<p class="text-sm text-muted-foreground">The CLI resolves dependencies, runtime files, styles, and examples for each selected component.</p>
 						</div>
@@ -1112,7 +1112,7 @@ templ InstallationPage() {
 }
 
 templ ThemingPage() {
-	@DocsLayout("Theming - shadcn/ui", "theming") {
+	@DocsLayout("Theming - templcn/ui", "theming") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Theming</p>
@@ -1198,7 +1198,7 @@ templ ThemingPage() {
 }
 
 templ ComponentsJSONPage() {
-	@DocsLayout("components.json - shadcn/ui", "components-json") {
+	@DocsLayout("components.json - templcn/ui", "components-json") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Configuration</p>
@@ -1209,7 +1209,7 @@ templ ComponentsJSONPage() {
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Example</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Generated by <code>shadcn init</code> and safe to edit.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Generated by <code>templcn init</code> and safe to edit.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
 @CodeBlock("json", `{
@@ -1230,7 +1230,7 @@ templ ComponentsJSONPage() {
 }
 
 templ PackageImportsPage() {
-	@DocsLayout("Package Imports - shadcn/ui", "package-imports") {
+	@DocsLayout("Package Imports - templcn/ui", "package-imports") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Imports</p>
@@ -1249,12 +1249,12 @@ templ Page() {
 }
 
 templ DarkModePage() {
-	@DocsLayout("Dark Mode - shadcn/ui", "dark-mode") {
+	@DocsLayout("Dark Mode - templcn/ui", "dark-mode") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Dark Mode</p>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Toggle dark mode with a class.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The generated CSS uses the same class strategy as shadcn/ui. Add <code class="rounded bg-muted px-1 py-0.5 text-sm">dark</code> to the root element to activate dark tokens.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">The generated CSS uses the same class strategy as templcn/ui. Add <code class="rounded bg-muted px-1 py-0.5 text-sm">dark</code> to the root element to activate dark tokens.</p>
 			</section>
 			<section class="grid gap-4">
 				@CodeBlock("html", `<html class="dark">
@@ -1267,21 +1267,21 @@ templ DarkModePage() {
 }
 
 templ MonorepoPage() {
-	@DocsLayout("Monorepo - shadcn/ui", "monorepo") {
+	@DocsLayout("Monorepo - templcn/ui", "monorepo") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Monorepo</p>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Install components into the app that owns them.</h1>
 				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">For workspaces, run the CLI from the application package or pass <code class="rounded bg-muted px-1 py-0.5 text-sm">--cwd</code> so copied source, runtime, and styles land in the right module.</p>
 			</section>
-			@CodeBlock("bash", `shadcn init --cwd apps/web
-shadcn add button dialog --cwd apps/web`)
+			@CodeBlock("bash", `templcn init --cwd apps/web
+templcn add button dialog --cwd apps/web`)
 		</div>
 	}
 }
 
 templ JavaScriptPage() {
-	@DocsLayout("JavaScript - shadcn/ui", "javascript") {
+	@DocsLayout("JavaScript - templcn/ui", "javascript") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">JavaScript</p>
@@ -1294,25 +1294,25 @@ templ JavaScriptPage() {
 }
 
 templ LLMSPage() {
-	@DocsLayout("llms.txt - shadcn/ui", "llms") {
+	@DocsLayout("llms.txt - templcn/ui", "llms") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8">
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">llms.txt</p>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Point AI tools at local source.</h1>
 				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Use the docs, README, and copied component source as context when asking AI tools to modify your Go/templ UI.</p>
 			</section>
-			@CodeBlock("txt", `# shadcn for Go/templ
+			@CodeBlock("txt", `# templcn/ui
 
 - Components live in ./ui
 - Runtime behavior lives in ./assets/runtime.js
 - Theme tokens live in ./styles/globals.css
-- Add components with shadcn add <component>`)
+- Add components with templcn add <component>`)
 		</div>
 	}
 }
 
 templ CLIPage() {
-	@DocsLayout("CLI - shadcn/ui", "cli") {
+	@DocsLayout("CLI - templcn/ui", "cli") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
 				<div class="flex items-center gap-2">
@@ -1320,19 +1320,19 @@ templ CLIPage() {
 					@ui.Badge(ui.BadgeProps{Label: "Terminal", Variant: ui.BadgeVariantOutline})
 				</div>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Go tooling for component management</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">This is a Go + templ port of shadcn/ui. Instead of an npm CLI, you use standard Go and templ toolchain commands to install and manage components.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">This is a Go + templ port inspired by shadcn/ui. Instead of an npm CLI, you use standard Go and templ toolchain commands to install and manage components.</p>
 			</section>
 
 			<section class="grid gap-6">
 				@ui.Card(ui.DOMProps{}) {
 					@ui.CardHeader(ui.DOMProps{}) {
 						@ui.CardTitle(ui.DOMProps{}) { <span>Get the module</span> }
-						@ui.CardDescription(ui.DOMProps{}) { <span>Import the shadcn/ui component package into your Go module.</span> }
+						@ui.CardDescription(ui.DOMProps{}) { <span>Install templcn components into your Go module.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
 						<div class="grid gap-4">
 							<p class="text-sm text-muted-foreground">Copy the UI package into your project with the CLI:</p>
-							@CodeBlock("bash", "shadcn add button")
+							@CodeBlock("bash", "templcn add button")
 							<p class="text-sm text-muted-foreground">Or if you're developing this repository in a Go workspace, add the local module path:</p>
 							@CodeBlock("bash", "go work use ./ui")
 						</div>
@@ -1400,7 +1400,7 @@ templ CLIPage() {
 }
 
 templ RTLPage() {
-	@DocsLayout("RTL - shadcn/ui", "rtl") {
+	@DocsLayout("RTL - templcn/ui", "rtl") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
 				<div class="flex items-center gap-2">
@@ -1455,7 +1455,7 @@ templ RTLPage() {
 }
 
 templ FormsPage() {
-	@DocsLayout("Forms - shadcn/ui", "forms") {
+	@DocsLayout("Forms - templcn/ui", "forms") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
 				<div class="flex items-center gap-2">
@@ -1463,7 +1463,7 @@ templ FormsPage() {
 					@ui.Badge(ui.BadgeProps{Label: "Validation", Variant: ui.BadgeVariantOutline})
 				</div>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building forms with Go and templ</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, type-safe, and validated forms using shadcn/ui components combined with Go&#39;s robust backend validation logic.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, type-safe, and validated forms using templcn/ui components combined with Go&#39;s robust backend validation logic.</p>
 			</section>
 
 			<section class="grid gap-6">
@@ -1531,7 +1531,7 @@ func HandleForm(w http.ResponseWriter, r *http.Request) {
 }
 
 templ ChangelogPage() {
-	@DocsLayout("Changelog - shadcn/ui", "changelog") {
+	@DocsLayout("Changelog - templcn/ui", "changelog") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
 				<div class="flex items-center gap-2">
@@ -1539,7 +1539,7 @@ templ ChangelogPage() {
 					@ui.Badge(ui.BadgeProps{Label: "Latest: v0.1.0", Variant: ui.BadgeVariantOutline})
 				</div>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Changelog</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Follow the evolution of the shadcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Follow the evolution of the templcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p>
 			</section>
 
 			<section class="space-y-0">
@@ -1558,7 +1558,7 @@ templ ChangelogPage() {
 								<h3 class="text-2xl font-semibold tracking-tight">Initial Beta Launch (v0.1.0)</h3>
 							</div>
 							<div class="prose prose-sm prose-invert max-w-none text-muted-foreground">
-								<p class="text-base">We&#39;re excited to announce the initial beta of the shadcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p>
+								<p class="text-base">We&#39;re excited to announce the initial beta of the templcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p>
 								<ul class="mt-6 grid gap-4">
 									<li class="flex items-start gap-3">
 										<div class="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70"></div>
@@ -1583,7 +1583,7 @@ templ ChangelogPage() {
 }
 
 templ DirectoryDocsPage() {
-	@DocsLayout("Directory - shadcn/ui", "directory") {
+	@DocsLayout("Directory - templcn/ui", "directory") {
 		<div class="mx-auto flex max-w-4xl flex-col gap-8 pb-12">
 			<section class="space-y-4">
 				<div class="flex items-center gap-2">
@@ -1591,7 +1591,7 @@ templ DirectoryDocsPage() {
 					@ui.Badge(ui.BadgeProps{Label: "Community", Variant: ui.BadgeVariantOutline})
 				</div>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Directory</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Explore the ecosystem of components, blocks, and tools built for the shadcn/ui Go port.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Explore the ecosystem of components, blocks, and tools built for the templcn/ui Go port.</p>
 			</section>
 
 			<section class="grid gap-6 md:grid-cols-2">

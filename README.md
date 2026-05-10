@@ -1,6 +1,6 @@
-# shadcn for Go/templ
+# templcn/ui
 
-Templ-native shadcn/ui components copied into Go projects with a component-scoped CLI and a small vanilla JavaScript runtime for interactive primitives.
+Source-owned UI components for Go projects using templ, Tailwind CSS, and a small vanilla JavaScript runtime for interactive primitives.
 
 ## Status
 
@@ -15,7 +15,7 @@ go install ./cli
 ## Create A Project
 
 ```sh
-shadcn init --name my-app
+templcn init --name my-app
 cd my-app
 go mod tidy
 go build ./...
@@ -31,12 +31,12 @@ The generated project includes:
 ## Add Components
 
 ```sh
-shadcn add button
-shadcn add dialog select
-shadcn add --all
-shadcn add select --dry-run
-shadcn view button
-shadcn diff button
+templcn add button
+templcn add dialog select
+templcn add --all
+templcn add select --dry-run
+templcn view button
+templcn diff button
 ```
 
 `add` copies only the requested component, declared dependencies, shared render helpers, and runtime file when needed.

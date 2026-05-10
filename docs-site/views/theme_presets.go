@@ -9,7 +9,7 @@ type themePresetDoc struct {
 
 func ThemePresetDocs() []themePresetDoc {
 	return []themePresetDoc{
-		{Slug: "neutral", Name: "Neutral", Description: "Default shadcn/ui v4 neutral tokens.", Swatches: []string{"oklch(0.205 0 0)", "oklch(0.97 0 0)", "oklch(0.646 0.222 41.116)"}},
+		{Slug: "neutral", Name: "Neutral", Description: "Default shadcn/ui v4 neutral tokens adapted for templcn.", Swatches: []string{"oklch(0.205 0 0)", "oklch(0.97 0 0)", "oklch(0.646 0.222 41.116)"}},
 		{Slug: "zinc", Name: "Zinc", Description: "Cooler gray base with the same semantic contract.", Swatches: []string{"oklch(0.21 0.006 285.885)", "oklch(0.967 0.001 286.375)", "oklch(0.488 0.243 264.376)"}},
 		{Slug: "stone", Name: "Stone", Description: "Warmer neutral surfaces for editorial interfaces.", Swatches: []string{"oklch(0.216 0.006 56.043)", "oklch(0.97 0.001 106.424)", "oklch(0.769 0.188 70.08)"}},
 		{Slug: "blue", Name: "Blue", Description: "A product-oriented accent preset with blue primary actions.", Swatches: []string{"oklch(0.546 0.245 262.881)", "oklch(0.97 0.014 254.604)", "oklch(0.623 0.214 259.815)"}},

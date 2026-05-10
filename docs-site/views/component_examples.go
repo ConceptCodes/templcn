@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/a-h/templ"
-	"shadcn/ui"
+	"templcn/ui"
 )
 
 func previewFunc(title string) func() templ.Component {
@@ -460,7 +460,7 @@ func commandPreview() templ.Component {
 	return htmlPreview(`<div class="max-w-sm rounded-xl border bg-popover p-2"><input class="mb-2 h-9 w-full rounded-md border px-3 text-sm" placeholder="Search commands"/><div class="rounded-sm px-2 py-1.5 text-sm">Add component</div></div>`)
 }
 func emptyPreview() templ.Component {
-	return htmlPreview(`<div class="rounded-xl border bg-background p-10 text-center"><div class="font-medium">No components installed</div><p class="text-sm text-muted-foreground">Run shadcn add button.</p></div>`)
+	return htmlPreview(`<div class="rounded-xl border bg-background p-10 text-center"><div class="font-medium">No components installed</div><p class="text-sm text-muted-foreground">Run templcn add button.</p></div>`)
 }
 func itemPreview() templ.Component {
 	return htmlPreview(`<div class="rounded-xl border bg-background p-6"><div class="flex items-center justify-between rounded-md border p-3"><div><div class="font-medium">Component item</div><div class="text-sm text-muted-foreground">button.go</div></div><button class="rounded-md border px-3 py-1 text-sm">View</button></div></div>`)

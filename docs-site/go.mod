@@ -1,4 +1,4 @@
-module shadcn/docs-site
+module templcn/docs-site
 
 go 1.23.0
 
@@ -8,7 +8,7 @@ require (
 	github.com/a-h/templ v0.3.1001
 	github.com/gorilla/mux v1.8.1
 	github.com/rs/zerolog v1.32.0
-	shadcn/ui v0.0.0
+	templcn/ui v0.0.0
 )
 
 require (
@@ -17,4 +17,4 @@ require (
 	golang.org/x/sys v0.34.0 // indirect
 )
 
-replace shadcn/ui => ../ui
+replace templcn/ui => ../ui

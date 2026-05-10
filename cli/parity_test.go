@@ -6,7 +6,7 @@ import (
 )
 
 func TestBuildParityReportFlagsMissingUpstreamComponents(t *testing.T) {
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	index, err := buildRegistryIndex()
 	if err != nil {
@@ -29,10 +29,10 @@ func TestBuildParityReportFlagsMissingUpstreamComponents(t *testing.T) {
 }
 
 func TestUpstreamParitySnapshot(t *testing.T) {
-	if os.Getenv("SHADCN_CHECK_UPSTREAM") != "1" {
-		t.Skip("set SHADCN_CHECK_UPSTREAM=1 to compare against upstream shadcn/ui registry")
+	if os.Getenv("TEMPLCN_CHECK_UPSTREAM") != "1" {
+		t.Skip("set TEMPLCN_CHECK_UPSTREAM=1 to compare against upstream shadcn/ui registry")
 	}
-	t.Setenv("SHADCN_SOURCE_DIR", repoRoot(t))
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
 
 	report, err := checkParity("")
 	if err != nil {

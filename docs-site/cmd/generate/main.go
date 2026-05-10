@@ -10,7 +10,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"shadcn/docs-site/views"
+	"templcn/docs-site/views"
 )
 
 type SearchEntry struct {

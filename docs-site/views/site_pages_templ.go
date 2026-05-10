@@ -10,8 +10,8 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	t "github.com/a-h/templ"
-	"shadcn/ui"
 	"strings"
+	"templcn/ui"
 )
 
 func SiteHeader() templ.Component {
@@ -35,7 +35,7 @@ func SiteHeader() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<header class=\"sticky top-0 z-50 w-full border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75\"><div class=\"mx-auto flex h-14 max-w-7xl items-center gap-4 px-6\"><a href=\"/\" class=\"flex items-center gap-2 font-semibold tracking-tight\"><span class=\"flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground\">S</span> <span class=\"text-sm\">shadcn/ui</span></a><nav class=\"hidden items-center gap-1 lg:flex\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<header class=\"sticky top-0 z-50 w-full border-b border-border/70 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/75\"><div class=\"mx-auto flex h-14 max-w-7xl items-center gap-4 px-6\"><a href=\"/\" class=\"flex items-center gap-2 font-semibold tracking-tight\"><span class=\"flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground\">T</span> <span class=\"text-sm\">templcn/ui</span></a><nav class=\"hidden items-center gap-1 lg:flex\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -63,7 +63,7 @@ func SiteHeader() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</nav><div class=\"ml-auto flex items-center gap-2\"><a href=\"https://github.com/shadcn-ui/ui\" class=\"flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"hidden sm:inline\">GitHub</span></a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</nav><div class=\"ml-auto flex items-center gap-2\"><a href=\"https://github.com/davidojo/templcn\" class=\"flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"hidden sm:inline\">GitHub</span></a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -129,7 +129,7 @@ func SiteFooter() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<footer class=\"border-t border-border/70 py-6 md:py-0\"><div class=\"mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between\"><p>Built by <a class=\"underline-offset-4 hover:underline\" href=\"https://twitter.com/shadcn\">shadcn</a> at <a class=\"underline-offset-4 hover:underline\" href=\"https://vercel.com\">Vercel</a>.</p><p>The source code is available on <a class=\"underline-offset-4 hover:underline\" href=\"https://github.com/shadcn-ui/ui\">GitHub</a>.</p></div></footer>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<footer class=\"border-t border-border/70 py-6 md:py-0\"><div class=\"mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between\"><p>Built for Go and templ applications.</p><p>The source code is available on <a class=\"underline-offset-4 hover:underline\" href=\"https://github.com/davidojo/templcn\">GitHub</a>.</p></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -174,7 +174,7 @@ func DocsLayout(title string, active string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " <div class=\"min-h-svh bg-background\"><!-- Mobile menu toggle button --><button data-mobile-menu-toggle=\"true\" class=\"lg:hidden sticky top-14 z-40 mx-6 mt-4 flex items-center gap-2 rounded-md border border-border/70 bg-background px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"></line><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"></line><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"></line></svg> <span>Menu</span></button><!-- Mobile drawer overlay --><div data-mobile-drawer=\"true\" class=\"hidden fixed inset-0 z-50 translate-x-full bg-background/95 backdrop-blur transition-transform duration-200 lg:hidden\"><div class=\"flex h-full flex-col\"><div class=\"flex items-center justify-between border-b border-border/70 px-6 py-4\"><a href=\"/\" class=\"inline-flex items-center gap-2 font-semibold tracking-tight\"><span class=\"flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground\">S</span> <span>shadcn/ui</span></a> <button data-mobile-drawer-close=\"true\" class=\"rounded-md p-2 text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" x2=\"6\" y1=\"6\" y2=\"18\"></line><line x1=\"6\" x2=\"18\" y1=\"6\" y2=\"18\"></line></svg></button></div><div class=\"flex-1 overflow-auto px-6 py-6\"><nav class=\"grid gap-1 text-sm\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " <div class=\"min-h-svh bg-background\"><!-- Mobile menu toggle button --><button data-mobile-menu-toggle=\"true\" class=\"lg:hidden sticky top-14 z-40 mx-6 mt-4 flex items-center gap-2 rounded-md border border-border/70 bg-background px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"></line><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"></line><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"></line></svg> <span>Menu</span></button><!-- Mobile drawer overlay --><div data-mobile-drawer=\"true\" class=\"hidden fixed inset-0 z-50 translate-x-full bg-background/95 backdrop-blur transition-transform duration-200 lg:hidden\"><div class=\"flex h-full flex-col\"><div class=\"flex items-center justify-between border-b border-border/70 px-6 py-4\"><a href=\"/\" class=\"inline-flex items-center gap-2 font-semibold tracking-tight\"><span class=\"flex size-7 items-center justify-center rounded-md bg-primary text-xs text-primary-foreground\">T</span> <span>templcn/ui</span></a> <button data-mobile-drawer-close=\"true\" class=\"rounded-md p-2 text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" x2=\"6\" y1=\"6\" y2=\"18\"></line><line x1=\"6\" x2=\"18\" y1=\"6\" y2=\"18\"></line></svg></button></div><div class=\"flex-1 overflow-auto px-6 py-6\"><nav class=\"grid gap-1 text-sm\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -1423,7 +1423,7 @@ func DocsIndexPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Introduction - shadcn/ui", "docs").Render(templ.WithChildren(ctx, templ_7745c5c3_Var71), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Introduction - templcn/ui", "docs").Render(templ.WithChildren(ctx, templ_7745c5c3_Var71), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1540,7 +1540,7 @@ func ComponentsIndexPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Components - shadcn/ui", "components").Render(templ.WithChildren(ctx, templ_7745c5c3_Var93), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Components - templcn/ui", "components").Render(templ.WithChildren(ctx, templ_7745c5c3_Var93), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -2353,7 +2353,7 @@ func BlocksIndexPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Blocks - shadcn/ui", "blocks").Render(templ.WithChildren(ctx, templ_7745c5c3_Var134), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Blocks - templcn/ui", "blocks").Render(templ.WithChildren(ctx, templ_7745c5c3_Var134), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -3383,7 +3383,7 @@ func ChartsPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Charts - shadcn/ui", "charts").Render(templ.WithChildren(ctx, templ_7745c5c3_Var183), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Charts - templcn/ui", "charts").Render(templ.WithChildren(ctx, templ_7745c5c3_Var183), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -3520,7 +3520,7 @@ func AreaChartPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Area Chart - shadcn/ui", "charts-area").Render(templ.WithChildren(ctx, templ_7745c5c3_Var195), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Area Chart - templcn/ui", "charts-area").Render(templ.WithChildren(ctx, templ_7745c5c3_Var195), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -3657,7 +3657,7 @@ func BarChartPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Bar Chart - shadcn/ui", "charts-bar").Render(templ.WithChildren(ctx, templ_7745c5c3_Var200), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Bar Chart - templcn/ui", "charts-bar").Render(templ.WithChildren(ctx, templ_7745c5c3_Var200), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -3794,7 +3794,7 @@ func LineChartPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Line Chart - shadcn/ui", "charts-line").Render(templ.WithChildren(ctx, templ_7745c5c3_Var205), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Line Chart - templcn/ui", "charts-line").Render(templ.WithChildren(ctx, templ_7745c5c3_Var205), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -3931,7 +3931,7 @@ func PieChartPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Pie Chart - shadcn/ui", "charts-pie").Render(templ.WithChildren(ctx, templ_7745c5c3_Var210), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Pie Chart - templcn/ui", "charts-pie").Render(templ.WithChildren(ctx, templ_7745c5c3_Var210), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -4068,7 +4068,7 @@ func RadialChartPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Radial Chart - shadcn/ui", "charts-radial").Render(templ.WithChildren(ctx, templ_7745c5c3_Var215), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Radial Chart - templcn/ui", "charts-radial").Render(templ.WithChildren(ctx, templ_7745c5c3_Var215), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -4339,7 +4339,7 @@ func DirectoryPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Directory - shadcn/ui", "directory").Render(templ.WithChildren(ctx, templ_7745c5c3_Var220), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Directory - templcn/ui", "directory").Render(templ.WithChildren(ctx, templ_7745c5c3_Var220), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -4478,7 +4478,7 @@ func CreatePage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 252, "<div class=\"space-y-6\"><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">1</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Initialize your project</p><p class=\"text-sm text-muted-foreground\">Run the init command to set up shadcn/ui in your project.</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn init</code></pre></div></div></div><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">2</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Add components</p><p class=\"text-sm text-muted-foreground\">Add the components you need to your project.</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn add button</code></pre><p class=\"text-xs text-muted-foreground\">Add multiple components:</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn add button card input</code></pre></div></div></div><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">3</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Use components</p><p class=\"text-sm text-muted-foreground\">Import and use components in your app.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 252, "<div class=\"space-y-6\"><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">1</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Initialize your project</p><p class=\"text-sm text-muted-foreground\">Run the init command to set up templcn/ui in your project.</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn init</code></pre></div></div></div><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">2</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Add components</p><p class=\"text-sm text-muted-foreground\">Add the components you need to your project.</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn add button</code></pre><p class=\"text-xs text-muted-foreground\">Add multiple components:</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn add button card input</code></pre></div></div></div><div class=\"space-y-3\"><div class=\"flex items-start gap-3\"><span class=\"flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium\">3</span><div class=\"flex-1 space-y-2\"><p class=\"text-sm font-medium\">Use components</p><p class=\"text-sm text-muted-foreground\">Import and use components in your app.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -4512,7 +4512,7 @@ templ Page() {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Create - shadcn/ui", "create").Render(templ.WithChildren(ctx, templ_7745c5c3_Var232), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Create - templcn/ui", "create").Render(templ.WithChildren(ctx, templ_7745c5c3_Var232), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -4553,7 +4553,7 @@ func InstallationPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 255, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Installation</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Install components in your Go/templ project.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Add shadcn/ui components to your Go templ application with the CLI.</p></section><section class=\"grid gap-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 255, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Installation</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Install components in your Go/templ project.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Add templcn/ui components to your Go templ application with the CLI.</p></section><section class=\"grid gap-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -4761,7 +4761,7 @@ func InstallationPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 265, "<div class=\"space-y-4\"><div><p class=\"mb-2 text-sm font-medium\">Add components</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn add button</code></pre></div><div><p class=\"mb-2 text-sm font-medium\">Add multiple components</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn add button card input</code></pre></div><div><p class=\"mb-2 text-sm font-medium\">Add every component</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>shadcn add --all</code></pre></div><p class=\"text-sm text-muted-foreground\">The CLI resolves dependencies, runtime files, styles, and examples for each selected component.</p></div>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 265, "<div class=\"space-y-4\"><div><p class=\"mb-2 text-sm font-medium\">Add components</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn add button</code></pre></div><div><p class=\"mb-2 text-sm font-medium\">Add multiple components</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn add button card input</code></pre></div><div><p class=\"mb-2 text-sm font-medium\">Add every component</p><pre class=\"overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm\"><code>templcn add --all</code></pre></div><p class=\"text-sm text-muted-foreground\">The CLI resolves dependencies, runtime files, styles, and examples for each selected component.</p></div>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -4783,7 +4783,7 @@ func InstallationPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Installation - shadcn/ui", "installation").Render(templ.WithChildren(ctx, templ_7745c5c3_Var239), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Installation - templcn/ui", "installation").Render(templ.WithChildren(ctx, templ_7745c5c3_Var239), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5236,7 +5236,7 @@ func ThemingPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Theming - shadcn/ui", "theming").Render(templ.WithChildren(ctx, templ_7745c5c3_Var251), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Theming - templcn/ui", "theming").Render(templ.WithChildren(ctx, templ_7745c5c3_Var251), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5343,7 +5343,7 @@ func ComponentsJSONPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 294, "<span>Generated by <code>shadcn init</code> and safe to edit.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 294, "<span>Generated by <code>templcn init</code> and safe to edit.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5406,7 +5406,7 @@ func ComponentsJSONPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("components.json - shadcn/ui", "components-json").Render(templ.WithChildren(ctx, templ_7745c5c3_Var272), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("components.json - templcn/ui", "components-json").Render(templ.WithChildren(ctx, templ_7745c5c3_Var272), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5467,7 +5467,7 @@ templ Page() {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Package Imports - shadcn/ui", "package-imports").Render(templ.WithChildren(ctx, templ_7745c5c3_Var279), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Package Imports - templcn/ui", "package-imports").Render(templ.WithChildren(ctx, templ_7745c5c3_Var279), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5508,7 +5508,7 @@ func DarkModePage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 299, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Dark Mode</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Toggle dark mode with a class.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">The generated CSS uses the same class strategy as shadcn/ui. Add <code class=\"rounded bg-muted px-1 py-0.5 text-sm\">dark</code> to the root element to activate dark tokens.</p></section><section class=\"grid gap-4\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 299, "<div class=\"mx-auto flex max-w-4xl flex-col gap-8\"><section class=\"space-y-4\"><p class=\"text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground\">Dark Mode</p><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Toggle dark mode with a class.</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">The generated CSS uses the same class strategy as templcn/ui. Add <code class=\"rounded bg-muted px-1 py-0.5 text-sm\">dark</code> to the root element to activate dark tokens.</p></section><section class=\"grid gap-4\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5528,7 +5528,7 @@ func DarkModePage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Dark Mode - shadcn/ui", "dark-mode").Render(templ.WithChildren(ctx, templ_7745c5c3_Var281), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Dark Mode - templcn/ui", "dark-mode").Render(templ.WithChildren(ctx, templ_7745c5c3_Var281), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5573,8 +5573,8 @@ func MonorepoPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = CodeBlock("bash", `shadcn init --cwd apps/web
-shadcn add button dialog --cwd apps/web`).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = CodeBlock("bash", `templcn init --cwd apps/web
+templcn add button dialog --cwd apps/web`).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5584,7 +5584,7 @@ shadcn add button dialog --cwd apps/web`).Render(ctx, templ_7745c5c3_Buffer)
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Monorepo - shadcn/ui", "monorepo").Render(templ.WithChildren(ctx, templ_7745c5c3_Var283), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Monorepo - templcn/ui", "monorepo").Render(templ.WithChildren(ctx, templ_7745c5c3_Var283), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5639,7 +5639,7 @@ func JavaScriptPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("JavaScript - shadcn/ui", "javascript").Render(templ.WithChildren(ctx, templ_7745c5c3_Var285), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("JavaScript - templcn/ui", "javascript").Render(templ.WithChildren(ctx, templ_7745c5c3_Var285), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5684,12 +5684,12 @@ func LLMSPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = CodeBlock("txt", `# shadcn for Go/templ
+			templ_7745c5c3_Err = CodeBlock("txt", `# templcn/ui
 
 - Components live in ./ui
 - Runtime behavior lives in ./assets/runtime.js
 - Theme tokens live in ./styles/globals.css
-- Add components with shadcn add <component>`).Render(ctx, templ_7745c5c3_Buffer)
+- Add components with templcn add <component>`).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5699,7 +5699,7 @@ func LLMSPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("llms.txt - shadcn/ui", "llms").Render(templ.WithChildren(ctx, templ_7745c5c3_Var287), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("llms.txt - templcn/ui", "llms").Render(templ.WithChildren(ctx, templ_7745c5c3_Var287), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -5752,7 +5752,7 @@ func CLIPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 308, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Go tooling for component management</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">This is a Go + templ port of shadcn/ui. Instead of an npm CLI, you use standard Go and templ toolchain commands to install and manage components.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 308, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Go tooling for component management</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">This is a Go + templ port inspired by shadcn/ui. Instead of an npm CLI, you use standard Go and templ toolchain commands to install and manage components.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -5818,7 +5818,7 @@ func CLIPage() templ.Component {
 							}()
 						}
 						ctx = templ.InitializeContext(ctx)
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 311, "<span>Import the shadcn/ui component package into your Go module.</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 311, "<span>Install templcn components into your Go module.</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -5854,7 +5854,7 @@ func CLIPage() templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = CodeBlock("bash", "shadcn add button").Render(ctx, templ_7745c5c3_Buffer)
+					templ_7745c5c3_Err = CodeBlock("bash", "templcn add button").Render(ctx, templ_7745c5c3_Buffer)
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -6274,7 +6274,7 @@ func CLIPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("CLI - shadcn/ui", "cli").Render(templ.WithChildren(ctx, templ_7745c5c3_Var289), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("CLI - templcn/ui", "cli").Render(templ.WithChildren(ctx, templ_7745c5c3_Var289), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -6683,7 +6683,7 @@ func RTLPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("RTL - shadcn/ui", "rtl").Render(templ.WithChildren(ctx, templ_7745c5c3_Var311), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("RTL - templcn/ui", "rtl").Render(templ.WithChildren(ctx, templ_7745c5c3_Var311), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -6736,7 +6736,7 @@ func FormsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 358, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Building forms with Go and templ</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Create accessible, type-safe, and validated forms using shadcn/ui components combined with Go&#39;s robust backend validation logic.</p></section><section class=\"grid gap-6\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 358, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Building forms with Go and templ</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Create accessible, type-safe, and validated forms using templcn/ui components combined with Go&#39;s robust backend validation logic.</p></section><section class=\"grid gap-6\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7034,7 +7034,7 @@ func HandleForm(w http.ResponseWriter, r *http.Request) {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Forms - shadcn/ui", "forms").Render(templ.WithChildren(ctx, templ_7745c5c3_Var328), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Forms - templcn/ui", "forms").Render(templ.WithChildren(ctx, templ_7745c5c3_Var328), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -7087,13 +7087,13 @@ func ChangelogPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 378, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Changelog</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Follow the evolution of the shadcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p></section><section class=\"space-y-0\"><div class=\"relative pl-10\"><!-- Vertical Line --><div class=\"absolute left-[15px] top-2 h-full w-px bg-border/70\"></div><!-- Entry --><div class=\"relative pb-12\"><!-- Timeline Node --><div class=\"absolute -left-[34px] top-1.5 z-10 size-5 rounded-full border-4 border-background bg-primary shadow-[0_0_0_4px_rgba(var(--background),1)] group-hover:scale-110 transition-transform\"></div><div class=\"space-y-4\"><div class=\"space-y-1\"><p class=\"text-sm font-medium leading-none text-muted-foreground\">April 2026</p><h3 class=\"text-2xl font-semibold tracking-tight\">Initial Beta Launch (v0.1.0)</h3></div><div class=\"prose prose-sm prose-invert max-w-none text-muted-foreground\"><p class=\"text-base\">We&#39;re excited to announce the initial beta of the shadcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p><ul class=\"mt-6 grid gap-4\"><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Interactive Charts:</strong> Recharts-style vanilla SVG rendering with theme-aware tooltips and hovers for all chart types.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Premium Blocks:</strong> High-quality dashboard, authentication, and form building blocks ready for production.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Modern Doc Site:</strong> Fast, searchable documentation with live code previews, syntax highlighting, and responsive navigation.</span></li></ul></div></div></div></div></section></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 378, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Changelog</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Follow the evolution of the templcn/ui Go port. We document every feature, bug fix, and architectural improvement here.</p></section><section class=\"space-y-0\"><div class=\"relative pl-10\"><!-- Vertical Line --><div class=\"absolute left-[15px] top-2 h-full w-px bg-border/70\"></div><!-- Entry --><div class=\"relative pb-12\"><!-- Timeline Node --><div class=\"absolute -left-[34px] top-1.5 z-10 size-5 rounded-full border-4 border-background bg-primary shadow-[0_0_0_4px_rgba(var(--background),1)] group-hover:scale-110 transition-transform\"></div><div class=\"space-y-4\"><div class=\"space-y-1\"><p class=\"text-sm font-medium leading-none text-muted-foreground\">April 2026</p><h3 class=\"text-2xl font-semibold tracking-tight\">Initial Beta Launch (v0.1.0)</h3></div><div class=\"prose prose-sm prose-invert max-w-none text-muted-foreground\"><p class=\"text-base\">We&#39;re excited to announce the initial beta of the templcn/ui Go port! This release brings high-fidelity React-parity components to the Go ecosystem using templ and Tailwind CSS.</p><ul class=\"mt-6 grid gap-4\"><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Interactive Charts:</strong> Recharts-style vanilla SVG rendering with theme-aware tooltips and hovers for all chart types.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Premium Blocks:</strong> High-quality dashboard, authentication, and form building blocks ready for production.</span></li><li class=\"flex items-start gap-3\"><div class=\"mt-1.5 size-1.5 shrink-0 rounded-full bg-primary/70\"></div><span><strong>Modern Doc Site:</strong> Fast, searchable documentation with live code previews, syntax highlighting, and responsive navigation.</span></li></ul></div></div></div></div></section></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Changelog - shadcn/ui", "changelog").Render(templ.WithChildren(ctx, templ_7745c5c3_Var340), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Changelog - templcn/ui", "changelog").Render(templ.WithChildren(ctx, templ_7745c5c3_Var340), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -7146,7 +7146,7 @@ func DirectoryDocsPage() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 380, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Directory</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Explore the ecosystem of components, blocks, and tools built for the shadcn/ui Go port.</p></section><section class=\"grid gap-6 md:grid-cols-2\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 380, "</div><h1 class=\"text-4xl font-semibold tracking-tight sm:text-5xl\">Directory</h1><p class=\"max-w-3xl text-lg leading-8 text-muted-foreground\">Explore the ecosystem of components, blocks, and tools built for the templcn/ui Go port.</p></section><section class=\"grid gap-6 md:grid-cols-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -7498,7 +7498,7 @@ func DirectoryDocsPage() templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = DocsLayout("Directory - shadcn/ui", "directory").Render(templ.WithChildren(ctx, templ_7745c5c3_Var342), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = DocsLayout("Directory - templcn/ui", "directory").Render(templ.WithChildren(ctx, templ_7745c5c3_Var342), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

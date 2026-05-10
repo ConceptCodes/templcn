@@ -154,9 +154,9 @@ func registryDependencies(name string) []string {
 
 func componentDescription(name string) string {
 	if _, ok := upstreamPrimitiveComponents[name]; ok {
-		return "Templ-native shadcn/ui primitive with runtime behavior metadata."
+		return "Templ-native templcn/ui primitive with runtime behavior metadata."
 	}
-	return "Templ-native shadcn/ui component."
+	return "Templ-native templcn/ui component."
 }
 
 func resolveRegistryItems(index registryIndex, requested []string, all bool) ([]registryItem, error) {

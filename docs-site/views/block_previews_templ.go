@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	t "github.com/a-h/templ"
-	"shadcn/ui"
+	"templcn/ui"
 )
 
 // PreviewLayout - a minimal standalone HTML layout for block previews
@@ -48,7 +48,7 @@ func PreviewLayout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"color-scheme\" content=\"light dark\"><link rel=\"stylesheet\" href=\"../../public/globals.css\"><script defer src=\"../../public/shadcn.js\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"color-scheme\" content=\"light dark\"><link rel=\"stylesheet\" href=\"../../public/globals.css\"><script defer src=\"../../public/templcn.js\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -2965,7 +2965,7 @@ func Login04Preview() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 124, "<div class=\"flex min-h-svh bg-background\"><div class=\"hidden lg:flex lg:w-1/2 items-center justify-center bg-muted/50 p-8\"><div class=\"max-w-md space-y-4\"><div class=\"flex items-center gap-3\"><span class=\"flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground text-lg font-semibold\">S</span> <span class=\"text-2xl font-semibold\">shadcn/ui</span></div><h2 class=\"text-3xl font-bold\">Beautiful components built with Radix UI and Tailwind CSS.</h2><p class=\"text-muted-foreground\">A set of accessible, customizable, and themeable components that you can copy and paste into your apps.</p></div></div><div class=\"flex w-full lg:w-1/2 items-center justify-center p-8\"><div class=\"w-full max-w-sm\"><div class=\"mb-8 lg:hidden\"><div class=\"flex items-center gap-2\"><span class=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold\">S</span> <span class=\"text-xl font-semibold\">shadcn/ui</span></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 124, "<div class=\"flex min-h-svh bg-background\"><div class=\"hidden lg:flex lg:w-1/2 items-center justify-center bg-muted/50 p-8\"><div class=\"max-w-md space-y-4\"><div class=\"flex items-center gap-3\"><span class=\"flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground text-lg font-semibold\">T</span> <span class=\"text-2xl font-semibold\">templcn/ui</span></div><h2 class=\"text-3xl font-bold\">Beautiful components built with Radix UI and Tailwind CSS.</h2><p class=\"text-muted-foreground\">A set of accessible, customizable, and themeable components that you can copy and paste into your apps.</p></div></div><div class=\"flex w-full lg:w-1/2 items-center justify-center p-8\"><div class=\"w-full max-w-sm\"><div class=\"mb-8 lg:hidden\"><div class=\"flex items-center gap-2\"><span class=\"flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold\">T</span> <span class=\"text-xl font-semibold\">templcn/ui</span></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

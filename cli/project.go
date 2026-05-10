@@ -619,7 +619,7 @@ func copyFile(src, dst string, overwrite bool) error {
 }
 
 func locateRegistryRoot() (string, error) {
-	if override := os.Getenv("SHADCN_SOURCE_DIR"); override != "" {
+	if override := os.Getenv("TEMPLCN_SOURCE_DIR"); override != "" {
 		return filepath.Abs(override)
 	}
 
@@ -635,7 +635,7 @@ func locateRegistryRoot() (string, error) {
 			return root, nil
 		}
 	}
-	return "", errors.New("could not locate the source ui package; set SHADCN_SOURCE_DIR")
+	return "", errors.New("could not locate the source ui package; set TEMPLCN_SOURCE_DIR")
 }
 
 func walkForRegistryRoot(start string) (string, bool) {

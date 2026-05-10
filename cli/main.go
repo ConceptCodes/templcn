@@ -17,8 +17,8 @@ func main() {
 
 func newRootCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:           "shadcn",
-		Short:         "shadcn cli model for Go/templ",
+		Use:           "templcn",
+		Short:         "templcn CLI for Go/templ components",
 		Version:       cliVersion,
 		SilenceUsage:  true,
 		SilenceErrors: true,
@@ -87,7 +87,7 @@ func newAddCommand() *cobra.Command {
 	opts := AddOptions{}
 	cmd := &cobra.Command{
 		Use:   "add [components...]",
-		Short: "sync shadcn/ui source into your project",
+		Short: "sync templcn/ui source into your project",
 		Args:  cobra.ArbitraryArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			opts.Items = args

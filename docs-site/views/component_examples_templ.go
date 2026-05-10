@@ -8,7 +8,7 @@ package views
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "shadcn/ui"
+import "templcn/ui"
 
 // ─── Accordion ───────────────────────────────────────────────────────────────
 func AccordionPreview() templ.Component {
@@ -332,7 +332,7 @@ func AlertDefaultPreview() templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "You can add components to your app using the shadcn CLI.")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "You can add components to your app using the templcn CLI.")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -1019,7 +1019,7 @@ func SeparatorPreview() templ.Component {
 			templ_7745c5c3_Var36 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "<div class=\"w-full max-w-sm grid gap-4\"><div><p class=\"text-sm font-medium\">shadcn/ui</p><p class=\"text-sm text-muted-foreground\">An open-source UI component library.</p></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "<div class=\"w-full max-w-sm grid gap-4\"><div><p class=\"text-sm font-medium\">templcn/ui</p><p class=\"text-sm text-muted-foreground\">An open-source UI component library.</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -1560,7 +1560,7 @@ func AccordionMultiplePreview() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "What is shadcn/ui? ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 68, "What is templcn/ui? ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

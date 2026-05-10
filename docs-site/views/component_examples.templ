@@ -1,6 +1,6 @@
 package views
 
-import "shadcn/ui"
+import "templcn/ui"
 
 // ─── Accordion ───────────────────────────────────────────────────────────────
 
@@ -39,7 +39,7 @@ templ AlertDefaultPreview() {
 	@ui.Alert(ui.AlertProps{}) {
 		@ui.AlertTitle(ui.DOMProps{}) { Heads up! }
 		@ui.AlertDescription(ui.DOMProps{}) {
-			You can add components to your app using the shadcn CLI.
+			You can add components to your app using the templcn CLI.
 		}
 	}
 }
@@ -157,7 +157,7 @@ templ LabelPreview() {
 templ SeparatorPreview() {
 	<div class="w-full max-w-sm grid gap-4">
 		<div>
-			<p class="text-sm font-medium">shadcn/ui</p>
+			<p class="text-sm font-medium">templcn/ui</p>
 			<p class="text-sm text-muted-foreground">An open-source UI component library.</p>
 		</div>
 		@ui.Separator(ui.SeparatorProps{})
@@ -257,7 +257,7 @@ templ CollapsiblePreview() {
 templ AccordionMultiplePreview() {
 	@ui.Accordion(ui.AccordionProps{Type: "multiple", DOMProps: ui.DOMProps{Class: "w-full max-w-md"}}) {
 		@ui.AccordionItem(ui.AccordionItemProps{Value: "a"}) {
-			@ui.AccordionTrigger(ui.DOMProps{}) { What is shadcn/ui? }
+			@ui.AccordionTrigger(ui.DOMProps{}) { What is templcn/ui? }
 			@ui.AccordionContent(ui.DOMProps{}) {
 				A set of accessible, customizable components built on Radix UI and Tailwind CSS.
 			}

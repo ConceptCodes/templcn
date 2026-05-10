@@ -1,4 +1,4 @@
-module shadcn/cli
+module templcn/cli
 
 go 1.23.0
 

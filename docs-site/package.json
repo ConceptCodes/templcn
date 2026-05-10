@@ -1,5 +1,5 @@
 {
-  "name": "shadcn-templ",
+  "name": "templcn",
   "private": true,
   "scripts": {
     "build:css": "bunx @tailwindcss/cli -i ./styles/globals.css -o ./public/globals.css",

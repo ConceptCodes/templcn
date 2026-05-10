@@ -42,7 +42,7 @@ func Page(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"shadcn/ui for Go and templ.\"><meta property=\"og:title\" content=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</title><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><meta name=\"description\" content=\"templcn/ui for Go and templ.\"><meta property=\"og:title\" content=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -55,7 +55,7 @@ func Page(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://ui.shadcn.com\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css?v=20260509-themes\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js?v=20260509-themes\"></script><link rel=\"stylesheet\" href=\"/public/globals.css?v=20260509-themes\"><script defer src=\"/public/shadcn.js?v=20260509-themes\"></script><script type=\"module\" src=\"/public/runtime.js?v=20260509-themes\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://templcn.dev\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css?v=20260509-themes\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js?v=20260509-themes\"></script><link rel=\"stylesheet\" href=\"/public/globals.css?v=20260509-themes\"><script defer src=\"/public/templcn.js?v=20260509-themes\"></script><script type=\"module\" src=\"/public/runtime.js?v=20260509-themes\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

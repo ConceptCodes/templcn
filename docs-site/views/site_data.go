@@ -51,7 +51,7 @@ type BlockEntry struct {
 var componentDocs = []ComponentDocEntry{
 	{
 		Slug: "accordion", Title: "Accordion", Description: "A vertically stacked set of interactive collapsible panels.",
-		Install: "shadcn add accordion",
+		Install: "templcn add accordion",
 		GoUsage: `@ui.Accordion(ui.AccordionProps{Type: "single", Collapsible: true}) {
   @ui.AccordionItem(ui.AccordionItemProps{Value: "item-1"}) {
     @ui.AccordionTrigger(ui.DOMProps{}) { Is it accessible? }
@@ -81,7 +81,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "alert", Title: "Alert", Description: "Displays a prominent message to call attention to important information.",
-		Install: "shadcn add alert",
+		Install: "templcn add alert",
 		GoUsage: `@ui.Alert(ui.AlertProps{}) {
   @ui.AlertTitle(ui.DOMProps{}) { Heads up! }
   @ui.AlertDescription(ui.DOMProps{}) { You can add components using the CLI. }
@@ -102,7 +102,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "alert-dialog", Title: "Alert Dialog", Description: "A modal dialog that asks the user to confirm a destructive action.",
-		Install: "shadcn add alert-dialog",
+		Install: "templcn add alert-dialog",
 		GoUsage: `@ui.AlertDialog(ui.AlertDialogProps{}) {
   @ui.AlertDialogTrigger(ui.DOMProps{}) { <span>Delete account</span> }
   @ui.AlertDialogContent(ui.DOMProps{}) {
@@ -135,7 +135,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "aspect-ratio", Title: "Aspect Ratio", Description: "Maintains a consistent width-to-height ratio for any content.",
-		Install: "shadcn add aspect-ratio",
+		Install: "templcn add aspect-ratio",
 		GoUsage: `@ui.AspectRatio(ui.AspectRatioProps{Ratio: 16.0/9.0}) {
   <div class="flex h-full items-center justify-center text-sm">16 : 9</div>
 }`,
@@ -150,7 +150,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "badge", Title: "Badge", Description: "Small status or metadata labels that can appear as spans or links.",
-		Install: "shadcn add badge",
+		Install: "templcn add badge",
 		GoUsage: `@ui.Badge(ui.BadgeProps{Label: "Default"})
 @ui.Badge(ui.BadgeProps{Label: "Secondary", Variant: ui.BadgeVariantSecondary})
 @ui.Badge(ui.BadgeProps{Label: "Outline", Variant: ui.BadgeVariantOutline})`,
@@ -168,7 +168,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "breadcrumb", Title: "Breadcrumb", Description: "A navigation trail indicating the current page location.",
-		Install: "shadcn add breadcrumb",
+		Install: "templcn add breadcrumb",
 		GoUsage: `@ui.Breadcrumb(ui.DOMProps{}) {
   @ui.BreadcrumbList(ui.DOMProps{}) {
     @ui.BreadcrumbItem(ui.DOMProps{}) {
@@ -199,7 +199,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "button", Title: "Button", Description: "Displays a button or a link styled as a button.",
-		Install: "shadcn add button",
+		Install: "templcn add button",
 		GoUsage: `@ui.Button(ui.ButtonProps{Label: "Click me"})
 @ui.Button(ui.ButtonProps{Label: "Outline", Variant: ui.ButtonVariantOutline})
 @ui.Button(ui.ButtonProps{Label: "Open", Href: "/page"})`,
@@ -227,7 +227,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "button-group", Title: "Button Group", Description: "Groups buttons into a connected control surface.",
-		Install: "shadcn add button-group",
+		Install: "templcn add button-group",
 		GoUsage: `@ui.ButtonGroup(ui.ButtonGroupProps{}) {
   @ui.Button(ui.ButtonProps{Label: "Left", Variant: ui.ButtonVariantOutline})
   @ui.ButtonGroupSeparator(ui.DOMProps{})
@@ -248,7 +248,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "card", Title: "Card", Description: "A flexible surface container for related information.",
-		Install: "shadcn add card",
+		Install: "templcn add card",
 		GoUsage: `@ui.Card(ui.DOMProps{}) {
   @ui.CardHeader(ui.DOMProps{}) {
     @ui.CardTitle(ui.DOMProps{}) { <span>Title</span> }
@@ -274,7 +274,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "checkbox", Title: "Checkbox", Description: "A native checkbox with shadcn styling and accessibility attributes.",
-		Install: "shadcn add checkbox",
+		Install: "templcn add checkbox",
 		GoUsage: `@ui.Checkbox(ui.CheckboxProps{Name: "terms"})`,
 		APIProps: []APIProp{
 			{Name: "Name", Type: "string", Default: `""`, Desc: "HTML name attribute for form submission."},
@@ -291,7 +291,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "collapsible", Title: "Collapsible", Description: "A lightweight disclosure primitive — lighter than accordion when nesting isn't needed.",
-		Install: "shadcn add collapsible",
+		Install: "templcn add collapsible",
 		GoUsage: `@ui.Collapsible(ui.CollapsibleProps{}) {
   @ui.CollapsibleTrigger(ui.DOMProps{}) { Click to expand }
   @ui.CollapsibleContent(ui.DOMProps{}) { Expanded content here }
@@ -310,7 +310,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "input", Title: "Input", Description: "A styled native text input supporting all HTML input types.",
-		Install: "shadcn add input",
+		Install: "templcn add input",
 		GoUsage: `@ui.Input(ui.InputProps{Placeholder: "Email"})
 @ui.Input(ui.InputProps{Type: "password", Placeholder: "Password"})`,
 		APIProps: []APIProp{
@@ -330,7 +330,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "input-otp", Title: "Input OTP", Description: "One-time code entry with a slot-based UI for PIN and verification flows.",
-		Install: "shadcn add input-otp",
+		Install: "templcn add input-otp",
 		GoUsage: `@ui.InputOTP(ui.InputOTPProps{MaxLength: 6}) {
   @ui.InputOTPGroup(ui.DOMProps{}) {
     @ui.InputOTPSlot(ui.InputOTPSlotProps{Index: 0})
@@ -361,7 +361,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "kbd", Title: "Kbd", Description: "A keyboard shortcut token styled as a key badge.",
-		Install: "shadcn add kbd",
+		Install: "templcn add kbd",
 		GoUsage: `@ui.Kbd(ui.KbdProps{Text: "⌘K"})`,
 		APIProps: []APIProp{
 			{Name: "Text", Type: "string", Default: `""`, Desc: "The key text to display."},
@@ -376,7 +376,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "label", Title: "Label", Description: "A native label wrapper with shadcn styling.",
-		Install: "shadcn add label",
+		Install: "templcn add label",
 		GoUsage: `@ui.Label(ui.LabelProps{For: "email"}) { <span>Your email</span> }`,
 		APIProps: []APIProp{
 			{Name: "For", Type: "string", Default: `""`, Desc: "The id of the associated form element."},
@@ -388,7 +388,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "native-select", Title: "Native Select", Description: "A styled native HTML select element.",
-		Install: "shadcn add native-select",
+		Install: "templcn add native-select",
 		GoUsage: `@ui.NativeSelect(ui.NativeSelectProps{}) {
   @ui.NativeSelectOption(ui.DOMProps{}, "apple", "Apple", false)
   @ui.NativeSelectOption(ui.DOMProps{}, "banana", "Banana", true)
@@ -409,7 +409,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "pagination", Title: "Pagination", Description: "Pagination primitives for navigating between pages of data.",
-		Install: "shadcn add pagination",
+		Install: "templcn add pagination",
 		GoUsage: `@ui.Pagination(ui.DOMProps{}) {
   @ui.PaginationContent(ui.DOMProps{}) {
     @ui.PaginationItem(ui.DOMProps{}) {
@@ -445,7 +445,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "progress", Title: "Progress", Description: "A native progress bar styled with Tailwind, using transform for smooth animation.",
-		Install: "shadcn add progress",
+		Install: "templcn add progress",
 		GoUsage: `@ui.Progress(ui.ProgressProps{Value: 60})`,
 		APIProps: []APIProp{
 			{Name: "Value", Type: "float64", Default: "0", Desc: "Current progress value."},
@@ -459,7 +459,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "radio-group", Title: "Radio Group", Description: "A group of radio options with accessible markup.",
-		Install: "shadcn add radio-group",
+		Install: "templcn add radio-group",
 		GoUsage: `@ui.RadioGroup(ui.RadioGroupProps{Name: "plan"}) {
   @ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "starter", Label: "Starter"})
   @ui.RadioGroupItem(ui.RadioGroupItemProps{Name: "plan", Value: "pro", Label: "Pro"})
@@ -479,7 +479,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "separator", Title: "Separator", Description: "A horizontal or vertical visual divider with optional ARIA semantics.",
-		Install: "shadcn add separator",
+		Install: "templcn add separator",
 		GoUsage: `@ui.Separator(ui.SeparatorProps{})
 @ui.Separator(ui.SeparatorProps{Orientation: ui.SeparatorOrientationVertical})`,
 		APIProps: []APIProp{
@@ -492,7 +492,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "skeleton", Title: "Skeleton", Description: "An animated shimmer placeholder for loading states.",
-		Install: "shadcn add skeleton",
+		Install: "templcn add skeleton",
 		GoUsage: `@ui.Skeleton(ui.DOMProps{Class: "h-4 w-full"})`,
 		APIProps: []APIProp{
 			{Name: "DOMProps.Class", Type: "string", Default: `""`, Desc: "Width, height, and shape classes (e.g. h-4 w-1/2 rounded-full)."},
@@ -518,7 +518,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "slider", Title: "Slider", Description: "A range slider for numeric input with single or dual thumbs.",
-		Install: "shadcn add slider",
+		Install: "templcn add slider",
 		GoUsage: `@ui.Slider(ui.SliderProps{Min: 0, Max: 100, DefaultValue: []float64{40}})`,
 		APIProps: []APIProp{
 			{Name: "Min", Type: "float64", Default: "0", Desc: "Minimum value."},
@@ -534,7 +534,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "spinner", Title: "Spinner", Description: "A lightweight animated loading indicator.",
-		Install: "shadcn add spinner",
+		Install: "templcn add spinner",
 		GoUsage: `@ui.Spinner(ui.SpinnerProps{Size: ui.SpinnerSizeMD, Label: "Loading"})`,
 		APIProps: []APIProp{
 			{Name: "Size", Type: "SpinnerSize", Default: `"md"`, Desc: `"sm", "md", or "lg".`},
@@ -548,7 +548,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "switch", Title: "Switch", Description: "A toggle control styled as a sliding switch.",
-		Install: "shadcn add switch",
+		Install: "templcn add switch",
 		GoUsage: `@ui.Switch(ui.SwitchProps{Name: "notifications", Checked: true})`,
 		APIProps: []APIProp{
 			{Name: "Name", Type: "string", Default: `""`, Desc: "HTML name for form submission."},
@@ -563,7 +563,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "tabs", Title: "Tabs", Description: "Tabbed panels for organizing content into sections.",
-		Install: "shadcn add tabs",
+		Install: "templcn add tabs",
 		GoUsage: `@ui.Tabs(ui.TabsProps{DefaultValue: "account"}) {
   @ui.TabsList(ui.TabsListProps{}) {
     @ui.TabsTrigger(ui.TabsTriggerProps{Value: "account", Active: true}) { <span>Account</span> }
@@ -591,7 +591,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "textarea", Title: "Textarea", Description: "A styled native multi-line text input.",
-		Install: "shadcn add textarea",
+		Install: "templcn add textarea",
 		GoUsage: `@ui.Textarea(ui.TextareaProps{Placeholder: "Type your message here."})`,
 		APIProps: []APIProp{
 			{Name: "Placeholder", Type: "string", Default: `""`, Desc: "Placeholder text."},
@@ -606,7 +606,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "toggle", Title: "Toggle", Description: "A pressed-state button — on or off.",
-		Install: "shadcn add toggle",
+		Install: "templcn add toggle",
 		GoUsage: `@ui.Toggle(ui.ToggleProps{}) { <span>Bold</span> }`,
 		APIProps: []APIProp{
 			{Name: "Pressed", Type: "bool", Default: "false", Desc: "Whether the toggle is in the on state."},
@@ -622,7 +622,7 @@ var componentDocs = []ComponentDocEntry{
 	},
 	{
 		Slug: "typography", Title: "Typography", Description: "A docs-oriented set of semantic HTML typography components.",
-		Install: "shadcn add typography",
+		Install: "templcn add typography",
 		GoUsage: `@ui.H1(ui.DOMProps{}) { <span>Heading</span> }
 @ui.P(ui.DOMProps{}) { <span>Paragraph text</span> }
 @ui.Muted(ui.DOMProps{}) { <span>Muted helper</span> }`,
@@ -641,8 +641,8 @@ var componentDocs = []ComponentDocEntry{
 		},
 	},
 	// ── Stub entries (no live preview available yet — overlay/JS-dependent) ──────
-	{Slug: "avatar", Title: "Avatar", Description: "Displays a user image with a graceful fallback to initials.", Install: "shadcn add avatar", GoUsage: `@ui.Avatar(ui.AvatarProps{Src: "/avatar.jpg", Fallback: "JD"})`, APIProps: []APIProp{{Name: "Src", Type: "string", Default: `""`, Desc: "Image source URL."}, {Name: "Fallback", Type: "string", Default: `""`, Desc: "Text shown when image fails to load."}}},
-	{Slug: "calendar", Title: "Calendar", Description: "A DayPicker-style calendar with single, multiple, and range selection.", Install: "shadcn add calendar", GoUsage: `@ui.Calendar(ui.CalendarProps{
+	{Slug: "avatar", Title: "Avatar", Description: "Displays a user image with a graceful fallback to initials.", Install: "templcn add avatar", GoUsage: `@ui.Avatar(ui.AvatarProps{Src: "/avatar.jpg", Fallback: "JD"})`, APIProps: []APIProp{{Name: "Src", Type: "string", Default: `""`, Desc: "Image source URL."}, {Name: "Fallback", Type: "string", Default: `""`, Desc: "Text shown when image fails to load."}}},
+	{Slug: "calendar", Title: "Calendar", Description: "A DayPicker-style calendar with single, multiple, and range selection.", Install: "templcn add calendar", GoUsage: `@ui.Calendar(ui.CalendarProps{
   DOMProps: ui.DOMProps{Class: "rounded-lg border"},
   Mode: "single",
   DefaultMonth: "2026-05",
@@ -650,7 +650,7 @@ var componentDocs = []ComponentDocEntry{
   CaptionLayout: "dropdown",
   ShowWeekNumber: true,
 })`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single", "multiple", or "range".`}, {Name: "CaptionLayout", Type: "string", Default: `"label"`, Desc: `"label" or "dropdown" month navigation.`}, {Name: "ShowWeekNumber", Type: "bool", Default: `false`, Desc: "Shows ISO week numbers."}, {Name: "HideOutsideDays", Type: "bool", Default: `false`, Desc: "Hides days outside the current month."}}},
-	{Slug: "carousel", Title: "Carousel", Description: "A swipeable set of slides with navigation controls.", Install: "shadcn add carousel", GoUsage: `@ui.Carousel(ui.CarouselProps{}) {
+	{Slug: "carousel", Title: "Carousel", Description: "A swipeable set of slides with navigation controls.", Install: "templcn add carousel", GoUsage: `@ui.Carousel(ui.CarouselProps{}) {
   @ui.CarouselContent(ui.DOMProps{}) {
     @ui.CarouselItem(ui.DOMProps{}) { <span>Slide 1</span> }
     @ui.CarouselItem(ui.DOMProps{}) { <span>Slide 2</span> }
@@ -658,13 +658,13 @@ var componentDocs = []ComponentDocEntry{
   @ui.CarouselPrevious(ui.DOMProps{}) { <span>Previous</span> }
   @ui.CarouselNext(ui.DOMProps{}) { <span>Next</span> }
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: "Slide direction."}}},
-	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "shadcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
+	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "templcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
   Config: ` + "`" + `{"desktop":{"label":"Desktop","color":"var(--chart-1)"}}` + "`" + `,
   InitialHeight: 240,
 }) {
   @ui.ChartTooltipContent(ui.DOMProps{}) { <span>Desktop: 186</span> }
 }`, APIProps: []APIProp{{Name: "Config", Type: "string", Default: "-", Desc: "Series color and label configuration for the vanilla chart runtime."}}},
-	{Slug: "combobox", Title: "Combobox", Description: "Searchable selection with single or multi-value support.", Install: "shadcn add combobox", GoUsage: `@ui.Combobox(ui.ComboboxProps{Name: "framework", DefaultValue: "templ"}) {
+	{Slug: "combobox", Title: "Combobox", Description: "Searchable selection with single or multi-value support.", Install: "templcn add combobox", GoUsage: `@ui.Combobox(ui.ComboboxProps{Name: "framework", DefaultValue: "templ"}) {
   @ui.ComboboxTrigger(ui.SelectTriggerProps{}) {
     @ui.ComboboxValue(ui.DOMProps{}) { <span>Select framework</span> }
   }
@@ -676,7 +676,7 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Multiple", Type: "bool", Default: "false", Desc: "Allow multiple selections."}}},
-	{Slug: "command", Title: "Command", Description: "A searchable command palette component.", Install: "shadcn add command", GoUsage: `@ui.Command(ui.CommandProps{}) {
+	{Slug: "command", Title: "Command", Description: "A searchable command palette component.", Install: "templcn add command", GoUsage: `@ui.Command(ui.CommandProps{}) {
   @ui.CommandInput(ui.InputProps{Placeholder: "Type a command..."})
   @ui.CommandList(ui.DOMProps{}) {
     @ui.CommandEmpty(ui.DOMProps{}) { <span>No results found.</span> }
@@ -686,14 +686,14 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "DefaultValue", Type: "string", Default: `""`, Desc: "Default search value."}}},
-	{Slug: "context-menu", Title: "Context Menu", Description: "A right-click menu with nested submenus.", Install: "shadcn add context-menu", GoUsage: `@ui.ContextMenu(ui.ContextMenuProps{}) {
+	{Slug: "context-menu", Title: "Context Menu", Description: "A right-click menu with nested submenus.", Install: "templcn add context-menu", GoUsage: `@ui.ContextMenu(ui.ContextMenuProps{}) {
   @ui.ContextMenuTrigger(ui.DOMProps{}) { <span>Right click here</span> }
   @ui.ContextMenuContent(ui.DOMProps{}) {
     @ui.ContextMenuItem(ui.DropdownMenuItemProps{Value: "back"}) { <span>Back</span> }
     @ui.ContextMenuItem(ui.DropdownMenuItemProps{Value: "reload"}) { <span>Reload</span> }
   }
 }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Item variant."}}},
-	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "shadcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
+	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "templcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
   Columns: []ui.DataTableColumn{
     {Key: "name", Header: "Name", Sortable: true},
     {Key: "status", Header: "Status"},
@@ -702,8 +702,8 @@ var componentDocs = []ComponentDocEntry{
     {ID: "1", Cells: []ui.DataTableCell{{Value: "Ada"}, {Value: "Active"}}},
   },
 })`, APIProps: []APIProp{{Name: "Columns", Type: "[]DataTableColumn", Default: "nil", Desc: "Column definitions."}, {Name: "Rows", Type: "[]DataTableRow", Default: "nil", Desc: "Table row data."}}},
-	{Slug: "date-picker", Title: "Date Picker", Description: "A calendar popover for selecting single or range dates.", Install: "shadcn add date-picker", GoUsage: `@ui.DatePicker(ui.DatePickerProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
-	{Slug: "dialog", Title: "Dialog", Description: "A modal dialog used for forms and transient tasks.", Install: "shadcn add dialog", GoUsage: `@ui.Dialog(ui.DialogProps{Modal: true}) {
+	{Slug: "date-picker", Title: "Date Picker", Description: "A calendar popover for selecting single or range dates.", Install: "templcn add date-picker", GoUsage: `@ui.DatePicker(ui.DatePickerProps{Mode: "single"})`, APIProps: []APIProp{{Name: "Mode", Type: "string", Default: `"single"`, Desc: `"single" or "range".`}}},
+	{Slug: "dialog", Title: "Dialog", Description: "A modal dialog used for forms and transient tasks.", Install: "templcn add dialog", GoUsage: `@ui.Dialog(ui.DialogProps{Modal: true}) {
   @ui.DialogTrigger(ui.DOMProps{}) {
     <span>Open dialog</span>
   }
@@ -719,12 +719,12 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Open", Type: "bool", Default: "false", Desc: "Controls dialog visibility."}, {Name: "Modal", Type: "bool", Default: "true", Desc: "Traps focus inside the dialog."}}},
-	{Slug: "direction", Title: "Direction", Description: "An RTL/LTR direction context provider.", Install: "shadcn add direction", GoUsage: `@ui.DirectionProvider(ui.DirectionProviderProps{Direction: "rtl"}) {
+	{Slug: "direction", Title: "Direction", Description: "An RTL/LTR direction context provider.", Install: "templcn add direction", GoUsage: `@ui.DirectionProvider(ui.DirectionProviderProps{Direction: "rtl"}) {
   @ui.Card(ui.DOMProps{}) {
     @ui.CardContent(ui.DOMProps{}) { <span>RTL content</span> }
   }
 }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"ltr"`, Desc: `"ltr" or "rtl".`}}},
-	{Slug: "drawer", Title: "Drawer", Description: "A slide-over surface from screen edges with mobile-friendly motion.", Install: "shadcn add drawer", GoUsage: `@ui.Drawer(ui.DrawerProps{SheetProps: ui.SheetProps{Side: "bottom"}}) {
+	{Slug: "drawer", Title: "Drawer", Description: "A slide-over surface from screen edges with mobile-friendly motion.", Install: "templcn add drawer", GoUsage: `@ui.Drawer(ui.DrawerProps{SheetProps: ui.SheetProps{Side: "bottom"}}) {
   @ui.DrawerTrigger(ui.DOMProps{}) { <span>Open drawer</span> }
   @ui.DrawerContent(ui.DOMProps{}) {
     @ui.DrawerHeader(ui.DOMProps{}) {
@@ -733,33 +733,33 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"bottom"`, Desc: `"top", "bottom", "left", "right".`}}},
-	{Slug: "dropdown-menu", Title: "Dropdown Menu", Description: "A context-driven popover menu with keyboard navigation.", Install: "shadcn add dropdown-menu", GoUsage: `@ui.DropdownMenu(ui.DropdownMenuProps{}) {
+	{Slug: "dropdown-menu", Title: "Dropdown Menu", Description: "A context-driven popover menu with keyboard navigation.", Install: "templcn add dropdown-menu", GoUsage: `@ui.DropdownMenu(ui.DropdownMenuProps{}) {
   @ui.DropdownMenuTrigger(ui.DOMProps{}) { Open }
   @ui.DropdownMenuContent(ui.DOMProps{}) {
     @ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) { Item }
   }
 }`, APIProps: []APIProp{{Name: "Trigger", Type: "children", Default: "-", Desc: "The trigger element."}}},
-	{Slug: "empty", Title: "Empty", Description: "A polished empty-state placeholder helper.", Install: "shadcn add empty", GoUsage: `@ui.Empty(ui.DOMProps{}) {
+	{Slug: "empty", Title: "Empty", Description: "A polished empty-state placeholder helper.", Install: "templcn add empty", GoUsage: `@ui.Empty(ui.DOMProps{}) {
   @ui.EmptyTitle(ui.DOMProps{}) { No results }
   @ui.EmptyDescription(ui.DOMProps{}) { Try adjusting your filters. }
 }`, APIProps: []APIProp{}},
-	{Slug: "field", Title: "Field", Description: "A form field grouping component with label, description, and error slots.", Install: "shadcn add field", GoUsage: `@ui.Field(ui.DOMProps{}) {
+	{Slug: "field", Title: "Field", Description: "A form field grouping component with label, description, and error slots.", Install: "templcn add field", GoUsage: `@ui.Field(ui.DOMProps{}) {
   @ui.FieldLabel(ui.DOMProps{}) { Email }
   @ui.Input(ui.InputProps{Placeholder: "you@example.com"})
   @ui.FieldError(ui.FieldErrorProps{Errors: []string{"Invalid email."}})
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "FieldOrientation", Default: `"vertical"`, Desc: `"vertical", "horizontal", "responsive".`}}},
-	{Slug: "hover-card", Title: "Hover Card", Description: "A hover/focus-driven preview popover, ideal for user profiles and link previews.", Install: "shadcn add hover-card", GoUsage: `@ui.HoverCard(ui.HoverCardProps{}) {
+	{Slug: "hover-card", Title: "Hover Card", Description: "A hover/focus-driven preview popover, ideal for user profiles and link previews.", Install: "templcn add hover-card", GoUsage: `@ui.HoverCard(ui.HoverCardProps{}) {
   @ui.HoverCardTrigger(ui.DOMProps{}) { Hover me }
   @ui.HoverCardContent(ui.DOMProps{}) { Card content }
 }`, APIProps: []APIProp{{Name: "OpenDelayMs", Type: "int", Default: "0", Desc: "Delay before showing."}, {Name: "CloseDelayMs", Type: "int", Default: "0", Desc: "Delay before hiding."}}},
-	{Slug: "input-group", Title: "Input Group", Description: "Input with leading/trailing addons and icon slots.", Install: "shadcn add input-group", GoUsage: `@ui.InputGroup(ui.InputGroupProps{}) {
+	{Slug: "input-group", Title: "Input Group", Description: "Input with leading/trailing addons and icon slots.", Install: "templcn add input-group", GoUsage: `@ui.InputGroup(ui.InputGroupProps{}) {
   @ui.InputGroupAddon(ui.InputGroupAddonProps{}) { $ }
   @ui.InputGroupInput(ui.InputGroupInputProps{Placeholder: "0.00"})
 }`, APIProps: []APIProp{{Name: "Align", Type: "InputGroupAddonAlign", Default: `"inline-start"`, Desc: "Position of the addon."}}},
-	{Slug: "item", Title: "Item", Description: "A generic list/card item surface with header, body, and action slots.", Install: "shadcn add item", GoUsage: `@ui.Item(ui.DOMProps{}) {
+	{Slug: "item", Title: "Item", Description: "A generic list/card item surface with header, body, and action slots.", Install: "templcn add item", GoUsage: `@ui.Item(ui.DOMProps{}) {
   @ui.ItemHeader(ui.DOMProps{}) { Title }
 }`, APIProps: []APIProp{}},
-	{Slug: "menubar", Title: "Menubar", Description: "A horizontal application menu bar.", Install: "shadcn add menubar", GoUsage: `@ui.Menubar(ui.MenubarProps{}) {
+	{Slug: "menubar", Title: "Menubar", Description: "A horizontal application menu bar.", Install: "templcn add menubar", GoUsage: `@ui.Menubar(ui.MenubarProps{}) {
   @ui.MenubarMenu(ui.DOMProps{}) {
     @ui.MenubarTrigger(ui.DOMProps{}) { File }
     @ui.MenubarContent(ui.DOMProps{}) {
@@ -767,32 +767,32 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "navigation-menu", Title: "Navigation Menu", Description: "A top-level navigation with disclosure viewport.", Install: "shadcn add navigation-menu", GoUsage: `@ui.NavigationMenu(ui.NavigationMenuProps{}) {
+	{Slug: "navigation-menu", Title: "Navigation Menu", Description: "A top-level navigation with disclosure viewport.", Install: "templcn add navigation-menu", GoUsage: `@ui.NavigationMenu(ui.NavigationMenuProps{}) {
   @ui.NavigationMenuList(ui.DOMProps{}) {
     @ui.NavigationMenuItem(ui.DOMProps{}) {
       @ui.NavigationMenuLink(ui.BreadcrumbLinkProps{Href: "/"}) { Home }
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "popover", Title: "Popover", Description: "Floating content anchored to a trigger element.", Install: "shadcn add popover", GoUsage: `@ui.Popover(ui.PopoverProps{}) {
+	{Slug: "popover", Title: "Popover", Description: "Floating content anchored to a trigger element.", Install: "templcn add popover", GoUsage: `@ui.Popover(ui.PopoverProps{}) {
   @ui.PopoverTrigger(ui.DOMProps{}) { Open popover }
   @ui.PopoverContent(ui.DOMProps{}) { Content here }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"bottom"`, Desc: "Preferred placement side."}, {Name: "Align", Type: "string", Default: `"center"`, Desc: "Alignment along the axis."}, {Name: "Modal", Type: "bool", Default: "false", Desc: "Whether to trap focus."}}},
-	{Slug: "resizable", Title: "Resizable", Description: "Pointer-driven resize panels.", Install: "shadcn add resizable", GoUsage: `@ui.ResizablePanelGroup(ui.ResizablePanelGroupProps{}) {
+	{Slug: "resizable", Title: "Resizable", Description: "Pointer-driven resize panels.", Install: "templcn add resizable", GoUsage: `@ui.ResizablePanelGroup(ui.ResizablePanelGroupProps{}) {
   @ui.ResizablePanel(ui.ResizablePanelProps{DefaultSize: 50}) { <span>One</span> }
   @ui.ResizableHandle(ui.ResizableHandleProps{})
   @ui.ResizablePanel(ui.ResizablePanelProps{DefaultSize: 50}) { <span>Two</span> }
 }`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"horizontal"`, Desc: `"horizontal" or "vertical".`}}},
-	{Slug: "scroll-area", Title: "Scroll Area", Description: "Styled scrollable containers with custom scrollbars.", Install: "shadcn add scroll-area", GoUsage: `@ui.ScrollArea(ui.DOMProps{Class: "h-72"}) {
+	{Slug: "scroll-area", Title: "Scroll Area", Description: "Styled scrollable containers with custom scrollbars.", Install: "templcn add scroll-area", GoUsage: `@ui.ScrollArea(ui.DOMProps{Class: "h-72"}) {
   @ui.P(ui.DOMProps{}) { <span>Long scrollable content</span> }
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"vertical"`, Desc: `"vertical" or "both".`}}},
-	{Slug: "select", Title: "Select", Description: "A custom accessible select built around a listbox runtime.", Install: "shadcn add select", GoUsage: `@ui.Select(ui.SelectProps{}) {
+	{Slug: "select", Title: "Select", Description: "A custom accessible select built around a listbox runtime.", Install: "templcn add select", GoUsage: `@ui.Select(ui.SelectProps{}) {
   @ui.SelectTrigger(ui.DOMProps{}) { Select an option }
   @ui.SelectContent(ui.DOMProps{}) {
     @ui.SelectItem(ui.DropdownMenuItemProps{Value: "apple"}) { <span>Apple</span> }
   }
 }`, APIProps: []APIProp{{Name: "DefaultOpen", Type: "bool", Default: "false", Desc: "Initial open state."}, {Name: "Required", Type: "bool", Default: "false", Desc: "Marks as required."}}},
-	{Slug: "sheet", Title: "Sheet", Description: "A slide-over panel that animates from any screen edge.", Install: "shadcn add sheet", GoUsage: `@ui.Sheet(ui.SheetProps{Side: "right"}) {
+	{Slug: "sheet", Title: "Sheet", Description: "A slide-over panel that animates from any screen edge.", Install: "templcn add sheet", GoUsage: `@ui.Sheet(ui.SheetProps{Side: "right"}) {
   @ui.SheetTrigger(ui.DOMProps{}) { <span>Open sheet</span> }
   @ui.SheetContent(ui.DOMProps{}) {
     @ui.SheetHeader(ui.DOMProps{}) {
@@ -801,7 +801,7 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"right"`, Desc: `"top", "bottom", "left", "right".`}, {Name: "ShowCloseButton", Type: "bool", Default: "false", Desc: "Show a close button."}}},
-	{Slug: "sidebar", Title: "Sidebar", Description: "A full app-shell sidebar with navigation, groups, and collapsible menus.", Install: "shadcn add sidebar", GoUsage: `@ui.SidebarProvider(ui.SidebarProviderProps{DefaultOpen: true}) {
+	{Slug: "sidebar", Title: "Sidebar", Description: "A full app-shell sidebar with navigation, groups, and collapsible menus.", Install: "templcn add sidebar", GoUsage: `@ui.SidebarProvider(ui.SidebarProviderProps{DefaultOpen: true}) {
   @ui.Sidebar(ui.SidebarProps{}) {
     @ui.SidebarContent(ui.DOMProps{}) {
       @ui.SidebarMenu(ui.DOMProps{}) {
@@ -812,8 +812,8 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"left"`, Desc: `"left" or "right".`}, {Name: "Variant", Type: "string", Default: `"sidebar"`, Desc: `"sidebar", "floating", or "inset".`}, {Name: "Collapsible", Type: "string", Default: `"offcanvas"`, Desc: `"offcanvas", "icon", or "none".`}}},
-	{Slug: "sonner", Title: "Sonner", Description: "A toast notification system using the Sonner design.", Install: "shadcn add sonner", GoUsage: `@ui.Toaster(ui.ToasterProps{Position: "bottom-right", RichColors: true})`, APIProps: []APIProp{{Name: "Theme", Type: "string", Default: `""`, Desc: "Force light or dark mode."}, {Name: "Position", Type: "string", Default: `"bottom-right"`, Desc: "Toast position on screen."}}},
-	{Slug: "table", Title: "Table", Description: "Table primitives with shadcn styling for simple data display.", Install: "shadcn add table", GoUsage: `@ui.Table(ui.DOMProps{}) {
+	{Slug: "sonner", Title: "Sonner", Description: "A toast notification system using the Sonner design.", Install: "templcn add sonner", GoUsage: `@ui.Toaster(ui.ToasterProps{Position: "bottom-right", RichColors: true})`, APIProps: []APIProp{{Name: "Theme", Type: "string", Default: `""`, Desc: "Force light or dark mode."}, {Name: "Position", Type: "string", Default: `"bottom-right"`, Desc: "Toast position on screen."}}},
+	{Slug: "table", Title: "Table", Description: "Table primitives with shadcn styling for simple data display.", Install: "templcn add table", GoUsage: `@ui.Table(ui.DOMProps{}) {
   @ui.TableHeader(ui.DOMProps{}) {
     @ui.TableRow(ui.DOMProps{}) {
       @ui.TableHead(ui.DOMProps{}) { Name }
@@ -827,15 +827,15 @@ var componentDocs = []ComponentDocEntry{
     }
   }
 }`, APIProps: []APIProp{}},
-	{Slug: "toast", Title: "Toast", Description: "Legacy toast primitives for notification messages.", Install: "shadcn add toast", GoUsage: `@ui.Toast(ui.ToastProps{Open: true}) {
+	{Slug: "toast", Title: "Toast", Description: "Legacy toast primitives for notification messages.", Install: "templcn add toast", GoUsage: `@ui.Toast(ui.ToastProps{Open: true}) {
   @ui.ToastTitle(ui.DOMProps{}) { Scheduled! }
   @ui.ToastDescription(ui.DOMProps{}) { Event created for Friday. }
 }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Visual variant (e.g. destructive)."}, {Name: "Duration", Type: "int", Default: "5000", Desc: "Auto-dismiss time in ms."}}},
-	{Slug: "toggle-group", Title: "Toggle Group", Description: "A group of related toggle buttons for single or multi-select.", Install: "shadcn add toggle-group", GoUsage: `@ui.ToggleGroup(ui.ToggleGroupProps{Type: "single"}) {
+	{Slug: "toggle-group", Title: "Toggle Group", Description: "A group of related toggle buttons for single or multi-select.", Install: "templcn add toggle-group", GoUsage: `@ui.ToggleGroup(ui.ToggleGroupProps{Type: "single"}) {
   @ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "bold"}) { B }
   @ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "italic"}) { I }
 }`, APIProps: []APIProp{{Name: "Type", Type: "string", Default: `"single"`, Desc: `"single" or "multiple".`}}},
-	{Slug: "tooltip", Title: "Tooltip", Description: "A floating hint label for compact icon controls.", Install: "shadcn add tooltip", GoUsage: `@ui.TooltipProvider(ui.TooltipProviderProps{}) {
+	{Slug: "tooltip", Title: "Tooltip", Description: "A floating hint label for compact icon controls.", Install: "templcn add tooltip", GoUsage: `@ui.TooltipProvider(ui.TooltipProviderProps{}) {
   @ui.Tooltip(ui.TooltipProps{}) {
     @ui.TooltipTrigger(ui.DOMProps{}) { Hover me }
     @ui.TooltipContent(ui.DOMProps{}) { Helpful hint }
@@ -843,14 +843,14 @@ var componentDocs = []ComponentDocEntry{
 }`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"top"`, Desc: `"top", "bottom", "left", "right".`}, {Name: "DelayDuration", Type: "int", Default: "700", Desc: "Hover delay in ms before showing."}}},
 }
 var blockDocs = []BlockEntry{
-	{Slug: "dashboard-01", Title: "A dashboard with sidebar, charts and data table", Description: "A dense app shell that combines a sidebar, KPI cards, charts, and a data table.", Category: "featured", Command: "go run ./cmd/shadcn add dashboard-01", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ", "components/chart-area-interactive.templ", "components/data-table.templ", "components/section-cards.templ", "components/site-header.templ"}},
-	{Slug: "sidebar-07", Title: "A sidebar that collapses to icons", Description: "A compact application shell with icon-only collapse behavior.", Category: "sidebar", Command: "go run ./cmd/shadcn add sidebar-07", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ", "components/team-switcher.templ"}},
-	{Slug: "sidebar-03", Title: "A sidebar with submenus", Description: "Sidebar navigation with nested submenu states and a content region.", Category: "sidebar", Command: "go run ./cmd/shadcn add sidebar-03", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ"}},
-	{Slug: "login-01", Title: "A simple login form", Description: "A centered login form with a compact footprint.", Category: "login", Command: "go run ./cmd/shadcn add login-01", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
-	{Slug: "login-03", Title: "A login page with a muted background color", Description: "A basic authentication surface with soft contrast and a small brand lockup.", Category: "login", Command: "go run ./cmd/shadcn add login-03", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
-	{Slug: "login-04", Title: "A login page with form and image", Description: "A wider authentication layout that pairs form and image panels.", Category: "login", Command: "go run ./cmd/shadcn add login-04", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
-	{Slug: "signup-01", Title: "A signup page with a cover image", Description: "A registration layout with a strong media panel.", Category: "signup", Command: "go run ./cmd/shadcn add signup-01", Files: []string{"app/signup/page.templ", "components/signup-form.templ"}},
-	{Slug: "signup-02", Title: "A signup form with social providers", Description: "A signup flow that emphasizes third-party providers and email signup.", Category: "signup", Command: "go run ./cmd/shadcn add signup-02", Files: []string{"app/signup/page.templ", "components/signup-form.templ"}},
+	{Slug: "dashboard-01", Title: "A dashboard with sidebar, charts and data table", Description: "A dense app shell that combines a sidebar, KPI cards, charts, and a data table.", Category: "featured", Command: "go run ./cmd/templcn add dashboard-01", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ", "components/chart-area-interactive.templ", "components/data-table.templ", "components/section-cards.templ", "components/site-header.templ"}},
+	{Slug: "sidebar-07", Title: "A sidebar that collapses to icons", Description: "A compact application shell with icon-only collapse behavior.", Category: "sidebar", Command: "go run ./cmd/templcn add sidebar-07", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ", "components/team-switcher.templ"}},
+	{Slug: "sidebar-03", Title: "A sidebar with submenus", Description: "Sidebar navigation with nested submenu states and a content region.", Category: "sidebar", Command: "go run ./cmd/templcn add sidebar-03", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ"}},
+	{Slug: "login-01", Title: "A simple login form", Description: "A centered login form with a compact footprint.", Category: "login", Command: "go run ./cmd/templcn add login-01", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
+	{Slug: "login-03", Title: "A login page with a muted background color", Description: "A basic authentication surface with soft contrast and a small brand lockup.", Category: "login", Command: "go run ./cmd/templcn add login-03", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
+	{Slug: "login-04", Title: "A login page with form and image", Description: "A wider authentication layout that pairs form and image panels.", Category: "login", Command: "go run ./cmd/templcn add login-04", Files: []string{"app/login/page.templ", "components/login-form.templ"}},
+	{Slug: "signup-01", Title: "A signup page with a cover image", Description: "A registration layout with a strong media panel.", Category: "signup", Command: "go run ./cmd/templcn add signup-01", Files: []string{"app/signup/page.templ", "components/signup-form.templ"}},
+	{Slug: "signup-02", Title: "A signup form with social providers", Description: "A signup flow that emphasizes third-party providers and email signup.", Category: "signup", Command: "go run ./cmd/templcn add signup-02", Files: []string{"app/signup/page.templ", "components/signup-form.templ"}},
 }
 
 func FindComponentDoc(slug string) (ComponentDocEntry, bool) {
@@ -973,8 +973,8 @@ func init() {
 func normalizeComponentDocs() {
 	for i := range componentDocs {
 		doc := &componentDocs[i]
-		if doc.Install == "" || doc.Install == "shadcn add button" || doc.Install == "shadcn add <component>" {
-			doc.Install = "shadcn add " + doc.Slug
+		if doc.Install == "" || doc.Install == "templcn add button" || doc.Install == "templcn add <component>" {
+			doc.Install = "templcn add " + doc.Slug
 		}
 		if doc.GoUsage == "" {
 			doc.GoUsage = defaultGoUsage(doc)
@@ -1150,7 +1150,7 @@ func defaultExampleGoCode(doc *ComponentDocEntry, name string) string {
 func cliUsageExample() string {
 	return `package views
 
-import "shadcn/ui"
+import "templcn/ui"
 
 templ MyPage() {
 	@ui.Button(ui.ButtonProps{Label: "Click me"})
@@ -1494,8 +1494,8 @@ func BlockSourceCode(slug string) string {
 			<div class="hidden lg:flex lg:w-1/2 items-center justify-center bg-muted/50 p-8">
 				<div class="max-w-md space-y-4">
 					<div class="flex items-center gap-3">
-						<span class="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground text-lg font-semibold">S</span>
-						<span class="text-2xl font-semibold">shadcn/ui</span>
+						<span class="flex size-10 items-center justify-center rounded-lg bg-primary text-primary-foreground text-lg font-semibold">T</span>
+						<span class="text-2xl font-semibold">templcn/ui</span>
 					</div>
 					<h2 class="text-3xl font-bold">Beautiful components built with Radix UI and Tailwind CSS.</h2>
 					<p class="text-muted-foreground">A set of accessible, customizable, and themeable components that you can copy and paste into your apps.</p>
@@ -1505,8 +1505,8 @@ func BlockSourceCode(slug string) string {
 				<div class="w-full max-w-sm">
 					<div class="mb-8 lg:hidden">
 						<div class="flex items-center gap-2">
-							<span class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold">S</span>
-							<span class="text-xl font-semibold">shadcn/ui</span>
+							<span class="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold">T</span>
+							<span class="text-xl font-semibold">templcn/ui</span>
 						</div>
 					</div>
 					@ui.Card(ui.DOMProps{}) {
