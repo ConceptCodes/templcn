@@ -51,7 +51,7 @@ func TestSelectContentAndItemsReflectState(t *testing.T) {
 	}
 
 	open := renderWithSelectState(t, true, "free", SelectContent(SelectContentProps{}), SelectItem(DropdownMenuItemProps{Value: "pro"}))
-	if strings.Contains(open, `hidden`) {
+	if strings.Contains(open, ` hidden`) {
 		t.Fatalf("open select content should not be hidden, got %s", open)
 	}
 	if !strings.Contains(open, `aria-selected="false"`) || !strings.Contains(open, `data-state="unchecked"`) {

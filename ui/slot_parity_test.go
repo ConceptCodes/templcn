@@ -78,7 +78,7 @@ func TestCompositeSlotsAreDistinct(t *testing.T) {
 	assertSlot(t, "ComboboxSeparator", mustRender(t, ComboboxSeparator(DOMProps{})), "combobox-separator")
 
 	assertSlot(t, "CommandDialog", mustRender(t, CommandDialog(CommandProps{})), "command-dialog")
-	assertSlot(t, "CommandInput", mustRender(t, CommandInput(InputProps{})), "command-input")
+	assertSlot(t, "CommandInput", mustRender(t, CommandInput(InputProps{})), "command-input-wrapper")
 	assertSlot(t, "CommandList", mustRender(t, CommandList(DOMProps{})), "command-list")
 	assertSlot(t, "CommandEmpty", mustRender(t, CommandEmpty(DOMProps{})), "command-empty")
 	assertSlot(t, "CommandGroup", mustRender(t, CommandGroup(DOMProps{})), "command-group")

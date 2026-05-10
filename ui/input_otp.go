@@ -24,7 +24,7 @@ func InputOTP(props InputOTPProps) templ.Component {
 		if value == "" {
 			value = props.DefaultValue
 		}
-		attrs := attrsFromDOMProps(props.DOMProps, "input-otp", "flex items-center gap-2")
+		attrs := attrsFromDOMProps(props.DOMProps, "input-otp", "flex items-center gap-2 has-disabled:opacity-50 disabled:cursor-not-allowed")
 		if props.Name != "" {
 			attrs["data-name"] = props.Name
 		}
@@ -58,7 +58,7 @@ func InputOTP(props InputOTPProps) templ.Component {
 
 func InputOTPGroup(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "input-otp-group", "flex items-center gap-2"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "input-otp-group", "flex items-center"), templ.GetChildren(ctx))
 	})
 }
 
@@ -70,7 +70,7 @@ type InputOTPSlotProps struct {
 
 func InputOTPSlot(props InputOTPSlotProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "input-otp-slot", "flex size-10 items-center justify-center rounded-md border border-input bg-background text-sm shadow-xs")
+		attrs := attrsFromDOMProps(props.DOMProps, "input-otp-slot", "relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-[3px] data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40")
 		if props.Index >= 0 {
 			attrs["data-index"] = strconv.Itoa(props.Index)
 		}
@@ -83,6 +83,15 @@ func InputOTPSlot(props InputOTPSlotProps) templ.Component {
 
 func InputOTPSeparator(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "input-otp-separator", "mx-1 h-px w-3 bg-border"), nil)
+		attrs := attrsFromDOMProps(props, "input-otp-separator", "")
+		attrs["role"] = "separator"
+		children := templ.GetChildren(ctx)
+		if children == nil {
+			children = templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+				_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path></svg>`)
+				return err
+			})
+		}
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }

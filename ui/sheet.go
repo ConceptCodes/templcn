@@ -48,7 +48,7 @@ func SheetPortal(props DOMProps) templ.Component {
 }
 func SheetOverlay(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "sheet-overlay", "fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0")
+		attrs := attrsFromDOMProps(props, "sheet-overlay", "fixed inset-0 z-50 bg-black/50 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0")
 		attrs["aria-hidden"] = "true"
 		if _, ok := attrs["data-state"]; !ok {
 			attrs["data-state"] = dialogStateFromContext(ctx)
@@ -58,17 +58,17 @@ func SheetOverlay(props DOMProps) templ.Component {
 }
 func SheetHeader(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "sheet-header", "flex flex-col gap-2 text-center sm:text-left"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "sheet-header", "flex flex-col gap-1.5 p-4"), templ.GetChildren(ctx))
 	})
 }
 func SheetFooter(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "sheet-footer", "mt-auto flex flex-col gap-2 sm:flex-row sm:justify-end"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "sheet-footer", "mt-auto flex flex-col gap-2 p-4"), templ.GetChildren(ctx))
 	})
 }
 func SheetTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "sheet-title", "text-lg font-semibold text-foreground"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "sheet-title", "font-semibold text-foreground"), templ.GetChildren(ctx))
 	})
 }
 func SheetDescription(props DOMProps) templ.Component {
@@ -86,7 +86,7 @@ func SheetClose(props DOMProps) templ.Component {
 
 func SheetContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "sheet-content", "fixed z-50 m-0 flex flex-col gap-4 bg-background p-6 shadow-lg transition ease-in-out backdrop:bg-black/80 [&:not([open])]:hidden data-[state=closed]:duration-300 data-[state=open]:duration-500 data-[state=open]:animate-in data-[state=closed]:animate-out data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:top-auto data-[side=bottom]:border-t data-[side=bottom]:slide-in-from-bottom data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:right-auto data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:slide-in-from-left data-[side=right]:inset-y-0 data-[side=right]:left-auto data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:slide-in-from-right data-[side=top]:inset-x-0 data-[side=top]:bottom-auto data-[side=top]:top-0 data-[side=top]:border-b data-[side=top]:slide-in-from-top sm:max-w-sm")
+		attrs := attrsFromDOMProps(props, "sheet-content", "fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out backdrop:bg-black/50 [&:not([open])]:hidden data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=bottom]:data-[state=closed]:slide-out-to-bottom data-[side=bottom]:data-[state=open]:slide-in-from-bottom data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:data-[state=closed]:slide-out-to-left data-[side=left]:data-[state=open]:slide-in-from-left data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:data-[state=closed]:slide-out-to-right data-[side=right]:data-[state=open]:slide-in-from-right data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-[state=closed]:slide-out-to-top data-[side=top]:data-[state=open]:slide-in-from-top sm:max-w-sm")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "dialog"
 		attrs["tabindex"] = "-1"
@@ -107,10 +107,25 @@ func SheetContent(props DOMProps) templ.Component {
 			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
 				return err
 			}
-			return renderDialogCloseIcon(ctx, w, "sheet-close")
+			return renderSheetCloseIcon(ctx, w)
 		})
 		return renderElement(ctx, w, "dialog", attrs, children)
 	})
+}
+
+func renderSheetCloseIcon(ctx context.Context, w io.Writer) error {
+	attrs := templ.Attributes{
+		"type":        "button",
+		"data-slot":   "sheet-close",
+		"aria-label":  "Close",
+		"class":       "absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary",
+		"data-action": "close",
+	}
+	icon := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>`)
+		return err
+	})
+	return renderElement(ctx, w, "button", attrs, icon)
 }
 
 func sheetSide(side string) string {

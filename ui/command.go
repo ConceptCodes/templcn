@@ -20,7 +20,7 @@ type CommandProps struct {
 
 func Command(props CommandProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "command", "grid gap-2 rounded-lg border bg-popover p-2 text-popover-foreground shadow-md")
+		attrs := attrsFromDOMProps(props.DOMProps, "command", "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground")
 		value := props.Value
 		if value == "" {
 			value = props.DefaultValue
@@ -63,7 +63,7 @@ func CommandDialog(props CommandProps) templ.Component {
 }
 func CommandInput(props InputProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "command-input", inputClasses)
+		attrs := attrsFromDOMProps(props.DOMProps, "command-input", "flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50")
 		if props.Type == "" {
 			props.Type = "text"
 		}
@@ -83,12 +83,18 @@ func CommandInput(props InputProps) templ.Component {
 		if _, ok := attrs["aria-autocomplete"]; !ok {
 			attrs["aria-autocomplete"] = "list"
 		}
-		return renderVoidElement(ctx, w, "input", attrs)
+		input := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if _, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="size-4 shrink-0 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>`); err != nil {
+				return err
+			}
+			return renderVoidElement(ctx, w, "input", attrs)
+		})
+		return renderElement(ctx, w, "div", templ.Attributes{"data-slot": "command-input-wrapper", "class": "flex h-9 items-center gap-2 border-b px-3"}, input)
 	})
 }
 func CommandList(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "command-list", "grid gap-1")
+		attrs := attrsFromDOMProps(props, "command-list", "max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto")
 		if _, ok := attrs["role"]; !ok {
 			attrs["role"] = "listbox"
 		}
@@ -102,18 +108,12 @@ func CommandEmpty(props DOMProps) templ.Component {
 }
 func CommandGroup(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "command-group", "grid gap-1"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "command-group", "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground"), templ.GetChildren(ctx))
 	})
 }
 func CommandItem(props DropdownMenuItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		className := "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-		if props.Inset {
-			className = cn(className, "pl-8")
-		}
-		if props.Variant == "destructive" {
-			className = cn(className, "text-destructive")
-		}
+		className := "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground"
 		attrs := attrsFromDOMProps(props.DOMProps, "command-item", className)
 		if _, ok := attrs["type"]; !ok {
 			attrs["type"] = "button"
@@ -138,6 +138,6 @@ func CommandShortcut(props DOMProps) templ.Component {
 }
 func CommandSeparator(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "command-separator", "-mx-1 my-1 h-px bg-border"), nil)
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "command-separator", "-mx-1 h-px bg-border"), nil)
 	})
 }

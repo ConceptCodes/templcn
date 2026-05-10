@@ -33,7 +33,7 @@ type CalendarProps struct {
 
 func Calendar(props CalendarProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "calendar", "bg-background p-3 [--cell-size:2rem] [--cell-radius:0.375rem]")
+		attrs := attrsFromDOMProps(props.DOMProps, "calendar", "group/calendar relative bg-background p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent")
 		mode := props.Mode
 		if mode == "" {
 			mode = "single"
@@ -124,7 +124,7 @@ func calendarMonth(props CalendarProps) time.Time {
 
 func calendarGrid(month time.Time, props CalendarProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		if err := renderElement(ctx, w, "div", attrsFromDOMProps(DOMProps{}, "calendar-nav", "mb-2 flex items-center justify-between gap-2"), templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		if err := renderElement(ctx, w, "div", attrsFromDOMProps(DOMProps{}, "calendar-nav", "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1"), templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if err := renderTextElement(ctx, w, "button", templ.Attributes{"type": "button", "data-slot": "calendar-prev", "aria-label": "Previous month", "class": calendarNavButtonClass()}, "‹"); err != nil {
 				return err
 			}
@@ -140,7 +140,7 @@ func calendarGrid(month time.Time, props CalendarProps) templ.Component {
 			return err
 		}
 
-		return renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-months", "class": "flex flex-col gap-4 sm:flex-row"}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-months", "class": "relative flex flex-col gap-4 md:flex-row"}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			months := props.NumberOfMonths
 			if months < 1 {
 				months = 1
@@ -161,11 +161,11 @@ func calendarMonthGrid(month time.Time, props CalendarProps) templ.Component {
 		if props.ShowWeekNumber {
 			columns = "grid-cols-8"
 		}
-		return renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-month", "class": "space-y-2", "data-month": month.Format("2006-01")}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		return renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-month", "class": "flex w-full flex-col gap-4", "data-month": month.Format("2006-01")}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if err := renderTextElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-month-caption", "class": "sr-only"}, month.Format("January 2006")); err != nil {
 				return err
 			}
-			if err := renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-grid", "role": "grid", "aria-label": month.Format("January 2006"), "class": "space-y-1"}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if err := renderElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-grid", "role": "grid", "aria-label": month.Format("January 2006"), "class": "w-full border-collapse"}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 				return calendarRows(ctx, w, month, props, columns)
 			})); err != nil {
 				return err
@@ -177,14 +177,14 @@ func calendarMonthGrid(month time.Time, props CalendarProps) templ.Component {
 
 func calendarRows(ctx context.Context, w io.Writer, month time.Time, props CalendarProps, columns string) error {
 	weekdays := []string{"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"}
-	if err := renderElement(ctx, w, "div", templ.Attributes{"role": "row", "class": cn("grid gap-1", columns)}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+	if err := renderElement(ctx, w, "div", templ.Attributes{"role": "row", "class": cn("mt-2 flex w-full", columns)}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		if props.ShowWeekNumber {
-			if err := renderTextElement(ctx, w, "div", templ.Attributes{"role": "columnheader", "aria-label": "Week number", "class": "flex size-(--cell-size) items-center justify-center text-xs text-muted-foreground"}, ""); err != nil {
+			if err := renderTextElement(ctx, w, "div", templ.Attributes{"role": "columnheader", "aria-label": "Week number", "class": "w-(--cell-size) select-none"}, ""); err != nil {
 				return err
 			}
 		}
 		for _, weekday := range weekdays {
-			if err := renderTextElement(ctx, w, "div", templ.Attributes{"role": "columnheader", "class": "flex size-(--cell-size) items-center justify-center text-xs text-muted-foreground"}, weekday); err != nil {
+			if err := renderTextElement(ctx, w, "div", templ.Attributes{"role": "columnheader", "class": "flex-1 rounded-md text-[0.8rem] font-normal text-muted-foreground select-none"}, weekday); err != nil {
 				return err
 			}
 		}
@@ -194,9 +194,9 @@ func calendarRows(ctx context.Context, w io.Writer, month time.Time, props Calen
 	}
 	start := month.AddDate(0, 0, -int(month.Weekday()))
 	for week := 0; week < 6; week++ {
-		if err := renderElement(ctx, w, "div", templ.Attributes{"role": "row", "class": cn("grid gap-1", columns)}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		if err := renderElement(ctx, w, "div", templ.Attributes{"role": "row", "class": cn("mt-2 flex w-full", columns)}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if props.ShowWeekNumber {
-				if err := renderTextElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-week-number", "class": "flex size-(--cell-size) items-center justify-center text-xs text-muted-foreground"}, isoWeekLabel(start.AddDate(0, 0, week*7))); err != nil {
+				if err := renderTextElement(ctx, w, "div", templ.Attributes{"data-slot": "calendar-week-number", "class": "flex size-(--cell-size) items-center justify-center text-[0.8rem] text-muted-foreground select-none"}, isoWeekLabel(start.AddDate(0, 0, week*7))); err != nil {
 					return err
 				}
 			}
@@ -220,7 +220,7 @@ func renderCalendarDay(ctx context.Context, w io.Writer, date time.Time, month t
 	selected, rangeStart, rangeEnd, rangeMiddle := calendarSelectionState(dateValue, props)
 	disabled := calendarDateDisabled(dateValue, props.DisabledDates)
 	today := dateValue == time.Now().UTC().Format("2006-01-02")
-	attrs := templ.Attributes{"role": "gridcell", "data-day": dateValue, "class": "relative p-0 text-center text-sm focus-within:relative focus-within:z-20"}
+	attrs := templ.Attributes{"role": "gridcell", "data-day": dateValue, "class": "group/day relative aspect-square h-full w-full p-0 text-center select-none [&:last-child[data-selected=true]_button]:rounded-r-md [&:first-child[data-selected=true]_button]:rounded-l-md"}
 	if outside {
 		attrs["data-outside"] = "true"
 	}
@@ -245,6 +245,9 @@ func renderCalendarDay(ctx context.Context, w io.Writer, date time.Time, month t
 		buttonAttrs["aria-selected"] = map[bool]string{true: "true", false: "false"}[selected]
 		if selected {
 			buttonAttrs["data-selected"] = "true"
+		}
+		if selected && !rangeStart && !rangeEnd && !rangeMiddle {
+			buttonAttrs["data-selected-single"] = "true"
 		}
 		if today {
 			buttonAttrs["data-today"] = "true"
@@ -398,9 +401,9 @@ func isoWeekLabel(date time.Time) string {
 }
 
 func calendarNavButtonClass() string {
-	return "inline-flex size-(--cell-size) items-center justify-center rounded-md border border-transparent text-sm hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+	return buttonClasses(ButtonVariantGhost, ButtonSizeDefault, "size-(--cell-size) p-0 select-none aria-disabled:opacity-50")
 }
 
 func calendarDayButtonClass() string {
-	return "inline-flex size-(--cell-size) items-center justify-center rounded-md text-sm font-normal tabular-nums hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 aria-selected:bg-primary aria-selected:text-primary-foreground data-[today=true]:bg-accent data-[today=true]:text-accent-foreground data-[outside=true]:text-muted-foreground data-[outside=true]:opacity-50 data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:rounded-s-(--cell-radius) data-[range-end=true]:rounded-e-(--cell-radius)"
+	return buttonClasses(ButtonVariantGhost, ButtonSizeIcon, "flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 data-[range-end=true]:rounded-md data-[range-end=true]:rounded-r-md data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:rounded-md data-[range-start=true]:rounded-l-md data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground dark:hover:text-accent-foreground [&>span]:text-xs [&>span]:opacity-70")
 }

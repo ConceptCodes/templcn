@@ -71,7 +71,7 @@ func PopoverAnchor(props DOMProps) templ.Component {
 }
 func PopoverContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "popover-content", "absolute left-0 top-full z-50 mt-2 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
+		attrs := attrsFromDOMProps(props, "popover-content", "absolute left-0 top-full z-50 mt-1 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95")
 		if _, ok := attrs["data-state"]; !ok {
 			attrs["data-state"] = floatingStateFromContext(ctx)
 		}
@@ -89,16 +89,16 @@ func PopoverContent(props DOMProps) templ.Component {
 }
 func PopoverHeader(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-header", "flex flex-col gap-2 text-center sm:text-left"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-header", "flex flex-col gap-1 text-sm"), templ.GetChildren(ctx))
 	})
 }
 func PopoverTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "popover-title", "text-lg font-semibold tracking-tight"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "div", attrsFromDOMProps(props, "popover-title", "font-medium"), templ.GetChildren(ctx))
 	})
 }
 func PopoverDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "popover-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "popover-description", "text-muted-foreground"), templ.GetChildren(ctx))
 	})
 }

@@ -29,7 +29,7 @@ type accordionRenderStateKey struct{}
 
 func Accordion(props AccordionProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "accordion", "grid gap-2")
+		attrs := attrsFromDOMProps(props.DOMProps, "accordion", "")
 		if props.Type != "" {
 			attrs["data-type"] = props.Type
 		}
@@ -53,7 +53,7 @@ func Accordion(props AccordionProps) templ.Component {
 
 func AccordionItem(props AccordionItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "accordion-item", "border-b")
+		attrs := attrsFromDOMProps(props.DOMProps, "accordion-item", "border-b last:border-b-0")
 		if props.Value != "" {
 			attrs["data-value"] = props.Value
 		}
@@ -79,10 +79,10 @@ func AccordionTrigger(props DOMProps) templ.Component {
 			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
 				return err
 			}
-			_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>`)
+			_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>`)
 			return err
 		})
-		attrs := attrsFromDOMProps(props, "accordion-trigger", "group flex flex-1 cursor-pointer list-none items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50")
+		attrs := attrsFromDOMProps(props, "accordion-trigger", "group flex flex-1 cursor-pointer list-none items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180")
 		attrs["aria-expanded"] = map[bool]string{true: "true", false: "false"}[accordionItemOpen(ctx)]
 		return renderElement(ctx, w, "summary", attrs, children)
 	})
@@ -95,7 +95,7 @@ func AccordionContent(props DOMProps) templ.Component {
 			attrs["data-state"] = openState(accordionItemOpen(ctx))
 		}
 		inner := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			return renderElement(ctx, w, "div", templ.Attributes{"class": "pb-4 pt-0"}, templ.GetChildren(ctx))
+			return renderElement(ctx, w, "div", templ.Attributes{"class": "pt-0 pb-4"}, templ.GetChildren(ctx))
 		})
 		return renderElement(ctx, w, "div", attrs, inner)
 	})

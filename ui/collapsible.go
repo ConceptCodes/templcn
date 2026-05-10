@@ -23,7 +23,7 @@ type collapsibleRenderStateKey struct{}
 func Collapsible(props CollapsibleProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		open := props.Open || props.DefaultOpen
-		attrs := attrsFromDOMProps(props.DOMProps, "collapsible", "grid gap-2")
+		attrs := attrsFromDOMProps(props.DOMProps, "collapsible", "")
 		attrs["data-state"] = openState(open)
 		if open {
 			attrs["data-open"] = "true"
@@ -42,7 +42,7 @@ func Collapsible(props CollapsibleProps) templ.Component {
 
 func CollapsibleTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "collapsible-trigger", "cursor-pointer list-none")
+		attrs := attrsFromDOMProps(props, "collapsible-trigger", "")
 		if state, ok := ctx.Value(collapsibleRenderStateKey{}).(collapsibleRenderState); ok {
 			attrs["aria-expanded"] = map[bool]string{true: "true", false: "false"}[state.open]
 		}
@@ -52,7 +52,7 @@ func CollapsibleTrigger(props DOMProps) templ.Component {
 
 func CollapsibleContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "collapsible-content", "overflow-hidden pt-2 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down")
+		attrs := attrsFromDOMProps(props, "collapsible-content", "")
 		open := false
 		if state, ok := ctx.Value(collapsibleRenderStateKey{}).(collapsibleRenderState); ok {
 			open = state.open

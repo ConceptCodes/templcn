@@ -15,9 +15,7 @@ type TooltipProviderProps struct {
 func TooltipProvider(props TooltipProviderProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "tooltip-provider", "")
-		if props.DelayDuration > 0 {
-			attrs["data-delay-duration"] = props.DelayDuration
-		}
+		attrs["data-delay-duration"] = props.DelayDuration
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -72,7 +70,7 @@ func TooltipTrigger(props DOMProps) templ.Component {
 
 func TooltipContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "tooltip-content", "absolute left-1/2 top-full z-50 mt-1.5 w-max -translate-x-1/2 rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2")
+		attrs := attrsFromDOMProps(props, "tooltip-content", "absolute left-1/2 top-full z-50 mt-1.5 w-fit -translate-x-1/2 origin-(--radix-tooltip-content-transform-origin) animate-in rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95")
 		if _, ok := attrs["data-state"]; !ok {
 			attrs["data-state"] = floatingStateFromContext(ctx)
 		}
@@ -85,6 +83,16 @@ func TooltipContent(props DOMProps) templ.Component {
 		if !floatingOpenFromContext(ctx) {
 			attrs["hidden"] = true
 		}
-		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+				return err
+			}
+			return renderElement(ctx, w, "div", templ.Attributes{
+				"class":       "z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground",
+				"data-slot":   "tooltip-arrow",
+				"aria-hidden": "true",
+			}, nil)
+		})
+		return renderElement(ctx, w, "div", attrs, children)
 	})
 }

@@ -646,7 +646,7 @@ func TestKbd_Sizes(t *testing.T) {
 		expected string
 	}{
 		{"sm", "text-[0.65rem]"},
-		{"", "text-[0.7rem]"},
+		{"", "text-xs"},
 		{"lg", "text-[0.75rem]"},
 	}
 	for _, tt := range tests {

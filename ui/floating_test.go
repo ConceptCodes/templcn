@@ -24,7 +24,7 @@ func TestPopoverPartsReflectClosedAndOpenState(t *testing.T) {
 	if attrValue(openRoot, "data-state") != "open" || attrValue(openRoot, "data-open") != "true" {
 		t.Fatalf("open popover root state mismatch, got %s", openRoot)
 	}
-	if !strings.Contains(openContent, `data-state="open"`) || strings.Contains(openContent, `hidden`) {
+	if !strings.Contains(openContent, `data-state="open"`) || strings.Contains(openContent, ` hidden`) {
 		t.Fatalf("open popover content should not be hidden, got %s", openContent)
 	}
 }
@@ -66,7 +66,7 @@ func TestHoverCardPartsReflectClosedAndOpenState(t *testing.T) {
 	if attrValue(openRoot, "data-state") != "open" || attrValue(openRoot, "data-default-open") != "true" {
 		t.Fatalf("open hover card root state mismatch, got %s", openRoot)
 	}
-	if !strings.Contains(open, `data-state="open"`) || strings.Contains(open, `hidden`) {
+	if !strings.Contains(open, `data-state="open"`) || strings.Contains(open, ` hidden`) {
 		t.Fatalf("open hover card content should not be hidden, got %s", open)
 	}
 }
