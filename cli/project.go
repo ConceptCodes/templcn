@@ -735,6 +735,27 @@ func syncRegistryFiles(root, targetDir string, items []registryItem, overwrite b
 			}
 			continue
 		}
+		if rel == "assets/tanstack-runtime.js" {
+			src := filepath.Join(sourceRoot, "docs-site", "public", "tanstack-runtime.js")
+			if fileExists(src) {
+				if err := copyFile(src, dst, overwrite); err != nil {
+					return fmt.Errorf("copy TanStack runtime: %w", err)
+				}
+			} else if tanstackRuntimeAsset != "" {
+				if fileExists(dst) && !overwrite {
+					continue
+				}
+				if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+					return err
+				}
+				if err := os.WriteFile(dst, []byte(tanstackRuntimeAsset), 0644); err != nil {
+					return err
+				}
+			} else {
+				return fmt.Errorf("TanStack runtime not found at %s; run go generate in cli", src)
+			}
+			continue
+		}
 		src := filepath.Join(sourceRoot, rel)
 		if err := copyFile(src, dst, overwrite); err != nil {
 			return err

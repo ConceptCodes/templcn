@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -147,6 +149,24 @@ func TestAddSelectCopiesRuntimeAndDeclaredDependencies(t *testing.T) {
 	mustExist(t, filepath.Join(dir, "ui", "dropdown_menu.go"))
 	mustExist(t, filepath.Join(dir, "assets", "runtime.js"))
 	mustNotExist(t, filepath.Join(dir, "ui", "button.go"))
+}
+
+func TestAddChartCopiesTanStackRuntime(t *testing.T) {
+	dir := t.TempDir()
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+
+	if err := os.WriteFile(filepath.Join(dir, "go.mod"), []byte("module example.com/demo\n\ngo 1.23.0\n"), 0644); err != nil {
+		t.Fatalf("write go.mod: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(`{"module":"example.com/demo","uiDir":"ui"}`), 0644); err != nil {
+		t.Fatalf("write components.json: %v", err)
+	}
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"chart"}, Overwrite: true}); err != nil {
+		t.Fatalf("add chart: %v", err)
+	}
+	mustExist(t, filepath.Join(dir, "ui", "chart.go"))
+	mustExist(t, filepath.Join(dir, "assets", "tanstack-runtime.js"))
 }
 
 func TestAddBlockCopiesBlockFilesAndDependencies(t *testing.T) {
@@ -313,6 +333,64 @@ func TestAddDryRunDoesNotWriteFiles(t *testing.T) {
 	}
 
 	mustNotExist(t, filepath.Join(dir, "ui", "button.go"))
+}
+
+func TestAddIsIdempotentAndOverwriteControlsChanges(t *testing.T) {
+	dir := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"button"}, Overwrite: true}); err != nil {
+		t.Fatalf("initial add: %v", err)
+	}
+	path := filepath.Join(dir, "ui", "button.go")
+	original, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read initial button: %v", err)
+	}
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"button"}, Silent: true}); err != nil {
+		t.Fatalf("repeat add should be safe: %v", err)
+	}
+	unchanged, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read repeated button: %v", err)
+	}
+	if string(unchanged) != string(original) {
+		t.Fatal("repeat add changed an existing file without --overwrite")
+	}
+	if err := os.WriteFile(path, []byte("package ui\n"), 0644); err != nil {
+		t.Fatalf("modify button: %v", err)
+	}
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"button"}, Overwrite: true, Silent: true}); err != nil {
+		t.Fatalf("overwrite add: %v", err)
+	}
+	restored, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read restored button: %v", err)
+	}
+	if string(restored) != string(original) {
+		t.Fatal("--overwrite did not restore the registry file")
+	}
+}
+
+func TestAddHTTPRegistryItem(t *testing.T) {
+	registryProject := newConfiguredProject(t)
+	t.Setenv("TEMPLCN_SOURCE_DIR", repoRoot(t))
+	registryDir := filepath.Join(registryProject, "public", "r")
+	if err := BuildRegistry(BuildOptions{CWD: registryProject, OutputDir: registryDir}); err != nil {
+		t.Fatalf("build registry: %v", err)
+	}
+	server := httptest.NewServer(http.FileServer(http.Dir(registryDir)))
+	defer server.Close()
+
+	dir := newConfiguredProject(t)
+	config := `{"module":"example.com/demo","uiDir":"ui","registries":{"remote":"` + server.URL + `"}}`
+	if err := os.WriteFile(filepath.Join(dir, "components.json"), []byte(config), 0644); err != nil {
+		t.Fatalf("write remote registry config: %v", err)
+	}
+	if err := AddComponents(AddOptions{CWD: dir, Items: []string{"@remote/button"}, Overwrite: true, Silent: true}); err != nil {
+		t.Fatalf("add HTTP registry item: %v", err)
+	}
+	mustExist(t, filepath.Join(dir, "ui", "button.go"))
 }
 
 func TestViewAndDiffResolveRegistrySource(t *testing.T) {
