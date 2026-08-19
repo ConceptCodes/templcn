@@ -1,6 +1,10 @@
 package views
 
-import "templcn/ui"
+import (
+	"fmt"
+
+	"templcn/ui"
+)
 
 const homeTitle = "The Foundation for your Design System"
 const homeDescription = "A set of beautifully designed components that you can customize, extend, and build on. Start here then make it your own. Open Source. Open Code."
@@ -74,7 +78,7 @@ templ HomeHero() {
 			<div class="container flex flex-col items-center gap-2 px-6 py-8 text-center md:py-16 lg:py-20 xl:gap-4">
 				<a href="/docs/changelog" class="inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors bg-muted hover:bg-accent">
 					<span class="flex size-1.5 rounded-full bg-primary"></span>
-					<span class-will-change-transform>templ v0.3 is now available</span>
+					<span class="will-change-transform">templ v0.3 is now available</span>
 					<svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
 				</a>
 				<h1 class="leading-tighter max-w-3xl text-balance text-3xl font-semibold tracking-tight text-primary lg:leading-[1.1] xl:text-5xl">
@@ -192,7 +196,7 @@ templ HomeCol1() {
 				<span>You have not met your targets for this year.</span>
 			}
 		}
-	}
+	</div>
 }
 
 // ── Column 2: Contribution chart, Claimable Balance, Dividend Income ────────
@@ -279,7 +283,7 @@ templ HomeCol2() {
 				@HomeDividendRow("Realty Income", "320 Shares", 65)
 			}
 		}
-	}
+	</div>
 }
 
 templ HomeDividendRow(name string, shares string, pct int) {
@@ -289,7 +293,7 @@ templ HomeDividendRow(name string, shares string, pct int) {
 			<p class="text-xs text-muted-foreground">{ shares }</p>
 		</div>
 		<div class="h-2 w-24 overflow-hidden rounded-full bg-muted">
-			<div class="h-full rounded-full bg-primary" style={ templ.KV("width", templ.SafeString(templ.String(pct) + "%")) }></div>
+			<div class="h-full rounded-full bg-primary" style={ templ.KV("width", fmt.Sprintf("%d%%", pct)) }></div>
 		</div>
 	</div>
 }
@@ -381,7 +385,7 @@ templ HomeCol3() {
 				</div>
 			}
 		}
-	}
+	</div>
 }
 
 // ── Column 4: QR card, Chat UI, Payments list ────────────────────────────────
@@ -452,7 +456,7 @@ templ HomeCol4() {
 				@HomePaymentAction("Recurring card payments", "Manage your repeated card transactions.")
 			}
 		}
-	}
+	</div>
 }
 
 templ HomePaymentAction(title string, desc string) {
