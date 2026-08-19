@@ -82,6 +82,10 @@ func Index() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			templ_7745c5c3_Err = SearchDialog().Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 			return nil
 		})
 		templ_7745c5c3_Err = Page("templcn/ui").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
@@ -114,7 +118,7 @@ func HomeHeader() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<header class=\"sticky top-0 z-50 w-full bg-background\"><div class=\"container-wrapper px-6\"><div class=\"container flex h-(--header-height) items-center\"><a href=\"/\" class=\"hidden size-8 items-center justify-center rounded-md text-foreground hover:bg-accent hover:text-accent-foreground lg:flex\" aria-label=\"templcn/ui\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"size-4\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m18 16 4-4-4-4\"></path><path d=\"m6 8-4 4 4 4\"></path><path d=\"m14.5 4-5 16\"></path></svg></a><nav class=\"hidden items-center gap-0.5 lg:flex\"><a href=\"/docs\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Docs</a> <a href=\"/docs/components\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Components</a> <a href=\"/blocks\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Blocks</a> <a href=\"/charts/area\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Charts</a> <a href=\"/docs/directory\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Directory</a></nav><a href=\"/\" class=\"flex items-center gap-2 lg:hidden\"><span class=\"flex size-8 items-center justify-center rounded-md border border-border text-sm font-semibold\">T</span> <span class=\"text-sm font-semibold\">templcn/ui</span></a><div class=\"ml-auto flex items-center gap-2 md:flex-1 md:justify-end\"><button type=\"button\" aria-label=\"Search documentation\" class=\"hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex\"><span>Search documentation...</span> <kbd class=\"pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100\">⌘K</kbd></button><div class=\"hidden h-4 w-px bg-border lg:block\"></div><a href=\"https://github.com/ConceptCodes/templcn\" class=\"inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\" aria-label=\"GitHub\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"size-4\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"tabular-nums\">1.2k</span></a><div class=\"h-4 w-px bg-border\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<header class=\"sticky top-0 z-50 w-full bg-background\"><div class=\"container-wrapper px-6\"><div class=\"container flex h-(--header-height) items-center\"><a href=\"/\" class=\"hidden size-8 items-center justify-center rounded-md text-foreground hover:bg-accent hover:text-accent-foreground lg:flex\" aria-label=\"templcn/ui\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"size-4\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m18 16 4-4-4-4\"></path><path d=\"m6 8-4 4 4 4\"></path><path d=\"m14.5 4-5 16\"></path></svg></a><nav class=\"hidden items-center gap-0.5 lg:flex\"><a href=\"/docs\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Docs</a> <a href=\"/docs/components\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Components</a> <a href=\"/blocks\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Blocks</a> <a href=\"/charts/area\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Charts</a> <a href=\"/docs/directory\" class=\"inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\">Directory</a></nav><a href=\"/\" class=\"flex items-center gap-2 lg:hidden\"><span class=\"flex size-8 items-center justify-center rounded-md border border-border text-sm font-semibold\">T</span> <span class=\"text-sm font-semibold\">templcn/ui</span></a><div class=\"ml-auto flex items-center gap-2 md:flex-1 md:justify-end\"><button type=\"button\" aria-label=\"Search documentation\" data-search-trigger=\"true\" class=\"hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex\"><span>Search documentation...</span> <kbd class=\"pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100\">⌘K</kbd></button><div class=\"hidden h-4 w-px bg-border lg:block\"></div><a href=\"https://github.com/ConceptCodes/templcn\" class=\"inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground\" aria-label=\"GitHub\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"size-4\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"tabular-nums\">1.2k</span></a><div class=\"h-4 w-px bg-border\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -175,7 +179,7 @@ func HomeHero() templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(homeTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 85, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 86, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -188,7 +192,7 @@ func HomeHero() templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(homeDescription)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 88, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 89, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -1098,7 +1102,7 @@ func HomeDividendRow(name string, shares string, pct int) templ.Component {
 		var templ_7745c5c3_Var37 string
 		templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 292, Col: 49}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 293, Col: 49}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 		if templ_7745c5c3_Err != nil {
@@ -1111,7 +1115,7 @@ func HomeDividendRow(name string, shares string, pct int) templ.Component {
 		var templ_7745c5c3_Var38 string
 		templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(shares)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 293, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 294, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 		if templ_7745c5c3_Err != nil {
@@ -1124,7 +1128,7 @@ func HomeDividendRow(name string, shares string, pct int) templ.Component {
 		var templ_7745c5c3_Var39 string
 		templ_7745c5c3_Var39, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(templ.KV("width", fmt.Sprintf("%d%%", pct)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 296, Col: 98}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 297, Col: 98}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var39))
 		if templ_7745c5c3_Err != nil {
@@ -2383,7 +2387,7 @@ func HomePaymentAction(title string, desc string) templ.Component {
 		var templ_7745c5c3_Var89 string
 		templ_7745c5c3_Var89, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 465, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 466, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var89))
 		if templ_7745c5c3_Err != nil {
@@ -2396,7 +2400,7 @@ func HomePaymentAction(title string, desc string) templ.Component {
 		var templ_7745c5c3_Var90 string
 		templ_7745c5c3_Var90, templ_7745c5c3_Err = templ.JoinStringErrs(desc)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 466, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 467, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var90))
 		if templ_7745c5c3_Err != nil {
@@ -2439,7 +2443,7 @@ func HomeFooter() templ.Component {
 		var templ_7745c5c3_Var92 string
 		templ_7745c5c3_Var92, templ_7745c5c3_Err = templ.JoinStringErrs(" ")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 479, Col: 25}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 480, Col: 25}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var92))
 		if templ_7745c5c3_Err != nil {
@@ -2452,7 +2456,7 @@ func HomeFooter() templ.Component {
 		var templ_7745c5c3_Var93 string
 		templ_7745c5c3_Var93, templ_7745c5c3_Err = templ.JoinStringErrs(" ")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 481, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/index.templ`, Line: 482, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var93))
 		if templ_7745c5c3_Err != nil {

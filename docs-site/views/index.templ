@@ -19,6 +19,7 @@ templ Index() {
 			</main>
 			@HomeFooter()
 		</div>
+		@SearchDialog()
 	}
 }
 
@@ -43,7 +44,7 @@ templ HomeHeader() {
 					<span class="text-sm font-semibold">templcn/ui</span>
 				</a>
 				<div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
-					<button type="button" aria-label="Search documentation" class="hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex">
+					<button type="button" aria-label="Search documentation" data-search-trigger="true" class="hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex">
 						<span>Search documentation...</span>
 						<kbd class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">⌘K</kbd>
 					</button>

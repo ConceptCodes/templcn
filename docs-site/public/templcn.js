@@ -543,6 +543,19 @@
       backdrop.addEventListener('click', closeSearchDialog);
     }
 
+    document.querySelectorAll('[data-search-trigger="true"]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (dialog.classList.contains('hidden')) {
+          openSearchDialog();
+          loadSearchIndex().then(function () {
+            renderSearchResults(input.value);
+          });
+        } else {
+          closeSearchDialog();
+        }
+      });
+    });
+
     input.addEventListener('input', function (event) {
       var query = event.target.value;
       loadSearchIndex().then(function () {

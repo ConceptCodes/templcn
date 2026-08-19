@@ -63,7 +63,7 @@ func SiteHeader() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</nav><div class=\"ml-auto flex items-center gap-2\"><a href=\"https://github.com/ConceptCodes/templcn\" class=\"flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"hidden sm:inline\">GitHub</span></a>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</nav><div class=\"ml-auto flex items-center gap-2\"><button type=\"button\" data-search-trigger=\"true\" class=\"flex h-8 items-center gap-2 rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs hover:bg-accent hover:text-accent-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" class=\"size-4\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"></circle><path d=\"m21 21-4.3-4.3\"></path></svg> <span class=\"hidden sm:inline\">Search docs...</span> <kbd class=\"pointer-events-none hidden select-none items-center gap-0.5 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium sm:inline-flex\">⌘K</kbd></button> <a href=\"https://github.com/ConceptCodes/templcn\" class=\"flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4\"></path><path d=\"M9 18c-4.51 2-5-2-7-2\"></path></svg> <span class=\"hidden sm:inline\">GitHub</span></a>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -499,7 +499,7 @@ func DocsLayout(title string, active string) templ.Component {
 				var templ_7745c5c3_Var35 templ.SafeURL
 				templ_7745c5c3_Var35, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/docs/components/" + doc.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 134, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 139, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var35))
 				if templ_7745c5c3_Err != nil {
@@ -525,7 +525,7 @@ func DocsLayout(title string, active string) templ.Component {
 				var templ_7745c5c3_Var37 string
 				templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 137, Col: 22}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 142, Col: 22}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 				if templ_7745c5c3_Err != nil {
@@ -861,7 +861,7 @@ func DocsLayout(title string, active string) templ.Component {
 				var templ_7745c5c3_Var67 templ.SafeURL
 				templ_7745c5c3_Var67, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/docs/components/" + doc.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 173, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 178, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var67))
 				if templ_7745c5c3_Err != nil {
@@ -887,7 +887,7 @@ func DocsLayout(title string, active string) templ.Component {
 				var templ_7745c5c3_Var69 string
 				templ_7745c5c3_Var69, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 176, Col: 22}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 181, Col: 22}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var69))
 				if templ_7745c5c3_Err != nil {
@@ -1476,7 +1476,7 @@ func ComponentsIndexPage() templ.Component {
 				var templ_7745c5c3_Var94 templ.SafeURL
 				templ_7745c5c3_Var94, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/docs/components/" + doc.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 280, Col: 56}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 285, Col: 56}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var94))
 				if templ_7745c5c3_Err != nil {
@@ -1489,7 +1489,7 @@ func ComponentsIndexPage() templ.Component {
 				var templ_7745c5c3_Var95 string
 				templ_7745c5c3_Var95, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 284, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 289, Col: 52}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var95))
 				if templ_7745c5c3_Err != nil {
@@ -1510,7 +1510,7 @@ func ComponentsIndexPage() templ.Component {
 				var templ_7745c5c3_Var96 string
 				templ_7745c5c3_Var96, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Description)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 287, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 292, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var96))
 				if templ_7745c5c3_Err != nil {
@@ -1523,7 +1523,7 @@ func ComponentsIndexPage() templ.Component {
 				var templ_7745c5c3_Var97 string
 				templ_7745c5c3_Var97, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Install)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 289, Col: 110}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 294, Col: 110}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var97))
 				if templ_7745c5c3_Err != nil {
@@ -1600,7 +1600,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 			var templ_7745c5c3_Var100 string
 			templ_7745c5c3_Var100, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 306, Col: 77}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 311, Col: 77}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var100))
 			if templ_7745c5c3_Err != nil {
@@ -1613,7 +1613,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 			var templ_7745c5c3_Var101 string
 			templ_7745c5c3_Var101, templ_7745c5c3_Err = templ.JoinStringErrs(doc.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 307, Col: 82}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 312, Col: 82}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var101))
 			if templ_7745c5c3_Err != nil {
@@ -1832,7 +1832,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 			var templ_7745c5c3_Var111 string
 			templ_7745c5c3_Var111, templ_7745c5c3_Err = templ.JoinStringErrs(strings.Join(doc.Composition, "\n├── "))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 342, Col: 140}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 347, Col: 140}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var111))
 			if templ_7745c5c3_Err != nil {
@@ -1958,7 +1958,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 							var templ_7745c5c3_Var117 string
 							templ_7745c5c3_Var117, templ_7745c5c3_Err = templ.JoinStringErrs(prop.Name)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 383, Col: 63}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 388, Col: 63}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var117))
 							if templ_7745c5c3_Err != nil {
@@ -1971,7 +1971,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 							var templ_7745c5c3_Var118 string
 							templ_7745c5c3_Var118, templ_7745c5c3_Err = templ.JoinStringErrs(prop.Type)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 384, Col: 85}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 389, Col: 85}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var118))
 							if templ_7745c5c3_Err != nil {
@@ -1984,7 +1984,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 							var templ_7745c5c3_Var119 string
 							templ_7745c5c3_Var119, templ_7745c5c3_Err = templ.JoinStringErrs(prop.Default)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 385, Col: 88}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 390, Col: 88}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var119))
 							if templ_7745c5c3_Err != nil {
@@ -1997,7 +1997,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 							var templ_7745c5c3_Var120 string
 							templ_7745c5c3_Var120, templ_7745c5c3_Err = templ.JoinStringErrs(prop.Desc)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 386, Col: 45}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 391, Col: 45}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var120))
 							if templ_7745c5c3_Err != nil {
@@ -2052,7 +2052,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 				var templ_7745c5c3_Var121 string
 				templ_7745c5c3_Var121, templ_7745c5c3_Err = templ.JoinStringErrs(doc.SourceCode)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 412, Col: 93}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 417, Col: 93}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var121))
 				if templ_7745c5c3_Err != nil {
@@ -2075,7 +2075,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 				var templ_7745c5c3_Var122 templ.SafeURL
 				templ_7745c5c3_Var122, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/docs/components/" + prev.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 421, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 426, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var122))
 				if templ_7745c5c3_Err != nil {
@@ -2088,7 +2088,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 				var templ_7745c5c3_Var123 string
 				templ_7745c5c3_Var123, templ_7745c5c3_Err = templ.JoinStringErrs(prev.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 421, Col: 136}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 426, Col: 136}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var123))
 				if templ_7745c5c3_Err != nil {
@@ -2111,7 +2111,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 				var templ_7745c5c3_Var124 templ.SafeURL
 				templ_7745c5c3_Var124, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/docs/components/" + next.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 426, Col: 59}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 431, Col: 59}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var124))
 				if templ_7745c5c3_Err != nil {
@@ -2124,7 +2124,7 @@ func ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev 
 				var templ_7745c5c3_Var125 string
 				templ_7745c5c3_Var125, templ_7745c5c3_Err = templ.JoinStringErrs(next.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 426, Col: 132}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 431, Col: 132}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var125))
 				if templ_7745c5c3_Err != nil {
@@ -2297,7 +2297,7 @@ func BlocksIndexPage() templ.Component {
 				var templ_7745c5c3_Var135 templ.SafeURL
 				templ_7745c5c3_Var135, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/blocks/" + block.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 472, Col: 51}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 477, Col: 51}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var135))
 				if templ_7745c5c3_Err != nil {
@@ -2310,7 +2310,7 @@ func BlocksIndexPage() templ.Component {
 				var templ_7745c5c3_Var136 string
 				templ_7745c5c3_Var136, templ_7745c5c3_Err = templ.ResolveAttributeValue(t.SafeURL("/blocks/" + block.Slug + "/preview"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 474, Col: 70}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 479, Col: 70}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var136)
 				if templ_7745c5c3_Err != nil {
@@ -2323,7 +2323,7 @@ func BlocksIndexPage() templ.Component {
 				var templ_7745c5c3_Var137 string
 				templ_7745c5c3_Var137, templ_7745c5c3_Err = templ.JoinStringErrs(block.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 478, Col: 68}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 483, Col: 68}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var137))
 				if templ_7745c5c3_Err != nil {
@@ -2336,7 +2336,7 @@ func BlocksIndexPage() templ.Component {
 				var templ_7745c5c3_Var138 string
 				templ_7745c5c3_Var138, templ_7745c5c3_Err = templ.JoinStringErrs(block.Description)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 479, Col: 87}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 484, Col: 87}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var138))
 				if templ_7745c5c3_Err != nil {
@@ -2401,7 +2401,7 @@ func BlockCategoryPage(category string) templ.Component {
 			var templ_7745c5c3_Var141 string
 			templ_7745c5c3_Var141, templ_7745c5c3_Err = templ.JoinStringErrs(TitleFromSlug(category))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 495, Col: 91}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 500, Col: 91}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var141))
 			if templ_7745c5c3_Err != nil {
@@ -2414,7 +2414,7 @@ func BlockCategoryPage(category string) templ.Component {
 			var templ_7745c5c3_Var142 string
 			templ_7745c5c3_Var142, templ_7745c5c3_Err = templ.JoinStringErrs(TitleFromSlug(category))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 496, Col: 108}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 501, Col: 108}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var142))
 			if templ_7745c5c3_Err != nil {
@@ -2440,7 +2440,7 @@ func BlockCategoryPage(category string) templ.Component {
 				var templ_7745c5c3_Var143 templ.SafeURL
 				templ_7745c5c3_Var143, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/blocks/" + block.Slug))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 503, Col: 49}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 508, Col: 49}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var143))
 				if templ_7745c5c3_Err != nil {
@@ -2453,7 +2453,7 @@ func BlockCategoryPage(category string) templ.Component {
 				var templ_7745c5c3_Var144 string
 				templ_7745c5c3_Var144, templ_7745c5c3_Err = templ.ResolveAttributeValue(t.SafeURL("/blocks/" + block.Slug + "/preview"))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 505, Col: 68}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 510, Col: 68}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var144)
 				if templ_7745c5c3_Err != nil {
@@ -2466,7 +2466,7 @@ func BlockCategoryPage(category string) templ.Component {
 				var templ_7745c5c3_Var145 string
 				templ_7745c5c3_Var145, templ_7745c5c3_Err = templ.JoinStringErrs(block.Title)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 509, Col: 66}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 514, Col: 66}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var145))
 				if templ_7745c5c3_Err != nil {
@@ -2479,7 +2479,7 @@ func BlockCategoryPage(category string) templ.Component {
 				var templ_7745c5c3_Var146 string
 				templ_7745c5c3_Var146, templ_7745c5c3_Err = templ.JoinStringErrs(block.Description)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 510, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 515, Col: 72}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var146))
 				if templ_7745c5c3_Err != nil {
@@ -2499,7 +2499,7 @@ func BlockCategoryPage(category string) templ.Component {
 					var templ_7745c5c3_Var147 templ.SafeURL
 					templ_7745c5c3_Var147, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/blocks/" + block.Slug))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 516, Col: 50}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 521, Col: 50}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var147))
 					if templ_7745c5c3_Err != nil {
@@ -2512,7 +2512,7 @@ func BlockCategoryPage(category string) templ.Component {
 					var templ_7745c5c3_Var148 string
 					templ_7745c5c3_Var148, templ_7745c5c3_Err = templ.ResolveAttributeValue(t.SafeURL("/blocks/" + block.Slug + "/preview"))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 518, Col: 69}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 523, Col: 69}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var148)
 					if templ_7745c5c3_Err != nil {
@@ -2525,7 +2525,7 @@ func BlockCategoryPage(category string) templ.Component {
 					var templ_7745c5c3_Var149 string
 					templ_7745c5c3_Var149, templ_7745c5c3_Err = templ.JoinStringErrs(block.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 522, Col: 67}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 527, Col: 67}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var149))
 					if templ_7745c5c3_Err != nil {
@@ -2538,7 +2538,7 @@ func BlockCategoryPage(category string) templ.Component {
 					var templ_7745c5c3_Var150 string
 					templ_7745c5c3_Var150, templ_7745c5c3_Err = templ.JoinStringErrs(block.Description)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 523, Col: 73}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 528, Col: 73}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var150))
 					if templ_7745c5c3_Err != nil {
@@ -2604,7 +2604,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var153 string
 			templ_7745c5c3_Var153, templ_7745c5c3_Err = templ.ResolveAttributeValue(block.Slug)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 535, Col: 58}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 540, Col: 58}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var153)
 			if templ_7745c5c3_Err != nil {
@@ -2617,7 +2617,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var154 string
 			templ_7745c5c3_Var154, templ_7745c5c3_Err = templ.ResolveAttributeValue(block.Command)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 535, Col: 95}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 540, Col: 95}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var154)
 			if templ_7745c5c3_Err != nil {
@@ -2642,7 +2642,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var155 string
 			templ_7745c5c3_Var155, templ_7745c5c3_Err = templ.JoinStringErrs(block.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 543, Col: 81}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 548, Col: 81}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var155))
 			if templ_7745c5c3_Err != nil {
@@ -2655,7 +2655,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var156 string
 			templ_7745c5c3_Var156, templ_7745c5c3_Err = templ.JoinStringErrs(block.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 544, Col: 86}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 549, Col: 86}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var156))
 			if templ_7745c5c3_Err != nil {
@@ -2668,7 +2668,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var157 string
 			templ_7745c5c3_Var157, templ_7745c5c3_Err = templ.JoinStringErrs(block.Command)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 548, Col: 66}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 553, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var157))
 			if templ_7745c5c3_Err != nil {
@@ -2681,7 +2681,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var158 templ.SafeURL
 			templ_7745c5c3_Var158, templ_7745c5c3_Err = templ.JoinURLErrs(t.SafeURL("/blocks/" + block.Slug + "/preview"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 577, Col: 63}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 582, Col: 63}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var158))
 			if templ_7745c5c3_Err != nil {
@@ -2694,7 +2694,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 			var templ_7745c5c3_Var159 string
 			templ_7745c5c3_Var159, templ_7745c5c3_Err = templ.ResolveAttributeValue(t.SafeURL("/blocks/" + block.Slug + "/preview"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 586, Col: 101}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 591, Col: 101}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var159)
 			if templ_7745c5c3_Err != nil {
@@ -2940,7 +2940,7 @@ func BlockDetailPage(block BlockEntry) templ.Component {
 						var templ_7745c5c3_Var170 string
 						templ_7745c5c3_Var170, templ_7745c5c3_Err = templ.JoinStringErrs(file)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 621, Col: 16}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 626, Col: 16}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var170))
 						if templ_7745c5c3_Err != nil {
@@ -5154,7 +5154,7 @@ func ThemingPage() templ.Component {
 						var templ_7745c5c3_Var267 string
 						templ_7745c5c3_Var267, templ_7745c5c3_Err = templ.ResolveAttributeValue(preset.Slug)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1169, Col: 61}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1174, Col: 61}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var267)
 						if templ_7745c5c3_Err != nil {
@@ -5167,7 +5167,7 @@ func ThemingPage() templ.Component {
 						var templ_7745c5c3_Var268 string
 						templ_7745c5c3_Var268, templ_7745c5c3_Err = templ.JoinStringErrs(preset.Name)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1172, Col: 47}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1177, Col: 47}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var268))
 						if templ_7745c5c3_Err != nil {
@@ -5180,7 +5180,7 @@ func ThemingPage() templ.Component {
 						var templ_7745c5c3_Var269 string
 						templ_7745c5c3_Var269, templ_7745c5c3_Err = templ.JoinStringErrs(preset.Description)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1173, Col: 72}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1178, Col: 72}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var269))
 						if templ_7745c5c3_Err != nil {
@@ -5198,7 +5198,7 @@ func ThemingPage() templ.Component {
 							var templ_7745c5c3_Var270 string
 							templ_7745c5c3_Var270, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("background: " + swatch)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1177, Col: 112}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/site_pages.templ`, Line: 1182, Col: 112}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var270))
 							if templ_7745c5c3_Err != nil {
