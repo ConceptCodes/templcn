@@ -1,15 +1,30 @@
 package main
 
+//go:generate go run ./cmd/embed-runtime
+
 import (
 	"os"
+	"runtime/debug"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
-const cliVersion = "0.1.0"
+var cliVersion string
+
+func version() string {
+	if cliVersion != "" {
+		return strings.TrimPrefix(cliVersion, "v")
+	}
+	if info, ok := debug.ReadBuildInfo(); ok && info.Main.Version != "" && info.Main.Version != "(devel)" {
+		return strings.TrimPrefix(info.Main.Version, "v")
+	}
+	return "devel"
+}
 
 func main() {
 	if err := newRootCommand().Execute(); err != nil {
+		_, _ = os.Stderr.WriteString("templcn: " + err.Error() + "\n")
 		os.Exit(1)
 	}
 }
@@ -18,7 +33,7 @@ func newRootCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:           "templcn",
 		Short:         "templcn CLI for Go/templ components",
-		Version:       cliVersion,
+		Version:       version(),
 		SilenceUsage:  true,
 		SilenceErrors: true,
 	}

@@ -706,10 +706,7 @@ func scaffoldStarterProject(root string, cfg ProjectConfig, force bool) error {
 }
 
 func syncRegistryFiles(root, targetDir string, items []registryItem, overwrite bool, dryRun bool) error {
-	sourceRoot, err := locateRegistryRoot()
-	if err != nil {
-		return err
-	}
+	sourceRoot, _ := locateRegistryRoot()
 	files := filesForRegistryItems(items)
 	if len(files) == 0 {
 		return nil
@@ -735,12 +732,54 @@ func syncRegistryFiles(root, targetDir string, items []registryItem, overwrite b
 			}
 			continue
 		}
-		src := filepath.Join(sourceRoot, rel)
-		if err := copyFile(src, dst, overwrite); err != nil {
+		if rel == "assets/tanstack-runtime.js" {
+			src := filepath.Join(sourceRoot, "docs-site", "public", "tanstack-runtime.js")
+			if sourceRoot != "" && fileExists(src) {
+				if err := copyFile(src, dst, overwrite); err != nil {
+					return fmt.Errorf("copy TanStack runtime: %w", err)
+				}
+			} else if tanstackRuntimeAsset != "" {
+				if fileExists(dst) && !overwrite {
+					continue
+				}
+				if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+					return err
+				}
+				if err := os.WriteFile(dst, []byte(tanstackRuntimeAsset), 0644); err != nil {
+					return err
+				}
+			} else {
+				return fmt.Errorf("TanStack runtime not found at %s; run go generate in cli", src)
+			}
+			continue
+		}
+		if fileExists(dst) && !overwrite {
+			continue
+		}
+		data, err := readRegistrySource(sourceRoot, rel)
+		if err != nil {
+			return err
+		}
+		if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
+			return err
+		}
+		if err := os.WriteFile(dst, data, 0644); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func readRegistrySource(root, rel string) ([]byte, error) {
+	if root != "" {
+		if data, err := os.ReadFile(filepath.Join(root, rel)); err == nil {
+			return data, nil
+		}
+	}
+	if content, ok := embeddedRegistrySources[filepath.ToSlash(rel)]; ok {
+		return []byte(content), nil
+	}
+	return nil, fmt.Errorf("registry source %s is not embedded", rel)
 }
 
 func targetPathForRegistryFile(uiDir, rel string) string {
@@ -799,37 +838,40 @@ func walkForRegistryRoot(start string) (string, bool) {
 }
 
 func buildRegistryIndex() (registryIndex, error) {
-	root, err := locateRegistryRoot()
-	if err != nil {
-		return registryIndex{}, err
+	root, _ := locateRegistryRoot()
+	paths := make([]string, 0)
+	if root != "" {
+		entries, err := os.ReadDir(filepath.Join(root, "ui"))
+		if err != nil {
+			return registryIndex{}, err
+		}
+		for _, entry := range entries {
+			if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".go") && !strings.HasSuffix(entry.Name(), "_test.go") {
+				paths = append(paths, filepath.Join("ui", entry.Name()))
+			}
+		}
+	} else {
+		for rel := range embeddedRegistrySources {
+			paths = append(paths, rel)
+		}
 	}
-	uiDir := filepath.Join(root, "ui")
-	entries, err := os.ReadDir(uiDir)
-	if err != nil {
-		return registryIndex{}, err
-	}
+	sort.Strings(paths)
 	index := registryIndex{
 		Root:      root,
-		Files:     make([]registryFile, 0, len(entries)),
+		Files:     make([]registryFile, 0, len(paths)),
 		Component: make(map[string]registryFile),
 		Items:     make(map[string]registryItem),
 	}
-	for _, entry := range entries {
-		if entry.IsDir() || !strings.HasSuffix(entry.Name(), ".go") {
-			continue
-		}
-		if strings.HasSuffix(entry.Name(), "_test.go") {
-			continue
-		}
-		rel := filepath.Join("ui", entry.Name())
+	for _, rel := range paths {
 		name := componentNameFromFile(rel)
 		if _, internal := internalRegistryFiles[name]; internal {
 			continue
 		}
-		symbols, err := exportedSymbols(filepath.Join(uiDir, entry.Name()))
+		raw, err := readRegistrySource(root, rel)
 		if err != nil {
 			return registryIndex{}, err
 		}
+		symbols := exportedSymbolsFromBytes(raw)
 		file := registryFile{RelPath: rel, Symbols: symbols}
 		index.Files = append(index.Files, file)
 		item := buildRegistryItem(file)
@@ -857,6 +899,10 @@ func exportedSymbols(path string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	return exportedSymbolsFromBytes(raw), nil
+}
+
+func exportedSymbolsFromBytes(raw []byte) []string {
 	seen := map[string]struct{}{}
 	lines := bytes.Split(raw, []byte{'\n'})
 	for _, line := range lines {
@@ -880,7 +926,7 @@ func exportedSymbols(path string) ([]string, error) {
 		out = append(out, symbol)
 	}
 	sort.Strings(out)
-	return out, nil
+	return out
 }
 
 func searchRegistry(index registryIndex, query string) []registryFile {
@@ -929,7 +975,7 @@ func printItemView(root, uiDir string, index registryIndex, item string) error {
 	if !ok {
 		return fmt.Errorf("view: unknown component or file %q", item)
 	}
-	raw, err := os.ReadFile(filepath.Join(index.Root, file.RelPath))
+	raw, err := readRegistrySource(index.Root, file.RelPath)
 	if err != nil {
 		return err
 	}
@@ -947,7 +993,11 @@ func printItemDiff(root, uiDir string, index registryIndex, item string) error {
 	}
 	sourceRel := file.RelPath
 	targetRel := targetPathForRegistryFile(uiDir, sourceRel)
-	return printPathDiffWithSource(filepath.Join(index.Root, sourceRel), filepath.Join(root, targetRel), targetRel)
+	source, err := readRegistrySource(index.Root, sourceRel)
+	if err != nil {
+		return err
+	}
+	return printDiffAgainstTarget(source, filepath.Join(root, targetRel), targetRel)
 }
 
 func printPathDiff(root, item string, label string) error {
@@ -963,6 +1013,10 @@ func printPathDiffWithSource(sourcePath, targetPath, label string) error {
 	if err != nil {
 		return err
 	}
+	return printDiffAgainstTarget(source, targetPath, label)
+}
+
+func printDiffAgainstTarget(source []byte, targetPath, label string) error {
 	target, err := os.ReadFile(targetPath)
 	if errors.Is(err, os.ErrNotExist) {
 		fmt.Printf("== %s ==\nmissing target; would create %d bytes\n", label, len(source))

@@ -8,236 +8,497 @@ const homeDescription = "A set of beautifully designed components that you can c
 templ Index() {
 	@Page("templcn/ui") {
 		<div class="group/layout relative z-10 flex min-h-svh flex-col bg-background">
-			<header class="sticky top-0 z-50 w-full bg-background">
-				<div class="container-wrapper px-6">
-					<div class="container flex h-(--header-height) items-center">
-						<a href="/" class="hidden size-8 items-center justify-center rounded-md text-foreground hover:bg-accent hover:text-accent-foreground lg:flex" aria-label="templcn/ui">
-							<span class="text-sm font-semibold">T</span>
-						</a>
-						<nav class="hidden items-center gap-0.5 lg:flex">
-							<a href="/docs" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Docs</a>
-							<a href="/docs/components" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Components</a>
-							<a href="/blocks" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Blocks</a>
-							<a href="/charts" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Charts</a>
-							<a href="/docs/directory" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Directory</a>
-						</nav>
-						<a href="/" class="flex items-center gap-2 lg:hidden">
-							<span class="flex size-8 items-center justify-center rounded-md border border-border text-sm font-semibold">T</span>
-							<span class="text-sm font-semibold">templcn/ui</span>
-						</a>
-						<div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
-							<button type="button" aria-label="Search documentation" class="hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex">
-								<span>Search documentation...</span>
-								<kbd class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">⌘K</kbd>
-							</button>
-							<div class="hidden h-4 w-px bg-border lg:block"></div>
-							<a href="https://github.com/davidojo/templcn" class="inline-flex size-8 items-center justify-center rounded-md text-sm font-medium hover:bg-accent hover:text-accent-foreground" aria-label="GitHub">
-								<span>GH</span>
-							</a>
-							<div class="h-4 w-px bg-border"></div>
-							@ThemeMenu()
-							<div class="h-4 w-px bg-border"></div>
-							@ui.Button(ui.ButtonProps{
-								Label:   "New",
-								Variant: ui.ButtonVariantDefault,
-								Size:    ui.ButtonSizeSM,
-								Href:    "/create",
-								DOMProps: ui.DOMProps{
-									Class: "h-[31px] rounded-lg shadow-none",
-								},
-							})
-						</div>
-					</div>
-				</div>
-			</header>
-
+			@HomeHeader()
 			<main class="flex min-h-0 flex-1 flex-col">
-				<section class="border-grid">
-					<div class="container-wrapper">
-						<div class="container flex flex-col items-center gap-2 px-6 pb-10 pt-8 text-center md:pb-12 md:pt-10 xl:gap-3">
-							@ui.Badge(ui.BadgeProps{
-								Label:   "New preset commands",
-								Variant: ui.BadgeVariantSecondary,
-								Href:    "/docs/changelog",
-								DOMProps: ui.DOMProps{
-									Class: "bg-muted",
-								},
-							})
-							<h1 class="leading-tighter max-w-3xl text-balance text-3xl font-semibold tracking-tight text-primary lg:leading-[1.1] xl:text-5xl">
-								{ homeTitle }
-							</h1>
-							<p class="max-w-2xl text-balance text-base text-foreground sm:text-lg">
-								{ homeDescription }
-							</p>
-							<div class="flex w-full items-center justify-center gap-2 pt-2">
-								@ui.Button(ui.ButtonProps{
-									Label:   "New Project",
-									Variant: ui.ButtonVariantDefault,
-									Size:    ui.ButtonSizeSM,
-									Href:    "/create",
-									DOMProps: ui.DOMProps{
-										Class: "h-[31px] rounded-lg shadow-none",
-									},
-								})
-								@ui.Button(ui.ButtonProps{
-									Label:   "View Components",
-									Variant: ui.ButtonVariantGhost,
-									Size:    ui.ButtonSizeSM,
-									Href:    "/docs/components",
-									DOMProps: ui.DOMProps{
-										Class: "rounded-lg shadow-none",
-									},
-								})
-							</div>
-						</div>
-					</div>
-				</section>
-
-				<div class="container-wrapper flex-1 pb-10 pt-2">
-					<div class="container overflow-hidden">
-						<section class="theme-container">
-							@HomeComponentGrid()
-						</section>
-					</div>
-				</div>
+				@HomeHero()
+				@HomeGridSection()
 			</main>
+			@HomeFooter()
 		</div>
 	}
 }
 
-templ HomeComponentGrid() {
-	<div class="mx-auto grid max-w-5xl gap-5 px-6 py-1 theme-container md:grid-cols-2 lg:grid-cols-4">
-		<div class="flex flex-col gap-5">
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardHeader(ui.DOMProps{}) {
-					@ui.CardTitle(ui.DOMProps{}) { <span>Field</span> }
-					@ui.CardDescription(ui.DOMProps{}) { <span>Build forms with labels and help text.</span> }
-				}
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-3"}) {
-					<div class="grid gap-2">
-						@ui.Label(ui.LabelProps{For: "home-email"}) { <span>Email</span> }
-						@ui.Input(ui.InputProps{DOMProps: ui.DOMProps{ID: "home-email"}, Placeholder: "m@example.com"})
-					</div>
-					<p class="text-sm text-muted-foreground">Enter the email address for notifications.</p>
-				}
-			}
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-4 p-4"}) {
-					<div class="flex items-center justify-between gap-4">
-						<div class="space-y-1">
-							<p class="text-sm font-medium leading-none">Notifications</p>
-							<p class="text-xs text-muted-foreground">Email updates</p>
-						</div>
-						@ui.Switch(ui.SwitchProps{Checked: true})
-					</div>
-					@ui.Separator(ui.SeparatorProps{})
-					<div class="flex items-center justify-between gap-4">
-						<div class="space-y-1">
-							<p class="text-sm font-medium leading-none">Marketing</p>
-							<p class="text-xs text-muted-foreground">Product news</p>
-						</div>
-						@ui.Switch(ui.SwitchProps{})
-					</div>
-				}
-			}
+// ── Header ──────────────────────────────────────────────────────────────────
+
+templ HomeHeader() {
+	<header class="sticky top-0 z-50 w-full bg-background">
+		<div class="container-wrapper px-6">
+			<div class="container flex h-(--header-height) items-center">
+				<a href="/" class="hidden size-8 items-center justify-center rounded-md text-foreground hover:bg-accent hover:text-accent-foreground lg:flex" aria-label="templcn/ui">
+					<svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+				</a>
+				<nav class="hidden items-center gap-0.5 lg:flex">
+					<a href="/docs" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Docs</a>
+					<a href="/docs/components" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Components</a>
+					<a href="/blocks" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Blocks</a>
+					<a href="/charts/area" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Charts</a>
+					<a href="/docs/directory" class="inline-flex h-8 items-center rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground">Directory</a>
+				</nav>
+				<a href="/" class="flex items-center gap-2 lg:hidden">
+					<span class="flex size-8 items-center justify-center rounded-md border border-border text-sm font-semibold">T</span>
+					<span class="text-sm font-semibold">templcn/ui</span>
+				</a>
+				<div class="ml-auto flex items-center gap-2 md:flex-1 md:justify-end">
+					<button type="button" aria-label="Search documentation" class="hidden h-8 min-w-48 items-center justify-between rounded-md border border-border bg-background px-2.5 text-sm text-muted-foreground shadow-xs md:flex">
+						<span>Search documentation...</span>
+						<kbd class="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">⌘K</kbd>
+					</button>
+					<div class="hidden h-4 w-px bg-border lg:block"></div>
+					<a href="https://github.com/davidojo/templcn" class="inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-accent-foreground" aria-label="GitHub">
+						<svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+						<span class="tabular-nums">1.2k</span>
+					</a>
+					<div class="h-4 w-px bg-border"></div>
+					@ThemeMenu()
+					<div class="h-4 w-px bg-border"></div>
+					@ui.Button(ui.ButtonProps{
+						Label:   "New",
+						Variant: ui.ButtonVariantDefault,
+						Size:    ui.ButtonSizeSM,
+						Href:    "/create",
+						DOMProps: ui.DOMProps{
+							Class: "h-[31px] rounded-lg shadow-none",
+						},
+					})
+				</div>
+			</div>
 		</div>
-		<div class="flex flex-col gap-5">
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-4 p-4"}) {
-					<div class="flex items-center gap-3">
-						@ui.Avatar(ui.AvatarProps{}) {
-							@ui.AvatarFallback(ui.DOMProps{}) { <span>SD</span> }
-						}
-						<div class="min-w-0 flex-1">
-							<p class="truncate text-sm font-medium leading-none">Sofia Davis</p>
-							<p class="truncate text-xs text-muted-foreground">m@example.com</p>
-						</div>
-					</div>
-					<div class="flex -space-x-2">
-						@ui.Avatar(ui.AvatarProps{Size: "sm"}) { @ui.AvatarFallback(ui.DOMProps{}) { <span>JL</span> } }
-						@ui.Avatar(ui.AvatarProps{Size: "sm"}) { @ui.AvatarFallback(ui.DOMProps{}) { <span>IN</span> } }
-						@ui.Avatar(ui.AvatarProps{Size: "sm"}) { @ui.AvatarFallback(ui.DOMProps{}) { <span>OM</span> } }
-					</div>
-				}
-			}
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-3 p-4"}) {
-					<div class="flex items-center justify-between">
-						<p class="text-sm font-medium">Deployments</p>
-						@ui.Badge(ui.BadgeProps{Label: "Live", Variant: ui.BadgeVariantSecondary})
-					</div>
-					@ui.Progress(ui.ProgressProps{Value: 72, Max: 100})
-					<p class="text-xs text-muted-foreground">72% complete</p>
-				}
-			}
+	</header>
+}
+
+// ── Hero ────────────────────────────────────────────────────────────────────
+
+templ HomeHero() {
+	<section class="border-grid">
+		<div class="container-wrapper">
+			<div class="container flex flex-col items-center gap-2 px-6 py-8 text-center md:py-16 lg:py-20 xl:gap-4">
+				<a href="/docs/changelog" class="inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-colors bg-muted hover:bg-accent">
+					<span class="flex size-1.5 rounded-full bg-primary"></span>
+					<span class-will-change-transform>templ v0.3 is now available</span>
+					<svg xmlns="http://www.w3.org/2000/svg" class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+				</a>
+				<h1 class="leading-tighter max-w-3xl text-balance text-3xl font-semibold tracking-tight text-primary lg:leading-[1.1] xl:text-5xl">
+					{ homeTitle }
+				</h1>
+				<p class="max-w-2xl text-balance text-base text-foreground sm:text-lg">
+					{ homeDescription }
+				</p>
+				<div class="flex w-full items-center justify-center gap-2 pt-2">
+					@ui.Button(ui.ButtonProps{
+						Label:   "Get Started",
+						Variant: ui.ButtonVariantDefault,
+						Size:    ui.ButtonSizeSM,
+						Href:    "/docs/installation",
+						DOMProps: ui.DOMProps{
+							Class: "h-[31px] rounded-lg shadow-none",
+						},
+					})
+				</div>
+			</div>
 		</div>
-		<div class="flex flex-col gap-5">
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardHeader(ui.DOMProps{}) {
-					@ui.CardTitle(ui.DOMProps{}) { <span>Appearance</span> }
-				}
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
-					<div class="grid gap-2">
-						@ui.Label(ui.LabelProps{}) { <span>Accent</span> }
-						@ui.ToggleGroup(ui.ToggleGroupProps{Type: "single", Variant: "outline", Size: "sm"}) {
-							@ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "zinc"}) { <span>Zinc</span> }
-							@ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "slate"}) { <span>Slate</span> }
-							@ui.ToggleGroupItem(ui.ToggleGroupItemProps{Value: "stone"}) { <span>Stone</span> }
-						}
-					</div>
-					@ui.Slider(ui.SliderProps{Value: []float64{64}, Max: 100})
-				}
-			}
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-3 p-4"}) {
-					<div class="flex flex-wrap gap-2">
-						@ui.Badge(ui.BadgeProps{Label: "Registry", Variant: ui.BadgeVariantOutline})
-						@ui.Badge(ui.BadgeProps{Label: "Blocks", Variant: ui.BadgeVariantSecondary})
-					</div>
-					@ui.Alert(ui.AlertProps{}) {
-						@ui.AlertTitle(ui.DOMProps{}) { <span>Heads up</span> }
-						@ui.AlertDescription(ui.DOMProps{}) { <span>Add components from any registry.</span> }
-					}
-				}
-			}
-		</div>
-		<div class="flex flex-col gap-5">
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardHeader(ui.DOMProps{}) {
-					@ui.CardTitle(ui.DOMProps{}) { <span>Prompt</span> }
-				}
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-3"}) {
-					@ui.Textarea(ui.TextareaProps{Placeholder: "Create a settings form with tabs..."})
-					<div class="flex justify-end">
-						@ui.Button(ui.ButtonProps{Label: "Generate", Variant: ui.ButtonVariantDefault, Size: ui.ButtonSizeSM, Type: "button"})
-					</div>
-				}
-			}
-			@ui.Card(ui.DOMProps{}) {
-				@ui.CardContent(ui.DOMProps{Class: "grid gap-4 p-4"}) {
-					<div class="flex items-center gap-3">
-						@ui.Checkbox(ui.CheckboxProps{Checked: true})
-						<p class="min-w-0 flex-1 text-sm">Use server-rendered components</p>
-					</div>
-					<div class="flex items-center gap-3">
-						@ui.Checkbox(ui.CheckboxProps{})
-						<p class="min-w-0 flex-1 text-sm">Install blocks from registry</p>
-					</div>
-				}
-			}
+	</section>
+}
+
+// ── Grid Section ────────────────────────────────────────────────────────────
+
+templ HomeGridSection() {
+	<div class="container-wrapper flex-1 py-2 md:pb-8 lg:pb-12">
+		<div class="container overflow-hidden">
+			<section class="theme-container">
+				@HomeComponentGrid()
+			</section>
 		</div>
 	</div>
 }
 
-templ HomeMember(initials string, name string, email string) {
-	<div class="flex items-center gap-4">
-		@ui.Avatar(ui.AvatarProps{}) {
-			@ui.AvatarFallback(ui.DOMProps{}) { <span>{ initials }</span> }
-		}
-		<div class="min-w-0 flex-1">
-			<p class="truncate text-sm font-medium leading-none">{ name }</p>
-			<p class="truncate text-sm text-muted-foreground">{ email }</p>
-		</div>
-		@ui.Button(ui.ButtonProps{Label: "View", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM, Type: "button"})
+// ── Masonry Grid ─────────────────────────────────────────────────────────────
+// Mirrors shadcn/ui: responsive columns 2→3→4→5, each column is a flex-col
+// stack of cards with varying heights for a masonry feel.
+
+templ HomeComponentGrid() {
+	<div class="relative z-10 mx-auto grid gap-6 min-[1400px]:grid-cols-4! min-[1900px]:grid-cols-5! md:max-w-3xl md:grid-cols-2 lg:max-w-none lg:grid-cols-3 xl:max-w-[1600px] 2xl:max-w-[1900px]">
+		@HomeCol1()
+		@HomeCol2()
+		@HomeCol3()
+		@HomeCol4()
 	</div>
+}
+
+// ── Column 1: Demo card, Button group grid, Savings Targets ──────────────────
+
+templ HomeCol1() {
+	<div class="flex flex-col gap-6">
+		// Demo card: buttons, badges, inputs
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4 p-6"}) {
+				<div class="flex flex-wrap gap-2">
+					@ui.Button(ui.ButtonProps{Label: "Button", Size: ui.ButtonSizeSM})
+					@ui.Button(ui.ButtonProps{Label: "Secondary", Variant: ui.ButtonVariantSecondary, Size: ui.ButtonSizeSM})
+					@ui.Button(ui.ButtonProps{Label: "Outline", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM})
+				</div>
+				<div class="flex flex-wrap gap-2">
+					@ui.Badge(ui.BadgeProps{Label: "Badge"})
+					@ui.Badge(ui.BadgeProps{Label: "Secondary", Variant: ui.BadgeVariantSecondary})
+					@ui.Badge(ui.BadgeProps{Label: "Outline", Variant: ui.BadgeVariantOutline})
+				</div>
+				@ui.Input(ui.InputProps{Placeholder: "Name"})
+				@ui.Textarea(ui.TextareaProps{Placeholder: "Message", DOMProps: ui.DOMProps{Class: "h-16"}})
+			}
+		}
+		// Button group mini-grid
+		<div class="grid grid-cols-2 gap-4">
+			@ui.ButtonGroup(ui.ButtonGroupProps{}) {
+				@ui.Button(ui.ButtonProps{Label: "Daily", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM})
+				@ui.ButtonGroupSeparator(ui.DOMProps{})
+				@ui.Button(ui.ButtonProps{Label: "Weekly", Variant: ui.ButtonVariantOutline, Size: ui.ButtonSizeSM, DOMProps: ui.DOMProps{Class: "bg-accent"}})
+			}
+			<div class="flex items-center gap-3 rounded-xl border bg-card p-4">
+				@ui.Switch(ui.SwitchProps{Checked: true})
+				<span class="text-sm font-medium">Active</span>
+			</div>
+		</div>
+		// Savings Targets
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Savings Targets</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Active milestones for 2024 across your portfolio.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-6"}) {
+				<div class="grid gap-2">
+					<div class="flex items-center justify-between">
+						<span class="text-sm font-medium">Retirement</span>
+						<span class="text-sm tabular-nums text-muted-foreground">$420,000</span>
+					</div>
+					@ui.Progress(ui.ProgressProps{Value: 65, Max: 100})
+					<div class="flex items-center justify-between text-xs text-muted-foreground">
+						<span>65% achieved</span>
+						<span class="tabular-nums">$273,000</span>
+					</div>
+				</div>
+				@ui.Separator(ui.SeparatorProps{})
+				<div class="grid gap-2">
+					<div class="flex items-center justify-between">
+						<span class="text-sm font-medium">Real Estate</span>
+						<span class="text-sm tabular-nums text-muted-foreground">$85,000</span>
+					</div>
+					@ui.Progress(ui.ProgressProps{Value: 32, Max: 100})
+					<div class="flex items-center justify-between text-xs text-muted-foreground">
+						<span>32% achieved</span>
+						<span class="tabular-nums">$27,200</span>
+					</div>
+				</div>
+			}
+			@ui.CardFooter(ui.DOMProps{Class: "text-xs text-muted-foreground"}) {
+				<span>You have not met your targets for this year.</span>
+			}
+		}
+	}
+}
+
+// ── Column 2: Contribution chart, Claimable Balance, Dividend Income ────────
+
+templ HomeCol2() {
+	<div class="flex flex-col gap-6">
+		// Contribution History — inline bar chart
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Contribution History</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Last 6 months of activity</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
+				<div class="flex items-end justify-between gap-2 h-28">
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary/70" style="height: 40%"></div>
+						<span class="text-xs text-muted-foreground">Dec</span>
+					</div>
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary" style="height: 70%"></div>
+						<span class="text-xs text-muted-foreground">Jan</span>
+					</div>
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary/70" style="height: 55%"></div>
+						<span class="text-xs text-muted-foreground">Feb</span>
+					</div>
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary" style="height: 85%"></div>
+						<span class="text-xs text-muted-foreground">Mar</span>
+					</div>
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary/70" style="height: 60%"></div>
+						<span class="text-xs text-muted-foreground">Apr</span>
+					</div>
+					<div class="flex w-full flex-col items-center gap-2">
+						<div class="w-full rounded-t-md bg-primary" style="height: 95%"></div>
+						<span class="text-xs text-muted-foreground">May</span>
+					</div>
+				</div>
+				<div class="flex items-center justify-between rounded-lg border bg-muted/50 p-3">
+					<div class="flex items-center gap-2">
+						<span class="size-2 rounded-full bg-primary"></span>
+						<span class="text-sm">Scheduled</span>
+					</div>
+					<span class="text-sm font-medium tabular-nums">May 2024</span>
+				</div>
+			}
+		}
+		// Claimable Balance
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardDescription(ui.DOMProps{}) { <span>Claimable Balance</span> }
+				@ui.CardTitle(ui.DOMProps{Class: "text-3xl tabular-nums"}) { <span>$1,211.29</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span class="flex items-center gap-1.5"><span class="size-1.5 rounded-full bg-yellow-500"></span>Pending Setup</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-3"}) {
+				<div class="flex items-center justify-between text-sm">
+					<span class="text-muted-foreground">Net Royalties</span>
+					<span class="tabular-nums">$1,248.75</span>
+				</div>
+				@ui.Separator(ui.SeparatorProps{})
+				<div class="flex items-center justify-between text-sm">
+					<span class="text-muted-foreground">Processing Fee</span>
+					<span class="tabular-nums text-muted-foreground">−$37.46</span>
+				</div>
+				@ui.Separator(ui.SeparatorProps{})
+				<div class="flex items-center justify-between text-sm font-medium">
+					<span>Total Ready to Claim</span>
+					<span class="tabular-nums">$1,211.29 USD</span>
+				</div>
+				<p class="text-xs text-muted-foreground">Once your bank is connected, balances over $10.00 are automatically eligible for monthly distribution on the 15th of each month.</p>
+			}
+		}
+		// Q2 Dividend Income
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Q2 Dividend Income</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Quarterly dividend payouts across your portfolio holdings.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
+				@HomeDividendRow("Vanguard", "450 Shares", 80)
+				@HomeDividendRow("S&P 500 VOO", "112 Shares", 55)
+				@HomeDividendRow("Apple AAPL", "85 Shares", 40)
+				@HomeDividendRow("Realty Income", "320 Shares", 65)
+			}
+		}
+	}
+}
+
+templ HomeDividendRow(name string, shares string, pct int) {
+	<div class="flex items-center gap-3">
+		<div class="min-w-0 flex-1">
+			<p class="truncate text-sm font-medium">{ name }</p>
+			<p class="text-xs text-muted-foreground">{ shares }</p>
+		</div>
+		<div class="h-2 w-24 overflow-hidden rounded-full bg-muted">
+			<div class="h-full rounded-full bg-primary" style={ templ.KV("width", templ.SafeString(templ.String(pct) + "%")) }></div>
+		</div>
+	</div>
+}
+
+// ── Column 3: Milestone form, Payout Threshold, Account Access ───────────────
+
+templ HomeCol3() {
+	<div class="flex flex-col gap-6">
+		// Set a new milestone
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Set a new milestone</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Define your financial target and we'll help you pace your savings.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{For: "goal-name"}) { <span>Goal Name</span> }
+					@ui.Input(ui.InputProps{DOMProps: ui.DOMProps{ID: "goal-name"}, Placeholder: "e.g. New Car, Home Downpayment"})
+				</div>
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{}) { <span>Target Amount</span> }
+					@ui.Input(ui.InputProps{Value: "$15,000"})
+				</div>
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{}) { <span>Target Date</span> }
+					@ui.Input(ui.InputProps{Value: "Dec 2025"})
+				</div>
+				<div class="flex justify-end gap-2">
+					@ui.Button(ui.ButtonProps{Label: "Cancel", Variant: ui.ButtonVariantGhost, Size: ui.ButtonSizeSM})
+					@ui.Button(ui.ButtonProps{Label: "Create Goal", Variant: ui.ButtonVariantDefault, Size: ui.ButtonSizeSM})
+				</div>
+			}
+		}
+		// Payout Threshold
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Payout Threshold</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Set the minimum balance required before a payout is triggered.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-5"}) {
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{}) { <span>Preferred Currency</span> }
+					@ui.NativeSelect(ui.NativeSelectProps{}) {
+						@ui.NativeSelectOption(ui.DOMProps{}, "usd", "USD — United States Dollar", true)
+					}
+				</div>
+				<div class="grid gap-3">
+					<div class="flex items-center justify-between">
+						@ui.Label(ui.LabelProps{}) { <span>Minimum Payout Amount</span> }
+						<span class="text-sm font-medium tabular-nums">$2,500.00</span>
+					</div>
+					@ui.Slider(ui.SliderProps{Value: []float64{25}, Max: 100})
+					<div class="flex items-center justify-between text-xs text-muted-foreground">
+						<span>$50 (MIN)</span>
+						<span>$10,000 (MAX)</span>
+					</div>
+				</div>
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{}) { <span>Notes</span> }
+					@ui.Textarea(ui.TextareaProps{Placeholder: "Add a note...", DOMProps: ui.DOMProps{Class: "h-16"}})
+				</div>
+				@ui.Button(ui.ButtonProps{Label: "Save Threshold", Variant: ui.ButtonVariantDefault})
+			}
+		}
+		// Account Access
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Account Access</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Update your credentials or re-authenticate.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
+				<div class="grid gap-2">
+					@ui.Label(ui.LabelProps{}) { <span>Email Address</span> }
+					@ui.Input(ui.InputProps{Value: "artist@studio.inc"})
+				</div>
+				<div class="grid gap-2">
+					<div class="flex items-center justify-between">
+						@ui.Label(ui.LabelProps{}) { <span>Current Password</span> }
+						<a href="#" class="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground">Forgot?</a>
+					</div>
+					@ui.Input(ui.InputProps{Type: "password", Value: "password"})
+				</div>
+				@ui.Button(ui.ButtonProps{Label: "Update Security", Variant: ui.ButtonVariantDefault, DOMProps: ui.DOMProps{Class: "w-full"}})
+			}
+			@ui.CardFooter(ui.DOMProps{Class: "border-t"}) {
+				<div class="flex items-center gap-2 text-xs text-muted-foreground">
+					<svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-destructive" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+					<span>Danger Zone</span>
+				</div>
+			}
+		}
+	}
+}
+
+// ── Column 4: QR card, Chat UI, Payments list ────────────────────────────────
+
+templ HomeCol4() {
+	<div class="flex flex-col gap-6">
+		// QR code card
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>Scan to connect your mobile device</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>Open the Ledger mobile app and scan this code to link your device.</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "flex justify-center"}) {
+				<div class="grid grid-cols-8 gap-0.5 rounded-lg border bg-white p-4">
+					// Decorative QR-style grid (not a real QR code)
+					for _, v := range homeQRCells {
+						if v {
+							<div class="aspect-square bg-black"></div>
+						} else {
+							<div class="aspect-square bg-transparent"></div>
+						}
+					}
+				</div>
+			}
+		}
+		// Chat UI
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.CardTitle(ui.DOMProps{}) { <span>New Chat</span> }
+				@ui.CardDescription(ui.DOMProps{}) { <span>How can I help you today?</span> }
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-4"}) {
+				<div class="rounded-lg bg-muted p-3">
+					<p class="text-sm">Morning, shadcn!</p>
+					<p class="mt-1 text-xs text-muted-foreground">What are we working on today?</p>
+				</div>
+				<div class="rounded-lg border bg-card p-3">
+					<p class="text-sm">I'm building a chat for our app and the scroll behavior is driving me nuts. Every time the AI streams a reply, the whole thread jumps around.</p>
+				</div>
+				<div class="flex items-center gap-2">
+					@ui.Input(ui.InputProps{Placeholder: "Type your message...", DOMProps: ui.DOMProps{Class: "flex-1"}})
+					@ui.Button(ui.ButtonProps{Variant: ui.ButtonVariantDefault, DOMProps: ui.DOMProps{Class: "size-9 shrink-0 p-0"}}) {
+						<svg xmlns="http://www.w3.org/2000/svg" class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+					}
+				</div>
+			}
+		}
+		// Payments list
+		@ui.Card(ui.DOMProps{Class: "overflow-hidden rounded-[min(var(--radius-4xl),24px)]"}) {
+			@ui.CardHeader(ui.DOMProps{}) {
+				@ui.Breadcrumb(ui.DOMProps{}) {
+					@ui.BreadcrumbList(ui.DOMProps{}) {
+						@ui.BreadcrumbItem(ui.DOMProps{}) {
+							@ui.BreadcrumbLink(ui.BreadcrumbLinkProps{Href: "#"}) { Home }
+						}
+						@ui.BreadcrumbSeparator(ui.DOMProps{}) { / }
+						@ui.BreadcrumbItem(ui.DOMProps{}) {
+							@ui.BreadcrumbPage(ui.DOMProps{}) { Payments }
+						}
+					}
+				}
+			}
+			@ui.CardContent(ui.DOMProps{Class: "grid gap-3"}) {
+				@HomePaymentAction("Change transfer limit", "Adjust how much you can send from your balance.")
+				@ui.Separator(ui.SeparatorProps{})
+				@HomePaymentAction("Scheduled transfers", "Set up a transfer to send at a later date.")
+				@ui.Separator(ui.SeparatorProps{})
+				@HomePaymentAction("Recurring card payments", "Manage your repeated card transactions.")
+			}
+		}
+	}
+}
+
+templ HomePaymentAction(title string, desc string) {
+	<a href="#" class="flex items-start gap-3 rounded-lg p-2 hover:bg-accent">
+		<div class="flex-1">
+			<p class="text-sm font-medium">{ title }</p>
+			<p class="text-xs text-muted-foreground">{ desc }</p>
+		</div>
+		<svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+	</a>
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+
+templ HomeFooter() {
+	<footer class="border-grid border-t">
+		<div class="container-wrapper px-4 xl:px-6">
+			<div class="flex h-(--footer-height) items-center justify-between">
+				<div class="w-full px-1 text-center text-xs leading-loose text-muted-foreground sm:text-sm">
+					Built for Go and{" "}
+					<a href="https://github.com/a-h/templ" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">templ</a>
+					. The source code is available on{" "}
+					<a href="https://github.com/davidojo/templcn" target="_blank" rel="noreferrer" class="font-medium underline underline-offset-4">GitHub</a>.
+				</div>
+			</div>
+		</div>
+	</footer>
+}
+
+// ── QR code decorative cells ─────────────────────────────────────────────────
+
+var homeQRCells = []bool{
+	// Row 0 — finder + data
+	true, true, true, true, true, true, true, false,
+	// Row 1
+	true, false, false, false, false, false, true, false,
+	// Row 2
+	true, false, true, true, true, false, true, true,
+	// Row 3
+	true, false, true, true, false, false, false, false,
+	// Row 4
+	true, false, true, false, true, true, true, false,
+	// Row 5
+	true, false, false, false, false, true, false, true,
+	// Row 6
+	true, true, true, true, true, false, true, false,
+	// Row 7 — bottom
+	false, true, false, false, true, false, false, true,
 }

@@ -7358,7 +7358,7 @@ func DirectoryDocsPage() templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 390, "<p class=\"mb-4 text-sm text-muted-foreground\">Premium D3.js powered charts with tooltips, hovers, and theme support.</p>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 390, "<p class=\"mb-4 text-sm text-muted-foreground\">TanStack-powered charts with tooltips, hovers, and theme support.</p>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}

@@ -1,5 +1,7 @@
 module templcn/ui
 
-go 1.21.6
+go 1.23.0
 
-require github.com/a-h/templ v0.2.663
+toolchain go1.23.5
+
+require github.com/a-h/templ v0.3.1001

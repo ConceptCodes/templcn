@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const upstreamBaselineCommit = "dd3567c39da374346d2daa07f926a20d5036c492"
+const upstreamBaselineCommit = "5203f537d152844a920caa66e865bc61c6ff4860"
 const defaultUpstreamRegistryIndex = "https://raw.githubusercontent.com/shadcn-ui/ui/" + upstreamBaselineCommit + "/apps/v4/public/r/index.json"
 
 type upstreamRegistryItem struct {

@@ -36,6 +36,12 @@ func TestTabsTriggerAndContentReflectContextValue(t *testing.T) {
 	if strings.Count(html, `role="tab"`) != 2 || strings.Count(html, `role="tabpanel"`) != 2 {
 		t.Fatalf("tabs should render tab and tabpanel roles, got %s", html)
 	}
+	if !strings.Contains(html, `id="tabs-trigger-account"`) || !strings.Contains(html, `aria-controls="tabs-content-account"`) {
+		t.Fatalf("tab should link to its panel, got %s", html)
+	}
+	if !strings.Contains(html, `id="tabs-content-account"`) || !strings.Contains(html, `aria-labelledby="tabs-trigger-account"`) {
+		t.Fatalf("tabpanel should link to its tab, got %s", html)
+	}
 }
 
 func TestTabsTriggerButtonTypeAndDisabledState(t *testing.T) {

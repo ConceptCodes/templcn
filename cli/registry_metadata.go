@@ -49,6 +49,8 @@ var componentFileDependencies = map[string][]string{
 }
 
 var runtimeComponents = map[string][]string{
+	"chart":           {"assets/tanstack-runtime.js"},
+	"data-table":      {"assets/tanstack-runtime.js"},
 	"accordion":       {"assets/runtime.js"},
 	"alert-dialog":    {"assets/runtime.js"},
 	"combobox":        {"assets/runtime.js"},

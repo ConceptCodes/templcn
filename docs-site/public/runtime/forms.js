@@ -79,10 +79,33 @@ function setToggleItem(item, on) {
 }
 
 function syncSlider(root) {
-  const input = root.querySelector('input[type="range"]');
-  if (!input) return;
-  root.setAttribute("data-value", input.value);
-  input.setAttribute("aria-valuenow", input.value);
+  const inputs = Array.from(root.querySelectorAll('input[type="range"]'));
+  if (!inputs.length) return;
+  const values = inputs.map((input) => input.value);
+  root.setAttribute("data-value", values.join(" "));
+  inputs.forEach((input) => input.setAttribute("aria-valuenow", input.value));
+  root.querySelectorAll('[data-slot="slider-thumb"]').forEach((thumb, index) => {
+    if (values[index] !== undefined) thumb.setAttribute("data-value", values[index]);
+  });
+  const min = Number.parseFloat(inputs[0].min || "0");
+  const max = Number.parseFloat(inputs[0].max || "100");
+  const percent = (value) => {
+    if (!Number.isFinite(min) || !Number.isFinite(max) || max <= min) return 0;
+    return Math.min(100, Math.max(0, ((Number.parseFloat(value) - min) / (max - min)) * 100));
+  };
+  const percentages = values.map(percent);
+  const start = percentages.length > 1 ? Math.min(...percentages) : 0;
+  const end = Math.max(...percentages);
+  const range = root.querySelector('[data-slot="slider-range"]');
+  if (range) {
+    if (root.getAttribute("data-orientation") === "vertical") {
+      range.style.bottom = `${start}%`;
+      range.style.height = `${end - start}%`;
+    } else {
+      range.style.left = `${start}%`;
+      range.style.width = `${end - start}%`;
+    }
+  }
 }
 
 function moveToggleFocus(root, current, key) {

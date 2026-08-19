@@ -77,12 +77,24 @@ func DrawerFooter(props DOMProps) templ.Component {
 }
 func DrawerTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "drawer-title", "font-semibold text-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-title", "font-semibold text-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.titleID
+			}
+		}
+		return renderElement(ctx, w, "h2", attrs, templ.GetChildren(ctx))
 	})
 }
 func DrawerDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "drawer-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "drawer-description", "text-sm text-muted-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.descriptionID
+			}
+		}
+		return renderElement(ctx, w, "p", attrs, templ.GetChildren(ctx))
 	})
 }
 func DrawerClose(props DOMProps) templ.Component {
@@ -96,6 +108,7 @@ func DrawerClose(props DOMProps) templ.Component {
 func DrawerContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "drawer-content", "group/drawer-content fixed z-50 flex h-auto flex-col bg-background backdrop:bg-black/50 [&:not([open])]:hidden data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm")
+		ctx, attrs = prepareDialogAccessibility(ctx, attrs, "drawer")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "dialog"
 		attrs["tabindex"] = "-1"

@@ -9,7 +9,7 @@ This repository is preparing for a v1 release. The CLI installs source files int
 ## Install From Source
 
 ```sh
-go install ./cli
+go install github.com/conceptcodes/templcn/cli@latest
 ```
 
 ## Create A Project
@@ -51,6 +51,12 @@ Run module tests:
 (cd docs-site && go test ./...)
 ```
 
+The repository is a multi-module Go workspace, so the equivalent root command is:
+
+```sh
+make test
+```
+
 Run browser behavior tests:
 
 ```sh
@@ -63,9 +69,17 @@ Build docs:
 (cd docs-site && bun install && bun run build:css && go run ./cmd/generate -output ./dist)
 ```
 
+Prepare a self-contained CLI release:
+
+```sh
+(cd docs-site && bun run build:tanstack)
+(cd cli && go generate ./... && go install .)
+```
+
 ## Release Criteria
 
 - Component-scoped CLI install behavior is covered by acceptance tests.
 - Interactive primitives have browser tests for keyboard, focus, state, dismissal, and form value behavior.
 - CLI metadata includes files, dependencies, runtime requirements, CSS, docs URLs, and examples.
 - Docs pages use component-specific install commands and concrete previews.
+- Known Go-native adaptations are documented in [`docs/V1_SCOPE.md`](docs/V1_SCOPE.md), with generated evidence in [`docs/V1_COMPONENT_MATRIX.md`](docs/V1_COMPONENT_MATRIX.md).

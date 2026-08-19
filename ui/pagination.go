@@ -70,6 +70,7 @@ func PaginationPrevious(props PaginationLinkProps) templ.Component {
 		props.Attrs["aria-label"] = "Go to previous page"
 	}
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, callerChildren := childrenFromContext(ctx)
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if err := renderElement(ctx, w, "svg", templ.Attributes{
 				"xmlns":           "http://www.w3.org/2000/svg",
@@ -92,7 +93,7 @@ func PaginationPrevious(props PaginationLinkProps) templ.Component {
 			})); err != nil {
 				return err
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, callerChildren)
 		})
 		return PaginationLink(props).Render(templ.WithChildren(ctx, children), w)
 	})
@@ -108,6 +109,7 @@ func PaginationNext(props PaginationLinkProps) templ.Component {
 		props.Attrs["aria-label"] = "Go to next page"
 	}
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, callerChildren := childrenFromContext(ctx)
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 			if err := renderElement(ctx, w, "span", templ.Attributes{"class": "hidden sm:block"}, templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 				_, err := io.WriteString(w, "Next")
@@ -130,7 +132,7 @@ func PaginationNext(props PaginationLinkProps) templ.Component {
 			})); err != nil {
 				return err
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, callerChildren)
 		})
 		return PaginationLink(props).Render(templ.WithChildren(ctx, children), w)
 	})

@@ -60,6 +60,7 @@ func AlertDialogOverlay(props DOMProps) templ.Component {
 func AlertDialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "alert-dialog-content", "group/alert-dialog-content fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 backdrop:bg-black/50 [&:not([open])]:hidden data-[size=sm]:max-w-xs data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[size=default]:sm:max-w-lg")
+		ctx, attrs = prepareDialogAccessibility(ctx, attrs, "alert-dialog")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "alertdialog"
 		attrs["aria-modal"] = "true"
@@ -93,13 +94,25 @@ func AlertDialogFooter(props DOMProps) templ.Component {
 
 func AlertDialogTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "alert-dialog-title", "text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "alert-dialog-title", "text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.titleID
+			}
+		}
+		return renderElement(ctx, w, "h2", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func AlertDialogDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "alert-dialog-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "alert-dialog-description", "text-sm text-muted-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.descriptionID
+			}
+		}
+		return renderElement(ctx, w, "p", attrs, templ.GetChildren(ctx))
 	})
 }
 

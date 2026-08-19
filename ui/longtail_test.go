@@ -60,7 +60,7 @@ func TestLongTailInteractiveAttrs(t *testing.T) {
 	}
 
 	sidebar := mustRender(t, SidebarProvider(SidebarProviderProps{DefaultOpen: true}))
-	if attrValue(sidebar, "data-state") != "open" {
+	if attrValue(sidebar, "data-slot") != "sidebar-provider" || attrValue(sidebar, "data-state") != "open" {
 		t.Fatalf("sidebar provider attrs mismatch, got %s", sidebar)
 	}
 

@@ -25,7 +25,7 @@ func Sheet(props SheetProps) templ.Component {
 		if props.ShowCloseButton {
 			attrs["data-show-close-button"] = "true"
 		}
-		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "sheet", modal: props.Modal})
+		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "sheet", modal: props.Modal, showCloseButton: props.ShowCloseButton})
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -68,12 +68,24 @@ func SheetFooter(props DOMProps) templ.Component {
 }
 func SheetTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "sheet-title", "font-semibold text-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "sheet-title", "font-semibold text-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.titleID
+			}
+		}
+		return renderElement(ctx, w, "h2", attrs, templ.GetChildren(ctx))
 	})
 }
 func SheetDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "sheet-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "sheet-description", "text-sm text-muted-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.descriptionID
+			}
+		}
+		return renderElement(ctx, w, "p", attrs, templ.GetChildren(ctx))
 	})
 }
 func SheetClose(props DOMProps) templ.Component {
@@ -87,6 +99,7 @@ func SheetClose(props DOMProps) templ.Component {
 func SheetContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "sheet-content", "fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out backdrop:bg-black/50 [&:not([open])]:hidden data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500 data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=bottom]:data-[state=closed]:slide-out-to-bottom data-[side=bottom]:data-[state=open]:slide-in-from-bottom data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=left]:data-[state=closed]:slide-out-to-left data-[side=left]:data-[state=open]:slide-in-from-left data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=right]:data-[state=closed]:slide-out-to-right data-[side=right]:data-[state=open]:slide-in-from-right data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=top]:data-[state=closed]:slide-out-to-top data-[side=top]:data-[state=open]:slide-in-from-top sm:max-w-sm")
+		ctx, attrs = prepareDialogAccessibility(ctx, attrs, "sheet")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "dialog"
 		attrs["tabindex"] = "-1"
@@ -107,7 +120,10 @@ func SheetContent(props DOMProps) templ.Component {
 			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
 				return err
 			}
-			return renderSheetCloseIcon(ctx, w)
+			if dialogStateFromContextValue(ctx).showCloseButton {
+				return renderSheetCloseIcon(ctx, w)
+			}
+			return nil
 		})
 		return renderElement(ctx, w, "dialog", attrs, children)
 	})

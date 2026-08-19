@@ -1,6 +1,11 @@
 .DS_Store
 .tmp/
-docs/
+docs/*
+!docs/
+!docs/V1_SCOPE.md
+!docs/V1_COMPONENT_MATRIX.md
+!docs/V1_INTERACTION_MATRIX.md
+!docs/GENERATED_FILES.md
 node_modules/
 .sisyphus/
 .upstream-ui/

@@ -177,6 +177,27 @@ func TestRenderVoidElement(t *testing.T) {
 	}
 }
 
+func TestChartContainerSupportsRuntimeEngineMetadata(t *testing.T) {
+	html := mustRender(t, ChartContainer(ChartContainerProps{
+		Engine:    "tanstack",
+		Data:      `{"type":"line"}`,
+		AriaLabel: "Revenue chart",
+	}))
+	if attrValue(html, "data-engine") != "tanstack" {
+		t.Fatalf("expected chart engine metadata, got %q", html)
+	}
+	if attrValue(html, "data-data") == "" || attrValue(html, "aria-label") != "Revenue chart" {
+		t.Fatalf("expected chart data and accessible label, got %q", html)
+	}
+}
+
+func TestDataTableSupportsRuntimeEngineMetadata(t *testing.T) {
+	html := mustRender(t, DataTable(DataTableProps{Engine: "tanstack"}))
+	if attrValue(html, "data-engine") != "tanstack" {
+		t.Fatalf("expected table engine metadata, got %q", html)
+	}
+}
+
 func TestRenderTextElement(t *testing.T) {
 	var buf bytes.Buffer
 	attrs := templ.Attributes{"class": "test"}

@@ -658,8 +658,10 @@ var componentDocs = []ComponentDocEntry{
   @ui.CarouselPrevious(ui.DOMProps{}) { <span>Previous</span> }
   @ui.CarouselNext(ui.DOMProps{}) { <span>Next</span> }
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: "Slide direction."}}},
-	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "templcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
-  Config: ` + "`" + `{"desktop":{"label":"Desktop","color":"var(--chart-1)"}}` + "`" + `,
+	{Slug: "chart", Title: "Chart", Description: "A TanStack Charts-backed shell for accessible, framework-agnostic chart rendering with server-rendered fallbacks.", Install: "templcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
+	Engine: "tanstack",
+	Data: ` + "`" + `{"type":"line","data":[{"label":"Jan","revenue":42},{"label":"Feb","revenue":58}],"series":[{"key":"revenue","label":"Revenue"}]}` + "`" + `,
+	Config: ` + "`" + `{"desktop":{"label":"Desktop","color":"var(--chart-1)"}}` + "`" + `,
   InitialHeight: 240,
 }) {
   @ui.ChartTooltipContent(ui.DOMProps{}) { <span>Desktop: 186</span> }
@@ -693,7 +695,8 @@ var componentDocs = []ComponentDocEntry{
     @ui.ContextMenuItem(ui.DropdownMenuItemProps{Value: "reload"}) { <span>Reload</span> }
   }
 }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Item variant."}}},
-	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "templcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
+	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern with optional TanStack Table sorting enhancement.", Install: "templcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
+	Engine: "tanstack",
   Columns: []ui.DataTableColumn{
     {Key: "name", Header: "Name", Sortable: true},
     {Key: "status", Header: "Status"},
@@ -840,7 +843,32 @@ var componentDocs = []ComponentDocEntry{
     @ui.TooltipTrigger(ui.DOMProps{}) { Hover me }
     @ui.TooltipContent(ui.DOMProps{}) { Helpful hint }
   }
-}`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"top"`, Desc: `"top", "bottom", "left", "right".`}, {Name: "DelayDuration", Type: "int", Default: "700", Desc: "Hover delay in ms before showing."}}},
+	}`, APIProps: []APIProp{{Name: "Side", Type: "string", Default: `"top"`, Desc: `"top", "bottom", "left", "right".`}, {Name: "DelayDuration", Type: "int", Default: "700", Desc: "Hover delay in ms before showing."}}},
+	{Slug: "attachment", Title: "Attachment", Description: "A compact file attachment surface with media, status, content, and actions.", Install: "templcn add attachment", GoUsage: `@ui.Attachment(ui.AttachmentProps{State: "done"}) {
+  @ui.AttachmentMedia(ui.DOMProps{}) { <span>PDF</span> }
+  @ui.AttachmentContent(ui.DOMProps{}) {
+    @ui.AttachmentTitle(ui.DOMProps{}) { report.pdf }
+    @ui.AttachmentDescription(ui.DOMProps{}) { 2.4 MB }
+  }
+}`, APIProps: []APIProp{{Name: "State", Type: "string", Default: `"done"`, Desc: `"idle", "uploading", "processing", "error", or "done".`}, {Name: "Size", Type: "string", Default: `"default"`, Desc: `"default", "sm", or "xs".`}, {Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: `"horizontal" or "vertical".`}}},
+	{Slug: "bubble", Title: "Bubble", Description: "A chat bubble with variants, alignment, content, and reactions.", Install: "templcn add bubble", GoUsage: `@ui.Bubble(ui.BubbleProps{Align: "end"}) {
+  @ui.BubbleContent(ui.DOMProps{}) { Hello from templ. }
+}`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `"default"`, Desc: "Visual bubble variant."}, {Name: "Align", Type: "string", Default: `"start"`, Desc: `"start" or "end".`}}},
+	{Slug: "marker", Title: "Marker", Description: "A compact inline marker for labels, separators, and metadata.", Install: "templcn add marker", GoUsage: `@ui.Marker(ui.MarkerProps{Variant: "separator"}) {
+  @ui.MarkerContent(ui.DOMProps{}) { Or continue with }
+}`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `"default"`, Desc: `"default", "separator", or "border".`}}},
+	{Slug: "message", Title: "Message", Description: "Message layout primitives for avatars, headers, content, and footers.", Install: "templcn add message", GoUsage: `@ui.Message(ui.MessageProps{}) {
+  @ui.MessageAvatar(ui.DOMProps{}) { <span>JD</span> }
+  @ui.MessageContent(ui.DOMProps{}) { <span>Welcome!</span> }
+}`, APIProps: []APIProp{{Name: "Align", Type: "string", Default: `"start"`, Desc: `"start" or "end".`}}},
+	{Slug: "message-scroller", Title: "Message Scroller", Description: "A scrollable message viewport with content, items, and scroll controls.", Install: "templcn add message-scroller", GoUsage: `@ui.MessageScroller(ui.MessageScrollerProps{}) {
+  @ui.MessageScrollerViewport(ui.DOMProps{}) {
+    @ui.MessageScrollerContent(ui.DOMProps{}) {
+      @ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) { Messages go here. }
+    }
+  }
+  @ui.MessageScrollerButton(ui.MessageScrollerButtonProps{Direction: "end"})
+}`, APIProps: []APIProp{{Name: "Direction", Type: "string", Default: `"end"`, Desc: `"start" or "end" for the scroll button.`}}},
 }
 var blockDocs = []BlockEntry{
 	{Slug: "dashboard-01", Title: "A dashboard with sidebar, charts and data table", Description: "A dense app shell that combines a sidebar, KPI cards, charts, and a data table.", Category: "featured", Command: "templcn add dashboard-01", Files: []string{"app/dashboard/page.templ", "components/app-sidebar.templ", "components/chart-area-interactive.templ", "components/data-table.templ", "components/section-cards.templ", "components/site-header.templ"}},

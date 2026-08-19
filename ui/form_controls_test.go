@@ -46,6 +46,19 @@ func TestSliderRendersRangeInputWithValueAndAria(t *testing.T) {
 	}
 }
 
+func TestSliderRendersIndependentRangeInputs(t *testing.T) {
+	html := mustRender(t, Slider(SliderProps{Name: "range", Value: []float64{20, 70}, Max: 100}))
+	if strings.Count(html, `type="range"`) != 2 {
+		t.Fatalf("range slider should render one input per value, got %s", html)
+	}
+	if strings.Count(html, `data-slot="slider-thumb"`) != 2 {
+		t.Fatalf("range slider should render one thumb per value, got %s", html)
+	}
+	if !strings.Contains(html, `data-value="20 70"`) {
+		t.Fatalf("range slider should expose all values, got %s", html)
+	}
+}
+
 func renderRadioGroupWithItems(t *testing.T) string {
 	t.Helper()
 	children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {

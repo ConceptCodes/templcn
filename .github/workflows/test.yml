@@ -15,6 +15,12 @@ jobs:
         with:
           go-version-file: ui/go.mod
 
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install JS dependencies
+        run: bun install --frozen-lockfile
+        working-directory: docs-site
+
       - name: Test UI module
         run: go test ./...
         working-directory: ui
@@ -26,6 +32,21 @@ jobs:
       - name: Test docs module
         run: go test ./...
         working-directory: docs-site
+
+      - name: Generate TanStack runtime
+        run: bun run build:tanstack
+        working-directory: docs-site
+
+      - name: Generate CLI runtime asset
+        run: go generate ./...
+        working-directory: cli
+
+      - name: Generate v1 component matrix
+        run: go run ./cmd/matrix
+        working-directory: docs-site
+
+      - name: Check generated release artifacts
+        run: git diff --exit-code -- docs/V1_COMPONENT_MATRIX.md cli/runtime_embed.go docs-site/public/tanstack-runtime.js
 
   browser:
     runs-on: ubuntu-latest
