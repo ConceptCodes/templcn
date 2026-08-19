@@ -1,0 +1,6 @@
+.git
+.tmp
+node_modules
+docs-site/node_modules
+docs-site/dist
+docs-site/test-results

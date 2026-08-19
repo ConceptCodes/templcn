@@ -16,3 +16,4 @@ docs-site/test-results/
 .env
 .env.*
 *.log
+.vercel
