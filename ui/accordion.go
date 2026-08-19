@@ -43,7 +43,11 @@ func Accordion(props AccordionProps) templ.Component {
 			attrs["data-collapsible"] = "true"
 		}
 		openValues := map[string]struct{}{}
-		for _, value := range append(props.Value, props.DefaultValue...) {
+		values := props.DefaultValue
+		if len(props.Value) > 0 {
+			values = props.Value
+		}
+		for _, value := range values {
 			openValues[value] = struct{}{}
 		}
 		ctx = context.WithValue(ctx, accordionRenderStateKey{}, accordionRenderState{openValues: openValues})

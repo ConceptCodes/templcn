@@ -3,6 +3,8 @@ package ui
 import (
 	"context"
 	"io"
+	"strconv"
+	"sync/atomic"
 
 	"github.com/a-h/templ"
 )
@@ -16,12 +18,48 @@ type DialogProps struct {
 }
 
 type dialogRenderState struct {
-	open  bool
-	slot  string
-	modal bool
+	open            bool
+	slot            string
+	modal           bool
+	showCloseButton bool
 }
 
 type dialogRenderStateKey struct{}
+
+type dialogAccessibilityState struct {
+	contentID     string
+	titleID       string
+	descriptionID string
+}
+
+type dialogAccessibilityStateKey struct{}
+
+var dialogAccessibilitySequence uint64
+
+func prepareDialogAccessibility(ctx context.Context, attrs templ.Attributes, prefix string) (context.Context, templ.Attributes) {
+	contentID, _ := attrs["id"].(string)
+	if contentID == "" {
+		contentID = prefix + "-content-" + strconv.FormatUint(atomic.AddUint64(&dialogAccessibilitySequence, 1), 10)
+		attrs["id"] = contentID
+	}
+	state := dialogAccessibilityState{
+		contentID:     contentID,
+		titleID:       contentID + "-title",
+		descriptionID: contentID + "-description",
+	}
+	if _, ok := attrs["aria-labelledby"]; !ok {
+		attrs["aria-labelledby"] = state.titleID
+	}
+	if _, ok := attrs["aria-describedby"]; !ok {
+		attrs["aria-describedby"] = state.descriptionID
+	}
+	return context.WithValue(ctx, dialogAccessibilityStateKey{}, state), attrs
+}
+
+func dialogAccessibilityFromContext(ctx context.Context) (dialogAccessibilityState, bool) {
+	state, ok := ctx.Value(dialogAccessibilityStateKey{}).(dialogAccessibilityState)
+	return state, ok
+}
 
 func Dialog(props DialogProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
@@ -40,7 +78,7 @@ func Dialog(props DialogProps) templ.Component {
 		if props.ShowCloseButton {
 			attrs["data-show-close-button"] = "true"
 		}
-		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "dialog", modal: props.Modal})
+		ctx = context.WithValue(ctx, dialogRenderStateKey{}, dialogRenderState{open: open, slot: "dialog", modal: props.Modal, showCloseButton: props.ShowCloseButton})
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
@@ -77,6 +115,7 @@ func DialogOverlay(props DOMProps) templ.Component {
 func DialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props, "dialog-content", "fixed inset-0 z-50 h-dvh max-h-none w-dvw max-w-none overflow-visible border-0 bg-transparent p-0 text-foreground outline-none backdrop:bg-black/50 [&:not([open])]:hidden")
+		ctx, attrs = prepareDialogAccessibility(ctx, attrs, "dialog")
 		state := dialogStateFromContextValue(ctx)
 		attrs["role"] = "dialog"
 		attrs["tabindex"] = "-1"
@@ -100,7 +139,10 @@ func DialogContent(props DOMProps) templ.Component {
 				if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
 					return err
 				}
-				return renderDialogCloseIcon(ctx, w, "dialog-close")
+				if dialogStateFromContextValue(ctx).showCloseButton {
+					return renderDialogCloseIcon(ctx, w, "dialog-close")
+				}
+				return nil
 			})
 			return renderElement(ctx, w, "div", panelAttrs, panel)
 		})
@@ -122,13 +164,25 @@ func DialogFooter(props DOMProps) templ.Component {
 
 func DialogTitle(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "h2", attrsFromDOMProps(props, "dialog-title", "text-lg leading-none font-semibold"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "dialog-title", "text-lg leading-none font-semibold")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.titleID
+			}
+		}
+		return renderElement(ctx, w, "h2", attrs, templ.GetChildren(ctx))
 	})
 }
 
 func DialogDescription(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return renderElement(ctx, w, "p", attrsFromDOMProps(props, "dialog-description", "text-sm text-muted-foreground"), templ.GetChildren(ctx))
+		attrs := attrsFromDOMProps(props, "dialog-description", "text-sm text-muted-foreground")
+		if state, ok := dialogAccessibilityFromContext(ctx); ok {
+			if _, exists := attrs["id"]; !exists {
+				attrs["id"] = state.descriptionID
+			}
+		}
+		return renderElement(ctx, w, "p", attrs, templ.GetChildren(ctx))
 	})
 }
 
