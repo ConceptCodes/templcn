@@ -1,5 +1,7 @@
 package main
 
+//go:generate go run ./cmd/embed-runtime
+
 import (
 	"os"
 	"runtime/debug"
@@ -22,6 +24,7 @@ func version() string {
 
 func main() {
 	if err := newRootCommand().Execute(); err != nil {
+		_, _ = os.Stderr.WriteString("templcn: " + err.Error() + "\n")
 		os.Exit(1)
 	}
 }
