@@ -49,7 +49,7 @@ func Page(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://templcn.dev\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css?v=20260509-themes\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js?v=20260509-themes\"></script><link rel=\"stylesheet\" href=\"/public/globals.css?v=20260509-themes\"><script defer src=\"/public/templcn.js?v=20260509-themes\"></script><script type=\"module\" src=\"/public/runtime.js?v=20260509-themes\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><meta property=\"og:image\" content=\"/public/og-image.png\"><link rel=\"canonical\" href=\"https://templcn-docs.vercel.app/\"><link rel=\"icon\" href=\"/public/favicon.ico\"><meta name=\"color-scheme\" content=\"light dark\"><!-- highlight.js: served locally for reliability --><link rel=\"stylesheet\" href=\"/public/highlight-theme.css?v=20260509-themes\" id=\"hljs-theme\"><script src=\"/public/highlight.min.js?v=20260509-themes\"></script><link rel=\"stylesheet\" href=\"/public/globals.css?v=20260509-themes\"><script defer src=\"/public/templcn.js?v=20260509-themes\"></script><script type=\"module\" src=\"/public/runtime.js?v=20260509-themes\"></script></head><body class=\"min-h-svh bg-background text-foreground antialiased\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
