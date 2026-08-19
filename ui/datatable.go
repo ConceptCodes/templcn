@@ -29,6 +29,7 @@ type DataTableProps struct {
 	DOMProps
 	Columns  []DataTableColumn
 	Rows     []DataTableRow
+	Engine   string
 	Page     int
 	PageSize int
 	Sort     string
@@ -39,6 +40,9 @@ type DataTableProps struct {
 func DataTable(props DataTableProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
 		attrs := attrsFromDOMProps(props.DOMProps, "data-table", "grid gap-4")
+		if props.Engine != "" {
+			attrs["data-engine"] = props.Engine
+		}
 		if props.Page > 0 {
 			attrs["data-page"] = props.Page
 		}

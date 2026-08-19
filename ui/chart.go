@@ -10,8 +10,11 @@ import (
 type ChartContainerProps struct {
 	DOMProps
 	Config        string
+	Data          string
 	Library       string
 	Series        string
+	Engine        string
+	AriaLabel     string
 	InitialWidth  int
 	InitialHeight int
 }
@@ -23,11 +26,20 @@ func ChartContainer(props ChartContainerProps) templ.Component {
 		if props.Config != "" {
 			attrs["data-config"] = props.Config
 		}
+		if props.Data != "" {
+			attrs["data-data"] = props.Data
+		}
 		if props.Library != "" {
 			attrs["data-library"] = props.Library
 		}
 		if props.Series != "" {
 			attrs["data-series"] = props.Series
+		}
+		if props.Engine != "" {
+			attrs["data-engine"] = props.Engine
+		}
+		if props.AriaLabel != "" {
+			attrs["aria-label"] = props.AriaLabel
 		}
 		if props.InitialWidth > 0 {
 			attrs["data-initial-width"] = props.InitialWidth

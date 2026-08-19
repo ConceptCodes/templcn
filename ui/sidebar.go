@@ -15,7 +15,7 @@ type SidebarProviderProps struct {
 
 func SidebarProvider(props SidebarProviderProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-wrapper", "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar")
+		attrs := attrsFromDOMProps(props.DOMProps, "sidebar-provider", "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar")
 		open := props.Open || props.DefaultOpen
 		attrs["data-state"] = openState(open)
 		if props.DefaultOpen {
