@@ -59,6 +59,45 @@ func TestDialogTriggerAccessibilityAttributes(t *testing.T) {
 	}
 }
 
+func TestDialogCloseButtonFollowsOption(t *testing.T) {
+	closed := renderWithDialogState(t, true, DialogContent(DOMProps{}))
+	if strings.Contains(closed, `data-slot="dialog-close"`) {
+		t.Fatalf("dialog close button should be absent by default, got %s", closed)
+	}
+
+	ctx := context.WithValue(context.Background(), dialogRenderStateKey{}, dialogRenderState{open: true, showCloseButton: true})
+	var buf bytes.Buffer
+	if err := DialogContent(DOMProps{}).Render(ctx, &buf); err != nil {
+		t.Fatalf("render error: %v", err)
+	}
+	if !strings.Contains(buf.String(), `data-slot="dialog-close"`) {
+		t.Fatalf("dialog close button should render when enabled, got %s", buf.String())
+	}
+}
+
+func TestDialogAutomaticallyLinksTitleAndDescription(t *testing.T) {
+	children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx = templ.ClearChildren(ctx)
+		if err := DialogTitle(DOMProps{}).Render(ctx, w); err != nil {
+			return err
+		}
+		return DialogDescription(DOMProps{}).Render(ctx, w)
+	})
+	ctx := context.WithValue(context.Background(), dialogRenderStateKey{}, dialogRenderState{open: true})
+	ctx = templ.WithChildren(ctx, children)
+	var buf bytes.Buffer
+	if err := DialogContent(DOMProps{}).Render(ctx, &buf); err != nil {
+		t.Fatalf("render error: %v", err)
+	}
+	html := buf.String()
+	if !strings.Contains(html, `aria-labelledby="dialog-content-`) || !strings.Contains(html, `aria-describedby="dialog-content-`) {
+		t.Fatalf("dialog content should reference generated labels, got %s", html)
+	}
+	if !strings.Contains(html, `data-slot="dialog-title"`) || !strings.Contains(html, `data-slot="dialog-description"`) || strings.Count(html, `id="dialog-content-`) < 3 {
+		t.Fatalf("dialog labels should receive generated IDs, got %s", html)
+	}
+}
+
 func TestOverlayFamilyAccessibilityAttributes(t *testing.T) {
 	for name, component := range map[string]templ.Component{
 		"AlertDialogTrigger": AlertDialogTrigger(DOMProps{}),
