@@ -658,8 +658,10 @@ var componentDocs = []ComponentDocEntry{
   @ui.CarouselPrevious(ui.DOMProps{}) { <span>Previous</span> }
   @ui.CarouselNext(ui.DOMProps{}) { <span>Next</span> }
 }`, APIProps: []APIProp{{Name: "Orientation", Type: "string", Default: `"horizontal"`, Desc: "Slide direction."}}},
-	{Slug: "chart", Title: "Chart", Description: "A Recharts-style shell for vanilla SVG chart configuration, tooltips, and legend styling.", Install: "templcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
-  Config: ` + "`" + `{"desktop":{"label":"Desktop","color":"var(--chart-1)"}}` + "`" + `,
+	{Slug: "chart", Title: "Chart", Description: "A TanStack Charts-backed shell for accessible, framework-agnostic chart rendering with server-rendered fallbacks.", Install: "templcn add chart", GoUsage: `@ui.ChartContainer(ui.ChartContainerProps{
+	Engine: "tanstack",
+	Data: ` + "`" + `{"type":"line","data":[{"label":"Jan","revenue":42},{"label":"Feb","revenue":58}],"series":[{"key":"revenue","label":"Revenue"}]}` + "`" + `,
+	Config: ` + "`" + `{"desktop":{"label":"Desktop","color":"var(--chart-1)"}}` + "`" + `,
   InitialHeight: 240,
 }) {
   @ui.ChartTooltipContent(ui.DOMProps{}) { <span>Desktop: 186</span> }
@@ -693,7 +695,8 @@ var componentDocs = []ComponentDocEntry{
     @ui.ContextMenuItem(ui.DropdownMenuItemProps{Value: "reload"}) { <span>Reload</span> }
   }
 }`, APIProps: []APIProp{{Name: "Variant", Type: "string", Default: `""`, Desc: "Item variant."}}},
-	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern for app data with sorting and pagination.", Install: "templcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
+	{Slug: "data-table", Title: "Data Table", Description: "A server-rendered table pattern with optional TanStack Table sorting enhancement.", Install: "templcn add data-table", GoUsage: `@ui.DataTable(ui.DataTableProps{
+	Engine: "tanstack",
   Columns: []ui.DataTableColumn{
     {Key: "name", Header: "Name", Sortable: true},
     {Key: "status", Header: "Status"},
