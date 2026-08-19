@@ -1,6 +1,10 @@
-import { areaY, barY, defineChart, lineY } from "@tanstack/charts"
+import { areaY, barX, barY, defineChart, lineY, stack } from "@tanstack/charts"
 import { mountChart } from "@tanstack/charts/dom"
-import { pie, polar, radialArc, radialText } from "@tanstack/charts/polar"
+import { d3Curve } from "@tanstack/charts/d3/shape"
+import { pie, polar, radialArc } from "@tanstack/charts/polar"
+import { scaleBand } from "@tanstack/charts/scales/band"
+import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { curveStep } from "d3-shape"
 import { initTanStackTables } from "./tanstack-table"
 
 type Series = { key: string; label?: string; color?: string }
@@ -9,6 +13,8 @@ type ChartConfig = {
   data?: Record<string, unknown>[]
   series?: Series[]
   orientation?: "vertical" | "horizontal"
+  stacked?: boolean
+  step?: boolean
   ariaLabel?: string
   height?: number
   innerRadius?: number
@@ -17,6 +23,119 @@ type ChartConfig = {
   value?: number
   max?: number
   segments?: { label: string; value: number }[]
+}
+
+const CHART_TOKEN_COUNT = 5
+
+const THEME_TOKENS = [
+  "background", "foreground",
+  "card", "card-foreground",
+  "popover", "popover-foreground",
+  "primary", "primary-foreground",
+  "secondary", "secondary-foreground",
+  "muted", "muted-foreground",
+  "accent", "accent-foreground",
+  "destructive", "destructive-foreground",
+  "border", "input", "ring", "radius",
+  "chart-1", "chart-2", "chart-3", "chart-4", "chart-5",
+  "sidebar", "sidebar-foreground",
+  "sidebar-primary", "sidebar-primary-foreground",
+  "sidebar-accent", "sidebar-accent-foreground",
+  "sidebar-border", "sidebar-ring",
+]
+
+let parentThemeRoot: HTMLElement | null = null
+
+/**
+ * Charts live in srcdoc iframes that load globals.css independently, so the
+ * parent document's dark class, preset attribute, and generated preset style
+ * never reach them. Mirror the parent's resolved theme tokens into the iframe
+ * and keep them in sync while the page is open.
+ */
+function collectParentTokens(parentRoot: HTMLElement): string {
+  const computed = getComputedStyle(parentRoot)
+  const declarations: string[] = []
+  for (const token of THEME_TOKENS) {
+    const value = computed.getPropertyValue(`--${token}`).trim()
+    if (value) declarations.push(`  --${token}: ${value};`)
+  }
+  return `:root {\n${declarations.join("\n")}\n}`
+}
+
+function applyThemeTokens(css: string) {
+  let style = document.getElementById("templcn-theme-sync")
+  if (!style) {
+    style = document.createElement("style")
+    style.id = "templcn-theme-sync"
+    document.head.appendChild(style)
+  }
+  style.textContent = css
+}
+
+function syncIframeThemeNow() {
+  if (!parentThemeRoot) return
+  const root = document.documentElement
+  root.classList.toggle("dark", parentThemeRoot.classList.contains("dark"))
+  const preset = parentThemeRoot.getAttribute("data-theme-preset")
+  if (preset) root.setAttribute("data-theme-preset", preset)
+  applyThemeTokens(collectParentTokens(parentThemeRoot))
+}
+
+/**
+ * The parent applies its saved theme during its own DOMContentLoaded, which
+ * can happen after the iframe boots. data-theme-mode is only present once the
+ * parent theme runtime has initialized, so wait for it before snapshotting.
+ */
+function waitForParentTheme(timeoutMs = 3000): Promise<HTMLElement | null> {
+  return new Promise((resolve) => {
+    if (window.parent === window) return resolve(null)
+    let root: HTMLElement
+    try {
+      root = window.parent.document.documentElement
+    } catch {
+      return resolve(null)
+    }
+    const started = performance.now()
+    const poll = () => {
+      if (root.hasAttribute("data-theme-mode")) return resolve(root)
+      if (performance.now() - started >= timeoutMs) return resolve(root)
+      setTimeout(poll, 50)
+    }
+    poll()
+  })
+}
+
+function observeParentTheme(root: HTMLElement) {
+  const observer = new MutationObserver(syncIframeThemeNow)
+  observer.observe(root, {
+    attributes: true,
+    attributeFilter: ["class", "data-theme-preset", "data-theme-mode"],
+  })
+}
+
+function initIframeThemeSync() {
+  if (window.parent === window) return
+  void waitForParentTheme().then((root) => {
+    if (!root) return
+    parentThemeRoot = root
+    syncIframeThemeNow()
+    observeParentTheme(root)
+  })
+}
+
+/**
+ * TanStack's default categorical scheme paints marks with var(--ts-chart-N, …)
+ * fallbacks. Redefine those custom properties on the chart host so every mark
+ * resolves through the site's --chart-N tokens (light, dark, and presets).
+ */
+function applyChartTokenVars(element: HTMLElement) {
+  for (let i = 1; i <= CHART_TOKEN_COUNT; i++) {
+    element.style.setProperty(`--ts-chart-${i}`, `var(--chart-${i})`)
+  }
+}
+
+function chartColorRange(): string[] {
+  return Array.from({ length: CHART_TOKEN_COUNT }, (_, i) => `var(--chart-${i + 1})`)
 }
 
 function readConfig(element: HTMLElement): ChartConfig | null {
@@ -30,41 +149,63 @@ function readConfig(element: HTMLElement): ChartConfig | null {
   }
 }
 
+function renderCartesianChart(element: HTMLElement, config: ChartConfig, type: "area" | "bar" | "line") {
+  const data = config.data!
+  const series = config.series!
+  const horizontal = config.orientation === "horizontal"
+
+  const marks = series.map((entry) => {
+    const channel = horizontal
+      ? { x: entry.key, y: "label" }
+      : { x: "label", y: entry.key }
+    const markOptions = {
+      ...channel,
+      ...(entry.color ? { stroke: entry.color, fill: entry.color } : {}),
+      ...(type === "line" && config.step ? { curve: d3Curve(curveStep) } : {}),
+    } as const
+
+    if (type === "bar") {
+      return horizontal
+        ? barX(data, markOptions)
+        : barY(data, markOptions)
+    }
+    if (type === "area") {
+      if (horizontal) throw new Error("horizontal area charts are not supported")
+      return areaY(data, { ...markOptions, ...(config.stacked && series.length > 1 ? { layout: stack(), fillOpacity: 0.35 } : {}) })
+    }
+    if (horizontal) throw new Error("horizontal line charts are not supported")
+    return lineY(data, markOptions)
+  })
+
+  const categoryAxis = { scale: () => scaleBand<string>().padding(0.1), grid: false }
+  const valueAxis = { scale: scaleLinear, nice: true, grid: true }
+
+  const definition = defineChart({
+    marks,
+    x: horizontal ? valueAxis : categoryAxis,
+    y: horizontal ? categoryAxis : valueAxis,
+  })
+
+  return mountChart(element, {
+    definition,
+    height: config.height || 288,
+    ariaLabel: config.ariaLabel || element.getAttribute("aria-label") || `${type} chart`,
+  })
+}
+
 function renderChart(element: HTMLElement) {
   const config = readConfig(element)
-  if (!config?.data?.length || !config.series?.length) return
+  if (!config) return
 
-  const series = config.series
   const type = config.type || element.dataset.chart || "line"
 
   if (type === "pie" || type === "radial") {
     return renderPolarChart(element, config, type)
   }
 
-  const marks = series.map((entry) => {
-    const markOptions = {
-      x: "label",
-      y: entry.key,
-      ...(entry.color ? { stroke: entry.color, fill: entry.color } : {}),
-    } as const
-    return type === "bar"
-      ? barY(config.data!, markOptions)
-      : type === "area"
-        ? areaY(config.data!, markOptions)
-        : lineY(config.data!, markOptions)
-  })
+  if (!config.data?.length || !config.series?.length) return
 
-  const definition = defineChart({
-    marks,
-  })
-
-  const host = mountChart(element, {
-    definition,
-    height: config.height || 288,
-    ariaLabel: config.ariaLabel || element.getAttribute("aria-label") || `${type} chart`,
-  })
-
-  return host
+  return renderCartesianChart(element, config, type as "area" | "bar" | "line")
 }
 
 function renderPolarChart(element: HTMLElement, config: ChartConfig, type: "pie" | "radial") {
@@ -95,38 +236,52 @@ function renderPolarChart(element: HTMLElement, config: ChartConfig, type: "pie"
     }),
   ]
 
-  if (config.centerLabel) {
-    marks.push(radialText([{ label: "center", text: config.centerLabel }], {
-      angle: 0,
-      radius: 0,
-      text: "text",
-      key: "label",
-      fill: "currentColor",
-      fontSize: 22,
-      fontWeight: 700,
-    }))
-  }
-
   const definition = defineChart({
     marks: [polar({ inset: 8, marks })],
     color: {
       domain: labels,
-      range: ["#0ea5e9", "#6366f1", "#a855f7", "#ec4899", "#f97316", "#94a3b8"],
+      range: chartColorRange(),
     },
   })
 
-  return mountChart(element, {
+  const host = mountChart(element, {
     definition,
     height: config.height || 288,
     ariaLabel: config.ariaLabel || element.getAttribute("aria-label") || `${type} chart`,
   })
+
+  if (config.centerLabel) {
+    element.style.position = "relative"
+    const overlay = document.createElement("div")
+    overlay.setAttribute("aria-hidden", "true")
+    overlay.style.cssText = "position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center"
+    const label = document.createElement("span")
+    label.textContent = config.centerLabel
+    label.style.cssText = "font-size:22px;font-weight:700;line-height:1.2"
+    overlay.appendChild(label)
+    if (config.centerCaption) {
+      const caption = document.createElement("span")
+      caption.textContent = config.centerCaption
+      caption.style.cssText = "font-size:11px;opacity:0.6"
+      overlay.appendChild(caption)
+    }
+    element.appendChild(overlay)
+  }
+
+  return host
 }
 
 export function initTanStackCharts(root: ParentNode = document) {
+  initIframeThemeSync()
   root.querySelectorAll<HTMLElement>('[data-engine="tanstack"]:not([data-tanstack-mounted])').forEach((element) => {
-    const host = renderChart(element)
-    if (!host) return
-    element.dataset.tanstackMounted = "true"
+    try {
+      applyChartTokenVars(element)
+      const host = renderChart(element)
+      if (!host) return
+      element.dataset.tanstackMounted = "true"
+    } catch (error) {
+      console.error("templcn: failed to render chart", element, error)
+    }
   })
 }
 

@@ -23,7 +23,7 @@ func chartFrame(chartType string, config any) templ.Component {
 	}
 
 	engine := ` data-engine="tanstack"`
-	scripts := `<script type="module" src="/public/tanstack-runtime.js"></script>`
+	scripts := `<script type="module" src="/public/tanstack-runtime.js?v=20260818-scales"></script>`
 	srcdoc := `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/public/globals.css">` + scripts + `</head><body class="bg-background text-foreground"><div class="w-full rounded-xl bg-background p-4"><div class="min-h-[288px] w-full"` + engine + ` data-chart="` + html.EscapeString(chartType) + `" data-chart-config="` + html.EscapeString(string(payload)) + `" aria-label="` + html.EscapeString(chartType+" chart") + `"></div></div></body></html>`
 
 	return rawComponent(
