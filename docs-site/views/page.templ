@@ -13,6 +13,18 @@ templ Page(title string) {
 			<link rel="canonical" href="https://templcn-docs.vercel.app/"/>
 			<link rel="icon" href="/public/favicon.ico"/>
 			<meta name="color-scheme" content="light dark"/>
+		<script>
+			(function () {
+				try {
+					var root = document.documentElement;
+					var preset = localStorage.getItem('theme-preset');
+					if (preset) root.setAttribute('data-theme-preset', preset);
+					var mode = localStorage.getItem('theme') || 'system';
+					var dark = mode === 'dark' || (mode === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+					if (dark) root.classList.add('dark');
+				} catch (_) {}
+			})();
+		</script>
 			<!-- highlight.js: served locally for reliability -->
 			<link rel="stylesheet" href="/public/highlight-theme.css?v=20260509-themes" id="hljs-theme"/>
 			<script src="/public/highlight.min.js?v=20260509-themes"></script>
