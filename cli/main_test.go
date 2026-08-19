@@ -10,6 +10,16 @@ import (
 	"testing"
 )
 
+func TestVersionUsesInjectedReleaseVersion(t *testing.T) {
+	previous := cliVersion
+	t.Cleanup(func() { cliVersion = previous })
+	cliVersion = "v1.0.0"
+
+	if got := version(); got != "1.0.0" {
+		t.Fatalf("expected 1.0.0, got %q", got)
+	}
+}
+
 func TestSanitizeProjectName(t *testing.T) {
 	got := sanitizeProjectName("My App!")
 	if got != "my-app" {
