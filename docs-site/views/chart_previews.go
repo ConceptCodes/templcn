@@ -22,7 +22,9 @@ func chartFrame(chartType string, config any) templ.Component {
 		payload = []byte(`{}`)
 	}
 
-	srcdoc := `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/public/globals.css"><script defer src="/public/d3.min.js"></script><script defer src="/public/charts.js"></script></head><body class="bg-background text-foreground"><div class="w-full rounded-xl bg-background p-4"><div class="min-h-[288px] w-full" data-chart="` + html.EscapeString(chartType) + `" data-chart-config="` + html.EscapeString(string(payload)) + `"></div></div></body></html>`
+	engine := ` data-engine="tanstack"`
+	scripts := `<script type="module" src="/public/tanstack-runtime.js"></script>`
+	srcdoc := `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/public/globals.css">` + scripts + `</head><body class="bg-background text-foreground"><div class="w-full rounded-xl bg-background p-4"><div class="min-h-[288px] w-full"` + engine + ` data-chart="` + html.EscapeString(chartType) + `" data-chart-config="` + html.EscapeString(string(payload)) + `" aria-label="` + html.EscapeString(chartType+" chart") + `"></div></div></body></html>`
 
 	return rawComponent(
 		`<iframe class="h-[320px] w-full rounded-xl border border-border/70 bg-background" loading="lazy" title="` + html.EscapeString(chartType) + `" srcdoc="` + html.EscapeString(srcdoc) + `"></iframe>`,

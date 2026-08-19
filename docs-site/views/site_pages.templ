@@ -711,7 +711,7 @@ templ ChartsPage() {
 			<section class="space-y-4">
 				<p class="text-sm font-medium uppercase tracking-[0.24em] text-muted-foreground">Charts</p>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Beautiful charts and graphs.</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">A dedicated charts surface that mirrors the official shadcn route using a Recharts-style vanilla SVG runtime.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">A dedicated charts surface using an accessible, framework-agnostic TanStack Charts runtime with server-rendered fallbacks.</p>
 			</section>
 
 			<section class="grid gap-4 md:grid-cols-2">
@@ -1463,7 +1463,7 @@ templ FormsPage() {
 					@ui.Badge(ui.BadgeProps{Label: "Validation", Variant: ui.BadgeVariantOutline})
 				</div>
 				<h1 class="text-4xl font-semibold tracking-tight sm:text-5xl">Building forms with Go and templ</h1>
-				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, type-safe, and validated forms using templcn/ui components combined with Go&#39;s robust backend validation logic.</p>
+				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">Create accessible, type-safe, and validated forms using templcn/ui components combined with Go&#39;s robust backend validation logic. Client-side form state remains optional, so native submissions and progressive enhancement stay the default.</p>
 			</section>
 
 			<section class="grid gap-6">
@@ -1611,7 +1611,7 @@ templ DirectoryDocsPage() {
 						@ui.CardDescription(ui.DOMProps{}) { <span>Interactive data visualizations.</span> }
 					}
 					@ui.CardContent(ui.DOMProps{}) {
-						<p class="mb-4 text-sm text-muted-foreground">Premium D3.js powered charts with tooltips, hovers, and theme support.</p>
+						<p class="mb-4 text-sm text-muted-foreground">TanStack-powered charts with tooltips, hovers, and theme support.</p>
 						@ui.Button(ui.ButtonProps{DOMProps: ui.DOMProps{Class: "w-full"}, Label: "Explore charts", Variant: ui.ButtonVariantOutline, Href: "/charts/area-chart"})
 					}
 				}

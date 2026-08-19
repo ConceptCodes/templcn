@@ -4,12 +4,18 @@
   "scripts": {
     "build:css": "bunx @tailwindcss/cli -i ./styles/globals.css -o ./public/globals.css",
     "watch:css": "bunx @tailwindcss/cli -i ./styles/globals.css -o ./public/globals.css --watch",
-    "test:e2e": "playwright test"
+    "build:tanstack": "bun build ./src/tanstack-runtime.ts --outfile ./public/tanstack-runtime.js --format=esm --minify",
+    "build": "bun run build:css && bun run build:tanstack && go run ./cmd/generate -output ./dist",
+    "test:e2e": "mkdir -p .tmp && bun run build:css && bun run build:tanstack && go run ./cmd/generate -output ./dist && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@tailwindcss/cli": "^4.1.5",
     "tailwindcss": "^4.1.5",
     "tw-animate-css": "^1.3.1"
+  },
+  "dependencies": {
+    "@tanstack/charts": "0.14.0",
+    "@tanstack/table-core": "8"
   }
 }
