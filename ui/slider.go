@@ -30,6 +30,7 @@ type SliderProps struct {
 
 func Slider(props SliderProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		if props.Step == 0 {
 			props.Step = 1
 		}
@@ -118,7 +119,7 @@ func Slider(props SliderProps) templ.Component {
 					return err
 				}
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, ownChildren)
 		})
 		return renderElement(ctx, w, "div", attrs, children)
 	})

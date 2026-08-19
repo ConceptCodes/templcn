@@ -114,6 +114,7 @@ func DialogOverlay(props DOMProps) templ.Component {
 
 func DialogContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		attrs := attrsFromDOMProps(props, "dialog-content", "fixed inset-0 z-50 h-dvh max-h-none w-dvw max-w-none overflow-visible border-0 bg-transparent p-0 text-foreground outline-none backdrop:bg-black/50 [&:not([open])]:hidden")
 		ctx, attrs = prepareDialogAccessibility(ctx, attrs, "dialog")
 		state := dialogStateFromContextValue(ctx)
@@ -136,7 +137,7 @@ func DialogContent(props DOMProps) templ.Component {
 				"data-state":        openState(state.open),
 			}
 			panel := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-				if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+				if err := renderChildren(ctx, w, ownChildren); err != nil {
 					return err
 				}
 				if dialogStateFromContextValue(ctx).showCloseButton {

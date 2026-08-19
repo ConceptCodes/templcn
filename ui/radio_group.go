@@ -62,6 +62,7 @@ type RadioGroupItemProps struct {
 
 func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		className := "flex items-center gap-2 text-sm"
 		attrs := attrsFromDOMProps(props.DOMProps, "radio-group-item", className)
 		state, _ := ctx.Value(radioGroupRenderStateKey{}).(radioGroupRenderState)
@@ -98,7 +99,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 				_, err := io.WriteString(w, templ.EscapeString(props.Label))
 				return err
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, ownChildren)
 		})
 		return renderElement(ctx, w, "label", attrs, children)
 	})

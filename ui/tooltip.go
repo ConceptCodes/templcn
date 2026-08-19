@@ -70,6 +70,7 @@ func TooltipTrigger(props DOMProps) templ.Component {
 
 func TooltipContent(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		attrs := attrsFromDOMProps(props, "tooltip-content", "absolute left-1/2 top-full z-50 mt-1.5 w-fit -translate-x-1/2 origin-(--radix-tooltip-content-transform-origin) animate-in rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95")
 		if _, ok := attrs["data-state"]; !ok {
 			attrs["data-state"] = floatingStateFromContext(ctx)
@@ -84,7 +85,7 @@ func TooltipContent(props DOMProps) templ.Component {
 			attrs["hidden"] = true
 		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+			if err := renderChildren(ctx, w, ownChildren); err != nil {
 				return err
 			}
 			return renderElement(ctx, w, "div", templ.Attributes{

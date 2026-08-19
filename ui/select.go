@@ -38,6 +38,7 @@ type selectRenderStateKey struct{}
 
 func Select(props SelectProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		open := props.Open || props.DefaultOpen
 		value := props.Value
 		if value == "" {
@@ -74,7 +75,7 @@ func Select(props SelectProps) templ.Component {
 					return err
 				}
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, ownChildren)
 		})
 		return renderElement(ctx, w, "div", attrs, children)
 	})
@@ -92,6 +93,7 @@ func SelectValue(props DOMProps) templ.Component {
 }
 func SelectTrigger(props SelectTriggerProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		size := props.Size
 		if size == "" {
 			size = "default"
@@ -106,7 +108,7 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 			attrs["aria-expanded"] = "false"
 		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+			if err := renderChildren(ctx, w, ownChildren); err != nil {
 				return err
 			}
 			_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="size-4 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>`)
@@ -142,6 +144,7 @@ func SelectLabel(props DOMProps) templ.Component {
 }
 func SelectItem(props DropdownMenuItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		className := "relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2"
 		attrs := attrsFromDOMProps(props.DOMProps, "select-item", className)
 		attrs["type"] = "button"
@@ -175,7 +178,7 @@ func SelectItem(props DropdownMenuItemProps) templ.Component {
 			if _, err := io.WriteString(w, `</span><span>`); err != nil {
 				return err
 			}
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+			if err := renderChildren(ctx, w, ownChildren); err != nil {
 				return err
 			}
 			_, err := io.WriteString(w, `</span>`)

@@ -20,6 +20,7 @@ type InputOTPProps struct {
 
 func InputOTP(props InputOTPProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		value := props.Value
 		if value == "" {
 			value = props.DefaultValue
@@ -50,7 +51,7 @@ func InputOTP(props InputOTPProps) templ.Component {
 					return err
 				}
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, ownChildren)
 		})
 		return renderElement(ctx, w, "div", attrs, children)
 	})

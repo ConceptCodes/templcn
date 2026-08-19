@@ -201,13 +201,14 @@ func DropdownMenuSub(props DOMProps) templ.Component {
 }
 func DropdownMenuSubTrigger(props DropdownMenuItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		attrs := attrsFromDOMProps(props.DOMProps, "dropdown-menu-sub-trigger", "flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground")
 		attrs["type"] = "button"
 		if props.Inset {
 			attrs["data-inset"] = true
 		}
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+			if err := renderChildren(ctx, w, ownChildren); err != nil {
 				return err
 			}
 			_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="ml-auto size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>`)

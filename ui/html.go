@@ -47,7 +47,7 @@ func renderElement(ctx context.Context, w io.Writer, tag string, attrs templ.Att
 		defer templ.ReleaseBuffer(buf)
 	}
 
-	ctx = templ.InitializeContext(ctx)
+	ctx = templ.ClearChildren(templ.InitializeContext(ctx))
 	if _, err := buf.WriteString("<" + tag); err != nil {
 		return err
 	}

@@ -20,6 +20,7 @@ type DatePickerProps struct {
 
 func DatePicker(props DatePickerProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		open := props.Open || props.DefaultOpen
 		attrs := attrsFromDOMProps(props.DOMProps, "date-picker", "grid gap-2")
 		attrs["data-state"] = openState(open)
@@ -51,7 +52,7 @@ func DatePicker(props DatePickerProps) templ.Component {
 					return err
 				}
 			}
-			return renderChildren(ctx, w, templ.GetChildren(ctx))
+			return renderChildren(ctx, w, ownChildren)
 		})
 		return renderElement(ctx, w, "div", attrs, children)
 	})

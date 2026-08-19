@@ -79,8 +79,9 @@ type accordionItemOpenKey struct{}
 
 func AccordionTrigger(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		ctx, ownChildren := childrenFromContext(ctx)
 		children := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-			if err := renderChildren(ctx, w, templ.GetChildren(ctx)); err != nil {
+			if err := renderChildren(ctx, w, ownChildren); err != nil {
 				return err
 			}
 			_, err := io.WriteString(w, `<svg xmlns="http://www.w3.org/2000/svg" class="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg>`)
