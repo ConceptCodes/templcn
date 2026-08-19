@@ -3,13 +3,24 @@ name: Deploy Docs
 on:
   push:
     branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: vercel-docs-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -17,27 +28,28 @@ jobs:
         with:
           go-version-file: ui/go.mod
 
-      - name: Install templ
-        run: go install github.com/a-h/templ/cmd/templ@latest
-
       - uses: oven-sh/setup-bun@v2
 
-      - name: Install JS dependencies
-        run: bun install --frozen-lockfile
-        working-directory: docs-site
+      - name: Pull Vercel project settings
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            bunx vercel@59.1.4 pull --yes --environment=production --token="$VERCEL_TOKEN"
+          else
+            bunx vercel@59.1.4 pull --yes --environment=preview --token="$VERCEL_TOKEN"
+          fi
 
-      - name: Build CSS
-        run: bun run build:css
-        working-directory: docs-site
+      - name: Build docs with Vercel
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            bunx vercel@59.1.4 build --prod --token="$VERCEL_TOKEN"
+          else
+            bunx vercel@59.1.4 build --token="$VERCEL_TOKEN"
+          fi
 
-      - name: Generate static site
-        run: go run ./cmd/generate -output ./dist
-        working-directory: docs-site
-
-      - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'templcn-docs' }}
-          workingDirectory: docs-site
+      - name: Deploy prebuilt docs
+        run: |
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            bunx vercel@59.1.4 deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+          else
+            bunx vercel@59.1.4 deploy --prebuilt --token="$VERCEL_TOKEN"
+          fi
