@@ -30,7 +30,13 @@ func MessageScrollerViewport(props DOMProps) templ.Component {
 	return messageScrollerBlock("message-scroller-viewport", "size-full min-h-0 min-w-0 overflow-y-auto overscroll-contain", props)
 }
 func MessageScrollerContent(props DOMProps) templ.Component {
-	return messageScrollerBlock("message-scroller-content", "flex h-max min-h-full flex-col gap-8", props)
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+		attrs := attrsFromDOMProps(props, "message-scroller-content", "flex h-max min-h-full flex-col gap-8")
+		if _, ok := attrs["role"]; !ok {
+			attrs["role"] = "log"
+		}
+		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
+	})
 }
 func MessageScrollerItem(props MessageScrollerItemProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
@@ -53,13 +59,17 @@ func MessageScrollerButton(props MessageScrollerButtonProps) templ.Component {
 		if size == "" {
 			size = ButtonSizeIconSM
 		}
-		attrs := attrsFromDOMProps(props.DOMProps, "message-scroller-button", cn(buttonClasses(variant, size, ""), "absolute inset-s-1/2 -translate-x-1/2 border-border bg-background text-foreground"))
+		attrs := attrsFromDOMProps(props.DOMProps, "message-scroller-button", "absolute left-1/2 -translate-x-1/2 bottom-4 z-20 inline-flex size-8 items-center justify-center rounded-full border border-border bg-background text-foreground shadow-md transition-all hover:bg-muted cursor-pointer")
 		attrs["data-direction"], attrs["data-variant"], attrs["data-size"] = direction, variant, size
 		attrs["type"] = "button"
 		children := templ.GetChildren(ctx)
 		if children == nil {
 			children = templ.ComponentFunc(func(_ context.Context, out io.Writer) error {
-				_, err := io.WriteString(out, `<span aria-hidden="true">↓</span><span class="sr-only">Scroll to `+map[bool]string{true: "end", false: "start"}[direction == "end"]+`</span>`)
+				arrow := "↓"
+				if direction == "start" {
+					arrow = "↑"
+				}
+				_, err := io.WriteString(out, `<span aria-hidden="true">`+arrow+`</span><span class="sr-only">Scroll to `+map[bool]string{true: "end", false: "start"}[direction == "end"]+`</span>`)
 				return err
 			})
 		}

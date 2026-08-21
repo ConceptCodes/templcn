@@ -136,6 +136,10 @@ func previewForExample(slug, name string) templ.Component {
 		return resizablePreview()
 	case "scroll-area":
 		return scrollAreaPreview()
+	case "message":
+		return MessagePreview()
+	case "message-scroller":
+		return MessageScrollerPreview()
 	case "typography":
 		return typographyPreview()
 	default:
@@ -188,6 +192,8 @@ var componentPreviews = map[string]func() templ.Component{
 	"kbd":             KbdPreview,
 	"label":           LabelPreview,
 	"menubar":         menubarPreview,
+	"message":          MessagePreview,
+	"message-scroller": MessageScrollerPreview,
 	"native-select":   NativeSelectPreview,
 	"navigation-menu": navigationMenuPreview,
 	"pagination":      PaginationPreview,

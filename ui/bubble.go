@@ -25,14 +25,14 @@ func Bubble(props BubbleProps) templ.Component {
 		if align == "" {
 			align = "start"
 		}
-		className := "group/bubble relative flex w-fit max-w-[80%] min-w-0 flex-col gap-1 data-[align=end]:self-end"
+		className := cn("group/bubble relative flex w-fit max-w-[80%] min-w-0 flex-col gap-1 group-data-[align=end]/message:self-end data-[align=end]:self-end")
 		attrs := attrsFromDOMProps(props.DOMProps, "bubble", className)
 		attrs["data-variant"], attrs["data-align"] = variant, align
 		return renderElement(ctx, w, "div", attrs, templ.GetChildren(ctx))
 	})
 }
 func BubbleContent(props DOMProps) templ.Component {
-	return bubbleBlock("bubble-content", "w-fit max-w-full min-w-0 overflow-hidden rounded-xl border border-transparent px-3 py-2 text-sm leading-relaxed", props)
+	return bubbleBlock("bubble-content", "w-fit max-w-full min-w-0 overflow-hidden rounded-2xl border border-transparent px-3.5 py-2 text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end group-data-[variant=muted]/bubble:bg-muted group-data-[variant=muted]/bubble:text-foreground group-data-[variant=default]/bubble:bg-primary group-data-[variant=default]/bubble:text-primary-foreground group-data-[variant=outline]/bubble:border-border group-data-[variant=outline]/bubble:bg-background group-data-[variant=outline]/bubble:text-foreground group-data-[variant=ghost]/bubble:bg-transparent group-data-[variant=ghost]/bubble:text-foreground", props)
 }
 
 type BubbleReactionsProps struct {

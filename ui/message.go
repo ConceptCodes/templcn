@@ -26,16 +26,16 @@ func Message(props MessageProps) templ.Component {
 	})
 }
 func MessageAvatar(props DOMProps) templ.Component {
-	return messageBlock("message-avatar", "flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted", "div", props)
+	return messageBlock("message-avatar", "flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8", "div", props)
 }
 func MessageContent(props DOMProps) templ.Component {
-	return messageBlock("message-content", "flex w-full min-w-0 flex-col gap-2.5 wrap-break-word", "div", props)
+	return messageBlock("message-content", "flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end", "div", props)
 }
 func MessageHeader(props DOMProps) templ.Component {
-	return messageBlock("message-header", "flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground", "div", props)
+	return messageBlock("message-header", "flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0", "div", props)
 }
 func MessageFooter(props DOMProps) templ.Component {
-	return messageBlock("message-footer", "flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground", "div", props)
+	return messageBlock("message-footer", "flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end", "div", props)
 }
 func messageBlock(slot, className, tag string, props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {

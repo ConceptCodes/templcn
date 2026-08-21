@@ -605,3 +605,123 @@ templ TablePreview() {
 		}
 	}
 }
+
+// ─── Message ─────────────────────────────────────────────────────────────────
+
+templ MessagePreview() {
+	<div class="flex w-full max-w-md flex-col gap-6 py-6">
+		@ui.Message(ui.MessageProps{Align: "start"}) {
+			@ui.MessageAvatar(ui.DOMProps{}) {
+				@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+					@ui.AvatarFallback(ui.DOMProps{}) { R }
+				}
+			}
+			@ui.MessageContent(ui.DOMProps{}) {
+				@ui.Bubble(ui.BubbleProps{Variant: "muted", Align: "start"}) {
+					@ui.BubbleContent(ui.DOMProps{}) {
+						The build failed during dependency installation.
+					}
+				}
+			}
+		}
+		@ui.Message(ui.MessageProps{Align: "end"}) {
+			@ui.MessageAvatar(ui.DOMProps{}) {
+				@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+					@ui.AvatarFallback(ui.DOMProps{}) { ME }
+				}
+			}
+			@ui.MessageContent(ui.DOMProps{}) {
+				@ui.Bubble(ui.BubbleProps{Variant: "default", Align: "start"}) {
+					@ui.BubbleContent(ui.DOMProps{}) {
+						Can you share the exact error?
+					}
+				}
+			}
+		}
+		@ui.Message(ui.MessageProps{Align: "start"}) {
+			@ui.MessageAvatar(ui.DOMProps{}) {
+				@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+					@ui.AvatarFallback(ui.DOMProps{}) { R }
+				}
+			}
+			@ui.MessageContent(ui.DOMProps{}) {
+				@ui.BubbleGroup(ui.DOMProps{}) {
+					@ui.Bubble(ui.BubbleProps{Variant: "muted", Align: "start"}) {
+						@ui.BubbleContent(ui.DOMProps{}) {
+							Here's the error from the logs
+						}
+					}
+					@ui.Bubble(ui.BubbleProps{Variant: "muted", Align: "start"}) {
+						@ui.BubbleContent(ui.DOMProps{}) {
+							Something went wrong with the build. The libraries are not installed correctly. Try running the build again.
+						}
+					}
+				}
+			}
+		}
+	</div>
+}
+
+// ─── MessageScroller ─────────────────────────────────────────────────────────
+
+templ MessageScrollerPreview() {
+	@ui.MessageScrollerProvider(ui.DOMProps{}) {
+		@ui.MessageScroller(ui.MessageScrollerProps{DOMProps: ui.DOMProps{Class: "h-80 w-full max-w-md border rounded-xl bg-card"}}) {
+			@ui.MessageScrollerViewport(ui.DOMProps{Class: "p-4"}) {
+				@ui.MessageScrollerContent(ui.DOMProps{Class: "gap-6"}) {
+					@ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) {
+						@ui.Message(ui.MessageProps{Align: "start"}) {
+							@ui.MessageAvatar(ui.DOMProps{}) {
+								@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+									@ui.AvatarFallback(ui.DOMProps{}) { AI }
+								}
+							}
+							@ui.MessageContent(ui.DOMProps{}) {
+								@ui.MessageHeader(ui.DOMProps{}) { Assistant }
+								@ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+									@ui.BubbleContent(ui.DOMProps{}) { Welcome to the workspace! How can I assist you today? }
+								}
+							}
+						}
+					}
+					@ui.MessageScrollerItem(ui.MessageScrollerItemProps{ScrollAnchor: true}) {
+						@ui.Message(ui.MessageProps{Align: "end"}) {
+							@ui.MessageAvatar(ui.DOMProps{}) {
+								@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+									@ui.AvatarFallback(ui.DOMProps{}) { ME }
+								}
+							}
+							@ui.MessageContent(ui.DOMProps{}) {
+								@ui.Bubble(ui.BubbleProps{Variant: "default"}) {
+									@ui.BubbleContent(ui.DOMProps{}) { How does the chat message scroller handle streaming turns? }
+								}
+								@ui.MessageFooter(ui.DOMProps{}) { Sent }
+							}
+						}
+					}
+					@ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) {
+						@ui.Message(ui.MessageProps{Align: "start"}) {
+							@ui.MessageAvatar(ui.DOMProps{}) {
+								@ui.Avatar(ui.AvatarProps{DOMProps: ui.DOMProps{Class: "size-8"}}) {
+									@ui.AvatarFallback(ui.DOMProps{}) { AI }
+								}
+							}
+							@ui.MessageContent(ui.DOMProps{}) {
+								@ui.MessageHeader(ui.DOMProps{}) { Assistant }
+								@ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+									@ui.BubbleContent(ui.DOMProps{}) { MessageScroller tracks the live edge and maintains anchor positions during streamed tokens without stealing the reader's scroll position. }
+								}
+								@ui.MessageFooter(ui.DOMProps{}) {
+									<div class="flex items-center gap-1 text-muted-foreground">
+										<span>Delivered</span>
+									</div>
+								}
+							}
+						}
+					}
+				}
+			}
+			@ui.MessageScrollerButton(ui.MessageScrollerButtonProps{Direction: "end"})
+		}
+	}
+}

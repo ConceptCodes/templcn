@@ -1667,43 +1667,174 @@ var componentDocs = []ComponentDocEntry{
 		},
 	},
 	{
-		Slug: "message", Title: "Message", Description: "Message layout primitives for avatars, headers, content, and footers.",
+		Slug: "message", Title: "Message", Description: "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
 		Install: "templcn add message",
-		GoUsage: `@ui.Message(ui.MessageProps{}) {
-  @ui.MessageAvatar(ui.DOMProps{}) { <span>JD</span> }
-  @ui.MessageContent(ui.DOMProps{}) { <span>Welcome to the workspace!</span> }
+		GoUsage: `@ui.Message(ui.MessageProps{Align: "start"}) {
+  @ui.MessageAvatar(ui.DOMProps{}) {
+    @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+      @ui.AvatarFallback(ui.DOMProps{}) { R }
+    }
+  }
+  @ui.MessageContent(ui.DOMProps{}) {
+    @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+      @ui.BubbleContent(ui.DOMProps{}) { The build failed during dependency installation. }
+    }
+  }
 }`,
 		APIProps: []APIProp{
-			{Name: "Align", Type: "string", Default: `"start"`, Desc: `"start" or "end".`},
+			{Name: "Align", Type: "string", Default: `"start"`, Desc: `"start" (receiver) or "end" (sender).`},
 		},
 		Examples: []ExampleEntry{
-			{Name: "Default", Desc: "Chat message item with avatar and content.", GoCode: `@ui.Message(ui.MessageProps{}) {
-  @ui.MessageAvatar(ui.DOMProps{}) { <span>JD</span> }
-  @ui.MessageContent(ui.DOMProps{}) { <span>Welcome!</span> }
-}`, Preview: examplePreview("Message")},
+			{Name: "Avatar", Desc: "Render incoming and outgoing message rows with sender avatars.", GoCode: `@ui.Message(ui.MessageProps{Align: "start"}) {
+  @ui.MessageAvatar(ui.DOMProps{}) {
+    @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+      @ui.AvatarFallback(ui.DOMProps{}) { R }
+    }
+  }
+  @ui.MessageContent(ui.DOMProps{}) {
+    @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+      @ui.BubbleContent(ui.DOMProps{}) { The build failed during dependency installation. }
+    }
+  }
+}
+@ui.Message(ui.MessageProps{Align: "end"}) {
+  @ui.MessageAvatar(ui.DOMProps{}) {
+    @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+      @ui.AvatarFallback(ui.DOMProps{}) { ME }
+    }
+  }
+  @ui.MessageContent(ui.DOMProps{}) {
+    @ui.Bubble(ui.BubbleProps{Variant: "default"}) {
+      @ui.BubbleContent(ui.DOMProps{}) { Can you share the exact error? }
+    }
+  }
+}`, Preview: MessagePreview()},
+			{Name: "Group", Desc: "Stack consecutive messages from the same sender using MessageGroup.", GoCode: `@ui.MessageGroup(ui.DOMProps{}) {
+  @ui.Message(ui.MessageProps{Align: "start"}) {
+    @ui.MessageAvatar(ui.DOMProps{})
+    @ui.MessageContent(ui.DOMProps{}) {
+      @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+        @ui.BubbleContent(ui.DOMProps{}) { I checked the registry addresses. }
+      }
+    }
+  }
+  @ui.Message(ui.MessageProps{Align: "start"}) {
+    @ui.MessageAvatar(ui.DOMProps{}) {
+      @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+        @ui.AvatarFallback(ui.DOMProps{}) { CN }
+      }
+    }
+    @ui.MessageContent(ui.DOMProps{}) {
+      @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+        @ui.BubbleContent(ui.DOMProps{}) { The component and example JSON now live under the UI registry. }
+      }
+    }
+  }
+}`, Preview: MessagePreview()},
+			{Name: "Header & Footer", Desc: "Add sender titles, delivery status, and message-level actions.", GoCode: `@ui.Message(ui.MessageProps{Align: "start"}) {
+  @ui.MessageContent(ui.DOMProps{}) {
+    @ui.MessageHeader(ui.DOMProps{}) { Olivia }
+    @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+      @ui.BubbleContent(ui.DOMProps{}) { I already checked the logs. }
+    }
+  }
+}
+@ui.Message(ui.MessageProps{Align: "end"}) {
+  @ui.MessageContent(ui.DOMProps{}) {
+    @ui.Bubble(ui.BubbleProps{Variant: "default"}) {
+      @ui.BubbleContent(ui.DOMProps{}) { Send the report to the team. Ping @shadcn if you need help. }
+    }
+    @ui.MessageFooter(ui.DOMProps{}) { Read Yesterday }
+  }
+}`, Preview: MessagePreview()},
 		},
 	},
 	{
-		Slug: "message-scroller", Title: "Message Scroller", Description: "A scrollable message viewport with content, items, and scroll controls.",
+		Slug: "message-scroller", Title: "Message Scroller", Description: "A chat transcript scroller that manages anchored turns, streaming output, history loading, and scroll controls.",
 		Install: "templcn add message-scroller",
-		GoUsage: `@ui.MessageScroller(ui.MessageScrollerProps{}) {
-  @ui.MessageScrollerViewport(ui.DOMProps{}) {
-    @ui.MessageScrollerContent(ui.DOMProps{}) {
-      @ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) { Welcome! }
-      @ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) { Messages go here. }
+		GoUsage: `@ui.MessageScrollerProvider(ui.DOMProps{}) {
+  @ui.MessageScroller(ui.MessageScrollerProps{DOMProps: ui.DOMProps{Class: "h-96 w-full max-w-lg border rounded-xl"}}) {
+    @ui.MessageScrollerViewport(ui.DOMProps{}) {
+      @ui.MessageScrollerContent(ui.DOMProps{}) {
+        @ui.MessageScrollerItem(ui.MessageScrollerItemProps{ScrollAnchor: false}) {
+          @ui.Message(ui.MessageProps{Align: "start"}) {
+            @ui.MessageAvatar(ui.DOMProps{}) {
+              @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+                @ui.AvatarFallback(ui.DOMProps{}) { AI }
+              }
+            }
+            @ui.MessageContent(ui.DOMProps{}) {
+              @ui.MessageHeader(ui.DOMProps{}) { Assistant }
+              @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+                @ui.BubbleContent(ui.DOMProps{}) { How can I help you today? }
+              }
+            }
+          }
+        }
+        @ui.MessageScrollerItem(ui.MessageScrollerItemProps{ScrollAnchor: true}) {
+          @ui.Message(ui.MessageProps{Align: "end"}) {
+            @ui.MessageAvatar(ui.DOMProps{}) {
+              @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+                @ui.AvatarFallback(ui.DOMProps{}) { ME }
+              }
+            }
+            @ui.MessageContent(ui.DOMProps{}) {
+              @ui.Bubble(ui.BubbleProps{Variant: "default"}) {
+                @ui.BubbleContent(ui.DOMProps{}) { Can you explain how MessageScroller handles anchored turns? }
+              }
+              @ui.MessageFooter(ui.DOMProps{}) { Sent }
+            }
+          }
+        }
+      }
     }
+    @ui.MessageScrollerButton(ui.MessageScrollerButtonProps{Direction: "end"})
   }
-  @ui.MessageScrollerButton(ui.MessageScrollerButtonProps{Direction: "end"})
 }`,
 		APIProps: []APIProp{
 			{Name: "Direction", Type: "string", Default: `"end"`, Desc: `"start" or "end" for the scroll button.`},
+			{Name: "ScrollAnchor", Type: "bool", Default: `false`, Desc: `Anchors the viewport position to this item during streaming.`},
 		},
 		Examples: []ExampleEntry{
-			{Name: "Default", Desc: "Scrollable message window with scroll action button.", GoCode: `@ui.MessageScroller(ui.MessageScrollerProps{}) {
-  @ui.MessageScrollerViewport(ui.DOMProps{}) {
-    @ui.MessageScrollerContent(ui.DOMProps{}) { Messages }
+			{Name: "Default", Desc: "Scrollable chat window with anchored message rows and floating jump button.", GoCode: `@ui.MessageScrollerProvider(ui.DOMProps{}) {
+  @ui.MessageScroller(ui.MessageScrollerProps{DOMProps: ui.DOMProps{Class: "h-80 w-full max-w-md border rounded-xl"}}) {
+    @ui.MessageScrollerViewport(ui.DOMProps{Class: "p-4"}) {
+      @ui.MessageScrollerContent(ui.DOMProps{Class: "gap-6"}) {
+        @ui.MessageScrollerItem(ui.MessageScrollerItemProps{}) {
+          @ui.Message(ui.MessageProps{Align: "start"}) {
+            @ui.MessageAvatar(ui.DOMProps{}) {
+              @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+                @ui.AvatarFallback(ui.DOMProps{}) { AI }
+              }
+            }
+            @ui.MessageContent(ui.DOMProps{}) {
+              @ui.MessageHeader(ui.DOMProps{}) { Assistant }
+              @ui.Bubble(ui.BubbleProps{Variant: "muted"}) {
+                @ui.BubbleContent(ui.DOMProps{}) { Welcome to the workspace! How can I assist you today? }
+              }
+            }
+          }
+        }
+        @ui.MessageScrollerItem(ui.MessageScrollerItemProps{ScrollAnchor: true}) {
+          @ui.Message(ui.MessageProps{Align: "end"}) {
+            @ui.MessageAvatar(ui.DOMProps{}) {
+              @ui.Avatar(ui.AvatarProps{Class: "size-8"}) {
+                @ui.AvatarFallback(ui.DOMProps{}) { ME }
+              }
+            }
+            @ui.MessageContent(ui.DOMProps{}) {
+              @ui.Bubble(ui.BubbleProps{Variant: "default"}) {
+                @ui.BubbleContent(ui.DOMProps{}) { How does the chat message scroller handle streaming turns? }
+              }
+              @ui.MessageFooter(ui.DOMProps{}) { Sent }
+            }
+          }
+        }
+      }
+    }
+    @ui.MessageScrollerButton(ui.MessageScrollerButtonProps{Direction: "end"})
   }
-}`, Preview: examplePreview("Message Scroller")},
+}`, Preview: MessageScrollerPreview()},
 		},
 	},
 }
