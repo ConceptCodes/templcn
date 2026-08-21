@@ -41,14 +41,25 @@ test("resizable handle updates adjacent panel sizes", async ({ page }) => {
 })
 
 test("toast close and sidebar trigger update state", async ({ page }) => {
-  await page.locator('[data-slot="toast-close"]').click()
+  await page.locator('#toast [data-slot="toast-close"]').click()
   await expect(page.locator("#toast")).toHaveAttribute("data-state", "closed")
-  await expect(page.locator("#toast")).toHaveAttribute("hidden", "")
+  await expect(page.locator("#toast")).toBeHidden()
 
   await expect(page.locator("#sidebar-shell")).toHaveAttribute("data-state", "open")
   await page.locator('[data-slot="sidebar-trigger"]').click()
   await expect(page.locator("#sidebar-shell")).toHaveAttribute("data-state", "closed")
   await expect(page.locator('[data-slot="sidebar-trigger"]')).toHaveAttribute("aria-expanded", "false")
+})
+
+test("dynamic toast close button dismisses and removes toast", async ({ page }) => {
+  await page.evaluate(() => {
+    // @ts-ignore
+    window.toast("Test Dynamic Toast", { description: "Testing close button", duration: 0 })
+  })
+  const dynamicToast = page.locator('[data-slot="toaster"] [data-slot="toast"]').first()
+  await expect(dynamicToast).toBeVisible()
+  await dynamicToast.locator('[data-slot="toast-close"]').click()
+  await expect(dynamicToast).toHaveCount(0)
 })
 
 test("date picker day selection syncs root and hidden input", async ({ page }) => {

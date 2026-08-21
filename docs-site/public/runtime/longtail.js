@@ -158,7 +158,11 @@ function clamp(value, panel) {
 function syncToast(toast) {
   const open = toast.getAttribute("data-open") === "true" || toast.getAttribute("data-default-open") === "true";
   toast.setAttribute("data-state", open ? "open" : "closed");
-  toast.toggleAttribute("hidden", !open);
+  if (!open) {
+    toast.style.display = "none";
+  } else {
+    toast.style.display = "";
+  }
   const duration = Number.parseInt(toast.getAttribute("data-duration") || "0", 10);
   if (open && duration > 0) window.setTimeout(() => closeToast(toast), duration);
 }
@@ -166,7 +170,14 @@ function syncToast(toast) {
 function closeToast(toast) {
   toast.removeAttribute("data-open");
   toast.setAttribute("data-state", "closed");
-  toast.setAttribute("hidden", "");
+  toast.classList.remove("slide-in-from-bottom-5", "fade-in");
+  toast.classList.add("fade-out", "slide-out-to-right-full", "duration-200");
+  toast.style.opacity = "0";
+  toast.style.transform = "translateX(100%)";
+  setTimeout(() => {
+    toast.style.display = "none";
+    toast.remove();
+  }, 200);
 }
 
 export function toast(title, options = {}) {
@@ -214,7 +225,7 @@ export function toast(title, options = {}) {
   if (options.action) {
     const actionBtn = document.createElement('button');
     actionBtn.type = 'button';
-    actionBtn.className = 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-xs font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring';
+    actionBtn.className = 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-xs font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer';
     actionBtn.textContent = options.action.label || 'Action';
     actionBtn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -228,15 +239,24 @@ export function toast(title, options = {}) {
   closeBtn.type = 'button';
   closeBtn.setAttribute('data-slot', 'toast-close');
   closeBtn.setAttribute('aria-label', 'Close toast');
-  closeBtn.className = 'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none';
-  closeBtn.innerHTML = '<svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
-  closeBtn.addEventListener('click', dismiss);
+  closeBtn.className = 'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none cursor-pointer';
+  closeBtn.innerHTML = '<svg class="size-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+  closeBtn.onclick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    dismiss();
+  };
   toastEl.appendChild(closeBtn);
 
   function dismiss() {
-    toastEl.classList.remove('slide-in-from-bottom-5');
+    toastEl.classList.remove('slide-in-from-bottom-5', 'fade-in');
     toastEl.classList.add('fade-out', 'slide-out-to-right-full', 'duration-200');
-    setTimeout(() => toastEl.remove(), 200);
+    toastEl.style.opacity = '0';
+    toastEl.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      toastEl.style.display = 'none';
+      toastEl.remove();
+    }, 200);
   }
 
   toaster.appendChild(toastEl);

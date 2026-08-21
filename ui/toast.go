@@ -74,9 +74,16 @@ func ToastAction(props DOMProps) templ.Component {
 
 func ToastClose(props DOMProps) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		attrs := attrsFromDOMProps(props, "toast-close", "")
+		attrs := attrsFromDOMProps(props, "toast-close", "absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none cursor-pointer")
 		attrs["type"] = "button"
 		attrs["aria-label"] = "Close toast"
-		return renderElement(ctx, w, "button", attrs, templ.GetChildren(ctx))
+		children := templ.GetChildren(ctx)
+		if children == nil {
+			children = templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
+				_, err := io.WriteString(w, `<svg class="size-4 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>`)
+				return err
+			})
+		}
+		return renderElement(ctx, w, "button", attrs, children)
 	})
 }
