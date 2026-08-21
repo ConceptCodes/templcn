@@ -448,3 +448,160 @@ templ InputOTPPreview() {
 		}
 	}
 }
+
+// ─── Select ──────────────────────────────────────────────────────────────────
+
+templ SelectPreview() {
+	@ui.Select(ui.SelectProps{Name: "fruit"}) {
+		@ui.SelectTrigger(ui.SelectTriggerProps{DOMProps: ui.DOMProps{Class: "w-[180px]"}}) {
+			@ui.SelectValue(ui.DOMProps{}) {
+				Select a fruit
+			}
+		}
+		@ui.SelectContent(ui.SelectContentProps{}) {
+			@ui.SelectGroup(ui.DOMProps{}) {
+				@ui.SelectLabel(ui.DOMProps{}) {
+					Fruits
+				}
+				@ui.SelectItem(ui.DropdownMenuItemProps{Value: "apple"}) {
+					Apple
+				}
+				@ui.SelectItem(ui.DropdownMenuItemProps{Value: "banana"}) {
+					Banana
+				}
+				@ui.SelectItem(ui.DropdownMenuItemProps{Value: "blueberry"}) {
+					Blueberry
+				}
+				@ui.SelectItem(ui.DropdownMenuItemProps{Value: "grapes"}) {
+					Grapes
+				}
+				@ui.SelectItem(ui.DropdownMenuItemProps{Value: "pineapple"}) {
+					Pineapple
+				}
+			}
+		}
+	}
+}
+
+// ─── DropdownMenu ────────────────────────────────────────────────────────────
+
+templ DropdownMenuPreview() {
+	@ui.DropdownMenu(ui.DropdownMenuProps{}) {
+		@ui.DropdownMenuTrigger(ui.DOMProps{}) {
+			@ui.Button(ui.ButtonProps{Variant: ui.ButtonVariantOutline}) {
+				Open
+			}
+		}
+		@ui.DropdownMenuContent(ui.DOMProps{Class: "w-56"}) {
+			@ui.DropdownMenuLabel(ui.DOMProps{}) {
+				My Account
+			}
+			@ui.DropdownMenuSeparator(ui.DOMProps{})
+			@ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) {
+				Profile
+			}
+			@ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) {
+				Billing
+			}
+			@ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) {
+				Team
+			}
+			@ui.DropdownMenuItem(ui.DropdownMenuItemProps{}) {
+				Subscription
+			}
+		}
+	}
+}
+
+// ─── Popover ─────────────────────────────────────────────────────────────────
+
+templ PopoverPreview() {
+	@ui.Popover(ui.PopoverProps{}) {
+		@ui.PopoverTrigger(ui.DOMProps{}) {
+			@ui.Button(ui.ButtonProps{Variant: ui.ButtonVariantOutline}) {
+				Open popover
+			}
+		}
+		@ui.PopoverContent(ui.DOMProps{Class: "w-80"}) {
+			<div class="grid gap-4">
+				<div class="space-y-2">
+					<h4 class="font-medium leading-none">Dimensions</h4>
+					<p class="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+				</div>
+			</div>
+		}
+	}
+}
+
+// ─── Tooltip ─────────────────────────────────────────────────────────────────
+
+templ TooltipPreview() {
+	@ui.TooltipProvider(ui.TooltipProviderProps{}) {
+		@ui.Tooltip(ui.TooltipProps{}) {
+			@ui.TooltipTrigger(ui.DOMProps{}) {
+				@ui.Button(ui.ButtonProps{Variant: ui.ButtonVariantOutline}) {
+					Hover
+				}
+			}
+			@ui.TooltipContent(ui.DOMProps{}) {
+				<p>Add to library</p>
+			}
+		}
+	}
+}
+
+// ─── Table ───────────────────────────────────────────────────────────────────
+
+templ TablePreview() {
+	@ui.Table(ui.DOMProps{}) {
+		@ui.TableCaption(ui.DOMProps{}) {
+			A list of your recent invoices.
+		}
+		@ui.TableHeader(ui.DOMProps{}) {
+			@ui.TableRow(ui.DOMProps{}) {
+				@ui.TableHead(ui.DOMProps{Class: "w-[100px]"}) {
+					Invoice
+				}
+				@ui.TableHead(ui.DOMProps{}) {
+					Status
+				}
+				@ui.TableHead(ui.DOMProps{}) {
+					Method
+				}
+				@ui.TableHead(ui.DOMProps{Class: "text-right"}) {
+					Amount
+				}
+			}
+		}
+		@ui.TableBody(ui.DOMProps{}) {
+			@ui.TableRow(ui.DOMProps{}) {
+				@ui.TableCell(ui.DOMProps{Class: "font-medium"}) {
+					INV001
+				}
+				@ui.TableCell(ui.DOMProps{}) {
+					Paid
+				}
+				@ui.TableCell(ui.DOMProps{}) {
+					Credit Card
+				}
+				@ui.TableCell(ui.DOMProps{Class: "text-right"}) {
+					$250.00
+				}
+			}
+			@ui.TableRow(ui.DOMProps{}) {
+				@ui.TableCell(ui.DOMProps{Class: "font-medium"}) {
+					INV002
+				}
+				@ui.TableCell(ui.DOMProps{}) {
+					Pending
+				}
+				@ui.TableCell(ui.DOMProps{}) {
+					PayPal
+				}
+				@ui.TableCell(ui.DOMProps{Class: "text-right"}) {
+					$150.00
+				}
+			}
+		}
+	}
+}

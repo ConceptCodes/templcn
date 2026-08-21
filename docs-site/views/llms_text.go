@@ -14,6 +14,7 @@ func LLMSText() string {
 
 - Components are copied into user projects as source files, not consumed as a shared package.
 - Use the CLI for installation: ` + "`templcn add <component>`" + `, ` + "`templcn add --all`" + `, ` + "`templcn view <component>`" + `, ` + "`templcn diff <component>`" + `.
+- AI Agent Skill: install official skill via skills.sh with ` + "`npx skills add conceptcodes/templcn`" + `.
 - Component source lives in ` + "`ui/*.go`" + `.
 - Runtime behavior is copied to ` + "`assets/runtime.js`" + ` when selected components need JavaScript.
 - Theme tokens live in ` + "`styles/globals.css`" + ` and use Tailwind v4 ` + "`@theme inline`" + ` with OKLCH CSS variables.

@@ -1040,6 +1040,16 @@ templ Page() {
 									</div>
 								</div>
 							</div>
+							<div class="space-y-3">
+								<div class="flex items-start gap-3">
+									<span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground font-medium">5</span>
+									<div class="flex-1 space-y-2">
+										<p class="text-sm font-medium">Install AI Agent Skill</p>
+										<p class="text-sm text-muted-foreground">Add templcn expertise to Cursor, Claude Code, Windsurf, Copilot, or Antigravity via <a class="underline underline-offset-4" href="https://skills.sh" target="_blank" rel="noopener noreferrer">skills.sh</a>.</p>
+										<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>npx skills add conceptcodes/templcn</code></pre>
+									</div>
+								</div>
+							</div>
 						</div>
 					}
 				}
@@ -1151,6 +1161,18 @@ templ InstallationPage() {
 							<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>templcn add --all</code></pre>
 						</div>
 						<p class="text-sm text-muted-foreground">The CLI resolves dependencies, runtime files, styles, and examples for each selected component.</p>
+					</div>
+				}
+			}
+			@ui.Card(ui.DOMProps{}) {
+				@ui.CardHeader(ui.DOMProps{}) {
+					@ui.CardTitle(ui.DOMProps{}) { <span>AI Agent Skill</span> }
+					@ui.CardDescription(ui.DOMProps{}) { <span>Install official templcn capabilities into your AI coding assistant via skills.sh.</span> }
+				}
+				@ui.CardContent(ui.DOMProps{}) {
+					<div class="space-y-4">
+						<pre class="overflow-x-hidden whitespace-pre-wrap break-words rounded-lg border border-border/70 bg-muted p-4 text-sm"><code>npx skills add conceptcodes/templcn</code></pre>
+						<p class="text-sm text-muted-foreground">Works out of the box with Claude Code, Cursor, Windsurf, GitHub Copilot, and other agent skills environments.</p>
 					</div>
 				}
 			}
