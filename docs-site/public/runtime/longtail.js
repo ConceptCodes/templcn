@@ -169,6 +169,96 @@ function closeToast(toast) {
   toast.setAttribute("hidden", "");
 }
 
+export function toast(title, options = {}) {
+  let toaster = document.querySelector('[data-slot="toaster"]') || document.querySelector('[data-toaster]');
+  if (!toaster) {
+    toaster = document.createElement('div');
+    toaster.setAttribute('data-slot', 'toaster');
+    toaster.className = 'fixed bottom-0 right-0 z-50 flex flex-col gap-2 p-4 max-w-md w-full pointer-events-none';
+    document.body.appendChild(toaster);
+  }
+
+  const toastEl = document.createElement('div');
+  toastEl.setAttribute('data-slot', 'toast');
+  toastEl.setAttribute('role', 'status');
+  toastEl.setAttribute('aria-live', 'polite');
+  toastEl.className = 'pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border p-4 pr-6 shadow-lg transition-all bg-background text-foreground animate-in fade-in slide-in-from-bottom-5 duration-300';
+  
+  if (options.variant === 'destructive' || options.type === 'error') {
+    toastEl.className += ' border-destructive/50 text-destructive bg-destructive/10';
+  } else if (options.type === 'success') {
+    toastEl.className += ' border-emerald-500/50 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10';
+  } else if (options.type === 'warning') {
+    toastEl.className += ' border-amber-500/50 text-amber-600 dark:text-amber-400 bg-amber-500/10';
+  } else if (options.type === 'info') {
+    toastEl.className += ' border-blue-500/50 text-blue-600 dark:text-blue-400 bg-blue-500/10';
+  }
+
+  const content = document.createElement('div');
+  content.className = 'grid gap-1';
+
+  const titleEl = document.createElement('div');
+  titleEl.className = 'text-sm font-semibold';
+  titleEl.textContent = title;
+  content.appendChild(titleEl);
+
+  if (options.description) {
+    const descEl = document.createElement('div');
+    descEl.className = 'text-xs text-muted-foreground';
+    descEl.textContent = options.description;
+    content.appendChild(descEl);
+  }
+
+  toastEl.appendChild(content);
+
+  if (options.action) {
+    const actionBtn = document.createElement('button');
+    actionBtn.type = 'button';
+    actionBtn.className = 'inline-flex h-8 shrink-0 items-center justify-center rounded-md border bg-transparent px-3 text-xs font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-1 focus:ring-ring';
+    actionBtn.textContent = options.action.label || 'Action';
+    actionBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      options.action.onClick?.();
+      dismiss();
+    });
+    toastEl.appendChild(actionBtn);
+  }
+
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.setAttribute('data-slot', 'toast-close');
+  closeBtn.setAttribute('aria-label', 'Close toast');
+  closeBtn.className = 'absolute right-2 top-2 rounded-md p-1 text-foreground/50 opacity-70 transition-opacity hover:opacity-100 focus:opacity-100 focus:outline-none';
+  closeBtn.innerHTML = '<svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+  closeBtn.addEventListener('click', dismiss);
+  toastEl.appendChild(closeBtn);
+
+  function dismiss() {
+    toastEl.classList.remove('slide-in-from-bottom-5');
+    toastEl.classList.add('fade-out', 'slide-out-to-right-full', 'duration-200');
+    setTimeout(() => toastEl.remove(), 200);
+  }
+
+  toaster.appendChild(toastEl);
+
+  const duration = options.duration || 4000;
+  if (duration > 0) {
+    setTimeout(dismiss, duration);
+  }
+
+  return { dismiss };
+}
+
+toast.success = (title, options = {}) => toast(title, { ...options, type: 'success' });
+toast.error = (title, options = {}) => toast(title, { ...options, type: 'error' });
+toast.warning = (title, options = {}) => toast(title, { ...options, type: 'warning' });
+toast.info = (title, options = {}) => toast(title, { ...options, type: 'info' });
+toast.message = (title, options = {}) => toast(title, options);
+
+if (typeof window !== 'undefined') {
+  window.toast = toast;
+}
+
 function syncSidebar(root) {
   setSidebar(root, root.getAttribute("data-open") === "true" || root.getAttribute("data-default-open") === "true");
 }

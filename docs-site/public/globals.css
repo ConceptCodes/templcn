@@ -6300,6 +6300,14 @@
   [data-dialog-panel] {
     width: min(calc(100vw - 2rem), 32rem);
   }
+  .ts-chart-tooltip {
+    --ts-chart-tooltip-background: var(--popover);
+    --ts-chart-tooltip-color: var(--popover-foreground);
+    --ts-chart-tooltip-border: 1px solid var(--border);
+    --ts-chart-tooltip-border-radius: calc(var(--radius) * 0.8);
+    --ts-chart-tooltip-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    font-family: inherit !important;
+  }
 }
 @property --tw-translate-x {
   syntax: "*";

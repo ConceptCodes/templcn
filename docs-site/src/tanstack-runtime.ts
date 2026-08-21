@@ -1,9 +1,10 @@
 import { areaY, barX, barY, defineChart, lineY, stack } from "@tanstack/charts"
 import { mountChart } from "@tanstack/charts/dom"
 import { d3Curve } from "@tanstack/charts/d3/shape"
-import { pie, polar, radialArc } from "@tanstack/charts/polar"
+import { focusGroupAngle, pie, polar, radialArc } from "@tanstack/charts/polar"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { tooltip } from "@tanstack/charts/tooltip"
 import { curveStep } from "d3-shape"
 import { initTanStackTables } from "./tanstack-table"
 
@@ -132,6 +133,11 @@ function applyChartTokenVars(element: HTMLElement) {
   for (let i = 1; i <= CHART_TOKEN_COUNT; i++) {
     element.style.setProperty(`--ts-chart-${i}`, `var(--chart-${i})`)
   }
+  element.style.setProperty("--ts-chart-tooltip-background", "var(--popover)")
+  element.style.setProperty("--ts-chart-tooltip-color", "var(--popover-foreground)")
+  element.style.setProperty("--ts-chart-tooltip-border", "1px solid var(--border)")
+  element.style.setProperty("--ts-chart-tooltip-border-radius", "calc(var(--radius) * 0.8)")
+  element.style.setProperty("--ts-chart-tooltip-shadow", "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
 }
 
 function chartColorRange(): string[] {
@@ -154,13 +160,16 @@ function renderCartesianChart(element: HTMLElement, config: ChartConfig, type: "
   const series = config.series!
   const horizontal = config.orientation === "horizontal"
 
-  const marks = series.map((entry) => {
+  const marks = series.map((entry, index) => {
     const channel = horizontal
       ? { x: entry.key, y: "label" }
       : { x: "label", y: entry.key }
+    const color = entry.color || `var(--chart-${(index % CHART_TOKEN_COUNT) + 1})`
     const markOptions = {
       ...channel,
-      ...(entry.color ? { stroke: entry.color, fill: entry.color } : {}),
+      stroke: color,
+      fill: color,
+      z: () => entry.label || entry.key,
       ...(type === "line" && config.step ? { curve: d3Curve(curveStep) } : {}),
     } as const
 
@@ -184,6 +193,8 @@ function renderCartesianChart(element: HTMLElement, config: ChartConfig, type: "
     marks,
     x: horizontal ? valueAxis : categoryAxis,
     y: horizontal ? categoryAxis : valueAxis,
+    focus: horizontal ? (series.length > 1 ? "group-y" : "nearest-y") : (series.length > 1 ? "group-x" : "nearest-x"),
+    tooltip,
   })
 
   return mountChart(element, {
@@ -233,6 +244,7 @@ function renderPolarChart(element: HTMLElement, config: ChartConfig, type: "pie"
       cornerRadius: 4,
       color: "label",
       key: "label",
+      z: "label",
     }),
   ]
 
@@ -242,6 +254,8 @@ function renderPolarChart(element: HTMLElement, config: ChartConfig, type: "pie"
       domain: labels,
       range: chartColorRange(),
     },
+    focus: focusGroupAngle,
+    tooltip,
   })
 
   const host = mountChart(element, {

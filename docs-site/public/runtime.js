@@ -3,7 +3,11 @@ import { initMenus } from "./runtime/menu.js";
 import { initPopovers } from "./runtime/popover.js";
 import { initTabsAndDisclosures } from "./runtime/tabs.js";
 import { initCalendars } from "./runtime/calendar.js";
-import { initLongTail } from "./runtime/longtail.js";
+import { initLongTail, toast } from "./runtime/longtail.js";
+import { initCommands } from "./runtime/command.js";
+import { initFormControls } from "./runtime/forms.js";
+
+export { toast };
 
 function initCharts() {
   document.querySelectorAll("[data-chart-container]").forEach((chart) => {
@@ -20,6 +24,8 @@ function initRuntime() {
   initTabsAndDisclosures();
   initCalendars();
   initLongTail();
+  initCommands();
+  initFormControls();
   initCharts();
 }
 

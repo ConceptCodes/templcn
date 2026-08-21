@@ -102,8 +102,10 @@ func previewForExample(slug, name string) templ.Component {
 		return togglePreview()
 	case "switch":
 		return switchPreview()
-	case "toast", "sonner":
+	case "toast":
 		return toastPreview()
+	case "sonner":
+		return sonnerPreview()
 	case "tooltip":
 		return tooltipPreview()
 	case "popover":
@@ -200,7 +202,7 @@ var componentPreviews = map[string]func() templ.Component{
 	"sidebar":         sidebarPreview,
 	"skeleton":        skeletonPreview,
 	"slider":          sliderPreview,
-	"sonner":          toastPreview,
+	"sonner":          sonnerPreview,
 	"spinner":         spinnerPreview,
 	"switch":          switchPreview,
 	"table":           tablePreview,
@@ -449,6 +451,16 @@ func switchPreview() templ.Component {
 }
 func toastPreview() templ.Component {
 	return htmlPreview(`<div class="rounded-xl border bg-background p-6"><div role="status" class="max-w-sm rounded-lg border bg-background p-4 shadow"><div class="font-medium">Saved</div><p class="text-sm text-muted-foreground">Your changes were stored.</p></div></div>`)
+}
+func sonnerPreview() templ.Component {
+	return htmlPreview(`<div class="flex flex-wrap gap-3 rounded-xl border bg-background p-6">
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast('Event has been created', { description: 'Sunday, December 03, 2023 at 9:00 AM', action: { label: 'Undo', onClick: () => console.log('Undo') } })">Default</button>
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast.success('Event has been created')">Success</button>
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast.info('Be at the area 10 minutes before start.')">Info</button>
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast.warning('Event start time has been updated.')">Warning</button>
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast.error('Event has not been created')">Error</button>
+  <button type="button" class="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground" onclick="toast('Event created', { action: { label: 'Undo', onClick: () => console.log('Undo') } })">Action</button>
+</div>`)
 }
 func tooltipPreview() templ.Component {
 	return htmlPreview(`<div class="rounded-xl border bg-background p-6"><button class="rounded-md border px-3 py-2 text-sm">Hover</button><span role="tooltip" class="ml-3 rounded bg-primary px-2 py-1 text-xs text-primary-foreground">Tooltip</span></div>`)

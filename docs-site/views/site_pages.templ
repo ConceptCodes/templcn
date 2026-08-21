@@ -312,59 +312,65 @@ templ ComponentDetailPage(doc ComponentDocEntry, prev ComponentDocEntry, hasPrev
 				<p class="max-w-3xl text-lg leading-8 text-muted-foreground">{ doc.Description }</p>
 			</section>
 
-			<section class="grid gap-4">
-				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "installation"}}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Installation</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="space-y-2">
-							<p class="text-sm text-muted-foreground">Add this component to your Go project using the CLI.</p>
-							@CodeBlock("bash", doc.Install)
-						</div>
-					}
+			<!-- Hero Interactive Preview -->
+			<div class="not-prose">
+				@PreviewCard("Preview", doc.Description, doc.GoUsage) {
+					@ComponentPreview(doc.Slug)
 				}
+			</div>
 
-				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "usage"}}) {
-					@ui.CardHeader(ui.DOMProps{}) {
-						@ui.CardTitle(ui.DOMProps{}) { <span>Usage</span> }
-					}
-					@ui.CardContent(ui.DOMProps{}) {
-						<div class="grid gap-4">
-							@PreviewCard("Usage", doc.Description, doc.GoUsage) {
-								@ComponentPreview(doc.Slug)
-							}
-						</div>
-					}
-				}
+			<section class="grid gap-6">
+				<!-- Installation -->
+				<section id="installation" class="space-y-3">
+					<h2 class="text-2xl font-semibold tracking-tight">Installation</h2>
+					<p class="text-sm text-muted-foreground">Add this component to your project using the CLI.</p>
+					@CodeBlock("bash", doc.Install)
+				</section>
 
-				<section id="composition" class="grid gap-4">
-					<div class="space-y-1">
-						<h2 class="text-2xl font-semibold tracking-tight">Composition</h2>
-						<p class="text-sm text-muted-foreground">Use these parts together to build the component.</p>
-					</div>
-					<div class="rounded-xl border border-border/70 bg-card p-5">
-						<pre class="overflow-x-hidden whitespace-pre-wrap break-words text-sm leading-7"><code>{ strings.Join(doc.Composition, "\n├── ") }</code></pre>
+				<!-- Usage -->
+				<section id="usage" class="space-y-4">
+					<h2 class="text-2xl font-semibold tracking-tight">Usage</h2>
+					<div class="space-y-3">
+						<p class="text-sm text-muted-foreground">1. Import the component in your Go or templ file:</p>
+						@CodeBlock("go", `import "your-module/ui"`)
+						<p class="text-sm text-muted-foreground">2. Use the component in your template:</p>
+						@CodeBlock("templ", doc.GoUsage)
 					</div>
 				</section>
 
-				<section id="examples" class="grid gap-4">
-					<div class="space-y-1">
-						<h2 class="text-2xl font-semibold tracking-tight">Examples</h2>
-						<p class="text-sm text-muted-foreground">Named examples from the upstream docs surface.</p>
-					</div>
-					<div class="grid gap-4">
-						for _, example := range doc.Examples {
-							@PreviewCard(example.Name, example.Desc, example.GoCode) {
-								if example.Preview != nil {
-									@example.Preview
-								} else {
-									@ComponentPreview(doc.Slug)
+				<!-- Composition -->
+				if len(doc.Composition) > 0 {
+					<section id="composition" class="space-y-3">
+						<div class="space-y-1">
+							<h2 class="text-2xl font-semibold tracking-tight">Composition</h2>
+							<p class="text-sm text-muted-foreground">Use these parts together to build the component.</p>
+						</div>
+						<div class="rounded-xl border border-border/70 bg-card p-5">
+							<pre class="overflow-x-hidden whitespace-pre-wrap break-words text-sm leading-7"><code>{ strings.Join(doc.Composition, "\n├── ") }</code></pre>
+						</div>
+					</section>
+				}
+
+				<!-- Examples -->
+				if len(doc.Examples) > 0 {
+					<section id="examples" class="space-y-4">
+						<div class="space-y-1">
+							<h2 class="text-2xl font-semibold tracking-tight">Examples</h2>
+							<p class="text-sm text-muted-foreground">Named examples and common variations.</p>
+						</div>
+						<div class="grid gap-6">
+							for _, example := range doc.Examples {
+								@PreviewCard(example.Name, example.Desc, example.GoCode) {
+									if example.Preview != nil {
+										@example.Preview
+									} else {
+										@ComponentPreview(doc.Slug)
+									}
 								}
 							}
-						}
-					</div>
-				</section>
+						</div>
+					</section>
+				}
 
 				@ui.Card(ui.DOMProps{Attrs: t.Attributes{"id": "api-reference"}}) {
 					@ui.CardHeader(ui.DOMProps{}) {

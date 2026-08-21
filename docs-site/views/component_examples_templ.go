@@ -1450,7 +1450,7 @@ func CollapsiblePreview() templ.Component {
 				var templ_7745c5c3_Var51 string
 				templ_7745c5c3_Var51, templ_7745c5c3_Err = templ.JoinStringErrs("@tanstack/react-query")
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/component_examples.templ`, Line: 243, Col: 60}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `docs-site/views/component_examples.templ`, Line: 243, Col: 60}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var51))
 				if templ_7745c5c3_Err != nil {

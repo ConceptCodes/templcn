@@ -41,6 +41,15 @@ templcn diff button
 
 `add` copies only the requested component, declared dependencies, shared render helpers, and runtime file when needed.
 
+## AI Agent Skill
+
+Install the official `templcn` skill for your AI coding assistant (Cursor, Claude Code, Windsurf, Copilot, Antigravity, etc.) via [skills.sh](https://skills.sh):
+
+```sh
+npx skills add conceptcodes/templcn
+```
+
+
 ## Development
 
 Run module tests:
